@@ -2,8 +2,10 @@ import ExcelProPlugin from "src/main";
 import { TextFileView, WorkspaceLeaf, Platform, Notice, moment } from "obsidian";
 import { VIEW_TYPE_EXCEL_PRO, FRONTMATTER } from "./constants";
 import { t } from "src/lang/helpers";
-import { Univer } from '@univerjs/core'
-import { setupUniver } from "./setup-univer";
+import { FUniver } from '@univerjs/facade'
+import { createUniver } from "./setup-univer";
+import { randomString } from "./utils/UUID";
+import { Univer } from "@univerjs/core";
 
 export class ExcelProView extends TextFileView {
 	public plugin: ExcelProPlugin;
@@ -13,7 +15,8 @@ export class ExcelProView extends TextFileView {
 	public embedLinkEle: HTMLElement;
 	public copyHTMLEle: HTMLElement;
 	public sheetEle: HTMLElement;
-	public univer: Univer;
+	public fUniver: FUniver;
+	public univer: Univer | null
 	public cellsSelected: {
 		sheet: Record<string, any> | null;
 		sri: number | null; // 选中开始行 index
@@ -68,41 +71,41 @@ export class ExcelProView extends TextFileView {
 
 	handleFile(e: Event) {
 		//@ts-ignore
-		const files = e.target?.files;
-		if (!files) {
-			new Notice(t("GET_FILE_FAILED"));
-			return;
-		}
-		const f = files[0];
-		const reader = new FileReader();
-		reader.onload = (e) => {
-			const data = e.target?.result;
+		// const files = e.target?.files;
+		// if (!files) {
+		// 	new Notice(t("GET_FILE_FAILED"));
+		// 	return;
+		// }
+		// const f = files[0];
+		// const reader = new FileReader();
+		// reader.onload = (e) => {
+		// 	const data = e.target?.result;
 
-			if (data) {
-				this.process_wb(XLSX.read(data));
-			} else {
-				new Notice(t("READ_FILE_FAILED"));
-			}
-		};
-		reader.readAsArrayBuffer(f);
+		// 	if (data) {
+		// 		this.process_wb(XLSX.read(data));
+		// 	} else {
+		// 		new Notice(t("READ_FILE_FAILED"));
+		// 	}
+		// };
+		// reader.readAsArrayBuffer(f);
 	}
 
-	process_wb(wb: XLSX.WorkBook) {
-		const sheetData = stox(wb);
-		if (sheetData) {
-			this.sheet.loadData(sheetData);
-			this.saveData(JSON.stringify(sheetData));
-		} else {
-			new Notice(t("DATA_PARSING_ERROR"));
-		}
-	}
+	// process_wb(wb: XLSX.WorkBook) {
+	// 	const sheetData = stox(wb);
+	// 	if (sheetData) {
+	// 		this.sheet.loadData(sheetData);
+	// 		this.saveData(JSON.stringify(sheetData));
+	// 	} else {
+	// 		new Notice(t("DATA_PARSING_ERROR"));
+	// 	}
+	// }
 
 	handleExportClick(ev: MouseEvent) {
 		//@ts-ignore
-		const new_wb = xtos(this.sheet.getData()) as XLSX.WorkBook;
-		const title = this.file?.basename ?? "sheet";
-		/* write file and trigger a download */
-		XLSX.writeFile(new_wb, title + ".xlsx", {});
+		// const new_wb = xtos(this.sheet.getData()) as XLSX.WorkBook;
+		// const title = this.file?.basename ?? "sheet";
+		// /* write file and trigger a download */
+		// XLSX.writeFile(new_wb, title + ".xlsx", {});
 	}
 
 	handleEmbedLink(e: Event) {
@@ -143,12 +146,14 @@ export class ExcelProView extends TextFileView {
 		this.copyHTMLEle = this.addAction("file-code", t("COPY_TO_HTML"), (ev) =>
 			this.copyToHTML()
 		);
-
-		this.univer = setupUniver();
 	}
 
 
 	onunload(): void {
+		if (this.univer != null) {
+			this.univer.dispose()
+		}
+
 		super.onunload();	
 	}
 
@@ -164,15 +169,26 @@ export class ExcelProView extends TextFileView {
 			},
 		});
 
+		const id = 'univer-' + randomString(6)
 		this.sheetEle.createDiv({
 			attr: {
-				id: "univer"
+				id: id,
+				class: 'my-univer'
 			},
 		})
 
-		
-		setupUniver()
-		console.log(this.contentEl.clientWidth)
+		if(this.univer != null) {
+			this.univer.dispose()
+			this.univer = null
+		}
+		// this.univer = setupUniver()
+		// this.univer.createUniverSheet({})
+
+		const univer = createUniver(id)
+		univer.createUniverSheet({})
+		this.univer = univer
+
+		console.log(`createUniverSheet ${id}`)
 
 		// // 初始化 sheet
 		// const jsonData = JSON.parse(getExcelData(this.data) || "{}") || {};
@@ -243,87 +259,87 @@ export class ExcelProView extends TextFileView {
 	}
 
 	copyToHTML() {
-		const data = this.cellsSelected.sheet;
-		const sri = this.cellsSelected.sri || 0;
-		const sci = this.cellsSelected.sci || 0;
-		const eri = this.cellsSelected.eri || 0;
-		const eci = this.cellsSelected.eci || 0;
+		// const data = this.cellsSelected.sheet;
+		// const sri = this.cellsSelected.sri || 0;
+		// const sci = this.cellsSelected.sci || 0;
+		// const eri = this.cellsSelected.eri || 0;
+		// const eci = this.cellsSelected.eci || 0;
 
-		console.log('data', data, sri, sci, eri, eci)
+		// console.log('data', data, sri, sci, eri, eci)
 
-		var html = "<table>";
+		// var html = "<table>";
 
-		if (data) {
-			// 记录合并单元格数量
-			var mergeMap: Map<string, boolean> = new Map()
+		// if (data) {
+		// 	// 记录合并单元格数量
+		// 	var mergeMap: Map<string, boolean> = new Map()
 
-			for (var row = sri; row <= eri; row++) {
-				html += "<tr>";
+		// 	for (var row = sri; row <= eri; row++) {
+		// 		html += "<tr>";
 				
-				for (var col = sci; col <= eci; col++) {
+		// 		for (var col = sci; col <= eci; col++) {
 					
-					// 获取当前行的数据
-					const cells = data.rows._[`${row}`];
-					if (cells) {
-						// 如果当前行有数据
-						// 获取单元格数据
-						const cell = cells.cells[`${col}`];
-						if (cell) {
-							// 如果单元格有数据展示数据
-							if (cell.merge) {
-								// 是否有合并单元格的操作
-								var mergeRow = cell.merge[0] + 1
-								var mergeCol = cell.merge[1] + 1
+		// 			// 获取当前行的数据
+		// 			const cells = data.rows._[`${row}`];
+		// 			if (cells) {
+		// 				// 如果当前行有数据
+		// 				// 获取单元格数据
+		// 				const cell = cells.cells[`${col}`];
+		// 				if (cell) {
+		// 					// 如果单元格有数据展示数据
+		// 					if (cell.merge) {
+		// 						// 是否有合并单元格的操作
+		// 						var mergeRow = cell.merge[0] + 1
+		// 						var mergeCol = cell.merge[1] + 1
 
-								// 记录合并的行跟列
-								for(var r = 0; r < mergeRow; r ++) {
-									const index = `${row + r}-${col}`
-									mergeMap.set(index, true)
+		// 						// 记录合并的行跟列
+		// 						for(var r = 0; r < mergeRow; r ++) {
+		// 							const index = `${row + r}-${col}`
+		// 							mergeMap.set(index, true)
 
-									for(var c = 0; c < mergeCol; c ++) {
-										const index = `${row + r}-${col + c}`
-										mergeMap.set(index, true)
-									}
-								}
+		// 							for(var c = 0; c < mergeCol; c ++) {
+		// 								const index = `${row + r}-${col + c}`
+		// 								mergeMap.set(index, true)
+		// 							}
+		// 						}
 
-								html += `<td rowspan="${mergeRow}" colspan="${mergeCol}">${cell.text || ""}</td>`;
-							} else {
-								// 无合并单元格直接添加
-								html += `<td>${cell.text || ""}</td>`;
-							}
-						} else {
-							// 添加空白单元格需要判断是否被合并了
-							const index = `${row}-${col}`
-							if (!mergeMap.get(index)) {
-								// 单元格没数据添加空白单元格 & 没有被合并单元格
-								html += `<td></td>`;	
-							}
-						}
-					} else {
-						const index = `${row}-${col}`
-						// 添加空白单元格需要判断是否被合并了
-						if (!mergeMap.get(index)) {
-								// 单元格没数据添加空白单元格 & 没有被合并单元格
-							html += `<td></td>`;
-						}
-					}
-				}
+		// 						html += `<td rowspan="${mergeRow}" colspan="${mergeCol}">${cell.text || ""}</td>`;
+		// 					} else {
+		// 						// 无合并单元格直接添加
+		// 						html += `<td>${cell.text || ""}</td>`;
+		// 					}
+		// 				} else {
+		// 					// 添加空白单元格需要判断是否被合并了
+		// 					const index = `${row}-${col}`
+		// 					if (!mergeMap.get(index)) {
+		// 						// 单元格没数据添加空白单元格 & 没有被合并单元格
+		// 						html += `<td></td>`;	
+		// 					}
+		// 				}
+		// 			} else {
+		// 				const index = `${row}-${col}`
+		// 				// 添加空白单元格需要判断是否被合并了
+		// 				if (!mergeMap.get(index)) {
+		// 						// 单元格没数据添加空白单元格 & 没有被合并单元格
+		// 					html += `<td></td>`;
+		// 				}
+		// 			}
+		// 		}
 
-				html += "</tr>";
-			}
-		} else {
-			new Notice(t("PLEASE_SELECT_DATA"));
-		}
+		// 		html += "</tr>";
+		// 	}
+		// } else {
+		// 	new Notice(t("PLEASE_SELECT_DATA"));
+		// }
 
-		html += "</table>";
+		// html += "</table>";
 
-		navigator.clipboard.writeText(html);
-		new Notice(t("COPY_TO_HTML_SUCCESS"));
+		// navigator.clipboard.writeText(html);
+		// new Notice(t("COPY_TO_HTML_SUCCESS"));
 	}
 
 	onResize() {
 		if (Platform.isDesktopApp) {
-			this.refresh();
+			// this.refresh();
 		}
 		// console.log('resize')
 		super.onResize();

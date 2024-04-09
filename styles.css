@@ -29,7 +29,7 @@ button:not(.clickable-icon) {
   box-sizing: border-box;
 }
 
-#univer {
+.my-univer {
   height: calc(100%);
   border: 1px solid #ececec;
 }

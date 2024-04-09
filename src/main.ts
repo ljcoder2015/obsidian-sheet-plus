@@ -59,7 +59,9 @@ export default class ExcelProPlugin extends Plugin {
 	}
 
 	onunload() {
-		
+		// 解决 Redi 重复注入报错
+		//@ts-ignore
+		window.RediContextCreated = false
 	}
 
 	private getBlackData() {
