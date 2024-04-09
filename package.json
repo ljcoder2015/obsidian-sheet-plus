@@ -20,5 +20,21 @@
 		"obsidian": "latest",
 		"tslib": "2.4.0",
 		"typescript": "4.7.4"
+	},
+	"dependencies": {
+		"@univerjs/core": "^0.1.5",
+		"@univerjs/design": "^0.1.5",
+		"@univerjs/docs": "^0.1.5",
+		"@univerjs/docs-ui": "^0.1.5",
+		"@univerjs/engine-formula": "^0.1.5",
+		"@univerjs/engine-render": "^0.1.5",
+		"@univerjs/facade": "^0.1.5",
+		"@univerjs/sheets": "^0.1.5",
+		"@univerjs/sheets-formula": "^0.1.5",
+		"@univerjs/sheets-ui": "^0.1.5",
+		"@univerjs/ui": "^0.1.5",
+		"json2md": "^2.0.1",
+		"markdown-json": "^1.6.1",
+		"monkey-around": "^3.0.0"
 	}
 }
