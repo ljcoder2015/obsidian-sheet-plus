@@ -1,11 +1,12 @@
 import ExcelProPlugin from "src/main";
-import { TextFileView, WorkspaceLeaf, Platform, Notice, moment } from "obsidian";
+import { TextFileView, WorkspaceLeaf, Platform, Notice } from "obsidian";
 import { VIEW_TYPE_EXCEL_PRO, FRONTMATTER } from "./constants";
 import { t } from "src/lang/helpers";
-import { FUniver } from '@univerjs/facade'
+import { FUniver, IDisposable } from "@univerjs/facade";
 import { createUniver } from "./setup-univer";
 import { randomString } from "./utils/UUID";
 import { Univer } from "@univerjs/core";
+import { markdownToJSON, jsonToMarkdown, extractYAML } from "./utils/DataUtil";
 
 export class ExcelProView extends TextFileView {
 	public plugin: ExcelProPlugin;
@@ -15,8 +16,9 @@ export class ExcelProView extends TextFileView {
 	public embedLinkEle: HTMLElement;
 	public copyHTMLEle: HTMLElement;
 	public sheetEle: HTMLElement;
-	public fUniver: FUniver;
-	public univer: Univer | null
+	public univerAPI: FUniver; // 表格操作对象
+	public univer: Univer | null; // 表格对象
+	public executedDisposable: IDisposable; // 执行命令后监听对象
 	public cellsSelected: {
 		sheet: Record<string, any> | null;
 		sri: number | null; // 选中开始行 index
@@ -31,6 +33,8 @@ export class ExcelProView extends TextFileView {
 		eci: null,
 	};
 
+	public yamlData: string
+
 	constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
 		super(leaf);
 		this.plugin = plugin;
@@ -41,13 +45,28 @@ export class ExcelProView extends TextFileView {
 	}
 
 	headerData() {
-		return FRONTMATTER;
+		const header = extractYAML(this.data)
+		console.log("headerData --", header)
+		return header
 	}
 
+	// 存储数据，把 workbook data 转换成 markdown 存储
 	saveData(data: string) {
-		// this.data = this.headerData() + data;
-		this.data = data;
-		// console.log("saveData", this.data)
+		const markdown = jsonToMarkdown(data)
+		console.log("saveData markdown-----", markdown)
+
+		const yaml = this.headerData()
+
+		this.data = yaml + markdown;
+		console.log("saveData", this.data)
+
+		this.save(false)
+			.then(() => {
+				console.log("save data success", this.file)
+			})
+			.catch((e) => {
+				console.log("save data error", e)
+			})
 	}
 
 	clear(): void {
@@ -58,8 +77,8 @@ export class ExcelProView extends TextFileView {
 		this.data = data;
 
 		this.app.workspace.onLayoutReady(async () => {
-			// console.log('setViewData')
-			await this.refresh();
+			console.log("setViewData");
+			this.setupUniver();
 		});
 	}
 
@@ -80,7 +99,6 @@ export class ExcelProView extends TextFileView {
 		// const reader = new FileReader();
 		// reader.onload = (e) => {
 		// 	const data = e.target?.result;
-
 		// 	if (data) {
 		// 		this.process_wb(XLSX.read(data));
 		// 	} else {
@@ -127,12 +145,15 @@ export class ExcelProView extends TextFileView {
 	}
 
 	onload(): void {
+		console.log("Excel Pro View onload", this.data);
 		super.onload();
 		this.ownerWindow = this.containerEl.win;
 
 		// 添加顶部导入按钮
-		this.importEle = this.addAction("download", t("IMPORT_XLSX_FILE"), (ev) =>
-			this.handleImportClick(ev)
+		this.importEle = this.addAction(
+			"download",
+			t("IMPORT_XLSX_FILE"),
+			(ev) => this.handleImportClick(ev)
 		);
 
 		this.exportEle = this.addAction("upload", t("EXPORT_XLSX_FILE"), (ev) =>
@@ -143,63 +164,90 @@ export class ExcelProView extends TextFileView {
 			this.handleEmbedLink(ev)
 		);
 
-		this.copyHTMLEle = this.addAction("file-code", t("COPY_TO_HTML"), (ev) =>
-			this.copyToHTML()
+		this.copyHTMLEle = this.addAction(
+			"file-code",
+			t("COPY_TO_HTML"),
+			(ev) => this.copyToHTML()
 		);
 	}
 
-
 	onunload(): void {
-		if (this.univer != null) {
-			this.univer.dispose()
-		}
-
-		super.onunload();	
+		this.dispose();
+		console.log(`Excel Pro View onunload ${this.univer}`);
+		super.onunload();
 	}
 
 	getViewType(): string {
 		return VIEW_TYPE_EXCEL_PRO;
 	}
 
-	refresh() {
+	setupUniver() {
 		this.contentEl.empty();
 		this.sheetEle = this.contentEl.createDiv({
 			attr: {
-				id: "sheet-box"
+				id: "sheet-box",
 			},
 		});
 
-		const id = 'univer-' + randomString(6)
+		const id = "univer-" + randomString(6);
 		this.sheetEle.createDiv({
 			attr: {
 				id: id,
-				class: 'my-univer'
+				class: "my-univer",
 			},
-		})
+		});
 
-		if(this.univer != null) {
-			this.univer.dispose()
-			this.univer = null
+		console.log(`setupUniver ${id}`);
+		const univer = createUniver(id);
+
+		univer.createUniverSheet({});
+		this.univer = univer;
+
+		this.univerAPI = FUniver.newAPI(univer)
+
+		this.executedDisposable = this.univerAPI.onCommandExecuted( (command) => {
+			const blackList = [
+				"sheet.operation.set-selections"
+			]
+
+			if (blackList.contains(command.id)) return
+
+			const activeWorkbook = this.univerAPI.getActiveWorkbook()
+			if (!activeWorkbook)
+				throw new Error('activeWorkbook is not defined')
+			
+			// eslint-disable-next-line no-alert
+			const sheetData = JSON.parse(JSON.stringify(activeWorkbook.getSnapshot(), null, 2))
+			this.saveData(sheetData)
+
+			console.log(command)
+		})
+	}
+
+	dispose() {
+		if (this.univer != null) {
+			console.log(`dispose ${this.univer}`);
+			this.univer.__getInjector().dispose();
+			this.univer.dispose();
+			this.univer = null;
 		}
+
+		if (this.executedDisposable != null) {
+			this.executedDisposable.dispose()
+		}
+	}
+
+	refresh() {
 		// this.univer = setupUniver()
 		// this.univer.createUniverSheet({})
-
-		const univer = createUniver(id)
-		univer.createUniverSheet({})
-		this.univer = univer
-
-		console.log(`createUniverSheet ${id}`)
-
 		// // 初始化 sheet
 		// const jsonData = JSON.parse(getExcelData(this.data) || "{}") || {};
-
 		// // 设置多语言
 		// if (moment.locale() === 'zh-cn') {
 		// 	Spreadsheet.locale('zh-cn', zhCn)
 		// } else {
 		// 	Spreadsheet.locale('en', en)
 		// }
-		
 		// //@ts-ignore
 		// this.sheet = new Spreadsheet(this.sheetEle, {
 		// 	showBottomBar: true,
@@ -235,7 +283,6 @@ export class ExcelProView extends TextFileView {
 		// 		// console.log('onRenameSheet', data)
 		// 		this.saveData(JSON.stringify(data));
 		// 	});
-
 		// this.sheet.on("cells-selected", (sheetData, { sri, sci, eri, eci }) => {
 		// 	// console.log('cells-selected',sheetData, sri, sci, eri, eci)
 		// 	this.cellsSelected.sheet = sheetData;
@@ -244,7 +291,6 @@ export class ExcelProView extends TextFileView {
 		// 	this.cellsSelected.eri = eri;
 		// 	this.cellsSelected.eci = eci;
 		// });
-
 		// this.sheet.on("cell-selected", (sheetData, ri, ci) => {
 		// 	// console.log('cell-selected',sheetData, ri, ci)
 		// 	this.cellsSelected.sheet = sheetData;
@@ -253,7 +299,6 @@ export class ExcelProView extends TextFileView {
 		// 	this.cellsSelected.eri = ri;
 		// 	this.cellsSelected.eci = ci;
 		// });
-
 		// // @ts-ignore
 		// this.sheet.validate();
 	}
@@ -264,20 +309,14 @@ export class ExcelProView extends TextFileView {
 		// const sci = this.cellsSelected.sci || 0;
 		// const eri = this.cellsSelected.eri || 0;
 		// const eci = this.cellsSelected.eci || 0;
-
 		// console.log('data', data, sri, sci, eri, eci)
-
 		// var html = "<table>";
-
 		// if (data) {
 		// 	// 记录合并单元格数量
 		// 	var mergeMap: Map<string, boolean> = new Map()
-
 		// 	for (var row = sri; row <= eri; row++) {
 		// 		html += "<tr>";
-				
 		// 		for (var col = sci; col <= eci; col++) {
-					
 		// 			// 获取当前行的数据
 		// 			const cells = data.rows._[`${row}`];
 		// 			if (cells) {
@@ -290,18 +329,15 @@ export class ExcelProView extends TextFileView {
 		// 						// 是否有合并单元格的操作
 		// 						var mergeRow = cell.merge[0] + 1
 		// 						var mergeCol = cell.merge[1] + 1
-
 		// 						// 记录合并的行跟列
 		// 						for(var r = 0; r < mergeRow; r ++) {
 		// 							const index = `${row + r}-${col}`
 		// 							mergeMap.set(index, true)
-
 		// 							for(var c = 0; c < mergeCol; c ++) {
 		// 								const index = `${row + r}-${col + c}`
 		// 								mergeMap.set(index, true)
 		// 							}
 		// 						}
-
 		// 						html += `<td rowspan="${mergeRow}" colspan="${mergeCol}">${cell.text || ""}</td>`;
 		// 					} else {
 		// 						// 无合并单元格直接添加
@@ -312,7 +348,7 @@ export class ExcelProView extends TextFileView {
 		// 					const index = `${row}-${col}`
 		// 					if (!mergeMap.get(index)) {
 		// 						// 单元格没数据添加空白单元格 & 没有被合并单元格
-		// 						html += `<td></td>`;	
+		// 						html += `<td></td>`;
 		// 					}
 		// 				}
 		// 			} else {
@@ -324,15 +360,12 @@ export class ExcelProView extends TextFileView {
 		// 				}
 		// 			}
 		// 		}
-
 		// 		html += "</tr>";
 		// 	}
 		// } else {
 		// 	new Notice(t("PLEASE_SELECT_DATA"));
 		// }
-
 		// html += "</table>";
-
 		// navigator.clipboard.writeText(html);
 		// new Notice(t("COPY_TO_HTML_SUCCESS"));
 	}

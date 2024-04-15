@@ -33,7 +33,6 @@ export default class ExcelProPlugin extends Plugin {
 			VIEW_TYPE_EXCEL_PRO,
 			(leaf: WorkspaceLeaf) => new ExcelProView(leaf, this)
 		);
-		this.registerExtensions(["sheet"], VIEW_TYPE_EXCEL_PRO);
 
 		// This creates an icon in the left ribbon.
 		this.addRibbonIcon("table", t("CREATE_EXCEL"), (e: MouseEvent) => {
@@ -62,6 +61,9 @@ export default class ExcelProPlugin extends Plugin {
 		// 解决 Redi 重复注入报错
 		//@ts-ignore
 		window.RediContextCreated = false
+		//@ts-ignore
+		window.REDI_GLOBAL_LOCK = false
+		console.log(window)
 	}
 
 	private getBlackData() {
