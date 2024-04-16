@@ -126,15 +126,35 @@ export function markdownToJSON(markdownText) {
 	const md = MarkdownIt();
 	const tokens = md.parse(markdownText, {});
 	const renderer = new JSONRenderer();
-	const jsonOutput = renderer.render(tokens);
+	const jsonString = renderer.render(tokens);
 
+	// 1. 解析 JSON 字符串为 JavaScript 对象
+	const jsonObject = JSON.parse(jsonString);
+
+	// 2. 递归遍历对象并删除所有键为 "tag" 和 "markup" 的属性
+	function removeTagAndMarkup(obj) {
+		for (const key in obj) {
+			if (typeof obj[key] === "object") {
+				removeTagAndMarkup(obj[key]);
+			}
+			if (key === "tag" || key === "markup") {
+				delete obj[key];
+			}
+		}
+	}
+
+	removeTagAndMarkup(jsonObject);
+
+	// 3. 将修改后的对象转换回 JSON 字符串
+	const jsonOutput = JSON.stringify(jsonObject, null, 2);
+
+	// console.log("===markdownToJSON===", jsonOutput);
 	return jsonOutput;
 }
 
 export function jsonToMarkdown(json) {
-	let markdown = "";
-
-	function copyRemoveSheetsField(json, key) {
+	// 从 json 中移除指定 key 的字段，并返回新的json，不改动原josn
+	function copyRemoveField(json, key) {
 		var newJson = { ...json };
 		if (newJson.hasOwnProperty(key)) {
 			delete newJson[key];
@@ -142,50 +162,53 @@ export function jsonToMarkdown(json) {
 		return newJson;
 	}
 
-	function removeSheetsField(json, key) {
+	// 从 json 中移除指定 key 的字段
+	function removeField(json, key) {
 		if (json.hasOwnProperty(key)) {
 			delete json[key];
 		}
 		return json;
 	}
 
-	removeSheetsField(json, "tag");
-	removeSheetsField(json, "markup");
+	let markdown = "";
+
+	removeField(json, "tag");
+	removeField(json, "markup");
 
 	markdown += "# workbook\n";
-	var workbookJson = copyRemoveSheetsField(json, "sheets");
+	var workbookJson = copyRemoveField(json, "sheets");
 
 	markdown += JSON.stringify(workbookJson) + "\n";
 
 	for (const sheetKey in json.sheets) {
 		markdown += "## sheets\n";
 		const sheet = json.sheets[sheetKey];
-		removeSheetsField(sheet, "tag");
-		removeSheetsField(sheet, "markup");
+		removeField(sheet, "tag");
+		removeField(sheet, "markup");
 
 		markdown += "### " + sheetKey + "\n";
 
-		var sheetJson = copyRemoveSheetsField(sheet, "cellData");
+		var sheetJson = copyRemoveField(sheet, "cellData");
 
 		markdown += JSON.stringify(sheetJson) + "\n";
 
 		if (sheet.cellData) {
 			const cellData = sheet.cellData;
-			removeSheetsField(cellData, "tag");
-			removeSheetsField(cellData, "markup");
+			removeField(cellData, "tag");
+			removeField(cellData, "markup");
 
 			markdown += "#### cellData\n";
 			for (const rowKey in cellData) {
 				const rowData = cellData[rowKey];
-				removeSheetsField(rowData, "tag");
-				removeSheetsField(rowData, "markup");
+				removeField(rowData, "tag");
+				removeField(rowData, "markup");
 
 				for (const colKey in rowData) {
 					markdown += "##### " + rowKey + "\n";
 					markdown += "###### " + colKey + "\n";
 
-					removeSheetsField(rowData[colKey], "tag");
-					removeSheetsField(rowData[colKey], "markup");
+					removeField(rowData[colKey], "tag");
+					removeField(rowData[colKey], "markup");
 
 					markdown += JSON.stringify(rowData[colKey]) + "\n";
 				}
@@ -205,4 +228,9 @@ export function splitYAML(str) {
 	} else {
 		return null;
 	}
+}
+
+export function extractYAML(str) {
+	const match = str.match(/^-{3}\n([\s\S]*?)-{3}/);
+	return match ? match[1].trim() : null;
 }

@@ -5,8 +5,8 @@ import { t } from "src/lang/helpers";
 import { FUniver, IDisposable } from "@univerjs/facade";
 import { createUniver } from "./setup-univer";
 import { randomString } from "./utils/UUID";
-import { Univer } from "@univerjs/core";
-import { markdownToJSON, jsonToMarkdown, extractYAML } from "./utils/DataUtil";
+import { Univer, IWorkbookData, Workbook } from "@univerjs/core";
+import { markdownToJSON, jsonToMarkdown, extractYAML, splitYAML } from "./utils/DataUtil";
 
 export class ExcelProView extends TextFileView {
 	public plugin: ExcelProPlugin;
@@ -18,7 +18,9 @@ export class ExcelProView extends TextFileView {
 	public sheetEle: HTMLElement;
 	public univerAPI: FUniver; // 表格操作对象
 	public univer: Univer | null; // 表格对象
+	public workbook: Workbook; // 工作簿
 	public executedDisposable: IDisposable; // 执行命令后监听对象
+
 	public cellsSelected: {
 		sheet: Record<string, any> | null;
 		sri: number | null; // 选中开始行 index
@@ -33,7 +35,7 @@ export class ExcelProView extends TextFileView {
 		eci: null,
 	};
 
-	public yamlData: string
+	private lastWorkbookData: string
 
 	constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
 		super(leaf);
@@ -45,15 +47,21 @@ export class ExcelProView extends TextFileView {
 	}
 
 	headerData() {
-		const header = extractYAML(this.data)
-		console.log("headerData --", header)
+		let header = extractYAML(this.data)
+
+		if (header == null) {
+			header = FRONTMATTER
+		} else {
+			// 添加 --- 分隔符
+			header = ["---","",`${header}`,"","---", "", ""].join("\n");
+		}
+		
 		return header
 	}
 
 	// 存储数据，把 workbook data 转换成 markdown 存储
 	saveData(data: string) {
 		const markdown = jsonToMarkdown(data)
-		console.log("saveData markdown-----", markdown)
 
 		const yaml = this.headerData()
 
@@ -77,7 +85,7 @@ export class ExcelProView extends TextFileView {
 		this.data = data;
 
 		this.app.workspace.onLayoutReady(async () => {
-			console.log("setViewData");
+			console.log("setViewData", data);
 			this.setupUniver();
 		});
 	}
@@ -145,8 +153,8 @@ export class ExcelProView extends TextFileView {
 	}
 
 	onload(): void {
-		console.log("Excel Pro View onload", this.data);
 		super.onload();
+		console.log("Excel Pro View onload", this.data);
 		this.ownerWindow = this.containerEl.win;
 
 		// 添加顶部导入按钮
@@ -197,43 +205,69 @@ export class ExcelProView extends TextFileView {
 			},
 		});
 
-		console.log(`setupUniver ${id}`);
+		this.dispose()
+
+		const markdown = splitYAML(this.data)?.rest || ""
+		const data = markdownToJSON(markdown)
+
 		const univer = createUniver(id);
-
-		univer.createUniverSheet({});
 		this.univer = univer;
+		this.univerAPI = FUniver.newAPI(this.univer)
 
-		this.univerAPI = FUniver.newAPI(univer)
+		if (data) {
+			// workbookData 的内容都包含在 workbook 字段中
+			const workbookData: IWorkbookData = JSON.parse(data).workbook;
+			this.workbook = this.univer.createUniverSheet(workbookData)
+			// console.log("\n====createUniverSheet====\n", workbookData)
+
+			const activeWorkbook = this.univerAPI.getActiveWorkbook()
+			if (activeWorkbook) {
+				this.lastWorkbookData = JSON.stringify(activeWorkbook.getSnapshot(), null, 2)
+			}
+		} else {
+			this.workbook = this.univer.createUniverSheet({});
+		}
 
 		this.executedDisposable = this.univerAPI.onCommandExecuted( (command) => {
-			const blackList = [
-				"sheet.operation.set-selections"
-			]
-
-			if (blackList.contains(command.id)) return
-
+			
 			const activeWorkbook = this.univerAPI.getActiveWorkbook()
 			if (!activeWorkbook)
 				throw new Error('activeWorkbook is not defined')
-			
-			// eslint-disable-next-line no-alert
-			const sheetData = JSON.parse(JSON.stringify(activeWorkbook.getSnapshot(), null, 2))
-			this.saveData(sheetData)
 
-			console.log(command)
+			const activeWorkbookData = JSON.stringify(activeWorkbook.getSnapshot(), null, 2)
+			
+			if (this.lastWorkbookData === activeWorkbookData) {
+				return
+			}
+
+			// console.log("\n===onCommandExecuted===\n", activeWorkbookData, "\n===command===", command)
+
+			this.lastWorkbookData = activeWorkbookData
+	
+			// eslint-disable-next-line no-alert
+			
+			const sheetData = JSON.parse(activeWorkbookData)
+			this.saveData(sheetData)
 		})
 	}
 
 	dispose() {
+
+		// 释放工作簿
+		if (this.workbook != null) {
+			this.workbook.dispose()
+		}
+
+		// 释放 univer 事件监听
+		if (this.executedDisposable != null) {
+			this.executedDisposable.dispose()
+		}
+
+		// 释放 univer
 		if (this.univer != null) {
-			console.log(`dispose ${this.univer}`);
 			this.univer.__getInjector().dispose();
 			this.univer.dispose();
 			this.univer = null;
-		}
-
-		if (this.executedDisposable != null) {
-			this.executedDisposable.dispose()
 		}
 	}
 
