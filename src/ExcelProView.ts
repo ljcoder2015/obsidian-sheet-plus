@@ -85,7 +85,7 @@ export class ExcelProView extends TextFileView {
 		this.data = data;
 
 		this.app.workspace.onLayoutReady(async () => {
-			console.log("setViewData", data);
+			// console.log("setViewData", data);
 			this.setupUniver();
 		});
 	}

@@ -6,32 +6,48 @@ class JSONRenderer {
 		this.rules = {
 			heading_open: (tokens, idx, json, stack) => {
 				// h1, h2, h3, h4, h5, h6 解析，创建元素
-				// # workbook, ## sheet ### row #### col
 				const last = stack.last();
 				const token = tokens[idx];
 				const contentToken = tokens[idx + 1];
 				if (last) {
 					if (last.markup.length < token.markup.length) {
 						// 小于，表示 token 为 last 的子节点
+						const key = contentToken.content
+
+						if (last.hasOwnProperty(key)) {
+							// 父节点已存在当前key的属性，无需添加新对象，只需要把当前节点添加到已有属性中
+							stack.push(last[key])
+							return
+						}
+
 						const obj = {
 							tag: token.tag,
-							markup: token.markup,
+							markup: token.markup
 						};
-						last[contentToken.content] = obj;
+						last[key] = obj;
 
 						stack.push(obj);
 					} else if (last.markup.length == token.markup.length) {
 						// 等于，表示 token 为 last 兄弟节点
-						stack.pop();
 
-						const newLast = stack.last();
+						const key = contentToken.content
+				
+						stack.pop();
+						// pop 后当前节点为父节点
+						const newLast = stack.last(); 
+
+						if (newLast.hasOwnProperty(key)) {
+							// 父节点已存在当前key的属性，无需添加新对象，只需要把当前节点添加到已有属性中
+							stack.push(newLast[key])
+							return
+						}
+
 						if (newLast) {
 							const obj = {
 								tag: token.tag,
-								markup: token.markup,
+								markup: token.markup
 							};
-
-							newLast[contentToken.content] = obj;
+							newLast[key] = obj;
 
 							stack.push(obj);
 						}
@@ -48,12 +64,19 @@ class JSONRenderer {
 							}
 						} while (newLast.markup.length >= token.markup.length); // while 条件为真执行循环体
 
+						// 已存在，不需要重新创建
+						const key = contentToken.content
+						if (newLast.hasOwnProperty(key)) {
+							// 父节点已存在当前key的属性，无需添加新对象，只需要把当前节点添加到已有属性中
+							stack.push(newLast[key])
+							return
+						}
+							
 						const obj = {
 							tag: token.tag,
-							markup: token.markup,
+							markup: token.markup
 						};
-
-						newLast[contentToken.content] = obj;
+						newLast[key] = obj;
 
 						stack.push(obj);
 					}
@@ -137,7 +160,7 @@ export function markdownToJSON(markdownText) {
 			if (typeof obj[key] === "object") {
 				removeTagAndMarkup(obj[key]);
 			}
-			if (key === "tag" || key === "markup") {
+			if (key === "tag" || key === "markup" || key === "parent") {
 				delete obj[key];
 			}
 		}
