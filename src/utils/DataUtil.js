@@ -115,7 +115,7 @@ class JSONRenderer {
 		};
 	}
 
-	render(tokens, options, env) {
+	render(tokens) {
 		const json = {};
 		const stack = [];
 		for (let i = 0; i < tokens.length; i++) {
@@ -124,7 +124,7 @@ class JSONRenderer {
 				this.rules[token.type](tokens, i, json, stack);
 			}
 		}
-		return JSON.stringify(json, null, 2);
+		return json
 	}
 
 	renderInline(tokens, start) {
@@ -145,34 +145,27 @@ class JSONRenderer {
 	}
 }
 
+function removeTagAndMarkup(obj) {
+	for (const key in obj) {
+		if (typeof obj[key] === "object") {
+			removeTagAndMarkup(obj[key]);
+		}
+		if (key === "tag" || key === "markup") {
+			delete obj[key];
+		}
+	}
+}
+
 export function markdownToJSON(markdownText) {
 	const md = MarkdownIt();
 	const tokens = md.parse(markdownText, {});
-	const renderer = new JSONRenderer();
-	const jsonString = renderer.render(tokens);
+	const renderer =  new JSONRenderer()
+	const json = renderer.render(tokens)
 
-	// 1. 解析 JSON 字符串为 JavaScript 对象
-	const jsonObject = JSON.parse(jsonString);
+	// 2. 递归删除字段
+    removeTagAndMarkup(json);
 
-	// 2. 递归遍历对象并删除所有键为 "tag" 和 "markup" 的属性
-	function removeTagAndMarkup(obj) {
-		for (const key in obj) {
-			if (typeof obj[key] === "object") {
-				removeTagAndMarkup(obj[key]);
-			}
-			if (key === "tag" || key === "markup" || key === "parent") {
-				delete obj[key];
-			}
-		}
-	}
-
-	removeTagAndMarkup(jsonObject);
-
-	// 3. 将修改后的对象转换回 JSON 字符串
-	const jsonOutput = JSON.stringify(jsonObject, null, 2);
-
-	// console.log("===markdownToJSON===", jsonOutput);
-	return jsonOutput;
+    return JSON.stringify(json, null, 2);
 }
 
 export function jsonToMarkdown(json) {
