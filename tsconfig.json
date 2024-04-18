@@ -11,8 +11,8 @@
 		"importHelpers": true,
 		"isolatedModules": true,
 		"strictNullChecks": true,
-		"lib": ["DOM", "ES5", "ES6", "ES7"],
-    "allowSyntheticDefaultImports": true,
+		"lib": ["DOM", "ES5", "ES6", "ES7", "WebWorker", "ScriptHost"],
+		"allowSyntheticDefaultImports": true
 	},
-	"include": ["**/*.ts", "src/utils/DataUtil.js"]
+	"include": ["**/*.ts", "src/utils/data-util.js"]
 }

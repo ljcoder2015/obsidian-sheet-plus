@@ -12,12 +12,12 @@ import {
 
 import { VIEW_TYPE_EXCEL_PRO, FRONTMATTER, FRONTMATTER_KEY } from "./constants";
 import { around, dedupe } from "monkey-around";
-import { ExcelProView } from "./ExcelProView";
-import { DEFAULT_SETTINGS, ExcelProSettings } from "./common/Settings";
-import { getExcelFilename, checkAndCreateFolder, getNewUniqueFilepath } from "./utils/FileUtils";
-import { PaneTarget } from "./common/ModifierkeyHelper";
+import { ExcelProView } from "./excel-pro-view";
+import { DEFAULT_SETTINGS, ExcelProSettings } from "./common/settings";
+import { getExcelFilename, checkAndCreateFolder, getNewUniqueFilepath } from "./utils/file-utils";
+import { PaneTarget } from "./common/modifierkey-helper";
 import { t } from "./lang/helpers";
-import { ExcelProSettingTab } from "./ExcelProSettingTab";
+import { ExcelProSettingTab } from "./excel-pro-setting-tab";
 
 export default class ExcelProPlugin extends Plugin {
 	public settings: ExcelProSettings;
@@ -152,7 +152,7 @@ export default class ExcelProPlugin extends Plugin {
 		this.register(
 			around(Workspace.prototype, {
 				getActiveViewOfType(old) {
-					console.log("Workspace.prototype", old);
+					// console.log("Workspace.prototype", old);
 					return dedupe(key, old, function (...args) {
 						const result = old && old.apply(this, args);
 						const maybeSheetView =

@@ -4,9 +4,10 @@ import { VIEW_TYPE_EXCEL_PRO, FRONTMATTER } from "./constants";
 import { t } from "src/lang/helpers";
 import { FUniver, IDisposable } from "@univerjs/facade";
 import { createUniver } from "./setup-univer";
-import { randomString } from "./utils/UUID";
+import { randomString } from "./utils/uuid";
 import { Univer, IWorkbookData, Workbook } from "@univerjs/core";
-import { markdownToJSON, jsonToMarkdown, extractYAML, splitYAML } from "./utils/DataUtil";
+import { markdownToJSON, jsonToMarkdown, extractYAML, splitYAML } from "./utils/data-util";
+
 
 export class ExcelProView extends TextFileView {
 	public plugin: ExcelProPlugin;
@@ -36,6 +37,7 @@ export class ExcelProView extends TextFileView {
 	};
 
 	private lastWorkbookData: string
+	private dataWorker: Worker
 
 	constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
 		super(leaf);
@@ -61,6 +63,10 @@ export class ExcelProView extends TextFileView {
 
 	// 存储数据，把 workbook data 转换成 markdown 存储
 	saveData(data: string) {
+		// this.dataWorker.postMessage({
+		// 	name: "save-data",
+		// 	options: data
+		// })
 		const markdown = jsonToMarkdown(data)
 
 		const yaml = this.headerData()
@@ -154,7 +160,7 @@ export class ExcelProView extends TextFileView {
 
 	onload(): void {
 		super.onload();
-		console.log("Excel Pro View onload", this.data);
+		console.log("Excel Pro View onload");
 		this.ownerWindow = this.containerEl.win;
 
 		// 添加顶部导入按钮
@@ -177,12 +183,47 @@ export class ExcelProView extends TextFileView {
 			t("COPY_TO_HTML"),
 			(ev) => this.copyToHTML()
 		);
+
+		// data worker 处理存储数据
+		this.dataWorker = new Worker()
+		// // this.dataWorker = new LoadWorker()
+		
+		this.dataWorker.onmessage = (e) => {
+			console.log("Message received from worker", e);
+		}
 	}
 
 	onunload(): void {
+		console.log(`Excel Pro View onunload`);
+		// 释放 univer 相关对象
 		this.dispose();
-		console.log(`Excel Pro View onunload ${this.univer}`);
+
+		// 释放 worker 线程
+		if (this.dataWorker) {
+			this.dataWorker.terminate()
+		}
+		
 		super.onunload();
+	}
+
+	dispose() {
+
+		// 释放工作簿
+		if (this.workbook != null) {
+			this.workbook.dispose()
+		}
+
+		// 释放 univer 事件监听
+		if (this.executedDisposable != null) {
+			this.executedDisposable.dispose()
+		}
+
+		// 释放 univer
+		if (this.univer != null) {
+			this.univer.__getInjector().dispose();
+			this.univer.dispose();
+			this.univer = null;
+		}
 	}
 
 	getViewType(): string {
@@ -230,6 +271,25 @@ export class ExcelProView extends TextFileView {
 
 		this.executedDisposable = this.univerAPI.onCommandExecuted( (command) => {
 			
+			const blackList = [
+				"sheet.operation.set-scroll",
+				"sheet.command.set-scroll-relative",
+				"sheet.operation.set-selections",
+				"doc.operation.set-selections",
+				"sheet.operation.set-activate-cell-edit",
+				"sheet.operation.set-selections",
+				"sheet.command.scroll-view",
+				"formula-ui.operation.search-function",
+				"formula-ui.operation.help-function",
+				"sheet.operation.set-cell-edit-visible"
+			]
+
+			if (blackList.contains(command.id)) {
+				return
+			}
+
+			console.log(command.id)
+			
 			const activeWorkbook = this.univerAPI.getActiveWorkbook()
 			if (!activeWorkbook)
 				throw new Error('activeWorkbook is not defined')
@@ -251,25 +311,7 @@ export class ExcelProView extends TextFileView {
 		})
 	}
 
-	dispose() {
-
-		// 释放工作簿
-		if (this.workbook != null) {
-			this.workbook.dispose()
-		}
-
-		// 释放 univer 事件监听
-		if (this.executedDisposable != null) {
-			this.executedDisposable.dispose()
-		}
-
-		// 释放 univer
-		if (this.univer != null) {
-			this.univer.__getInjector().dispose();
-			this.univer.dispose();
-			this.univer = null;
-		}
-	}
+	
 
 	refresh() {
 		// this.univer = setupUniver()

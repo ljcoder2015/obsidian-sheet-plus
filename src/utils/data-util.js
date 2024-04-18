@@ -168,63 +168,63 @@ export function markdownToJSON(markdownText) {
     return JSON.stringify(json, null, 2);
 }
 
-export function jsonToMarkdown(json) {
-	// 从 json 中移除指定 key 的字段，并返回新的json，不改动原josn
-	function copyRemoveField(json, key) {
-		var newJson = { ...json };
-		if (newJson.hasOwnProperty(key)) {
-			delete newJson[key];
-		}
-		return newJson;
+// 从 json 中移除指定 key 的字段，并返回新的json，不改动原josn
+function copyRemoveField(json, key) {
+	var newJson = { ...json };
+	if (newJson.hasOwnProperty(key)) {
+		delete newJson[key];
 	}
+	return newJson;
+}
 
-	// 从 json 中移除指定 key 的字段
-	function removeField(json, key) {
-		if (json.hasOwnProperty(key)) {
-			delete json[key];
-		}
-		return json;
+// 从 json 中移除指定 key 的字段
+function removeField(json, key) {
+	if (json.hasOwnProperty(key)) {
+		delete json[key];
 	}
+	return json;
+}
+
+
+function removeFields(obj) {
+    removeField(obj, "tag");
+    removeField(obj, "markup");
+    // 在这里可以添加其他要移除的字段
+}
+
+export function jsonToMarkdown(json) {
 
 	let markdown = "";
 
-	removeField(json, "tag");
-	removeField(json, "markup");
+	removeFields(json);
 
 	markdown += "# workbook\n";
-	var workbookJson = copyRemoveField(json, "sheets");
-
-	markdown += JSON.stringify(workbookJson) + "\n";
+	markdown += JSON.stringify(copyRemoveField(json, "sheets")) + "\n";
 
 	for (const sheetKey in json.sheets) {
 		markdown += "## sheets\n";
 		const sheet = json.sheets[sheetKey];
-		removeField(sheet, "tag");
-		removeField(sheet, "markup");
+		removeFields(sheet);
 
-		markdown += "### " + sheetKey + "\n";
+		markdown += `### ${sheetKey}\n`;
 
 		var sheetJson = copyRemoveField(sheet, "cellData");
-
 		markdown += JSON.stringify(sheetJson) + "\n";
 
 		if (sheet.cellData) {
 			const cellData = sheet.cellData;
-			removeField(cellData, "tag");
-			removeField(cellData, "markup");
+			removeFields(cellData);
 
 			markdown += "#### cellData\n";
 			for (const rowKey in cellData) {
 				const rowData = cellData[rowKey];
-				removeField(rowData, "tag");
-				removeField(rowData, "markup");
+				removeFields(rowData);
 
 				for (const colKey in rowData) {
-					markdown += "##### " + rowKey + "\n";
-					markdown += "###### " + colKey + "\n";
+					markdown += `##### ${rowKey}\n`;
+					markdown += `###### ${colKey}\n`;
 
-					removeField(rowData[colKey], "tag");
-					removeField(rowData[colKey], "markup");
+					removeFields(rowData[colKey]);
 
 					markdown += JSON.stringify(rowData[colKey]) + "\n";
 				}
