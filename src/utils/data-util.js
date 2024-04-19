@@ -6,7 +6,7 @@ class JSONRenderer {
 		this.rules = {
 			heading_open: (tokens, idx, json, stack) => {
 				// h1, h2, h3, h4, h5, h6 解析，创建元素
-				const last = stack.last();
+				const last = stack[stack.length - 1];
 				const token = tokens[idx];
 				const contentToken = tokens[idx + 1];
 				if (last) {
@@ -34,7 +34,7 @@ class JSONRenderer {
 				
 						stack.pop();
 						// pop 后当前节点为父节点
-						const newLast = stack.last(); 
+						const newLast = stack[stack.length - 1];
 
 						if (newLast.hasOwnProperty(key)) {
 							// 父节点已存在当前key的属性，无需添加新对象，只需要把当前节点添加到已有属性中
@@ -58,7 +58,7 @@ class JSONRenderer {
 						do {
 							// 寻找到父节点
 							stack.pop();
-							newLast = stack.last();
+							newLast = stack[stack.length - 1];
 							if (newLast == undefined || newLast == null) {
 								break;
 							}
@@ -94,7 +94,7 @@ class JSONRenderer {
 				}
 			},
 			paragraph_open: (tokens, idx, json, stack) => {
-				var last = stack.last();
+				var last = stack[stack.length - 1];
 				const contentToken = tokens[idx + 1];
 				if (last) {
 					const obj = JSON.parse(contentToken.content);

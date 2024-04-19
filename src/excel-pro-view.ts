@@ -6,8 +6,14 @@ import { FUniver, IDisposable } from "@univerjs/facade";
 import { createUniver } from "./setup-univer";
 import { randomString } from "./utils/uuid";
 import { Univer, IWorkbookData, Workbook } from "@univerjs/core";
-import { markdownToJSON, jsonToMarkdown, extractYAML, splitYAML } from "./utils/data-util";
+import {
+	markdownToJSON,
+	jsonToMarkdown,
+	extractYAML,
+	splitYAML,
+} from "./utils/data-util";
 
+import DataWorker from "web-worker:./workers/data.worker.ts";
 
 export class ExcelProView extends TextFileView {
 	public plugin: ExcelProPlugin;
@@ -36,12 +42,181 @@ export class ExcelProView extends TextFileView {
 		eci: null,
 	};
 
-	private lastWorkbookData: string
-	private dataWorker: Worker
+	private lastWorkbookData: string;
+	private dataWorker: Worker;
 
 	constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
 		super(leaf);
 		this.plugin = plugin;
+	}
+
+	onload(): void {
+		super.onload();
+		console.log("Excel Pro View onload");
+		this.ownerWindow = this.containerEl.win;
+
+		// 添加顶部导入按钮
+		this.importEle = this.addAction(
+			"download",
+			t("IMPORT_XLSX_FILE"),
+			(ev) => this.handleImportClick(ev)
+		);
+
+		this.exportEle = this.addAction("upload", t("EXPORT_XLSX_FILE"), (ev) =>
+			this.handleExportClick(ev)
+		);
+
+		this.embedLinkEle = this.addAction("link", t("COPY_EMBED_LINK"), (ev) =>
+			this.handleEmbedLink(ev)
+		);
+
+		this.copyHTMLEle = this.addAction(
+			"file-code",
+			t("COPY_TO_HTML"),
+			(ev) => this.copyToHTML()
+		);
+
+		// data worker 处理存储数据
+		this.dataWorker = new DataWorker();
+
+		this.dataWorker.onmessage = (e) => {
+			console.log("Message received from worker =======", e);
+
+			const { name, options } = e.data;
+			if (name === "save-data") {
+				this.saveDataToFile(options)
+			}
+		};
+	}
+
+	onunload(): void {
+		console.log(`Excel Pro View onunload`);
+		// 释放 univer 相关对象
+		this.dispose();
+
+		// 释放 worker 线程
+		if (this.dataWorker) {
+			this.dataWorker.terminate();
+		}
+
+		super.onunload();
+	}
+
+	dispose() {
+		// 释放工作簿
+		if (this.workbook != null) {
+			this.workbook.dispose();
+		}
+
+		// 释放 univer 事件监听
+		if (this.executedDisposable != null) {
+			this.executedDisposable.dispose();
+		}
+
+		// 释放 univer
+		if (this.univer != null) {
+			this.univer.__getInjector().dispose();
+			this.univer.dispose();
+			this.univer = null;
+		}
+	}
+
+	getViewType(): string {
+		return VIEW_TYPE_EXCEL_PRO;
+	}
+
+	setupUniver() {
+		this.contentEl.empty();
+		this.sheetEle = this.contentEl.createDiv({
+			attr: {
+				id: "sheet-box",
+			},
+		});
+
+		const id = "univer-" + randomString(6);
+		this.sheetEle.createDiv({
+			attr: {
+				id: id,
+				class: "my-univer",
+			},
+		});
+
+		this.dispose();
+
+		const univer = createUniver(id);
+		this.univer = univer;
+		this.univerAPI = FUniver.newAPI(this.univer);
+
+		const markdown = splitYAML(this.data)?.rest;
+		// const data = markdownToJSON(markdown);
+		if (markdown) {
+			const data = JSON.parse(markdown);
+			if (data) {
+				// workbookData 的内容都包含在 workbook 字段中
+				const workbookData: IWorkbookData = data;
+				this.workbook = this.univer.createUniverSheet(workbookData);
+				// console.log("\n====createUniverSheet====\n", workbookData)
+	
+				const activeWorkbook = this.univerAPI.getActiveWorkbook();
+				if (activeWorkbook) {
+					this.lastWorkbookData = JSON.stringify(
+						activeWorkbook.getSnapshot(),
+						null,
+						2
+					);
+				}
+			} else {
+				this.workbook = this.univer.createUniverSheet({});
+			}
+		} else {
+			this.workbook = this.univer.createUniverSheet({});
+		}
+
+		this.executedDisposable = this.univerAPI.onCommandExecuted(
+			(command) => {
+				const blackList = [
+					"sheet.operation.set-scroll",
+					"sheet.command.set-scroll-relative",
+					"sheet.operation.set-selections",
+					"doc.operation.set-selections",
+					"sheet.operation.set-activate-cell-edit",
+					"sheet.operation.set-selections",
+					"sheet.command.scroll-view",
+					"formula-ui.operation.search-function",
+					"formula-ui.operation.help-function",
+					"sheet.operation.set-cell-edit-visible",
+					"formula.mutation.set-formula-calculation-start"
+				];
+
+				if (blackList.contains(command.id)) {
+					return;
+				}
+
+				
+
+				const activeWorkbook = this.univerAPI.getActiveWorkbook();
+				if (!activeWorkbook)
+					throw new Error("activeWorkbook is not defined");
+
+				const activeWorkbookData = JSON.stringify(
+					activeWorkbook.getSnapshot(),
+					null,
+					2
+				);
+
+				if (this.lastWorkbookData === activeWorkbookData) {
+					return;
+				}
+
+				console.log(command);
+
+				// console.log("\n===onCommandExecuted===\n", activeWorkbookData, "\n===command===", command)
+
+				this.lastWorkbookData = activeWorkbookData;
+
+				this.saveDataToFile(activeWorkbookData)
+			}
+		);
 	}
 
 	getViewData(): string {
@@ -49,38 +224,38 @@ export class ExcelProView extends TextFileView {
 	}
 
 	headerData() {
-		let header = extractYAML(this.data)
+		let header = extractYAML(this.data);
 
 		if (header == null) {
-			header = FRONTMATTER
+			header = FRONTMATTER;
 		} else {
 			// 添加 --- 分隔符
-			header = ["---","",`${header}`,"","---", "", ""].join("\n");
+			header = ["---", "", `${header}`, "", "---", "", ""].join("\n");
 		}
-		
-		return header
+
+		return header;
 	}
 
 	// 存储数据，把 workbook data 转换成 markdown 存储
 	saveData(data: string) {
-		// this.dataWorker.postMessage({
-		// 	name: "save-data",
-		// 	options: data
-		// })
-		const markdown = jsonToMarkdown(data)
+		this.dataWorker.postMessage({
+			name: "save-data",
+			options: data,
+		});
+	}
 
-		const yaml = this.headerData()
+	saveDataToFile(data: string) {
+		const yaml = this.headerData();
 
-		this.data = yaml + markdown;
-		console.log("saveData", this.data)
+		this.data = yaml + data
 
 		this.save(false)
 			.then(() => {
-				console.log("save data success", this.file)
+				console.log("save data success", this.file);
 			})
 			.catch((e) => {
-				console.log("save data error", e)
-			})
+				console.log("save data error", e);
+			});
 	}
 
 	clear(): void {
@@ -156,227 +331,6 @@ export class ExcelProView extends TextFileView {
 		} else {
 			new Notice(t("COPY_EMBED_LINK_FAILED"));
 		}
-	}
-
-	onload(): void {
-		super.onload();
-		console.log("Excel Pro View onload");
-		this.ownerWindow = this.containerEl.win;
-
-		// 添加顶部导入按钮
-		this.importEle = this.addAction(
-			"download",
-			t("IMPORT_XLSX_FILE"),
-			(ev) => this.handleImportClick(ev)
-		);
-
-		this.exportEle = this.addAction("upload", t("EXPORT_XLSX_FILE"), (ev) =>
-			this.handleExportClick(ev)
-		);
-
-		this.embedLinkEle = this.addAction("link", t("COPY_EMBED_LINK"), (ev) =>
-			this.handleEmbedLink(ev)
-		);
-
-		this.copyHTMLEle = this.addAction(
-			"file-code",
-			t("COPY_TO_HTML"),
-			(ev) => this.copyToHTML()
-		);
-
-		// data worker 处理存储数据
-		this.dataWorker = new Worker()
-		// // this.dataWorker = new LoadWorker()
-		
-		this.dataWorker.onmessage = (e) => {
-			console.log("Message received from worker", e);
-		}
-	}
-
-	onunload(): void {
-		console.log(`Excel Pro View onunload`);
-		// 释放 univer 相关对象
-		this.dispose();
-
-		// 释放 worker 线程
-		if (this.dataWorker) {
-			this.dataWorker.terminate()
-		}
-		
-		super.onunload();
-	}
-
-	dispose() {
-
-		// 释放工作簿
-		if (this.workbook != null) {
-			this.workbook.dispose()
-		}
-
-		// 释放 univer 事件监听
-		if (this.executedDisposable != null) {
-			this.executedDisposable.dispose()
-		}
-
-		// 释放 univer
-		if (this.univer != null) {
-			this.univer.__getInjector().dispose();
-			this.univer.dispose();
-			this.univer = null;
-		}
-	}
-
-	getViewType(): string {
-		return VIEW_TYPE_EXCEL_PRO;
-	}
-
-	setupUniver() {
-		this.contentEl.empty();
-		this.sheetEle = this.contentEl.createDiv({
-			attr: {
-				id: "sheet-box",
-			},
-		});
-
-		const id = "univer-" + randomString(6);
-		this.sheetEle.createDiv({
-			attr: {
-				id: id,
-				class: "my-univer",
-			},
-		});
-
-		this.dispose()
-
-		const markdown = splitYAML(this.data)?.rest || ""
-		const data = markdownToJSON(markdown)
-
-		const univer = createUniver(id);
-		this.univer = univer;
-		this.univerAPI = FUniver.newAPI(this.univer)
-
-		if (data) {
-			// workbookData 的内容都包含在 workbook 字段中
-			const workbookData: IWorkbookData = JSON.parse(data).workbook;
-			this.workbook = this.univer.createUniverSheet(workbookData)
-			// console.log("\n====createUniverSheet====\n", workbookData)
-
-			const activeWorkbook = this.univerAPI.getActiveWorkbook()
-			if (activeWorkbook) {
-				this.lastWorkbookData = JSON.stringify(activeWorkbook.getSnapshot(), null, 2)
-			}
-		} else {
-			this.workbook = this.univer.createUniverSheet({});
-		}
-
-		this.executedDisposable = this.univerAPI.onCommandExecuted( (command) => {
-			
-			const blackList = [
-				"sheet.operation.set-scroll",
-				"sheet.command.set-scroll-relative",
-				"sheet.operation.set-selections",
-				"doc.operation.set-selections",
-				"sheet.operation.set-activate-cell-edit",
-				"sheet.operation.set-selections",
-				"sheet.command.scroll-view",
-				"formula-ui.operation.search-function",
-				"formula-ui.operation.help-function",
-				"sheet.operation.set-cell-edit-visible"
-			]
-
-			if (blackList.contains(command.id)) {
-				return
-			}
-
-			console.log(command.id)
-			
-			const activeWorkbook = this.univerAPI.getActiveWorkbook()
-			if (!activeWorkbook)
-				throw new Error('activeWorkbook is not defined')
-
-			const activeWorkbookData = JSON.stringify(activeWorkbook.getSnapshot(), null, 2)
-			
-			if (this.lastWorkbookData === activeWorkbookData) {
-				return
-			}
-
-			// console.log("\n===onCommandExecuted===\n", activeWorkbookData, "\n===command===", command)
-
-			this.lastWorkbookData = activeWorkbookData
-	
-			// eslint-disable-next-line no-alert
-			
-			const sheetData = JSON.parse(activeWorkbookData)
-			this.saveData(sheetData)
-		})
-	}
-
-	
-
-	refresh() {
-		// this.univer = setupUniver()
-		// this.univer.createUniverSheet({})
-		// // 初始化 sheet
-		// const jsonData = JSON.parse(getExcelData(this.data) || "{}") || {};
-		// // 设置多语言
-		// if (moment.locale() === 'zh-cn') {
-		// 	Spreadsheet.locale('zh-cn', zhCn)
-		// } else {
-		// 	Spreadsheet.locale('en', en)
-		// }
-		// //@ts-ignore
-		// this.sheet = new Spreadsheet(this.sheetEle, {
-		// 	showBottomBar: true,
-		// 	view: {
-		// 		height: () => this.contentEl.clientHeight,
-		// 		width: () => this.contentEl.clientWidth,
-		// 	},
-		// 	row: {
-		// 		len: 100,
-		// 		height: parseInt(this.plugin.settings.rowHeight),
-		// 	},
-		// 	col: {
-		// 		len: 26,
-		// 		width: parseInt(this.plugin.settings.colWidth),
-		// 		indexWidth: 60,
-		// 		minWidth: 60,
-		// 	},
-		// })
-		// 	.loadData(jsonData) // load data
-		// 	.change(() => {
-		// 		// save data to db
-		// 		const data = this.sheet.getData();
-		// 		// console.log("save data to db", data);
-		// 		this.saveData(JSON.stringify(data));
-		// 	})
-		// 	.onAddSheet(() => {
-		// 		const data = this.sheet.getData();
-		// 		// console.log('onAddSheet', data)
-		// 		this.saveData(JSON.stringify(data));
-		// 	})
-		// 	.onRenameSheet(() => {
-		// 		const data = this.sheet.getData();
-		// 		// console.log('onRenameSheet', data)
-		// 		this.saveData(JSON.stringify(data));
-		// 	});
-		// this.sheet.on("cells-selected", (sheetData, { sri, sci, eri, eci }) => {
-		// 	// console.log('cells-selected',sheetData, sri, sci, eri, eci)
-		// 	this.cellsSelected.sheet = sheetData;
-		// 	this.cellsSelected.sri = sri;
-		// 	this.cellsSelected.sci = sci;
-		// 	this.cellsSelected.eri = eri;
-		// 	this.cellsSelected.eci = eci;
-		// });
-		// this.sheet.on("cell-selected", (sheetData, ri, ci) => {
-		// 	// console.log('cell-selected',sheetData, ri, ci)
-		// 	this.cellsSelected.sheet = sheetData;
-		// 	this.cellsSelected.sri = ri;
-		// 	this.cellsSelected.sci = ci;
-		// 	this.cellsSelected.eri = ri;
-		// 	this.cellsSelected.eci = ci;
-		// });
-		// // @ts-ignore
-		// this.sheet.validate();
 	}
 
 	copyToHTML() {

@@ -79,8 +79,8 @@ export function getNewUniqueFilepath(
   let fname = normalizePath(`${folderpath}/${filename}`);
   let file: TAbstractFile | null = vault.getAbstractFileByPath(fname);
   let i = 0;
-  const extension = filename.endsWith(".md")
-    ? ".md"
+  const extension = filename.endsWith("univer.md")
+    ? ".univer.md"
     : filename.slice(filename.lastIndexOf("."));
   while (file) {
     fname = normalizePath(
@@ -101,7 +101,7 @@ export function getExcelFilename(settings: ExcelProSettings): string {
     (settings.excelFilenameDateTime !== ""
       ? window.moment().format(settings.excelFilenameDateTime)
       : "") +
-    ".md"
+    ".univer.md"
   );
 }
 

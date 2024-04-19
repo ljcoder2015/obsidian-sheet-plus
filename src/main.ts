@@ -96,7 +96,7 @@ export default class ExcelProPlugin extends Plugin {
 		this.app.workspace.onLayoutReady(() => {
 			let leaf: WorkspaceLeaf;
 			const markdownLeaf = this.app.workspace.getLeavesOfType("markdown");
-			// console.log("switchToExcelAfterLoad", markdownLeaf);
+			console.log("switchToExcelAfterLoad", markdownLeaf);
 			for (leaf of markdownLeaf) {
 				if (
 					leaf.view instanceof MarkdownView &&
@@ -148,31 +148,31 @@ export default class ExcelProPlugin extends Plugin {
 	}
 
 	private registerMonkeyPatches() {
-		const key = "https://github.com/ljcoder2015/obsidian-excel-pro";
+		const key = "https://gitee.com/ljcoder2015/obsidian-excel-pro";
 		this.register(
 			around(Workspace.prototype, {
 				getActiveViewOfType(old) {
-					// console.log("Workspace.prototype", old);
+					
 					return dedupe(key, old, function (...args) {
 						const result = old && old.apply(this, args);
-						const maybeSheetView =
-							this.app?.workspace?.activeLeaf?.view;
-						if (
-							!maybeSheetView ||
-							!(maybeSheetView instanceof ExcelProView)
-						)
+						console.log("Workspace.prototype", result);
+
+						const maybeSheetView = this.app?.workspace?.activeLeaf?.view;
+						if (!maybeSheetView || !(maybeSheetView instanceof ExcelProView)) {
 							return result;
+						}
 					});
 				},
 			})
 		);
+		
 		//@ts-ignore
 		if (!this.app.plugins?.plugins?.["obsidian-hover-editor"]) {
 			this.register(
 				//stolen from hover editor
 				around(WorkspaceLeaf.prototype, {
 					getRoot(old) {
-						// console.log("stolen from hover editor");
+						console.log("stolen from hover editor");
 						return function () {
 							const top = old.call(this);
 							return top.getRoot === this.getRoot
@@ -186,10 +186,10 @@ export default class ExcelProPlugin extends Plugin {
 
 		// eslint-disable-next-line @typescript-eslint/no-this-alias
 		const self = this;
-		// Monkey patch WorkspaceLeaf to open Excalidraw drawings with ExcalidrawView by default
+		// Monkey patch WorkspaceLeaf to open Excel with ExcelProView by default
 		this.register(
 			around(WorkspaceLeaf.prototype, {
-				// Drawings can be viewed as markdown or Excalidraw, and we keep track of the mode
+				// Excel can be viewed as markdown or Excalidraw, and we keep track of the mode
 				// while the file is open. When the file closes, we no longer need to keep track of it.
 				detach(next) {
 					return function () {
@@ -199,6 +199,7 @@ export default class ExcelProPlugin extends Plugin {
 
 				setViewState(next) {
 					return function (state: ViewState, ...rest: any[]) {
+						// console.log("setViewState state ===", state)
 						if (
 							// Don't force excalidraw mode during shutdown
 							self._loaded &&
@@ -206,15 +207,15 @@ export default class ExcelProPlugin extends Plugin {
 							state.type === "markdown" &&
 							state.state?.file
 						) {
+							
 							// Then check for the excalidraw frontMatterKey
-							const cache = this.app.metadataCache.getCache(
-								state.state.file
-							);
+							const cache = self.app.metadataCache.getCache(state.state.file);
 
-							// console.log("setViewState", cache)
+							// console.log("setViewState cache cccc", cache)
 							if (
 								cache?.frontmatter &&
 								cache?.frontmatter[FRONTMATTER_KEY]
+								|| state.state.file.contains(".univer.md")
 							) {
 								// console.log("setViewState --", cache)
 								// If we have it, force the view type to excalidraw
@@ -320,11 +321,11 @@ export default class ExcelProPlugin extends Plugin {
 
 	public isExcelFile(f: TFile) {
 		if (!f) return false;
-		if (f.extension === "sheet") {
+		if (f.extension === "univer") {
 			return true;
 		}
 		const fileCache = f ? this.app.metadataCache.getFileCache(f) : null;
-		// console.log("isExcelFile", fileCache)
+		console.log("isExcelFile", fileCache?.frontmatter, f)
 		return (
 			!!fileCache?.frontmatter &&
 			!!fileCache?.frontmatter[FRONTMATTER_KEY]
