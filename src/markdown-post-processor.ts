@@ -3,13 +3,15 @@ import {
 	MetadataCache,
 	TFile,
 	Vault,
+	moment
 } from "obsidian";
 import ExcelProPlugin from "./main";
 
 import { getExcelData } from "./utils/data-util";
 import { randomString } from "./utils/uuid";
 import { createUniver } from "./setup-univer";
-import { IWorkbookData, Workbook } from "@univerjs/core";
+import { IWorkbookData, LocaleType } from "@univerjs/core";
+import da from "./lang/locale/da";
 
 let plugin: ExcelProPlugin;
 let vault: Vault;
@@ -324,7 +326,12 @@ const createSheetEl = (
 
 	sheetDiv.appendChild(sheetEl);
 
-	const univer = createUniver(id);
+	// 设置多语言
+	let locale = LocaleType.EN_US
+	if (moment.locale() === 'zh-cn') {
+		locale = LocaleType.ZH_CN
+	}
+	const univer = createUniver(id, locale, false);
 
 	if (data) {
 		// workbookData 的内容都包含在 workbook 字段中
@@ -403,6 +410,7 @@ const processInternalEmbed = async (
 	internalEmbedEl.removeClass("inline-embed");
 
 	const data = await vault.read(file);
+	console.log("vault.read", data)
 
 	// 是否转换成HTML
 	let toHTML = false;

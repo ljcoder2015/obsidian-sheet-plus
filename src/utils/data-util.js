@@ -1,5 +1,4 @@
 import MarkdownIt from "markdown-it";
-import da from "src/lang/locale/da";
 
 class JSONRenderer {
 	constructor() {
@@ -259,4 +258,42 @@ export function getExcelData(str) {
 		}
 	}
 	return {};
+}
+
+// 字母转数字
+export function stringToNumber(str) {
+	// 定义字母与数字的映射关系
+	const map = {};
+	const base = "A".charCodeAt(0) - 1; // 字母'A'的ASCII码值减去1作为基准值
+	for (let i = 0; i < 26; i++) {
+		map[String.fromCharCode(i + base)] = i + 1;
+	}
+
+	// 计算数字值
+	let num = 0;
+	for (let i = 0; i < str.length; i++) {
+		num = num * 26 + map[str[i]]; // 使用26进制计算
+	}
+
+	return num;
+}
+
+// 数字转字母 数字以0开始，转换后的字符串以1开始
+export function numberToColRowString(colNumber, rowNumber) {
+	var col = colNumber + 1
+	var row = rowNumber + 1
+
+	// 定义数字与字母的映射关系
+	const base = "A".charCodeAt(0) - 1; // 字母'A'的ASCII码值减去1作为基准值
+
+	// 将列转换为字母
+	let result = "";
+	while (col > 0) {
+		const remainder = col % 26; // 26进制计算余数
+		console.log("remainder", remainder)
+		result = String.fromCharCode(remainder + base) + result; // 添加字母到结果字符串的开头
+		col = Math.floor(col / 26); // 除以26取整，继续计算下一位
+	}
+
+	return result + row;
 }

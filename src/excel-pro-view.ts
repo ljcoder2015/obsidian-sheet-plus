@@ -1,17 +1,18 @@
 import ExcelProPlugin from "src/main";
-import { TextFileView, WorkspaceLeaf, Platform, Notice } from "obsidian";
+import {
+	TextFileView,
+	WorkspaceLeaf,
+	Platform,
+	Notice,
+	moment,
+} from "obsidian";
 import { VIEW_TYPE_EXCEL_PRO, FRONTMATTER } from "./constants";
 import { t } from "src/lang/helpers";
 import { FUniver, IDisposable } from "@univerjs/facade";
 import { createUniver } from "./setup-univer";
 import { randomString } from "./utils/uuid";
-import { Univer, IWorkbookData, Workbook } from "@univerjs/core";
-import {
-	markdownToJSON,
-	jsonToMarkdown,
-	extractYAML,
-	splitYAML,
-} from "./utils/data-util";
+import { Univer, IWorkbookData, Workbook, LocaleType } from "@univerjs/core";
+import { numberToColRowString, extractYAML, splitYAML } from "./utils/data-util";
 
 import DataWorker from "web-worker:./workers/data.worker.ts";
 
@@ -27,7 +28,6 @@ export class ExcelProView extends TextFileView {
 	public univer: Univer | null; // 表格对象
 	public workbook: Workbook; // 工作簿
 	public executedDisposable: IDisposable; // 执行命令后监听对象
-
 
 	private lastWorkbookData: string; // 上次保存的数据
 	private dataWorker: Worker; // 用来异步解析数据
@@ -71,7 +71,7 @@ export class ExcelProView extends TextFileView {
 
 			const { name, options } = e.data;
 			if (name === "save-data") {
-				this.saveDataToFile(options)
+				this.saveDataToFile(options);
 			}
 		};
 	}
@@ -130,7 +130,12 @@ export class ExcelProView extends TextFileView {
 
 		this.dispose();
 
-		const univer = createUniver(id);
+		// 设置多语言
+		let locale = LocaleType.EN_US;
+		if (moment.locale() === "zh-cn") {
+			locale = LocaleType.ZH_CN;
+		}
+		const univer = createUniver(id, locale, true);
 		this.univer = univer;
 		this.univerAPI = FUniver.newAPI(this.univer);
 
@@ -160,13 +165,12 @@ export class ExcelProView extends TextFileView {
 					"sheet.operation.set-selections",
 					"sheet.command.scroll-view",
 					"formula-ui.operation.search-function",
-					"formula-ui.operation.help-function"
+					"formula-ui.operation.help-function",
 				];
 
 				if (blackList.contains(command.id)) {
 					return;
 				}
-				
 
 				const activeWorkbook = this.univerAPI.getActiveWorkbook();
 				if (!activeWorkbook)
@@ -181,7 +185,7 @@ export class ExcelProView extends TextFileView {
 				if (this.lastWorkbookData === null) {
 					// 第一次加载不处理
 					this.lastWorkbookData = activeWorkbookData;
-					return
+					return;
 				}
 
 				if (this.lastWorkbookData === activeWorkbookData) {
@@ -195,7 +199,7 @@ export class ExcelProView extends TextFileView {
 
 				this.lastWorkbookData = activeWorkbookData;
 
-				this.saveDataToFile(activeWorkbookData)
+				this.saveDataToFile(activeWorkbookData);
 			}
 		);
 	}
@@ -228,7 +232,7 @@ export class ExcelProView extends TextFileView {
 	saveDataToFile(data: string) {
 		const yaml = this.headerData();
 
-		this.data = yaml + data
+		this.data = yaml + data;
 
 		this.save(false)
 			.then(() => {
@@ -297,21 +301,31 @@ export class ExcelProView extends TextFileView {
 	}
 
 	handleEmbedLink(e: Event) {
-		// const data = this.cellsSelected.sheet;
-		// const sri = this.cellsSelected.sri;
-		// const sci = this.cellsSelected.sci;
-		// const eri = this.cellsSelected.eri;
-		// const eci = this.cellsSelected.eci;
+		console.log("handleEmbedLink(e: Event-----");
+		const activeWorkbook = this.univerAPI.getActiveWorkbook();
+		const activeSheet = activeWorkbook?.getActiveSheet();
+		const selection = activeSheet?.getSelection();
+		const range = selection?.getActiveRange();
 
-		// 格式 sri-sci:eri-eci
-		// if (this.file && data) {
-		// 	const link = `![[${this.file.basename}#${data.name}|${sri}-${sci}:${eri}-${eci}]]`;
-		// 	// console.log(this.file, link);
-		// 	navigator.clipboard.writeText(link);
-		// 	new Notice(t("COPY_EMBED_LINK_SUCCESS"));
-		// } else {
-		// 	new Notice(t("COPY_EMBED_LINK_FAILED"));
-		// }
+		if (range) {
+			const sri = range.getRow(); 
+			const sci = range.getColumn();
+			const eri = sri + range.getHeight() - 1;
+			const eci = sci + range.getWidth() - 1;
+			console.log(range,`sci: ${sci} width: ${range.getWidth()}, eci: ${eci}`)
+			console.log("height", range.getHeight(), eri)
+			// 格式 sri-sci:eri-eci
+			if (this.file && activeSheet) {
+				const link = `![[${
+					this.file.basename
+				}#${activeSheet?.getSheetId()}|${numberToColRowString(sci, sri)}:${numberToColRowString(eci, eri)}]]`;
+				console.log(range, link);
+				navigator.clipboard.writeText(link);
+				new Notice(t("COPY_EMBED_LINK_SUCCESS"));
+			} else {
+				new Notice(t("COPY_EMBED_LINK_FAILED"));
+			}
+		}
 	}
 
 	copyToHTML() {

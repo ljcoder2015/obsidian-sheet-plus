@@ -11,7 +11,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
 	}
 
     display() {
-        let { containerEl } = this
+        const { containerEl } = this
 
         containerEl.empty()
 
@@ -67,34 +67,6 @@ export class ExcelProSettingTab extends PluginSettingTab {
                     .setValue(this.plugin.settings.sheetHeight)
                     .onChange(async (value) => {
                         this.plugin.settings.sheetHeight = value
-                        this.plugin.saveSettings()
-                    })
-            )
-
-        containerEl.createEl("h1", { text: t("SHEET_SETTING") });
-
-        new Setting(containerEl)
-            .setName(t("ROW_HEIGHT"))
-            .setDesc(t("ROW_HEIGHT_DESC"))
-            .addText((text) => 
-                text
-                    .setPlaceholder("25")
-                    .setValue(this.plugin.settings.rowHeight)
-                    .onChange(async (value) => {
-                        this.plugin.settings.rowHeight = value
-                        this.plugin.saveSettings()
-                    })
-            )
-
-        new Setting(containerEl)
-            .setName(t("COLUMN_WIDTH"))
-            .setDesc(t("COLUMN_WIDTH_DESC"))
-            .addText((text) => 
-                text
-                    .setPlaceholder("25")
-                    .setValue(this.plugin.settings.colWidth)
-                    .onChange(async (value) => {
-                        this.plugin.settings.colWidth = value
                         this.plugin.saveSettings()
                     })
             )

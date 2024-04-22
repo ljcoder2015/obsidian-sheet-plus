@@ -17,12 +17,13 @@ import { UniverSheetsUIPlugin } from '@univerjs/sheets-ui'
 import { UniverUIPlugin } from '@univerjs/ui'
 import { locales } from './locale'
 
-export function createUniver(id: string, locale = LocaleType.ZH_CN) {
+export function createUniver(id: string, locale = LocaleType.EN_US, header = true) {
   const univer = new Univer({
     theme: defaultTheme,
     locale: locale,
     logLevel: LogLevel.VERBOSE,
     locales,
+    id: id,
   })
 
   univer.registerPlugin(UniverDocsPlugin, {
@@ -32,7 +33,7 @@ export function createUniver(id: string, locale = LocaleType.ZH_CN) {
   univer.registerPlugin(UniverRenderEnginePlugin)
   univer.registerPlugin(UniverUIPlugin, {
     container: id,
-    header: true,
+    header: header,
     footer: true,
   })
   univer.registerPlugin(UniverSheetsPlugin)

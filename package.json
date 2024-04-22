@@ -35,17 +35,17 @@
 		"typescript": "4.7.4"
 	},
 	"dependencies": {
-		"@univerjs/core": "^0.1.5",
-		"@univerjs/design": "^0.1.5",
-		"@univerjs/docs": "^0.1.5",
-		"@univerjs/docs-ui": "^0.1.5",
-		"@univerjs/engine-formula": "^0.1.5",
-		"@univerjs/engine-render": "^0.1.5",
-		"@univerjs/facade": "^0.1.5",
-		"@univerjs/sheets": "^0.1.5",
-		"@univerjs/sheets-formula": "^0.1.5",
-		"@univerjs/sheets-ui": "^0.1.5",
-		"@univerjs/ui": "^0.1.5",
+		"@univerjs/core": "^0.1.7",
+		"@univerjs/design": "^0.1.7",
+		"@univerjs/docs": "^0.1.7",
+		"@univerjs/docs-ui": "^0.1.7",
+		"@univerjs/engine-formula": "^0.1.7",
+		"@univerjs/engine-render": "^0.1.7",
+		"@univerjs/facade": "^0.1.7",
+		"@univerjs/sheets": "^0.1.7",
+		"@univerjs/sheets-formula": "^0.1.7",
+		"@univerjs/sheets-ui": "^0.1.7",
+		"@univerjs/ui": "^0.1.7",
 		"markdown-it": "^14.1.0",
 		"monkey-around": "^3.0.0"
 	}
