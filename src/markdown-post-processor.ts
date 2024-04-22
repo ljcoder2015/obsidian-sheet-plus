@@ -6,6 +6,11 @@ import {
 } from "obsidian";
 import ExcelProPlugin from "./main";
 
+import { getExcelData } from "./utils/data-util";
+import { randomString } from "./utils/uuid";
+import { createUniver } from "./setup-univer";
+import { IWorkbookData, Workbook } from "@univerjs/core";
+
 let plugin: ExcelProPlugin;
 let vault: Vault;
 let metadataCache: MetadataCache;
@@ -22,7 +27,7 @@ const tmpObsidianWYSIWYG = async (
 	ctx: MarkdownPostProcessorContext
 ) => {
 	const file = plugin.app.vault.getAbstractFileByPath(ctx.sourcePath);
-	// console.log("tmpObsidianWYSIWYG");
+	console.log("tmpObsidianWYSIWYG");
 	if (!(file instanceof TFile)) return;
 	if (!plugin.isExcelFile(file)) return;
 
@@ -78,9 +83,9 @@ const tmpObsidianWYSIWYG = async (
 		internalEmbedDiv.empty();
 
 		const data = await vault.read(file);
-		var src = internalEmbedDiv.getAttribute("src") ?? "";
+		let src = internalEmbedDiv.getAttribute("src") ?? "";
 		// 是否转换成HTML
-		var toHTML = false;
+		let toHTML = false;
 		if (src.includes("{html}")) {
 			toHTML = true;
 			src = src.replace("{html}", "");
@@ -94,14 +99,14 @@ const tmpObsidianWYSIWYG = async (
 		}
 
 		const split = src.split("#");
-		var excelData = getExcelData(data);
+		const excelData = getExcelData(data);
 		if (split.length > 1) {
-			excelData = getExcelAreaData(data, split[1], alt);
+			// excelData = getExcelAreaData(data, split[1], alt);
 		}
-		
+
 		// 生成内容
 		if (toHTML) {
-			const table = createEditSheetHtml(data, file, split[1], alt)
+			const table = createEditSheetHtml(data, file, split[1], alt);
 			internalEmbedDiv.appendChild(table);
 		} else {
 			const sheetDiv = createSheetEl(
@@ -129,12 +134,12 @@ const tmpObsidianWYSIWYG = async (
 	internalEmbedDiv.empty();
 
 	const data = await vault.read(file);
-	var src = internalEmbedDiv.getAttribute("src") ?? "";
+	let src = internalEmbedDiv.getAttribute("src") ?? "";
 
 	// 是否转换成HTML
-	var toHTML = false;
+	let toHTML = false;
 	if (src.includes("{html}")) {
-		// 单 sheet 
+		// 单 sheet
 		toHTML = true;
 		src = src.replace("{html}", "");
 	}
@@ -146,7 +151,7 @@ const tmpObsidianWYSIWYG = async (
 		alt = alt.replace("{html}", "");
 	}
 
-	var heigh = parseInt(plugin.settings.sheetHeight);
+	let heigh = parseInt(plugin.settings.sheetHeight);
 	const matchResult = alt.match(/<(\d+)>/);
 
 	if (matchResult && matchResult.length > 1) {
@@ -159,14 +164,14 @@ const tmpObsidianWYSIWYG = async (
 	}
 
 	const split = src.split("#");
-	var excelData = getExcelData(data);
+	let excelData = getExcelData(data);
 	if (split.length > 1) {
-		excelData = getExcelAreaData(data, split[1], alt);
+		// excelData = getExcelAreaData(data, split[1], alt);
 	}
 
 	// console.log('internalEmbedDiv', excelData, src, alt)
 	if (toHTML) {
-		const table = createEditSheetHtml(data, file, split[1], alt)
+		const table = createEditSheetHtml(data, file, split[1], alt);
 		internalEmbedDiv.appendChild(table);
 	} else {
 		const sheetDiv = createSheetEl(
@@ -184,7 +189,6 @@ const tmpObsidianWYSIWYG = async (
 	}
 };
 
-
 /**
  * 编辑模式下转换成 HTML 显示
  * @param data markdown 文件原始data
@@ -199,7 +203,7 @@ const createEditSheetHtml = (
 	cells: string
 ): HTMLDivElement => {
 	const sheetDiv = createDiv();
-	
+
 	if (plugin.settings.showSheetButton == "true") {
 		const fileEmbed = sheetDiv.createDiv({
 			cls: "internal-embed file-embed mod-generic is-loaded",
@@ -211,7 +215,7 @@ const createEditSheetHtml = (
 				tabindex: -1,
 			},
 		});
-	
+
 		// 点击按钮打开 sheet
 		fileEmbed.onClickEvent((e) => {
 			e.stopPropagation();
@@ -219,16 +223,16 @@ const createEditSheetHtml = (
 		});
 	}
 
-	var table = getExcelAreaHtml(excelData, sheet, cells);
-		
-	var div = createDiv({
+	const table = getExcelAreaHtml(excelData, sheet, cells);
+
+	const div = createDiv({
 		cls: "sheet-html",
 		attr: {
 			tabindex: "-1",
-			contenteditable: "false"
-		}
-	})
-	div.appendChild(table)
+			contenteditable: "false",
+		},
+	});
+	div.appendChild(table);
 	sheetDiv.appendChild(div);
 	return sheetDiv;
 };
@@ -259,7 +263,7 @@ const createSheetHtml = (
 				tabindex: -1,
 			},
 		});
-	
+
 		// 点击按钮打开 sheet
 		fileEmbed.onClickEvent((e) => {
 			e.stopPropagation();
@@ -269,7 +273,7 @@ const createSheetHtml = (
 
 	const sheetEl = createDiv({
 		attr: {
-			style: "overflow-x: auto;"
+			style: "overflow-x: auto;",
 		},
 	});
 
@@ -283,10 +287,10 @@ const createSheetHtml = (
  *  bembed link 显示
  */
 const createSheetEl = (
-	data: string,
+	data: any,
 	file: TFile,
 	width: number,
-	height: number = 300
+	height = 300
 ): HTMLDivElement => {
 	const sheetDiv = createDiv();
 
@@ -301,91 +305,35 @@ const createSheetEl = (
 				tabindex: -1,
 			},
 		});
-	
+
 		// 点击按钮打开 sheet
 		fileEmbed.onClickEvent((e) => {
 			e.stopPropagation();
 			plugin.app.workspace.getLeaf().openFile(file);
 		});
 	}
-	// <div class="internal-embed file-embed mod-generic is-loaded" tabindex="-1" src="Excel 2023-09-07 17.18.19.sheet" alt="Excel 2023-09-07 17.18.19.sheet" contenteditable="false"><div class="file-embed-title"><span class="file-embed-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-file"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span> Excel 2023-09-07 17.18.19.sheet</div></div>
-	
 
+	const id = `univer-${randomString(6)}`;
 	const sheetEl = createDiv({
 		cls: "sheet-iframe",
 		attr: {
-			id: `x-spreadsheet-${new Date().getTime()}`,
+			id: id,
 			style: `height: ${height}px`,
 		},
 	});
 
-	const jsonData = JSON.parse(data || "{}") || {};
-	// console.log("createSheetEl", jsonData, data)
+	sheetDiv.appendChild(sheetEl);
 
-	// 设置 sheet 样式
-	var style = {
-		bgcolor: "#ffffff",
-		align: "left",
-		valign: "middle",
-		textwrap: false,
-		strike: false,
-		underline: false,
-		color: "#0a0a0a",
-		font: {
-			name: "Helvetica",
-			size: 10,
-			bold: false,
-			italic: false,
-		},
-	};
+	const univer = createUniver(id);
 
-	if (plugin.settings.theme === "dark") {
-		style = {
-			bgcolor: "#363636",
-			align: "left",
-			valign: "middle",
-			textwrap: false,
-			strike: false,
-			underline: false,
-			color: "#e6e6e6",
-			font: {
-				name: "Helvetica",
-				size: 10,
-				bold: false,
-				italic: false,
-			},
-		};
+	if (data) {
+		// workbookData 的内容都包含在 workbook 字段中
+		const workbookData: IWorkbookData = data;
+		univer.createUniverSheet(workbookData);
+	} else {
+		univer.createUniverSheet({});
 	}
 
-	//@ts-ignore
-	const sheet = new Spreadsheet(sheetEl, {
-		mode: "read",
-		showToolbar: false,
-		showBottomBar: true,
-		view: {
-			height: () => height,
-			width: () => width - 10,
-		},
-		row: {
-			len: parseInt(plugin.settings.defaultRowsLen),
-			height: parseInt(plugin.settings.rowHeight),
-		},
-		col: {
-			len: parseInt(plugin.settings.defaultColsLen),
-			width: parseInt(plugin.settings.colWidth),
-			indexWidth: 60,
-			minWidth: 60,
-		},
-		// @ts-ignore
-		style: style,
-		isDark: plugin.settings.theme === "dark",
-	}).loadData(jsonData); // load data
-
-	updateSheetTheme(plugin.settings.theme === "dark");
-
-	// @ts-ignore
-	sheet.validate();
-	sheetDiv.appendChild(sheetEl);
 	return sheetDiv;
 };
 
@@ -398,6 +346,7 @@ export const markdownPostProcessor = async (
 	el: HTMLElement,
 	ctx: MarkdownPostProcessorContext
 ) => {
+	console.log("markdownPostProcessor=============");
 	//check to see if we are rendering in editing mode or live preview
 	//if yes, then there should be no .internal-embed containers
 	const embeddedItems = el.querySelectorAll(".internal-embed");
@@ -445,7 +394,7 @@ const processInternalEmbed = async (
 	internalEmbedEl: Element,
 	file: TFile
 ): Promise<HTMLDivElement> => {
-	var src = internalEmbedEl.getAttribute("src");
+	let src = internalEmbedEl.getAttribute("src");
 	//@ts-ignore
 	if (!src) return;
 
@@ -455,27 +404,25 @@ const processInternalEmbed = async (
 
 	const data = await vault.read(file);
 
-	
 	// 是否转换成HTML
-	var toHTML = false;
+	let toHTML = false;
 	if (src.includes("{html}")) {
 		toHTML = true;
 		src = src.replace("{html}", "");
 	}
 
-	var alt = internalEmbedEl.getAttribute("alt") ?? "";
+	let alt = internalEmbedEl.getAttribute("alt") ?? "";
 	if (alt.includes("{html}")) {
 		// 单 sheet 中的某一区域
 		toHTML = true;
 		alt = alt.replace("{html}", "");
 	}
-	
+
 	const split = src.split("#");
-	var excelData = getExcelData(data);
+	let excelData = getExcelData(data);
 	if (split.length > 1) {
 		excelData = getExcelAreaData(data, split[1], alt);
 	}
-
 
 	// console.log('internalEmbedDiv', excelData, src, alt, toHTML)
 	if (toHTML) {

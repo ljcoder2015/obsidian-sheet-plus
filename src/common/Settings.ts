@@ -1,4 +1,5 @@
 export interface ExcelProSettings {
+	showSheetButton: string,
 	folder: string;
 	excelFilenamePrefix: string,
 	excelFilenameDateTime: string,
@@ -8,6 +9,7 @@ export interface ExcelProSettings {
 }
 
 export const DEFAULT_SETTINGS: ExcelProSettings = {
+	showSheetButton: "true",
 	folder: "/",
 	excelFilenamePrefix: "Excel ",
 	excelFilenameDateTime: "YYYY-MM-DD HH.mm.ss",

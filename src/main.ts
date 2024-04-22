@@ -18,6 +18,7 @@ import { getExcelFilename, checkAndCreateFolder, getNewUniqueFilepath } from "./
 import { PaneTarget } from "./common/modifierkey-helper";
 import { t } from "./lang/helpers";
 import { ExcelProSettingTab } from "./excel-pro-setting-tab";
+import { initializeMarkdownPostProcessor, markdownPostProcessor } from "./markdown-post-processor";
 
 export default class ExcelProPlugin extends Plugin {
 	public settings: ExcelProSettings;
@@ -33,6 +34,7 @@ export default class ExcelProPlugin extends Plugin {
 			VIEW_TYPE_EXCEL_PRO,
 			(leaf: WorkspaceLeaf) => new ExcelProView(leaf, this)
 		);
+		this.registerExtensions(["univer"], VIEW_TYPE_EXCEL_PRO);
 
 		// This creates an icon in the left ribbon.
 		this.addRibbonIcon("table", t("CREATE_EXCEL"), (e: MouseEvent) => {
@@ -71,8 +73,9 @@ export default class ExcelProPlugin extends Plugin {
 	}
 
 	private addMarkdownPostProcessor() {
-		// initializeMarkdownPostProcessor(this);
-		// this.registerMarkdownPostProcessor(markdownPostProcessor);
+		console.log("addMarkdownPostProcessor--------")
+		initializeMarkdownPostProcessor(this);
+		this.registerMarkdownPostProcessor(markdownPostProcessor);
 	}
 
 	private registerEventListeners() {

@@ -6,17 +6,29 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
-/* html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-} */
 
-/* :root {
+:root {
   --toolbar-height: 100px;
-} */
+	--sheet-iframe-border-color: #f5f6f7;
+	--sheet-iframe-background-color: #fff;
+	--sheet-toolbar-background-color: #f5f6f7;
+	--sheet-toolbar-divider-color: #e0e2e4;
+	--sheet-dropdown-content-background-color: #fff;
+	--sheet-dropdown-content-color: rgba(0, 0, 0, 0.9);
+	--sheet-dropdown-title-color: rgba(0, 0, 0, 0.9);
+	--sheet-menu-color: #80868b;
+	--sheet-menu-active-background-color: #fff;
+	--sheet-header-background-color: #f8f8f9;
+	--sheet-checked-before: #4b89ff;
+}
+
+/* Markdown 文档引入样式设置*/
+.sheet-iframe {
+	width: 100%;
+	background-color: var(--sheet-iframe-background-color);
+	border: 5px solid var(--sheet-iframe-border-color);
+}
+
 
 button:not(.clickable-icon) {
   background-color: transparent;

@@ -1,4 +1,5 @@
 import MarkdownIt from "markdown-it";
+import da from "src/lang/locale/da";
 
 class JSONRenderer {
 	constructor() {
@@ -12,17 +13,17 @@ class JSONRenderer {
 				if (last) {
 					if (last.markup.length < token.markup.length) {
 						// 小于，表示 token 为 last 的子节点
-						const key = contentToken.content
+						const key = contentToken.content;
 
 						if (last.hasOwnProperty(key)) {
 							// 父节点已存在当前key的属性，无需添加新对象，只需要把当前节点添加到已有属性中
-							stack.push(last[key])
-							return
+							stack.push(last[key]);
+							return;
 						}
 
 						const obj = {
 							tag: token.tag,
-							markup: token.markup
+							markup: token.markup,
 						};
 						last[key] = obj;
 
@@ -30,22 +31,22 @@ class JSONRenderer {
 					} else if (last.markup.length == token.markup.length) {
 						// 等于，表示 token 为 last 兄弟节点
 
-						const key = contentToken.content
-				
+						const key = contentToken.content;
+
 						stack.pop();
 						// pop 后当前节点为父节点
 						const newLast = stack[stack.length - 1];
 
 						if (newLast.hasOwnProperty(key)) {
 							// 父节点已存在当前key的属性，无需添加新对象，只需要把当前节点添加到已有属性中
-							stack.push(newLast[key])
-							return
+							stack.push(newLast[key]);
+							return;
 						}
 
 						if (newLast) {
 							const obj = {
 								tag: token.tag,
-								markup: token.markup
+								markup: token.markup,
 							};
 							newLast[key] = obj;
 
@@ -65,16 +66,16 @@ class JSONRenderer {
 						} while (newLast.markup.length >= token.markup.length); // while 条件为真执行循环体
 
 						// 已存在，不需要重新创建
-						const key = contentToken.content
+						const key = contentToken.content;
 						if (newLast.hasOwnProperty(key)) {
 							// 父节点已存在当前key的属性，无需添加新对象，只需要把当前节点添加到已有属性中
-							stack.push(newLast[key])
-							return
+							stack.push(newLast[key]);
+							return;
 						}
-							
+
 						const obj = {
 							tag: token.tag,
-							markup: token.markup
+							markup: token.markup,
 						};
 						newLast[key] = obj;
 
@@ -124,7 +125,7 @@ class JSONRenderer {
 				this.rules[token.type](tokens, i, json, stack);
 			}
 		}
-		return json
+		return json;
 	}
 
 	renderInline(tokens, start) {
@@ -159,13 +160,13 @@ function removeTagAndMarkup(obj) {
 export function markdownToJSON(markdownText) {
 	const md = MarkdownIt();
 	const tokens = md.parse(markdownText, {});
-	const renderer =  new JSONRenderer()
-	const json = renderer.render(tokens)
+	const renderer = new JSONRenderer();
+	const json = renderer.render(tokens);
 
 	// 2. 递归删除字段
-    removeTagAndMarkup(json);
+	removeTagAndMarkup(json);
 
-    return JSON.stringify(json, null, 2);
+	return JSON.stringify(json, null, 2);
 }
 
 // 从 json 中移除指定 key 的字段，并返回新的json，不改动原josn
@@ -185,15 +186,13 @@ function removeField(json, key) {
 	return json;
 }
 
-
 function removeFields(obj) {
-    removeField(obj, "tag");
-    removeField(obj, "markup");
-    // 在这里可以添加其他要移除的字段
+	removeField(obj, "tag");
+	removeField(obj, "markup");
+	// 在这里可以添加其他要移除的字段
 }
 
 export function jsonToMarkdown(json) {
-
 	let markdown = "";
 
 	removeFields(json);
@@ -249,4 +248,15 @@ export function splitYAML(str) {
 export function extractYAML(str) {
 	const match = str.match(/^-{3}\n([\s\S]*?)-{3}/);
 	return match ? match[1].trim() : null;
+}
+
+export function getExcelData(str) {
+	const markdown = splitYAML(str)?.rest;
+	if (markdown) {
+		const data = JSON.parse(markdown);
+		if (data) {
+			return data;
+		}
+	}
+	return {};
 }

@@ -28,22 +28,9 @@ export class ExcelProView extends TextFileView {
 	public workbook: Workbook; // 工作簿
 	public executedDisposable: IDisposable; // 执行命令后监听对象
 
-	public cellsSelected: {
-		sheet: Record<string, any> | null;
-		sri: number | null; // 选中开始行 index
-		sci: number | null; // 选中开始列 index
-		eri: number | null; // 选中结束行 index
-		eci: number | null; // 选中结束列 index
-	} = {
-		sheet: null,
-		sri: null,
-		sci: null,
-		eri: null,
-		eci: null,
-	};
 
-	private lastWorkbookData: string;
-	private dataWorker: Worker;
+	private lastWorkbookData: string; // 上次保存的数据
+	private dataWorker: Worker; // 用来异步解析数据
 
 	constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
 		super(leaf);
@@ -155,16 +142,6 @@ export class ExcelProView extends TextFileView {
 				// workbookData 的内容都包含在 workbook 字段中
 				const workbookData: IWorkbookData = data;
 				this.workbook = this.univer.createUniverSheet(workbookData);
-				// console.log("\n====createUniverSheet====\n", workbookData)
-	
-				const activeWorkbook = this.univerAPI.getActiveWorkbook();
-				if (activeWorkbook) {
-					this.lastWorkbookData = JSON.stringify(
-						activeWorkbook.getSnapshot(),
-						null,
-						2
-					);
-				}
 			} else {
 				this.workbook = this.univer.createUniverSheet({});
 			}
@@ -183,15 +160,12 @@ export class ExcelProView extends TextFileView {
 					"sheet.operation.set-selections",
 					"sheet.command.scroll-view",
 					"formula-ui.operation.search-function",
-					"formula-ui.operation.help-function",
-					"sheet.operation.set-cell-edit-visible",
-					"formula.mutation.set-formula-calculation-start"
+					"formula-ui.operation.help-function"
 				];
 
 				if (blackList.contains(command.id)) {
 					return;
 				}
-
 				
 
 				const activeWorkbook = this.univerAPI.getActiveWorkbook();
@@ -204,7 +178,14 @@ export class ExcelProView extends TextFileView {
 					2
 				);
 
+				if (this.lastWorkbookData === null) {
+					// 第一次加载不处理
+					this.lastWorkbookData = activeWorkbookData;
+					return
+				}
+
 				if (this.lastWorkbookData === activeWorkbookData) {
+					// 没变化不处理
 					return;
 				}
 
@@ -316,21 +297,21 @@ export class ExcelProView extends TextFileView {
 	}
 
 	handleEmbedLink(e: Event) {
-		const data = this.cellsSelected.sheet;
-		const sri = this.cellsSelected.sri;
-		const sci = this.cellsSelected.sci;
-		const eri = this.cellsSelected.eri;
-		const eci = this.cellsSelected.eci;
+		// const data = this.cellsSelected.sheet;
+		// const sri = this.cellsSelected.sri;
+		// const sci = this.cellsSelected.sci;
+		// const eri = this.cellsSelected.eri;
+		// const eci = this.cellsSelected.eci;
 
 		// 格式 sri-sci:eri-eci
-		if (this.file && data) {
-			const link = `![[${this.file.basename}#${data.name}|${sri}-${sci}:${eri}-${eci}]]`;
-			// console.log(this.file, link);
-			navigator.clipboard.writeText(link);
-			new Notice(t("COPY_EMBED_LINK_SUCCESS"));
-		} else {
-			new Notice(t("COPY_EMBED_LINK_FAILED"));
-		}
+		// if (this.file && data) {
+		// 	const link = `![[${this.file.basename}#${data.name}|${sri}-${sci}:${eri}-${eci}]]`;
+		// 	// console.log(this.file, link);
+		// 	navigator.clipboard.writeText(link);
+		// 	new Notice(t("COPY_EMBED_LINK_SUCCESS"));
+		// } else {
+		// 	new Notice(t("COPY_EMBED_LINK_FAILED"));
+		// }
 	}
 
 	copyToHTML() {
