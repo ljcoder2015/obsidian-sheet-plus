@@ -30,10 +30,6 @@ If your plugin does not need CSS, delete this file.
 }
 
 
-button:not(.clickable-icon) {
-  background-color: transparent;
-  box-shadow: none;
-}
 
 #sheet-box {
   height: 100%;
@@ -45,6 +41,12 @@ button:not(.clickable-icon) {
   height: calc(100%);
   border: 1px solid #ececec;
 }
+
+/* 修复toolbar按钮样式*/
+.my-univer button:not(.clickable-icon), .univer-toolbar-more-container button:not(.clickable-icon) {
+	box-shadow: none;
+}
+
 /* node_modules/@univerjs/design/lib/index.css */
 .univer-avatar {
   position: relative;
@@ -80,7 +82,7 @@ button:not(.clickable-icon) {
   width: 100%;
   height: 100%;
 }
-.univer-button {
+button.univer-button {
   cursor: pointer;
   user-select: none;
   position: relative;
@@ -92,63 +94,63 @@ button:not(.clickable-icon) {
   border-radius: var(--border-radius-base);
   transition: all .15s;
 }
-.univer-button[disabled] {
+button.univer-button[disabled] {
   cursor: not-allowed;
   color: rgb(var(--grey-300));
 }
-.univer-button-default {
+button.univer-button-default {
   font-weight: 400;
   color: rgb(var(--text-color));
   background-color: rgb(var(--bg-color-secondary));
 }
-.univer-button-default[disabled]:hover {
+button.univer-button-default[disabled]:hover {
   color: rgb(var(--grey-300));
   border-color: rgb(var(--border-color));
 }
-.univer-button-default:hover {
+button.univer-button-default:hover {
   color: rgb(var(--primary-color));
   border-color: rgb(var(--primary-color));
 }
-.univer-button-primary {
+button.univer-button-primary {
   font-weight: 500;
   color: rgb(var(--color-white));
   background-color: rgb(var(--primary-color));
   border-color: rgb(var(--primary-color));
 }
-.univer-button-primary[disabled] {
+button.univer-button-primary[disabled] {
   background-color: rgb(var(--bg-color-secondary));
   border-color: rgb(var(--border-color));
 }
-.univer-button-primary[disabled]:hover {
+button.univer-button-primary[disabled]:hover {
   color: rgb(var(--grey-300));
   background-color: rgb(var(--bg-color-secondary));
   border-color: rgb(var(--border-color));
 }
-.univer-button-primary:hover {
+button.univer-button-primary:hover {
   color: rgb(var(--color-white));
   background-color: rgb(var(--primary-color-hover));
   border-color: rgb(var(--primary-color-hover));
 }
-.univer-button-text {
+button.univer-button-text {
   color: rgb(var(--text-color));
   background-color: transparent;
   border-color: transparent;
 }
-.univer-button-text[disabled]:hover {
+button.univer-button-text[disabled]:hover {
   background-color: transparent;
 }
-.univer-button-text:hover {
+button.univer-button-text:hover {
   background-color: rgb(var(--bg-color-hover));
 }
-.univer-button-link {
+button.univer-button-link {
   color: rgb(var(--primary-color));
   background-color: transparent;
   border-color: transparent;
 }
-.univer-button-link[disabled]:hover {
+button.univer-button-link[disabled]:hover {
   background-color: transparent;
 }
-.univer-button-link:hover {
+button.univer-button-link:hover {
   background-color: rgb(var(--bg-color-hover));
 }
 .univer-button-small {

@@ -301,7 +301,6 @@ export class ExcelProView extends TextFileView {
 	}
 
 	handleEmbedLink(e: Event) {
-		console.log("handleEmbedLink(e: Event-----");
 		const activeWorkbook = this.univerAPI.getActiveWorkbook();
 		const activeSheet = activeWorkbook?.getActiveSheet();
 		const selection = activeSheet?.getSelection();
@@ -312,8 +311,7 @@ export class ExcelProView extends TextFileView {
 			const sci = range.getColumn();
 			const eri = sri + range.getHeight() - 1;
 			const eci = sci + range.getWidth() - 1;
-			console.log(range,`sci: ${sci} width: ${range.getWidth()}, eci: ${eci}`)
-			console.log("height", range.getHeight(), eri)
+			// console.log(range,`sci: ${sci} width: ${range.getWidth()}, eci: ${eci}`)
 			// 格式 sri-sci:eri-eci
 			if (this.file && activeSheet) {
 				const link = `![[${
