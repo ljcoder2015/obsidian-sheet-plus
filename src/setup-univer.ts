@@ -45,3 +45,13 @@ export function createUniver(id: string, locale = LocaleType.EN_US, header = tru
 
   return univer
 }
+
+export function createUniverNotUI(id: string) {
+	const univer = new Univer();
+
+	univer.registerPlugin(UniverSheetsPlugin);
+	univer.registerPlugin(UniverFormulaEnginePlugin);
+	univer.registerPlugin(UniverSheetsFormulaPlugin);
+
+	return univer
+}

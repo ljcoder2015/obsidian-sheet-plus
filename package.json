@@ -46,7 +46,6 @@
 		"@univerjs/sheets-formula": "^0.1.7",
 		"@univerjs/sheets-ui": "^0.1.7",
 		"@univerjs/ui": "^0.1.7",
-		"markdown-it": "^14.1.0",
 		"monkey-around": "^3.0.0"
 	}
 }

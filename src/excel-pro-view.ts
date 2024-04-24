@@ -14,7 +14,7 @@ import { randomString } from "./utils/uuid";
 import { Univer, IWorkbookData, Workbook, LocaleType } from "@univerjs/core";
 import { numberToColRowString, extractYAML, splitYAML } from "./utils/data-util";
 
-import DataWorker from "web-worker:./workers/data.worker.ts";
+// import DataWorker from "web-worker:./workers/data.worker.ts";
 
 export class ExcelProView extends TextFileView {
 	public plugin: ExcelProPlugin;
@@ -30,7 +30,7 @@ export class ExcelProView extends TextFileView {
 	public executedDisposable: IDisposable; // 执行命令后监听对象
 
 	private lastWorkbookData: string; // 上次保存的数据
-	private dataWorker: Worker; // 用来异步解析数据
+	// private dataWorker: Worker; // 用来异步解析数据
 
 	constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
 		super(leaf);
@@ -64,16 +64,16 @@ export class ExcelProView extends TextFileView {
 		);
 
 		// data worker 处理存储数据
-		this.dataWorker = new DataWorker();
+		// this.dataWorker = new DataWorker();
 
-		this.dataWorker.onmessage = (e) => {
-			console.log("Message received from worker =======", e);
+		// this.dataWorker.onmessage = (e) => {
+		// 	console.log("Message received from worker =======", e);
 
-			const { name, options } = e.data;
-			if (name === "save-data") {
-				this.saveDataToFile(options);
-			}
-		};
+		// 	const { name, options } = e.data;
+		// 	if (name === "save-data") {
+		// 		this.saveDataToFile(options);
+		// 	}
+		// };
 	}
 
 	onunload(): void {
@@ -82,9 +82,9 @@ export class ExcelProView extends TextFileView {
 		this.dispose();
 
 		// 释放 worker 线程
-		if (this.dataWorker) {
-			this.dataWorker.terminate();
-		}
+		// if (this.dataWorker) {
+		// 	this.dataWorker.terminate();
+		// }
 
 		super.onunload();
 	}
@@ -166,6 +166,7 @@ export class ExcelProView extends TextFileView {
 					"sheet.command.scroll-view",
 					"formula-ui.operation.search-function",
 					"formula-ui.operation.help-function",
+					"formula.mutation.set-formula-calculation-start"
 				];
 
 				if (blackList.contains(command.id)) {
@@ -222,12 +223,12 @@ export class ExcelProView extends TextFileView {
 	}
 
 	// 存储数据，把 workbook data 转换成 markdown 存储
-	saveData(data: string) {
-		this.dataWorker.postMessage({
-			name: "save-data",
-			options: data,
-		});
-	}
+	// saveData(data: string) {
+	// 	this.dataWorker.postMessage({
+	// 		name: "save-data",
+	// 		options: data,
+	// 	});
+	// }
 
 	saveDataToFile(data: string) {
 		const yaml = this.headerData();
@@ -312,7 +313,7 @@ export class ExcelProView extends TextFileView {
 			const eri = sri + range.getHeight() - 1;
 			const eci = sci + range.getWidth() - 1;
 			// console.log(range,`sci: ${sci} width: ${range.getWidth()}, eci: ${eci}`)
-			// 格式 sri-sci:eri-eci
+			// 格式 ${sci}${sri}:${eci}${eri}
 			if (this.file && activeSheet) {
 				const link = `![[${
 					this.file.basename

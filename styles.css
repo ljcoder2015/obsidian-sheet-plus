@@ -26,10 +26,8 @@ If your plugin does not need CSS, delete this file.
 .sheet-iframe {
 	width: 100%;
 	background-color: var(--sheet-iframe-background-color);
-	border: 5px solid var(--sheet-iframe-border-color);
+	border: 5px solid rgb(var(--bg-color));
 }
-
-
 
 #sheet-box {
   height: 100%;
@@ -43,7 +41,9 @@ If your plugin does not need CSS, delete this file.
 }
 
 /* 修复toolbar按钮样式*/
-.my-univer button:not(.clickable-icon), .univer-toolbar-more-container button:not(.clickable-icon) {
+.my-univer button:not(.clickable-icon),
+.univer-toolbar-more-container button:not(.clickable-icon),
+.univer-sheet-container button:not(.clickable-icon) {
 	box-shadow: none;
 }
 
@@ -3594,7 +3594,7 @@ button.univer-button-link:hover {
   margin: 0 var(--margin-xs);
   background-color: rgb(var(--grey-400));
 }
-.univer-sheet-bar-btn {
+button.univer-sheet-bar-btn {
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -3609,10 +3609,10 @@ button.univer-button-link:hover {
   border-radius: var(--border-radius-base);
   outline: none;
 }
-.univer-sheet-bar-btn:not([disabled]):hover {
+button.univer-sheet-bar-btn:not([disabled]):hover {
   background-color: rgb(var(--bg-color-hover));
 }
-.univer-sheet-bar-btn[disabled] {
+button.univer-sheet-bar-btn[disabled] {
   cursor: not-allowed;
   color: rgb(var(--grey-200));
 }
