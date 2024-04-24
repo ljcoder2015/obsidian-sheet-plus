@@ -236,6 +236,14 @@ const sheetRenderHtml = (
 	return sheetDiv;
 };
 
+/**
+ * 渲染表格，根据配置渲染成 univer 或者 html
+ * @param src 文件路径跟 sheet name
+ * @param alt 参数配置
+ * @param file 文件信息
+ * @param data 文件转换后的 json 字符串
+ * @returns 
+ */
 const createSheetDiv = (src: string, alt: string, file: TFile, data: string): HTMLDivElement =>  {
 	console.log("createSheetDiv", src, alt)
 	// 是否转换成HTML
@@ -265,7 +273,6 @@ const createSheetDiv = (src: string, alt: string, file: TFile, data: string): HT
 		return table
 	} else {
 		const excelData = getExcelData(data);
-		console.log("-----", src, split)
 		if (split.length > 1) {
 			const rangeData = getRangeData(excelData, split[1], alt);
 			const sheetDiv = createSheetEl(
@@ -285,8 +292,13 @@ const createSheetDiv = (src: string, alt: string, file: TFile, data: string): HT
 	}
 }
 
+
 /**
- *  创建表格元素
+ * 创建表格元素
+ * @param data 数据JSON对象
+ * @param file 文件
+ * @param height 渲染高度
+ * @returns 
  */
 const createSheetEl = (
 	data: any,
@@ -335,7 +347,7 @@ const createSheetEl = (
 	if (data) {
 		// workbookData 的内容都包含在 workbook 字段中
 		const workbookData: IWorkbookData = data;
-		console.log("createUniverSheet", data)
+		console.log("createUniverSheet", id, data)
 		univer.createUniverSheet(workbookData);
 	} else {
 		univer.createUniverSheet({});
@@ -349,38 +361,39 @@ const processReadingMode = async (
 	embeddedItems: NodeListOf<Element> | [HTMLElement],
 	ctx: MarkdownPostProcessorContext
 ) => {
-	// console.log("processReadingMode");
-	//We are processing a non-excalidraw file in reading mode
+	console.log("processReadingMode");
+	//We are processing a non-univer file in reading mode
 	//Embedded files will be displayed in an .internal-embed container
 
-	//Iterating all the containers in the file to check which one is an excalidraw drawing
+	//Iterating all the containers in the file to check which one is an univer drawing
 	//This is a for loop instead of embeddedItems.forEach() because processInternalEmbed at the end
-	//is awaited, otherwise excalidraw images would not display in the Kanban plugin
-	embeddedItems.forEach(async (maybeDrawing, index) => {
+	//is awaited, otherwise univer images would not display in the univer plugin
+	embeddedItems.forEach(async (maybeUniver, index) => {
 		//check to see if the file in the src attribute exists
 		// console.log(maybeDrawing);
-		const fname = maybeDrawing.getAttribute("src")?.split("#")[0];
+		const fname = maybeUniver.getAttribute("src")?.split("#")[0];
 		if (!fname) return true;
 
 		const file = metadataCache.getFirstLinkpathDest(fname, ctx.sourcePath);
 		// console.log("forEach", file, ctx.sourcePath);
 
-		//if the embeddedFile exits and it is an Excalidraw file
+		//if the embeddedFile exits and it is an univer file
 		//then lets replace the .internal-embed with the generated PNG or SVG image
 		if (file && file instanceof TFile && plugin.isExcelFile(file)) {
-			maybeDrawing.parentElement?.replaceChild(
-				await processInternalEmbed(maybeDrawing, file),
-				maybeDrawing
-			);
+			const parent = maybeUniver.parentElement
+			const data = await vault.read(file);
+			const sheetDiv = processInternalEmbed(maybeUniver, file, data)
+			parent?.replaceChild(sheetDiv, maybeUniver)
 		}
 	});
 };
 
-const processInternalEmbed = async (
+const processInternalEmbed = (
 	internalEmbedEl: Element,
-	file: TFile
-): Promise<HTMLDivElement> => {
-	let src = internalEmbedEl.getAttribute("src");
+	file: TFile,
+	data: string
+): HTMLDivElement => {
+	const src = internalEmbedEl.getAttribute("src");
 	//@ts-ignore
 	if (!src) return;
 
@@ -388,37 +401,7 @@ const processInternalEmbed = async (
 	internalEmbedEl.removeClass("markdown-embed");
 	internalEmbedEl.removeClass("inline-embed");
 
-	const data = await vault.read(file);
-	let alt = internalEmbedEl.getAttribute("alt") ?? "";
-	console.log("vault.read", data)
-
-	// 是否转换成HTML
-	let toHTML = false;
-	if (src.includes("{html}")) {
-		toHTML = true;
-		src = src.replace("{html}", "");
-	}
-
-	
-	if (alt.includes("{html}")) {
-		// 单 sheet 中的某一区域
-		toHTML = true;
-		alt = alt.replace("{html}", "");
-	}
-
-	const split = src.split("#");
-	let excelData = getExcelData(data);
-	if (split.length > 1) {
-		// excelData = getExcelAreaData(data, split[1], alt);
-	}
-
-	// console.log('internalEmbedDiv', excelData, src, alt, toHTML)
-	if (toHTML) {
-		return await sheetRenderHtml(data, file, split[1], alt);
-	} else {
-		return await createSheetEl(
-			excelData,
-			file
-		);
-	}
+	const alt = internalEmbedEl.getAttribute("alt") ?? "";
+	const div = createSheetDiv(src, alt, file, data)
+	return div
 };

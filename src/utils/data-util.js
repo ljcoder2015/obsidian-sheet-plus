@@ -347,7 +347,6 @@ function splitAlphaNumeric(input) {
         const alphaPart = match[1];
 		const colIndex = stringToNumber(alphaPart)
         const numericPart = parseInt(match[2]) - 1;
-		console.log(`splitAlphaNumeric col ${colIndex} row ${numericPart}`)
         return { col: colIndex, row: numericPart };
     } else {
         return null;
