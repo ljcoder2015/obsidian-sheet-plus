@@ -7,7 +7,7 @@ import {
 } from "obsidian";
 import ExcelProPlugin from "./main";
 
-import { getExcelData, getRangeData } from "./utils/data-util";
+import { getExcelData, getRangeData, renderToHtml } from "./utils/data-util";
 import { randomString } from "./utils/uuid";
 import { createUniver } from "./setup-univer";
 import { IWorkbookData, LocaleType } from "@univerjs/core";
@@ -143,17 +143,18 @@ const tmpObsidianWYSIWYG = async (
 };
 
 /**
- * 编辑模式下转换成 HTML 显示
- * @param data markdown 文件原始data
- * @param sheet sheet 名称
- * @param cells 选中的cells 格式为: sri-sci:eri-eci 例如 6-6:7-8
- * @returns
+ * sheet 渲染成 HTML 代码
+ * @param excelData excel 数据
+ * @param file 文件
+ * @param sheet 表格名字
+ * @param range 渲染的表格范围
+ * @returns HTML代码
  */
-const createEditSheetHtml = (
-	excelData: string,
+const sheetRenderHtml = (
+	excelData: IWorkbookData | null,
 	file: TFile,
 	sheet: string,
-	cells: string
+	range: string
 ): HTMLDivElement => {
 	const sheetDiv = createDiv();
 
@@ -175,8 +176,6 @@ const createEditSheetHtml = (
 			plugin.app.workspace.getLeaf().openFile(file);
 		});
 	}
-
-	const table = getExcelAreaHtml(excelData, sheet, cells);
 
 	const div = createDiv({
 		cls: "sheet-html",
@@ -185,59 +184,17 @@ const createEditSheetHtml = (
 			contenteditable: "false",
 		},
 	});
+
+	if (excelData == null) { return div}
+	
+	const table = renderToHtml(excelData, sheet, range);
 	div.appendChild(table);
 	sheetDiv.appendChild(div);
 	return sheetDiv;
 };
 
 /**
- * 预览模式渲染成 HTML 显示
- * @param data markdown 文件原始data
- * @param sheet sheet 名称
- * @param cells 选中的cells 格式为: sri-sci:eri-eci 例如 6-6:7-8
- * @returns
- */
-const sheetRenderHtml = (
-	data: string,
-	file: TFile,
-	sheet: string,
-	cells: string
-): HTMLDivElement => {
-	const sheetDiv = createDiv();
-
-	if (plugin.settings.showSheetButton == "true") {
-		const fileEmbed = sheetDiv.createDiv({
-			cls: "internal-embed file-embed mod-generic is-loaded",
-			text: file.basename,
-			attr: {
-				src: file.basename,
-				alt: file.basename,
-				contenteditable: false,
-				tabindex: -1,
-			},
-		});
-
-		// 点击按钮打开 sheet
-		fileEmbed.onClickEvent((e) => {
-			e.stopPropagation();
-			plugin.app.workspace.getLeaf().openFile(file);
-		});
-	}
-
-	const sheetEl = createDiv({
-		attr: {
-			style: "overflow-x: auto;",
-		},
-	});
-
-	const table = getExcelAreaHtml(data, sheet, cells);
-	sheetEl.appendChild(table);
-	sheetDiv.appendChild(sheetEl);
-	return sheetDiv;
-};
-
-/**
- * 渲染表格，根据配置渲染成 univer 或者 html
+ * 解析 embed link，根据配置渲染成 univer 或者 html
  * @param src 文件路径跟 sheet name
  * @param alt 参数配置
  * @param file 文件信息
@@ -267,12 +224,13 @@ const createSheetDiv = (src: string, alt: string, file: TFile, data: string): HT
 
 	const split = src.split("#");
 	
+	const excelData = getExcelData(data);
+
 	// 生成内容
 	if (toHTML) {
-		const table = createEditSheetHtml(data, file, split[1], alt);
+		const table = sheetRenderHtml(excelData, file, split[1], alt);
 		return table
 	} else {
-		const excelData = getExcelData(data);
 		if (split.length > 1) {
 			const rangeData = getRangeData(excelData, split[1], alt);
 			const sheetDiv = createSheetEl(
@@ -301,7 +259,7 @@ const createSheetDiv = (src: string, alt: string, file: TFile, data: string): HT
  * @returns 
  */
 const createSheetEl = (
-	data: any,
+	data: IWorkbookData | null,
 	file: TFile,
 	height = 300
 ): HTMLDivElement => {
@@ -357,6 +315,7 @@ const createSheetEl = (
 };
 
 
+// 预览模式解析
 const processReadingMode = async (
 	embeddedItems: NodeListOf<Element> | [HTMLElement],
 	ctx: MarkdownPostProcessorContext

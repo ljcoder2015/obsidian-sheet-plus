@@ -8,11 +8,12 @@ import {
 } from "obsidian";
 import { VIEW_TYPE_EXCEL_PRO, FRONTMATTER } from "./constants";
 import { t } from "src/lang/helpers";
-import { FUniver, IDisposable } from "@univerjs/facade";
+import { FUniver } from "@univerjs/facade";
+import { IDisposable } from '@wendellhu/redi';
 import { createUniver } from "./setup-univer";
 import { randomString } from "./utils/uuid";
 import { Univer, IWorkbookData, Workbook, LocaleType } from "@univerjs/core";
-import { numberToColRowString, extractYAML, splitYAML } from "./utils/data-util";
+import { extractYAML, splitYAML, rangeToRangeString, renderToHtml } from "./utils/data-util";
 
 // import DataWorker from "web-worker:./workers/data.worker.ts";
 
@@ -43,15 +44,15 @@ export class ExcelProView extends TextFileView {
 		this.ownerWindow = this.containerEl.win;
 
 		// 添加顶部导入按钮
-		this.importEle = this.addAction(
-			"download",
-			t("IMPORT_XLSX_FILE"),
-			(ev) => this.handleImportClick(ev)
-		);
+		// this.importEle = this.addAction(
+		// 	"download",
+		// 	t("IMPORT_XLSX_FILE"),
+		// 	(ev) => this.handleImportClick(ev)
+		// );
 
-		this.exportEle = this.addAction("upload", t("EXPORT_XLSX_FILE"), (ev) =>
-			this.handleExportClick(ev)
-		);
+		// this.exportEle = this.addAction("upload", t("EXPORT_XLSX_FILE"), (ev) =>
+		// 	this.handleExportClick(ev)
+		// );
 
 		this.embedLinkEle = this.addAction("link", t("COPY_EMBED_LINK"), (ev) =>
 			this.handleEmbedLink(ev)
@@ -308,16 +309,10 @@ export class ExcelProView extends TextFileView {
 		const range = selection?.getActiveRange();
 
 		if (range) {
-			const sri = range.getRow(); 
-			const sci = range.getColumn();
-			const eri = sri + range.getHeight() - 1;
-			const eci = sci + range.getWidth() - 1;
-			// console.log(range,`sci: ${sci} width: ${range.getWidth()}, eci: ${eci}`)
+			const rangeString = rangeToRangeString(range)
 			// 格式 ${sci}${sri}:${eci}${eri}
 			if (this.file && activeSheet) {
-				const link = `![[${
-					this.file.basename
-				}#${activeSheet?.getSheetId()}|${numberToColRowString(sci, sri)}:${numberToColRowString(eci, eri)}]]`;
+				const link = `![[${this.file.basename}#${activeSheet?.getSheetId()}|${rangeString}]]`;
 				console.log(range, link);
 				navigator.clipboard.writeText(link);
 				new Notice(t("COPY_EMBED_LINK_SUCCESS"));
@@ -328,70 +323,29 @@ export class ExcelProView extends TextFileView {
 	}
 
 	copyToHTML() {
-		// const data = this.cellsSelected.sheet;
-		// const sri = this.cellsSelected.sri || 0;
-		// const sci = this.cellsSelected.sci || 0;
-		// const eri = this.cellsSelected.eri || 0;
-		// const eci = this.cellsSelected.eci || 0;
-		// console.log('data', data, sri, sci, eri, eci)
-		// var html = "<table>";
-		// if (data) {
-		// 	// 记录合并单元格数量
-		// 	var mergeMap: Map<string, boolean> = new Map()
-		// 	for (var row = sri; row <= eri; row++) {
-		// 		html += "<tr>";
-		// 		for (var col = sci; col <= eci; col++) {
-		// 			// 获取当前行的数据
-		// 			const cells = data.rows._[`${row}`];
-		// 			if (cells) {
-		// 				// 如果当前行有数据
-		// 				// 获取单元格数据
-		// 				const cell = cells.cells[`${col}`];
-		// 				if (cell) {
-		// 					// 如果单元格有数据展示数据
-		// 					if (cell.merge) {
-		// 						// 是否有合并单元格的操作
-		// 						var mergeRow = cell.merge[0] + 1
-		// 						var mergeCol = cell.merge[1] + 1
-		// 						// 记录合并的行跟列
-		// 						for(var r = 0; r < mergeRow; r ++) {
-		// 							const index = `${row + r}-${col}`
-		// 							mergeMap.set(index, true)
-		// 							for(var c = 0; c < mergeCol; c ++) {
-		// 								const index = `${row + r}-${col + c}`
-		// 								mergeMap.set(index, true)
-		// 							}
-		// 						}
-		// 						html += `<td rowspan="${mergeRow}" colspan="${mergeCol}">${cell.text || ""}</td>`;
-		// 					} else {
-		// 						// 无合并单元格直接添加
-		// 						html += `<td>${cell.text || ""}</td>`;
-		// 					}
-		// 				} else {
-		// 					// 添加空白单元格需要判断是否被合并了
-		// 					const index = `${row}-${col}`
-		// 					if (!mergeMap.get(index)) {
-		// 						// 单元格没数据添加空白单元格 & 没有被合并单元格
-		// 						html += `<td></td>`;
-		// 					}
-		// 				}
-		// 			} else {
-		// 				const index = `${row}-${col}`
-		// 				// 添加空白单元格需要判断是否被合并了
-		// 				if (!mergeMap.get(index)) {
-		// 						// 单元格没数据添加空白单元格 & 没有被合并单元格
-		// 					html += `<td></td>`;
-		// 				}
-		// 			}
-		// 		}
-		// 		html += "</tr>";
-		// 	}
-		// } else {
-		// 	new Notice(t("PLEASE_SELECT_DATA"));
-		// }
-		// html += "</table>";
-		// navigator.clipboard.writeText(html);
-		// new Notice(t("COPY_TO_HTML_SUCCESS"));
+		const workbook = this.univerAPI.getActiveWorkbook()
+
+		const workbookData = workbook?.getSnapshot()
+		if (workbookData == undefined) {
+			return
+		}
+
+		const sheet = workbook?.getActiveSheet()
+		if (sheet == null || sheet == undefined) {
+			return
+		}
+
+		const range = sheet?.getSelection()?.getActiveRange()
+		if (range == null || range == undefined) {
+			return
+		}
+
+		const rangeString = rangeToRangeString(range)
+		const html = renderToHtml(workbookData, sheet.getSheetId(), rangeString)
+		const htmlString = html.outerHTML
+		// console.log("htmlString", html, htmlString)
+		navigator.clipboard.writeText(htmlString);
+		new Notice(t("COPY_TO_HTML_SUCCESS"));
 	}
 
 	onResize() {
