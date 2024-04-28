@@ -26,12 +26,18 @@ dependencies:
   '@univerjs/facade':
     specifier: ^0.1.8
     version: 0.1.8(@univerjs/core@0.1.8)(@univerjs/docs@0.1.8)(@univerjs/engine-render@0.1.8)(@univerjs/network@0.1.8)(@univerjs/sheets-formula@0.1.8)(@univerjs/sheets-numfmt@0.1.8)(@univerjs/sheets-ui@0.1.8)(@univerjs/sheets@0.1.8)(@wendellhu/redi@0.13.3)
+  '@univerjs/find-replace':
+    specifier: ^0.1.8
+    version: 0.1.8(@univerjs/core@0.1.8)(@univerjs/design@0.1.8)(@univerjs/engine-render@0.1.8)(@univerjs/ui@0.1.8)(@wendellhu/redi@0.13.3)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
   '@univerjs/sheets':
     specifier: ^0.1.8
     version: 0.1.8(@univerjs/core@0.1.8)(@univerjs/engine-formula@0.1.8)(@univerjs/engine-numfmt@0.1.8)(@univerjs/engine-render@0.1.8)(@wendellhu/redi@0.13.3)(rxjs@7.8.1)
   '@univerjs/sheets-data-validation':
     specifier: ^0.1.8
     version: 0.1.8(@univerjs/core@0.1.8)(@univerjs/data-validation@0.1.8)(@univerjs/design@0.1.8)(@univerjs/engine-formula@0.1.8)(@univerjs/engine-render@0.1.8)(@univerjs/sheets-formula@0.1.8)(@univerjs/sheets-ui@0.1.8)(@univerjs/sheets@0.1.8)(@univerjs/ui@0.1.8)(@wendellhu/redi@0.13.3)(clsx@2.1.1)(dayjs@1.11.10)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
+  '@univerjs/sheets-find-replace':
+    specifier: ^0.1.8
+    version: 0.1.8(@univerjs/core@0.1.8)(@univerjs/engine-render@0.1.8)(@univerjs/find-replace@0.1.8)(@univerjs/sheets-ui@0.1.8)(@univerjs/sheets@0.1.8)(@wendellhu/redi@0.13.3)(rxjs@7.8.1)
   '@univerjs/sheets-formula':
     specifier: ^0.1.8
     version: 0.1.8(@univerjs/core@0.1.8)(@univerjs/design@0.1.8)(@univerjs/docs@0.1.8)(@univerjs/engine-formula@0.1.8)(@univerjs/engine-render@0.1.8)(@univerjs/sheets-ui@0.1.8)(@univerjs/sheets@0.1.8)(@univerjs/ui@0.1.8)(@wendellhu/redi@0.13.3)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
@@ -1991,6 +1997,30 @@ packages:
       '@wendellhu/redi': 0.13.3
     dev: false
 
+  /@univerjs/find-replace@0.1.8(@univerjs/core@0.1.8)(@univerjs/design@0.1.8)(@univerjs/engine-render@0.1.8)(@univerjs/ui@0.1.8)(@wendellhu/redi@0.13.3)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1):
+    resolution: {integrity: sha512-h9DrYsVR2KzWcKnxgPJBGNnrVYtBYNvUqS2y+f7dEV9ExyhRIaoG3vHJqDL3kdATpffJNyCuIEaFej3MAVjpgQ==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
+    peerDependencies:
+      '@univerjs/core': 0.1.8
+      '@univerjs/design': 0.1.8
+      '@univerjs/engine-render': 0.1.8
+      '@univerjs/ui': 0.1.8
+      '@wendellhu/redi': ^0.13.3
+      react: ^16.9.0 || ^17.0.0 || ^18.0.0
+      rxjs: '>=7.0.0'
+    dependencies:
+      '@univerjs/core': 0.1.8(@grpc/grpc-js@1.10.6)(@wendellhu/redi@0.13.3)(rxjs@7.8.1)
+      '@univerjs/design': 0.1.8(clsx@2.1.1)(dayjs@1.11.10)(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/engine-render': 0.1.8(@univerjs/core@0.1.8)(@wendellhu/redi@0.13.3)(rxjs@7.8.1)
+      '@univerjs/icons': 0.1.44(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/ui': 0.1.8(@univerjs/core@0.1.8)(@univerjs/design@0.1.8)(@univerjs/engine-formula@0.1.8)(@univerjs/engine-render@0.1.8)(@wendellhu/redi@0.13.3)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@4.7.4)
+      '@wendellhu/redi': 0.13.3
+      react: 18.3.1
+      rxjs: 7.8.1
+    transitivePeerDependencies:
+      - react-dom
+    dev: false
+
   /@univerjs/icons@0.1.44(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-emPPhk9aNGIl/wF/z+9KLAq5EG/zmUoSwj2UaHHssnM/mv96Ieob4MpkhTfrVtvtiAUI2zZpUXrbsRX3PShrXg==}
     peerDependencies:
@@ -2060,6 +2090,27 @@ packages:
       rxjs: 7.8.1
     transitivePeerDependencies:
       - react-dom
+    dev: false
+
+  /@univerjs/sheets-find-replace@0.1.8(@univerjs/core@0.1.8)(@univerjs/engine-render@0.1.8)(@univerjs/find-replace@0.1.8)(@univerjs/sheets-ui@0.1.8)(@univerjs/sheets@0.1.8)(@wendellhu/redi@0.13.3)(rxjs@7.8.1):
+    resolution: {integrity: sha512-WFZ+W7RrG9OpYCHStEsJqGrns71lCn/RT6F74mow3tBJsm8vCz11TGYFsb0Xq8DqC77Oocz13MgCIJfxXn9Vtg==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
+    peerDependencies:
+      '@univerjs/core': 0.1.8
+      '@univerjs/engine-render': 0.1.8
+      '@univerjs/find-replace': 0.1.8
+      '@univerjs/sheets': 0.1.8
+      '@univerjs/sheets-ui': 0.1.8
+      '@wendellhu/redi': ^0.13.3
+      rxjs: '>=7.0.0'
+    dependencies:
+      '@univerjs/core': 0.1.8(@grpc/grpc-js@1.10.6)(@wendellhu/redi@0.13.3)(rxjs@7.8.1)
+      '@univerjs/engine-render': 0.1.8(@univerjs/core@0.1.8)(@wendellhu/redi@0.13.3)(rxjs@7.8.1)
+      '@univerjs/find-replace': 0.1.8(@univerjs/core@0.1.8)(@univerjs/design@0.1.8)(@univerjs/engine-render@0.1.8)(@univerjs/ui@0.1.8)(@wendellhu/redi@0.13.3)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
+      '@univerjs/sheets': 0.1.8(@univerjs/core@0.1.8)(@univerjs/engine-formula@0.1.8)(@univerjs/engine-numfmt@0.1.8)(@univerjs/engine-render@0.1.8)(@wendellhu/redi@0.13.3)(rxjs@7.8.1)
+      '@univerjs/sheets-ui': 0.1.8(@univerjs/core@0.1.8)(@univerjs/design@0.1.8)(@univerjs/docs-ui@0.1.8)(@univerjs/docs@0.1.8)(@univerjs/engine-formula@0.1.8)(@univerjs/engine-numfmt@0.1.8)(@univerjs/engine-render@0.1.8)(@univerjs/sheets@0.1.8)(@univerjs/ui@0.1.8)(@wendellhu/redi@0.13.3)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
+      '@wendellhu/redi': 0.13.3
+      rxjs: 7.8.1
     dev: false
 
   /@univerjs/sheets-formula@0.1.8(@univerjs/core@0.1.8)(@univerjs/design@0.1.8)(@univerjs/docs@0.1.8)(@univerjs/engine-formula@0.1.8)(@univerjs/engine-render@0.1.8)(@univerjs/sheets-ui@0.1.8)(@univerjs/sheets@0.1.8)(@univerjs/ui@0.1.8)(@wendellhu/redi@0.13.3)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1):
