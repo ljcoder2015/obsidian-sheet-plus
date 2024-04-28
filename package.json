@@ -43,11 +43,12 @@
 		"@univerjs/docs": "^0.1.8",
 		"@univerjs/docs-ui": "^0.1.8",
 		"@univerjs/engine-formula": "^0.1.8",
-		"@univerjs/sheets-numfmt": "^0.1.8",
 		"@univerjs/engine-render": "^0.1.8",
 		"@univerjs/facade": "^0.1.8",
 		"@univerjs/sheets": "^0.1.8",
+		"@univerjs/sheets-data-validation": "^0.1.8",
 		"@univerjs/sheets-formula": "^0.1.8",
+		"@univerjs/sheets-numfmt": "^0.1.8",
 		"@univerjs/sheets-ui": "^0.1.8",
 		"@univerjs/ui": "^0.1.8",
 		"monkey-around": "^3.0.0"
