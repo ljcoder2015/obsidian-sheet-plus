@@ -223,9 +223,8 @@ export const renderToHtml = (
 	const table = createEl("table");
 	let tableWidth = 0
 
-	// TODO 需要把id改成名字
 	const sheetData =  Object.values(data.sheets).find((item) => {
-		return item.id === sheet;
+		return item.name === sheet;
 	});
 
 	if (sheetData) {

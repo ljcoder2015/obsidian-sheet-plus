@@ -9,11 +9,11 @@ import {
 import { VIEW_TYPE_EXCEL_PRO, FRONTMATTER } from "./constants";
 import { t } from "src/lang/helpers";
 import { FUniver } from "@univerjs/facade";
-import { IDisposable } from '@wendellhu/redi';
 import { createUniver } from "./setup-univer";
 import { randomString } from "./utils/uuid";
-import { Univer, IWorkbookData, Workbook, LocaleType } from "@univerjs/core";
+import { Univer, IWorkbookData, Workbook, LocaleType, UniverInstanceType } from "@univerjs/core";
 import { extractYAML, splitYAML, rangeToRangeString, renderToHtml } from "./utils/data-util";
+import { IDisposable } from "@wendellhu/redi";
 
 // import DataWorker from "web-worker:./workers/data.worker.ts";
 
@@ -147,12 +147,12 @@ export class ExcelProView extends TextFileView {
 			if (data) {
 				// workbookData 的内容都包含在 workbook 字段中
 				const workbookData: IWorkbookData = data;
-				this.workbook = this.univer.createUniverSheet(workbookData);
+				this.workbook = this.univer.createUnit(UniverInstanceType.UNIVER_SHEET, workbookData);
 			} else {
-				this.workbook = this.univer.createUniverSheet({});
+				this.workbook = this.univer.createUnit(UniverInstanceType.UNIVER_SHEET, {});
 			}
 		} else {
-			this.workbook = this.univer.createUniverSheet({});
+			this.workbook = this.univer.createUnit(UniverInstanceType.UNIVER_SHEET, {});
 		}
 
 		this.executedDisposable = this.univerAPI.onCommandExecuted(
@@ -312,7 +312,7 @@ export class ExcelProView extends TextFileView {
 			const rangeString = rangeToRangeString(range)
 			// 格式 ${sci}${sri}:${eci}${eri}
 			if (this.file && activeSheet) {
-				const link = `![[${this.file.basename}#${activeSheet?.getSheetId()}|${rangeString}]]`;
+				const link = `![[${this.file.basename}#${activeSheet?.getName()}|${rangeString}]]`;
 				console.log(range, link);
 				navigator.clipboard.writeText(link);
 				new Notice(t("COPY_EMBED_LINK_SUCCESS"));
@@ -341,7 +341,7 @@ export class ExcelProView extends TextFileView {
 		}
 
 		const rangeString = rangeToRangeString(range)
-		const html = renderToHtml(workbookData, sheet.getSheetId(), rangeString)
+		const html = renderToHtml(workbookData, sheet.getName(), rangeString)
 		const htmlString = html.outerHTML
 		// console.log("htmlString", html, htmlString)
 		navigator.clipboard.writeText(htmlString);

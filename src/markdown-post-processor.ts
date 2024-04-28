@@ -10,7 +10,7 @@ import ExcelProPlugin from "./main";
 import { getExcelData, getRangeData, renderToHtml } from "./utils/data-util";
 import { randomString } from "./utils/uuid";
 import { createUniver } from "./setup-univer";
-import { IWorkbookData, LocaleType } from "@univerjs/core";
+import { IWorkbookData, LocaleType, UniverInstanceType } from "@univerjs/core";
 
 let plugin: ExcelProPlugin;
 let vault: Vault;
@@ -306,9 +306,9 @@ const createSheetEl = (
 		// workbookData 的内容都包含在 workbook 字段中
 		const workbookData: IWorkbookData = data;
 		console.log("createUniverSheet", id, data)
-		univer.createUniverSheet(workbookData);
+		univer.createUnit(UniverInstanceType.UNIVER_SHEET, workbookData);
 	} else {
-		univer.createUniverSheet({});
+		univer.createUnit(UniverInstanceType.UNIVER_SHEET, {});
 	}
 
 	return sheetDiv;
