@@ -53,7 +53,7 @@ export function getRangeData(data: IWorkbookData | null, sheet: string, range: s
 		return data
 	}
 	const currentSheet = Object.values(data.sheets).find((item) => {
-		return item.id === sheet;
+		return item.name === sheet;
 	});
 	if (!currentSheet) {
 		return data;
