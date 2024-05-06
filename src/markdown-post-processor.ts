@@ -231,6 +231,7 @@ const createSheetDiv = (src: string, alt: string, file: TFile, data: string): HT
 		const table = sheetRenderHtml(excelData, file, split[1], alt);
 		return table
 	} else {
+		console.log("xxxxxxx", split)
 		if (split.length > 1) {
 			const rangeData = getRangeData(excelData, split[1], alt);
 			const sheetDiv = createSheetEl(

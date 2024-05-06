@@ -52,7 +52,9 @@ export function getRangeData(data: IWorkbookData | null, sheet: string, range: s
 	if (data == null) {
 		return data
 	}
+	
 	const currentSheet = Object.values(data.sheets).find((item) => {
+		console.log("getRangeData", item.name, sheet)
 		return item.name === sheet;
 	});
 	if (!currentSheet) {
@@ -91,10 +93,11 @@ export function getRangeData(data: IWorkbookData | null, sheet: string, range: s
 	}
 
 	const sheets: { [key: string]: any } = {};
-	sheets[sheet] = currentSheet;
+	const sheetId = currentSheet.id || ""
+	sheets[sheetId] = currentSheet;
 	data.sheets = sheets;
 
-	data.sheetOrder = [sheet];
+	data.sheetOrder = [sheetId];
 
 	return data;
 }
