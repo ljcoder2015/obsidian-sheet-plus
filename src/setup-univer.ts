@@ -18,8 +18,6 @@ import { UniverSheetsNumfmtPlugin } from "@univerjs/sheets-numfmt";
 import { UniverSheetsUIPlugin } from "@univerjs/sheets-ui";
 import { UniverUIPlugin } from "@univerjs/ui";
 import { locales } from "./locale";
-import { UniverFindReplacePlugin } from "@univerjs/find-replace";
-import { UniverSheetsFindReplacePlugin } from "@univerjs/sheets-find-replace";
 
 export function createUniver(
 	id: string,
@@ -50,9 +48,6 @@ export function createUniver(
 	univer.registerPlugin(UniverSheetsNumfmtPlugin);
 	univer.registerPlugin(UniverFormulaEnginePlugin);
 	univer.registerPlugin(UniverSheetsFormulaPlugin);
-
-	univer.registerPlugin(UniverFindReplacePlugin);
-	univer.registerPlugin(UniverSheetsFindReplacePlugin);
 
 	return univer;
 }
