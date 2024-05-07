@@ -54,7 +54,6 @@ export function getRangeData(data: IWorkbookData | null, sheet: string, range: s
 	}
 	
 	const currentSheet = Object.values(data.sheets).find((item) => {
-		console.log("getRangeData", item.name, sheet)
 		return item.name === sheet;
 	});
 	if (!currentSheet) {

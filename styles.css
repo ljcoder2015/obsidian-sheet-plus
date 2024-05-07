@@ -63,12 +63,17 @@ If your plugin does not need CSS, delete this file.
 }
 
 /* 修复toolbar按钮样式*/
-.my-univer button:not(.clickable-icon),
+/* .my-univer button:not(.clickable-icon),
 .univer-toolbar-more-container button:not(.clickable-icon),
 .univer-sheet-container button:not(.clickable-icon),
 .univer-dialog-content button:not(.clickable-icon),
 .univer-find-replace-buttons-group button:not(.clickable-icon),
 .univer-find-replace-dialog-container button:not(.clickable-icon) {
+	box-shadow: none;
+} */
+
+#sheet-box button:not(.clickable-icon),
+.univer-theme button:not(.clickable-icon){
 	box-shadow: none;
 }
 
@@ -78,6 +83,15 @@ If your plugin does not need CSS, delete this file.
 .univer-dialog-content input[type='email'],
 .univer-dialog-content input[type='password'],
 .univer-dialog-content input[type='number'] {
+    height: auto;
+	box-shadow: none;
+}
+
+#sheet-box input[type='text'],
+#sheet-box input[type='search'],
+#sheet-box input[type='email'],
+#sheet-box input[type='password'],
+#sheet-box input[type='number'] {
     height: auto;
 	box-shadow: none;
 }
