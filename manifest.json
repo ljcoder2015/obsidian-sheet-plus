@@ -1,9 +1,9 @@
 {
 	"id": "excel-plus",
 	"name": "Excel Plus",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "0.15.0",
-	"description": "obsidian spreadsheets solutions",
+	"description": "spreadsheets solutions",
 	"author": "ljcoder",
 	"authorUrl": "https://github.com/ljcoder2015",
 	"fundingUrl": "https://ko-fi.com/ljcoder",
