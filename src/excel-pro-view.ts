@@ -312,7 +312,7 @@ export class ExcelProView extends TextFileView {
 			const rangeString = rangeToRangeString(range)
 			// 格式 ${sci}${sri}:${eci}${eri}
 			if (this.file && activeSheet) {
-				const link = `![[${this.file.basename}#${activeSheet?.getName()}|${rangeString}]]`;
+				const link = `![[${this.file.basename}#${activeSheet?.getSheetName()}|${rangeString}]]`;
 				console.log(range, link);
 				navigator.clipboard.writeText(link);
 				new Notice(t("COPY_EMBED_LINK_SUCCESS"));
@@ -341,7 +341,7 @@ export class ExcelProView extends TextFileView {
 		}
 
 		const rangeString = rangeToRangeString(range)
-		const html = renderToHtml(workbookData, sheet.getName(), rangeString)
+		const html = renderToHtml(workbookData, sheet.getSheetName(), rangeString)
 		const htmlString = html.outerHTML
 		// console.log("htmlString", html, htmlString)
 		navigator.clipboard.writeText(htmlString);
