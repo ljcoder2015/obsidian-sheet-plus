@@ -10,7 +10,7 @@ import { VIEW_TYPE_EXCEL_PRO, FRONTMATTER } from "./constants";
 import { t } from "src/lang/helpers";
 import { FUniver } from "@univerjs/facade";
 import { createUniver } from "./setup-univer";
-import { randomString } from "./utils/uuid";
+import { randomString } from "./utils/uuid-util";
 import { Univer, IWorkbookData, Workbook, LocaleType, UniverInstanceType } from "@univerjs/core";
 import { extractYAML, splitYAML, rangeToRangeString, renderToHtml } from "./utils/data-util";
 import { IDisposable } from "@wendellhu/redi";

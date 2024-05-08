@@ -8,7 +8,7 @@ import {
 import ExcelProPlugin from "./main";
 
 import { getExcelData, getRangeData, renderToHtml } from "./utils/data-util";
-import { randomString } from "./utils/uuid";
+import { randomString } from "./utils/uuid-util";
 import { createUniver } from "./setup-univer";
 import { IWorkbookData, LocaleType, UniverInstanceType } from "@univerjs/core";
 
