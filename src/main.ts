@@ -14,11 +14,18 @@ import { VIEW_TYPE_EXCEL_PRO, FRONTMATTER, FRONTMATTER_KEY } from "./constants";
 import { around, dedupe } from "monkey-around";
 import { ExcelProView } from "./excel-pro-view";
 import { DEFAULT_SETTINGS, ExcelProSettings } from "./common/settings";
-import { getExcelFilename, checkAndCreateFolder, getNewUniqueFilepath } from "./utils/file-utils";
+import {
+	getExcelFilename,
+	checkAndCreateFolder,
+	getNewUniqueFilepath,
+} from "./utils/file-utils";
 import { PaneTarget } from "./common/modifierkey-helper";
 import { t } from "./lang/helpers";
 import { ExcelProSettingTab } from "./excel-pro-setting-tab";
-import { initializeMarkdownPostProcessor, markdownPostProcessor } from "./markdown-post-processor";
+import {
+	initializeMarkdownPostProcessor,
+	markdownPostProcessor,
+} from "./markdown-post-processor";
 
 export default class ExcelProPlugin extends Plugin {
 	public settings: ExcelProSettings;
@@ -26,9 +33,9 @@ export default class ExcelProPlugin extends Plugin {
 
 	async onload() {
 		// 加载设置
-		await this.loadSettings()
+		await this.loadSettings();
 
-		this.addSettingTab(new ExcelProSettingTab(this.app, this))
+		this.addSettingTab(new ExcelProSettingTab(this.app, this));
 
 		this.registerView(
 			VIEW_TYPE_EXCEL_PRO,
@@ -62,10 +69,10 @@ export default class ExcelProPlugin extends Plugin {
 	onunload() {
 		// 解决 Redi 重复注入报错
 		//@ts-ignore
-		window.RediContextCreated = false
+		window.RediContextCreated = false;
 		//@ts-ignore
-		window.REDI_GLOBAL_LOCK = false
-		console.log(window)
+		window.REDI_GLOBAL_LOCK = false;
+		console.log(window);
 	}
 
 	private getBlackData() {
@@ -73,7 +80,7 @@ export default class ExcelProPlugin extends Plugin {
 	}
 
 	private addMarkdownPostProcessor() {
-		console.log("addMarkdownPostProcessor--------")
+		// console.log("addMarkdownPostProcessor--------")
 		initializeMarkdownPostProcessor(this);
 		this.registerMarkdownPostProcessor(markdownPostProcessor);
 	}
@@ -148,6 +155,17 @@ export default class ExcelProPlugin extends Plugin {
 		this.registerEvent(
 			this.app.workspace.on("file-menu", fileMenuHandlerCreateNew)
 		);
+		this.addCommand({
+			id: "excel-univer-autocreate",
+			name: t("CREATE_EXCEL"),
+			callback: () => {
+				this.createAndOpenExcel(
+					getExcelFilename(this.settings),
+					undefined,
+					this.getBlackData()
+				);
+			},
+		});
 	}
 
 	private registerMonkeyPatches() {
@@ -155,20 +173,23 @@ export default class ExcelProPlugin extends Plugin {
 		this.register(
 			around(Workspace.prototype, {
 				getActiveViewOfType(old) {
-					
 					return dedupe(key, old, function (...args) {
 						const result = old && old.apply(this, args);
 						console.log("Workspace.prototype", result);
 
-						const maybeSheetView = this.app?.workspace?.activeLeaf?.view;
-						if (!maybeSheetView || !(maybeSheetView instanceof ExcelProView)) {
+						const maybeSheetView =
+							this.app?.workspace?.activeLeaf?.view;
+						if (
+							!maybeSheetView ||
+							!(maybeSheetView instanceof ExcelProView)
+						) {
 							return result;
 						}
 					});
 				},
 			})
 		);
-		
+
 		//@ts-ignore
 		if (!this.app.plugins?.plugins?.["obsidian-hover-editor"]) {
 			this.register(
@@ -210,15 +231,16 @@ export default class ExcelProPlugin extends Plugin {
 							state.type === "markdown" &&
 							state.state?.file
 						) {
-							
 							// Then check for the excalidraw frontMatterKey
-							const cache = self.app.metadataCache.getCache(state.state.file);
+							const cache = self.app.metadataCache.getCache(
+								state.state.file
+							);
 
 							// console.log("setViewState cache cccc", cache)
 							if (
-								cache?.frontmatter &&
-								cache?.frontmatter[FRONTMATTER_KEY]
-								|| state.state.file.contains(".univer.md")
+								(cache?.frontmatter &&
+									cache?.frontmatter[FRONTMATTER_KEY]) ||
+								state.state.file.contains(".univer.md")
 							) {
 								// console.log("setViewState --", cache)
 								// If we have it, force the view type to excalidraw
@@ -314,7 +336,7 @@ export default class ExcelProPlugin extends Plugin {
 						active,
 						eState: { subpath },
 						state: { type: VIEW_TYPE_EXCEL_PRO },
-				}
+				  }
 		).then(() => {
 			if (leaf) {
 				this.setExcelView(leaf);
