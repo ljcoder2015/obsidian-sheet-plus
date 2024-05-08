@@ -1,7 +1,5 @@
 // import MarkdownIt from "markdown-it";
 
-import da from "src/lang/locale/da";
-
 // class JSONRenderer {
 // 	constructor() {
 // 		// 初始化渲染规则
@@ -235,168 +233,167 @@ import da from "src/lang/locale/da";
 // 	return markdown;
 // }
 
-export function splitYAML(str) {
-	const match = str.match(/^-{3}\n([\s\S]*?)-{3}\n([\s\S]*)/);
-	if (match) {
-		const yamlPart = match[1].trim();
-		const restPart = match[2].trim();
-		return { yaml: yamlPart, rest: restPart };
-	} else {
-		return null;
-	}
-}
+// export function splitYAML(str) {
+// 	const match = str.match(/^-{3}\n([\s\S]*?)-{3}\n([\s\S]*)/);
+// 	if (match) {
+// 		const yamlPart = match[1].trim();
+// 		const restPart = match[2].trim();
+// 		return { yaml: yamlPart, rest: restPart };
+// 	} else {
+// 		return null;
+// 	}
+// }
 
-export function extractYAML(str) {
-	const match = str.match(/^-{3}\n([\s\S]*?)-{3}/);
-	return match ? match[1].trim() : null;
-}
+// export function extractYAML(str) {
+// 	const match = str.match(/^-{3}\n([\s\S]*?)-{3}/);
+// 	return match ? match[1].trim() : null;
+// }
 
-export function getExcelData(str) {
-	const markdown = splitYAML(str)?.rest;
-	if (markdown) {
-		const data = JSON.parse(markdown);
-		if (data) {
-			return data;
-		}
-	}
-	return {};
-}
+// export function getExcelData(str) {
+// 	const markdown = splitYAML(str)?.rest;
+// 	if (markdown) {
+// 		const data = JSON.parse(markdown);
+// 		if (data) {
+// 			return data;
+// 		}
+// 	}
+// 	return {};
+// }
 
-/**
- * data 转换成只显示 range 部分
- * @param {JSON} data 源数据
- * @param {string} range 格式为 A1:B6
- */
-export function getRangeData(data, sheet, range) {
-	// TODO 后续id改成name
-	let currentSheet = Object.values(data.sheets).find((item) => {
-		// console.log("currentSheet", item, item.id)
-		return item.id === sheet
-	})
-	if (currentSheet == undefined) {
-		return data
-	}
+// /**
+//  * data 转换成只显示 range 部分
+//  * @param {JSON} data 源数据
+//  * @param {string} range 格式为 A1:B6
+//  */
+// export function getRangeData(data, sheet, range) {
+// 	// TODO 后续id改成name
+// 	let currentSheet = Object.values(data.sheets).find((item) => {
+// 		// console.log("currentSheet", item, item.id)
+// 		return item.id === sheet
+// 	})
+// 	if (currentSheet == undefined) {
+// 		return data
+// 	}
 
-	const [start, end] = range.split(':');
-	const startResult = splitAlphaNumeric(start)
-	const startCol = startResult.col
-	const startRow = startResult.row
+// 	const [start, end] = range.split(':');
+// 	const startResult = splitAlphaNumeric(start)
+// 	const startCol = startResult.col
+// 	const startRow = startResult.row
 
-	const endResult = splitAlphaNumeric(end)
-	const endCol = endResult.col
-	const endRow = endResult.row
+// 	const endResult = splitAlphaNumeric(end)
+// 	const endCol = endResult.col
+// 	const endRow = endResult.row
 
-	// 设置渲染行列数量
-	currentSheet.rowCount = endRow + 1
-	currentSheet.columnCount = endCol + 1 
+// 	// 设置渲染行列数量
+// 	currentSheet.rowCount = endRow + 1
+// 	currentSheet.columnCount = endCol + 1 
 
-	// 隐藏行
-	let rowData = currentSheet.rowData
-	if (rowData === undefined || rowData === null) {
-		rowData = {}
-	}
-	for (let i = 0; i < startRow; i ++) {
-		const key = `${i}`
-		if (rowData[key]) {
-			rowData[key]["hd"] = 1
-		} else {
-			rowData[key] = {
-				"hd": 1,
-				"h": data.defaultRowHeight || 19
-			}
-		}
-	}
+// 	// 隐藏行
+// 	let rowData = currentSheet.rowData
+// 	if (rowData === undefined || rowData === null) {
+// 		rowData = {}
+// 	}
+// 	for (let i = 0; i < startRow; i ++) {
+// 		const key = `${i}`
+// 		if (rowData[key]) {
+// 			rowData[key]["hd"] = 1
+// 		} else {
+// 			rowData[key] = {
+// 				"hd": 1,
+// 				"h": data.defaultRowHeight || 19
+// 			}
+// 		}
+// 	}
 
-	// 隐藏列
-	let colData = currentSheet.columnData
-	if (colData === undefined || colData === null) {
-		colData = {}
-	}
-	for (let i = 0; i < startCol; i ++) {
-		const key = `${i}`
-		if (colData[key]) {
-			colData[key]["hd"] = 1
-		} else {
-			colData[key] = {
-				"hd": 1,
-				"h": data.defaultColumnWidth || 19
-			}
-		}
-	}
+// 	// 隐藏列
+// 	let colData = currentSheet.columnData
+// 	if (colData === undefined || colData === null) {
+// 		colData = {}
+// 	}
+// 	for (let i = 0; i < startCol; i ++) {
+// 		const key = `${i}`
+// 		if (colData[key]) {
+// 			colData[key]["hd"] = 1
+// 		} else {
+// 			colData[key] = {
+// 				"hd": 1,
+// 				"h": data.defaultColumnWidth || 19
+// 			}
+// 		}
+// 	}
 
-	// 更改 sheets
-	const sheets = {}
-	sheets[sheet] = currentSheet
-	data.sheets = sheets
+// 	// 更改 sheets
+// 	const sheets = {}
+// 	sheets[sheet] = currentSheet
+// 	data.sheets = sheets
 
-	// 更改 sheetOrder
-	data.sheetOrder = [sheet]
+// 	// 更改 sheetOrder
+// 	data.sheetOrder = [sheet]
 
-	console.log("getRangeData", data)
-	return data
-}
+// 	console.log("getRangeData", data)
+// 	return data
+// }
 
-/**
- * 行列索引，拆分字母部分跟数字部分
- * @param {string} input 行列索引 A10
- * @returns { col, row } col从 0 开始， row 从 0 开始
- */
-function splitAlphaNumeric(input) {
-    const match = input.match(/([A-Za-z]+)(\d+)/);
-    if (match) {
-        const alphaPart = match[1];
-		const colIndex = stringToNumber(alphaPart)
-        const numericPart = parseInt(match[2]) - 1;
-		console.log(`splitAlphaNumeric col ${colIndex} row ${numericPart}`)
-        return { col: colIndex, row: numericPart };
-    } else {
-        return null;
-    }
-}
+// /**
+//  * 行列索引，拆分字母部分跟数字部分
+//  * @param {string} input 行列索引 A10
+//  * @returns { col, row } col从 0 开始， row 从 0 开始
+//  */
+// function splitAlphaNumeric(input) {
+//     const match = input.match(/([A-Za-z]+)(\d+)/);
+//     if (match) {
+//         const alphaPart = match[1];
+// 		const colIndex = stringToNumber(alphaPart)
+//         const numericPart = parseInt(match[2]) - 1;
+//         return { col: colIndex, row: numericPart };
+//     } else {
+//         return null;
+//     }
+// }
 
-/**
- * 字母转数字 A = 0 为基准
- * @param {string} str 字母索引
- * @returns {number} 字母对应的索引
- */
-// 
-export function stringToNumber(str) {
-	// 定义字母与数字的映射关系
-	const map = {};
-	const base = "A".charCodeAt(0); // 字母'A'的ASCII码值作为基准值
-	for (let i = 0; i < 26; i++) {
-		map[String.fromCharCode(i + base)] = i;
-	}
+// /**
+//  * 字母转数字 A = 0 为基准
+//  * @param {string} str 字母索引
+//  * @returns {number} 字母对应的索引
+//  */
+// // 
+// export function stringToNumber(str) {
+// 	// 定义字母与数字的映射关系
+// 	const map = {};
+// 	const base = "A".charCodeAt(0); // 字母'A'的ASCII码值作为基准值
+// 	for (let i = 0; i < 26; i++) {
+// 		map[String.fromCharCode(i + base)] = i;
+// 	}
 
-	// 计算数字值
-	let num = 0;
-	for (let i = 0; i < str.length; i++) {
-		num = num * 26 + map[str[i]]; // 使用26进制计算
-	}
+// 	// 计算数字值
+// 	let num = 0;
+// 	for (let i = 0; i < str.length; i++) {
+// 		num = num * 26 + map[str[i]]; // 使用26进制计算
+// 	}
 
-	return num;
-}
+// 	return num;
+// }
 
-/**
- * 数字转字母 数字以0开始，转换后的字符串以1开始
- * @param {number} colNumber 列数索引
- * @param {number} rowNumber 行数索引
- * @returns 字母数字组合，字母为列，数字为行
- */
-export function numberToColRowString(colNumber, rowNumber) {
-	var col = colNumber + 1
-	var row = rowNumber + 1
+// /**
+//  * 数字转字母 数字以0开始，转换后的字符串以1开始
+//  * @param {number} colNumber 列数索引
+//  * @param {number} rowNumber 行数索引
+//  * @returns 字母数字组合，字母为列，数字为行
+//  */
+// export function numberToColRowString(colNumber, rowNumber) {
+// 	var col = colNumber + 1
+// 	var row = rowNumber + 1
 
-	// 定义数字与字母的映射关系
-	const base = "A".charCodeAt(0) - 1; // 字母'A'的ASCII码值减去1作为基准值
+// 	// 定义数字与字母的映射关系
+// 	const base = "A".charCodeAt(0) - 1; // 字母'A'的ASCII码值减去1作为基准值
 
-	// 将列转换为字母
-	let result = "";
-	while (col > 0) {
-		const remainder = col % 26; // 26进制计算余数
-		result = String.fromCharCode(remainder + base) + result; // 添加字母到结果字符串的开头
-		col = Math.floor(col / 26); // 除以26取整，继续计算下一位
-	}
+// 	// 将列转换为字母
+// 	let result = "";
+// 	while (col > 0) {
+// 		const remainder = col % 26; // 26进制计算余数
+// 		result = String.fromCharCode(remainder + base) + result; // 添加字母到结果字符串的开头
+// 		col = Math.floor(col / 26); // 除以26取整，继续计算下一位
+// 	}
 
-	return result + row;
-}
+// 	return result + row;
+// }

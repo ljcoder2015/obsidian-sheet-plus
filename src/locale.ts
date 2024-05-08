@@ -11,6 +11,6 @@ export const locales = {
     ...UniverDocsUIEnUS,
     ...UniverSheetsUIEnUS,
     ...UniverUiEnUS,
-    ...UniverDesignEnUS,
+    ...UniverDesignEnUS
   },
 }

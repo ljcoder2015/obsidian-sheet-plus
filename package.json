@@ -34,18 +34,25 @@
 		"tslib": "2.4.0",
 		"typescript": "4.7.4"
 	},
+	"peerDependencies": {
+		"@wendellhu/redi": "^0.13.3"
+	},
 	"dependencies": {
-		"@univerjs/core": "^0.1.7",
-		"@univerjs/design": "^0.1.7",
-		"@univerjs/docs": "^0.1.7",
-		"@univerjs/docs-ui": "^0.1.7",
-		"@univerjs/engine-formula": "^0.1.7",
-		"@univerjs/engine-render": "^0.1.7",
-		"@univerjs/facade": "^0.1.7",
-		"@univerjs/sheets": "^0.1.7",
-		"@univerjs/sheets-formula": "^0.1.7",
-		"@univerjs/sheets-ui": "^0.1.7",
-		"@univerjs/ui": "^0.1.7",
+		"@univerjs/core": "^0.1.8",
+		"@univerjs/design": "^0.1.8",
+		"@univerjs/docs": "^0.1.8",
+		"@univerjs/docs-ui": "^0.1.8",
+		"@univerjs/engine-formula": "^0.1.8",
+		"@univerjs/engine-render": "^0.1.8",
+		"@univerjs/facade": "^0.1.8",
+		"@univerjs/find-replace": "^0.1.8",
+		"@univerjs/sheets": "^0.1.8",
+		"@univerjs/sheets-data-validation": "^0.1.8",
+		"@univerjs/sheets-find-replace": "^0.1.8",
+		"@univerjs/sheets-formula": "^0.1.8",
+		"@univerjs/sheets-numfmt": "^0.1.8",
+		"@univerjs/sheets-ui": "^0.1.8",
+		"@univerjs/ui": "^0.1.8",
 		"monkey-around": "^3.0.0"
 	}
 }

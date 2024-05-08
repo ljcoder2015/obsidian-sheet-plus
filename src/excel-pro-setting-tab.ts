@@ -70,5 +70,19 @@ export class ExcelProSettingTab extends PluginSettingTab {
                         this.plugin.saveSettings()
                     })
             )
+
+		new Setting(containerEl)
+            .setName(t("SHOW_SHEET_BUTTON"))
+            .setDesc(t("SHOW_SHEET_BUTTON_DESC"))
+            .addDropdown((dropdown) =>
+                dropdown
+                .addOption("true","True")
+                .addOption("false","False")
+                .setValue(this.plugin.settings.showSheetButton)
+                .onChange(async (value) => {
+                    this.plugin.settings.showSheetButton = value
+                    this.plugin.saveSettings()
+                }),
+            );
     }
 }
