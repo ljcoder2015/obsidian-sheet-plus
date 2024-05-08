@@ -13,7 +13,7 @@ import {
 import { VIEW_TYPE_EXCEL_PRO, FRONTMATTER, FRONTMATTER_KEY } from "./constants";
 import { around, dedupe } from "monkey-around";
 import { ExcelProView } from "./excel-pro-view";
-import { DEFAULT_SETTINGS, ExcelProSettings } from "./common/settings";
+import { DEFAULT_SETTINGS, ExcelProSettings } from "./common/setting";
 import {
 	getExcelFilename,
 	checkAndCreateFolder,

@@ -1,6 +1,6 @@
 
 import { normalizePath, Notice, TAbstractFile, TFile, TFolder, Vault } from "obsidian";
-import { ExcelProSettings } from "../common/settings";
+import { ExcelProSettings } from "../common/setting";
 
 /**
  * Splits a full path including a folderpath and a filename into separate folderpath and filename components
