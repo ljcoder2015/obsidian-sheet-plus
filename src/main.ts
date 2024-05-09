@@ -72,7 +72,6 @@ export default class ExcelProPlugin extends Plugin {
 		window.RediContextCreated = false;
 		//@ts-ignore
 		window.REDI_GLOBAL_LOCK = false;
-		console.log(window);
 	}
 
 	private getBlackData() {
@@ -106,7 +105,6 @@ export default class ExcelProPlugin extends Plugin {
 		this.app.workspace.onLayoutReady(() => {
 			let leaf: WorkspaceLeaf;
 			const markdownLeaf = this.app.workspace.getLeavesOfType("markdown");
-			console.log("switchToExcelAfterLoad", markdownLeaf);
 			for (leaf of markdownLeaf) {
 				if (
 					leaf.view instanceof MarkdownView &&
@@ -175,7 +173,6 @@ export default class ExcelProPlugin extends Plugin {
 				getActiveViewOfType(old) {
 					return dedupe(key, old, function (...args) {
 						const result = old && old.apply(this, args);
-						console.log("Workspace.prototype", result);
 
 						const maybeSheetView =
 							this.app?.workspace?.activeLeaf?.view;
@@ -196,7 +193,6 @@ export default class ExcelProPlugin extends Plugin {
 				//stolen from hover editor
 				around(WorkspaceLeaf.prototype, {
 					getRoot(old) {
-						console.log("stolen from hover editor");
 						return function () {
 							const top = old.call(this);
 							return top.getRoot === this.getRoot
@@ -310,8 +306,8 @@ export default class ExcelProPlugin extends Plugin {
 		if (location === "md-properties") {
 			location = "new-tab";
 		}
-		// eslint-disable-next-line no-var
-		var leaf: WorkspaceLeaf | null = null;
+
+		let leaf: WorkspaceLeaf | null = null;
 		if (location === "popout-window") {
 			leaf = this.app.workspace.openPopoutLeaf();
 		}
@@ -336,7 +332,7 @@ export default class ExcelProPlugin extends Plugin {
 						active,
 						eState: { subpath },
 						state: { type: VIEW_TYPE_EXCEL_PRO },
-				  }
+				}
 		).then(() => {
 			if (leaf) {
 				this.setExcelView(leaf);

@@ -202,7 +202,7 @@ const sheetRenderHtml = (
  * @returns 
  */
 const createSheetDiv = (src: string, alt: string, file: TFile, data: string): HTMLDivElement =>  {
-	console.log("createSheetDiv", src, alt)
+	// console.log("createSheetDiv", src, alt)
 	// 是否转换成HTML
 	let toHTML = false;
 	
@@ -231,7 +231,6 @@ const createSheetDiv = (src: string, alt: string, file: TFile, data: string): HT
 		const table = sheetRenderHtml(excelData, file, split[1], alt);
 		return table
 	} else {
-		console.log("xxxxxxx", split)
 		if (split.length > 1) {
 			const rangeData = getRangeData(excelData, split[1], alt);
 			const sheetDiv = createSheetEl(
@@ -306,7 +305,6 @@ const createSheetEl = (
 	if (data) {
 		// workbookData 的内容都包含在 workbook 字段中
 		const workbookData: IWorkbookData = data;
-		console.log("createUniverSheet", id, data)
 		univer.createUnit(UniverInstanceType.UNIVER_SHEET, workbookData);
 	} else {
 		univer.createUnit(UniverInstanceType.UNIVER_SHEET, {});
@@ -321,7 +319,6 @@ const processReadingMode = async (
 	embeddedItems: NodeListOf<Element> | [HTMLElement],
 	ctx: MarkdownPostProcessorContext
 ) => {
-	console.log("processReadingMode");
 	//We are processing a non-univer file in reading mode
 	//Embedded files will be displayed in an .internal-embed container
 
