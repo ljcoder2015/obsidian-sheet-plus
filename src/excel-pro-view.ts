@@ -40,7 +40,7 @@ export class ExcelProView extends TextFileView {
 
 	onload(): void {
 		super.onload();
-		console.log("Excel Pro View onload");
+		// console.log("Excel Pro View onload");
 		this.ownerWindow = this.containerEl.win;
 
 		// 添加顶部导入按钮
@@ -78,7 +78,7 @@ export class ExcelProView extends TextFileView {
 	}
 
 	onunload(): void {
-		console.log(`Excel Pro View onunload`);
+		// console.log(`Excel Pro View onunload`);
 		// 释放 univer 相关对象
 		this.dispose();
 
@@ -195,7 +195,7 @@ export class ExcelProView extends TextFileView {
 					return;
 				}
 
-				console.log(command);
+				// console.log(command);
 
 				// console.log("\n===onCommandExecuted===\n", activeWorkbookData, "\n===command===", command)
 
@@ -238,10 +238,10 @@ export class ExcelProView extends TextFileView {
 
 		this.save(false)
 			.then(() => {
-				console.log("save data success", this.file);
+				// console.log("save data success", this.file);
 			})
 			.catch((e) => {
-				console.log("save data error", e);
+				// console.log("save data error", e);
 			});
 	}
 
@@ -295,11 +295,7 @@ export class ExcelProView extends TextFileView {
 	// }
 
 	handleExportClick(ev: MouseEvent) {
-		//@ts-ignore
-		// const new_wb = xtos(this.sheet.getData()) as XLSX.WorkBook;
-		// const title = this.file?.basename ?? "sheet";
-		// /* write file and trigger a download */
-		// XLSX.writeFile(new_wb, title + ".xlsx", {});
+
 	}
 
 	handleEmbedLink(e: Event) {
@@ -313,7 +309,7 @@ export class ExcelProView extends TextFileView {
 			// 格式 ${sci}${sri}:${eci}${eri}
 			if (this.file && activeSheet) {
 				const link = `![[${this.file.basename}#${activeSheet?.getSheetName()}|${rangeString}]]`;
-				console.log(range, link);
+				// console.log(range, link);
 				navigator.clipboard.writeText(link);
 				new Notice(t("COPY_EMBED_LINK_SUCCESS"));
 			} else {
