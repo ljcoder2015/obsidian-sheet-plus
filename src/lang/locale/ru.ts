@@ -29,7 +29,7 @@ export default {
     BASE_COLOR: "Основная цветовая схема",
     BASE_COLOR_DESC: "Выберите основную цветовую схему",
     FILE_SETTING: "Настройка файла",
-    FOLDER: "ПАПКА",
+    FOLDER: "Папка",
     // Create files in this folder by default
     FOLDER_DESC: "Создавайте файлы в этой папке по умолчанию",
     FILENAME_PREFIX: "Префикс имени файла",
