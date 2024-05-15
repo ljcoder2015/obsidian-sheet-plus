@@ -1,10 +1,8 @@
-import type ExcelProPlugin from 'src/main'
 import type {
   WorkspaceLeaf,
 } from 'obsidian'
 import {
   Notice,
-  Platform,
   TextFileView,
   moment,
 } from 'obsidian'
@@ -18,7 +16,8 @@ import {
   LocaleType,
   UniverInstanceType,
 } from '@univerjs/core'
-import type { IDisposable } from '@wendellhu/redi'
+import type ExcelProPlugin from '../main'
+
 import {
   extractYAML,
   rangeToRangeString,
@@ -27,8 +26,8 @@ import {
 } from '../utils/data'
 import { randomString } from '../utils/uuid'
 import { FRONTMATTER, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
+import { t } from '../lang/helpers'
 import { createUniver } from './setup-univer'
-import { t } from '@/lang/helpers'
 
 // import DataWorker from "web-worker:./workers/data.worker.ts";
 
@@ -42,7 +41,6 @@ export class ExcelProView extends TextFileView {
   public univerAPI: FUniver // 表格操作对象
   public univer: Univer | null // 表格对象
   public workbook: Workbook // 工作簿
-  public executedDisposable: IDisposable // 执行命令后监听对象
 
   private lastWorkbookData: string // 上次保存的数据
   // private dataWorker: Worker; // 用来异步解析数据
@@ -89,30 +87,17 @@ export class ExcelProView extends TextFileView {
     // 释放 univer 相关对象
     this.dispose()
 
-    // 释放 worker 线程
-    // if (this.dataWorker) {
-    // 	this.dataWorker.terminate();
-    // }
-
     super.onunload()
   }
 
   dispose() {
-    this.univer?.dispose()
-    this.workbook?.dispose()
     // // 释放工作簿
-    // if (this.workbook != null) {
+    // if (this.workbook !== null && this.workbook !== undefined) {
     // 	this.workbook.dispose();
     // }
 
-    // // 释放 univer 事件监听
-    // if (this.executedDisposable != null) {
-    // 	this.executedDisposable.dispose();
-    // }
-
     // // 释放 univer
-    // if (this.univer != null) {
-    // 	this.univer.__getInjector().dispose();
+    // if (this.univer !== null && this.univer  !== undefined) {
     // 	this.univer.dispose();
     // 	this.univer = null;
     // }
@@ -134,11 +119,9 @@ export class ExcelProView extends TextFileView {
     this.sheetEle.createDiv({
       attr: {
         id,
+        class: 'my-univer',
       },
     })
-    this.sheetEle.classList.add('uproduct-container')
-
-    this.dispose()
 
     // 设置多语言
     let locale = LocaleType.EN_US
@@ -212,8 +195,6 @@ export class ExcelProView extends TextFileView {
         return
       }
 
-      // console.log(command);
-
       // console.log("\n===onCommandExecuted===\n", activeWorkbookData, "\n===command===", command)
 
       this.lastWorkbookData = activeWorkbookData
@@ -240,14 +221,6 @@ export class ExcelProView extends TextFileView {
     return header
   }
 
-  // 存储数据，把 workbook data 转换成 markdown 存储
-  // saveData(data: string) {
-  // 	this.dataWorker.postMessage({
-  // 		name: "save-data",
-  // 		options: data,
-  // 	});
-  // }
-
   saveDataToFile(data: string) {
     const yaml = this.headerData()
 
@@ -269,12 +242,10 @@ export class ExcelProView extends TextFileView {
   setViewData(data: string, _: boolean): void {
     this.data = data
 
-    this.setupUniver()
-
-    // this.app.workspace.onLayoutReady(async () => {
-    // 	// console.log("setViewData", data);
-    // 	this.setupUniver();
-    // });
+    this.app.workspace.onLayoutReady(async () => {
+    	// console.log("setViewData", data);
+    	this.setupUniver()
+    })
   }
 
   // 处理顶部导入按钮点击事件
@@ -284,7 +255,6 @@ export class ExcelProView extends TextFileView {
   }
 
   handleFile(_: Event) {
-    // @ts-expect-error
     // const files = e.target?.files;
     // if (!files) {
     // 	new Notice(t("GET_FILE_FAILED"));
@@ -359,20 +329,5 @@ export class ExcelProView extends TextFileView {
     // console.log("htmlString", html, htmlString)
     navigator.clipboard.writeText(htmlString)
     new Notice(t('COPY_TO_HTML_SUCCESS'))
-  }
-
-  onResize() {
-    if (Platform.isDesktopApp) {
-      // this.refresh();
-    }
-    // console.log('resize')
-    super.onResize()
-  }
-
-  async onClose() {
-    this.requestSave()
-    this.univer?.dispose()
-    this.workbook?.dispose()
-    this.contentEl.empty()
   }
 }

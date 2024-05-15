@@ -14,6 +14,9 @@ function generate(isDev?: boolean) {
   if (!isDev)
     buildDir = 'dist'
 
+  if (isDev)
+    buildDir = process.cwd()
+
   return {
     name: 'obsidian',
     async writeBundle() {
@@ -59,7 +62,7 @@ export default defineConfig((_) => {
           'cjs',
         ],
       },
-      emptyOutDir: true,
+      emptyOutDir: !dev,
       sourcemap: dev ? 'inline' : false,
       target: 'es2018',
       rollupOptions: {

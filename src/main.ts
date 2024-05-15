@@ -166,7 +166,6 @@ export default class ExcelProPlugin extends Plugin {
 
     // @ts-expect-error
     if (!this.app.plugins?.plugins?.['obsidian-hover-editor']) {
-      // @ts-expect-error
       this.register(
         // stolen from hover editor
         around(WorkspaceLeaf.prototype, {
@@ -180,7 +179,6 @@ export default class ExcelProPlugin extends Plugin {
       )
     }
 
-    // @ts-expect-error
     const self = this
     // Monkey patch WorkspaceLeaf to open Excel with ExcelProView by default
     this.register(
@@ -196,7 +194,6 @@ export default class ExcelProPlugin extends Plugin {
         setViewState(next) {
           return function (state: ViewState, ...rest: any[]) {
             // console.log("setViewState state ===", state)
-            // @ts-expect-error
             if (
               self._loaded
               // If we have a markdown file
@@ -204,7 +201,6 @@ export default class ExcelProPlugin extends Plugin {
               && state.state?.file
             ) {
               // Then check for the excalidraw frontMatterKey
-              // @ts-expect-error
               const cache = self.app.metadataCache.getCache(state.state.file)
 
               // console.log("setViewState cache cccc", cache)
