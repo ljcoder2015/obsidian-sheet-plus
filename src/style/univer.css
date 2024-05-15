@@ -1,0 +1,113 @@
+:root {
+	--ctx_menu_x: 0px;
+	--ctx_menu_y: 0px;
+	--toolbar-height: 100px;
+	--sheet-iframe-border-color: #f5f6f7;
+	--sheet-iframe-background-color: #fff;
+	--sheet-toolbar-background-color: #f5f6f7;
+	--sheet-toolbar-divider-color: #e0e2e4;
+	--sheet-dropdown-content-background-color: #fff;
+	--sheet-dropdown-content-color: rgba(0, 0, 0, 0.9);
+	--sheet-dropdown-title-color: rgba(0, 0, 0, 0.9);
+	--sheet-menu-color: #80868b;
+	--sheet-menu-active-background-color: #fff;
+	--sheet-header-background-color: #f8f8f9;
+	--sheet-checked-before: #4b89ff;
+}
+
+/* Markdown 文档引入样式设置*/
+.sheet-iframe {
+	width: 100%;
+	background-color: var(--sheet-iframe-background-color);
+	border: 5px solid rgb(var(--bg-color));
+}
+
+#sheet-box {
+	height: 100%;
+	padding-bottom: 24px;
+	box-sizing: border-box;
+}
+
+.sheet-html {
+	overflow-x: auto;
+}
+
+.sheet-html table {
+	border-collapse: collapse;
+	line-height: var(--table-line-height);
+}
+
+.sheet-html td,
+.sheet-html th {
+	padding: var(--size-2-2) var(--size-4-2);
+	border: var(--table-border-width) solid var(--table-border-color);
+	max-width: var(--table-column-max-width);
+}
+
+.sheet-html td {
+	font-size: var(--table-text-size);
+	color: var(--table-text-color);
+}
+
+.my-univer {
+	height: calc(100%);
+	border: 1px solid #ececec;
+}
+
+.univer-menu-item,
+.univer-icon-container,
+.more-numfmt-type,
+.univer-slide-tab-item {
+	color: black;
+}
+
+.univer-slide-tab-active {
+	color: rgb(var(--primary-color));
+}
+
+button.univer-button-text,
+button.univer-toolbar-btn,
+button.univer-dialog-close,
+button.univer-sheet-bar-btn {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+.univer-input {
+	box-shadow: none !important;
+	color: rgb(var(--text-color)) !important;
+}
+
+button.univer-toolbar-btn-active {
+	background-color: rgb(var(--grey-100));
+}
+
+.univer-modal-btn-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.univer-mdal-btn {
+	margin: 0 10px;
+}
+
+.uproduct-container input[type="search"],
+input[type="text"] {
+	height: auto;
+	box-shadow: none;
+}
+
+.uproduct-container input[type="text"]:focus,
+input[type="text"]:active,
+[type="text"]:focus-visible {
+	box-shadow: none;
+}
+
+button.univer-button-primary {
+	font-weight: 500;
+	color: rgb(var(--color-white));
+	background-color: rgb(var(--primary-color));
+	border-color: rgb(var(--primary-color));
+}

@@ -1,0 +1,23 @@
+{
+  "git": {
+    "commitMessage": "chore(release): release v${version}",
+    "tagName": "${version}",
+    "requireCleanWorkingDir": false
+  },
+  "hooks": {
+    "after:bump": "pnpm build"
+  },
+  "npm": {
+    "publish": false
+  },
+  "github": {
+    "release": true
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "angular",
+      "infile": "CHANGELOG.md",
+      "ignoreRecommendedBump": true
+    }
+  }
+}

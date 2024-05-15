@@ -18,5 +18,15 @@ main.js
 # obsidian
 data.json
 
+act.exe
+
 # Exclude macOS Finder (System Explorer) View States
 .DS_Store
+
+dist
+
+*.copy.*
+
+.env
+
+.npmrc
