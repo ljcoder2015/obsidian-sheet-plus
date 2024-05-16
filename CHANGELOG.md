@@ -1,5 +1,18 @@
 
 
+## [1.1.2](https://github.com/ljcoder2015/obsidian-excel-plus/compare/1.1.0...1.1.2) (2024-05-16)
+
+
+### Bug Fixes
+
+* release config ([9ae108a](https://github.com/ljcoder2015/obsidian-excel-plus/commit/9ae108a7556c807f170d4038cd0d21aef592c01a))
+* workflow ([8f494ec](https://github.com/ljcoder2015/obsidian-excel-plus/commit/8f494ecb23976cb4a19f4e622b0b86f01418dd0a))
+
+
+### Features
+
+* readme ([d055273](https://github.com/ljcoder2015/obsidian-excel-plus/commit/d055273bfe5c44896d9b23a06d0c56c0b95f6484))
+
 ## [1.1.1](https://github.com/ljcoder2015/obsidian-excel-plus/compare/1.1.0...1.1.1) (2024-05-16)
 
 
