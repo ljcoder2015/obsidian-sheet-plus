@@ -1,4 +1,6 @@
 # obsidian-excel-plus
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W2VVS7O)
+
 Obsidian Excel Pro  is here to revolutionize the way you handle spreadsheets within Obsidian。
 
 Developed using the Univer framework, Obsidian Excel Plus features a Canvas-based rendering engine and formula engine. It supports Web Worker, ensuring high performance while also enabling large-scale data processing.
