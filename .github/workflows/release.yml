@@ -49,7 +49,7 @@ jobs:
         id: upload-main
         uses: actions/upload-release-asset@v1
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_latest_release.outputs.upload_url }}
           asset_path: ./dist/main.js
@@ -60,7 +60,7 @@ jobs:
         id: upload-manifest
         uses: actions/upload-release-asset@v1
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_latest_release.outputs.upload_url }}
           asset_path: ./dist/manifest.json
@@ -71,7 +71,7 @@ jobs:
         id: upload-css
         uses: actions/upload-release-asset@v1
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_latest_release.outputs.upload_url }}
           asset_path: ./dist/styles.css
