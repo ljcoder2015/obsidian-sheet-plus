@@ -15,7 +15,7 @@
     "prepare": "simple-git-hooks",
     "dev": "vite build --watch",
     "build": "vite build",
-    "release": "release-it --no-git.requireUpstream",
+    "release": "release-it",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

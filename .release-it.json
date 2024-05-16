@@ -1,6 +1,5 @@
 {
   "git": {
-    "pushRepo": "github",
     "commitMessage": "chore(release): release v${version}",
     "tagName": "${version}",
     "requireCleanWorkingDir": false
