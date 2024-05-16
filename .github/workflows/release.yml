@@ -43,13 +43,13 @@ jobs:
           upload_url=$(gh release view --json uploadUrl -q .uploadUrl)
           echo "upload_url=$upload_url" >>  $GITHUB_OUTPUT
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload main.js
         id: upload-main
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_latest_release.outputs.upload_url }}
           asset_path: ./dist/main.js
@@ -60,7 +60,7 @@ jobs:
         id: upload-manifest
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_latest_release.outputs.upload_url }}
           asset_path: ./dist/manifest.json
@@ -71,7 +71,7 @@ jobs:
         id: upload-css
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_latest_release.outputs.upload_url }}
           asset_path: ./dist/styles.css
