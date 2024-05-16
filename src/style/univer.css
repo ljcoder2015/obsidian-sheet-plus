@@ -15,6 +15,11 @@
 	--sheet-checked-before: #4b89ff;
 }
 
+/* 修复数据验证 */
+.workspace-leaf {
+	contain: none !important;
+}
+
 /* Markdown 文档引入样式设置*/
 .sheet-iframe {
 	width: 100%;
@@ -68,7 +73,10 @@
 button.univer-button-text,
 button.univer-toolbar-btn,
 button.univer-dialog-close,
-button.univer-sheet-bar-btn {
+button.univer-sheet-bar-btn,
+button.univer-data-validation-detail-button,
+button.univer-range-selector-icon,
+button.univer-range-selector-modal-add-button {
 	background-color: transparent;
 	box-shadow: none;
 }
@@ -93,13 +101,13 @@ button.univer-toolbar-btn-active {
 	margin: 0 10px;
 }
 
-.uproduct-container input[type="search"],
+.my-univer input[type="search"],
 input[type="text"] {
 	height: auto;
 	box-shadow: none;
 }
 
-.uproduct-container input[type="text"]:focus,
+.my-univer input[type="text"]:focus,
 input[type="text"]:active,
 [type="text"]:focus-visible {
 	box-shadow: none;
@@ -110,4 +118,12 @@ button.univer-button-primary {
 	color: rgb(var(--color-white));
 	background-color: rgb(var(--primary-color));
 	border-color: rgb(var(--primary-color));
+	box-shadow: none;
+}
+
+button.univer-button-default {
+    font-weight: 400;
+    color: rgb(var(--text-color));
+    background-color: rgb(var(--bg-color-secondary));
+	box-shadow: none;
 }
