@@ -1,7 +1,7 @@
 {
   "name": "excel-plus",
   "type": "module",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "spreadsheet solutions",
   "author": "ljcoder",
   "license": "Apache-2.0",
@@ -15,7 +15,7 @@
     "prepare": "simple-git-hooks",
     "dev": "vite build --watch",
     "build": "vite build",
-    "release": "release-it",
+    "release": "release-it --no-git.requireUpstream",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
