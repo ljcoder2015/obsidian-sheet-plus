@@ -1,5 +1,7 @@
 
 
+## [1.1.3](https://github.com/ljcoder2015/obsidian-excel-plus/compare/1.1.2...1.1.3) (2024-05-20)
+
 ## [1.1.2](https://github.com/ljcoder2015/obsidian-excel-plus/compare/1.1.0...1.1.2) (2024-05-16)
 
 
