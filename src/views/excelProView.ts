@@ -183,8 +183,6 @@ export class ExcelProView extends TextFileView {
 
       const activeWorkbookData = JSON.stringify(
         activeWorkbook.getSnapshot(),
-        null,
-        2,
       )
 
       if (this.lastWorkbookData === null) {
