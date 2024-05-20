@@ -280,6 +280,8 @@ function createSheetEl(data: IWorkbookData | null, file: TFile, height = 300): H
   let locale = LocaleType.EN_US
   if (moment.locale() === 'zh-cn')
     locale = LocaleType.ZH_CN
+  else if (moment.locale() === 'ru')
+    locale = LocaleType.RU_RU
 
   const univer = createUniver(id, locale, false)
 

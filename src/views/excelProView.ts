@@ -42,6 +42,7 @@ export class ExcelProView extends TextFileView {
   public univer: Univer | null // 表格对象
   public workbook: Workbook // 工作簿
 
+  private univerId: string
   private lastWorkbookData: string // 上次保存的数据
   // private dataWorker: Worker; // 用来异步解析数据
 
@@ -91,16 +92,15 @@ export class ExcelProView extends TextFileView {
   }
 
   dispose() {
-    // // 释放工作簿
-    // if (this.workbook !== null && this.workbook !== undefined) {
-    // 	this.workbook.dispose();
-    // }
+    // 释放工作簿
+    if (this.workbook !== null && this.workbook !== undefined)
+    	this.workbook.dispose()
 
-    // // 释放 univer
-    // if (this.univer !== null && this.univer  !== undefined) {
-    // 	this.univer.dispose();
-    // 	this.univer = null;
-    // }
+    // 释放 univer
+    if (this.univer !== null && this.univer !== undefined) {
+    	this.univer.dispose()
+    	this.univer = null
+    }
   }
 
   getViewType(): string {
@@ -108,6 +108,7 @@ export class ExcelProView extends TextFileView {
   }
 
   setupUniver() {
+    this.dispose()
     this.contentEl.empty()
     this.sheetEle = this.contentEl.createDiv({
       attr: {
@@ -127,6 +128,8 @@ export class ExcelProView extends TextFileView {
     let locale = LocaleType.EN_US
     if (moment.locale() === 'zh-cn')
       locale = LocaleType.ZH_CN
+    else if (moment.locale() === 'ru')
+      locale = LocaleType.RU_RU
 
     this.univer = createUniver(id, locale, true)
     this.univerAPI = FUniver.newAPI(this.univer)
