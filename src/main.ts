@@ -136,7 +136,7 @@ export default class ExcelProPlugin extends Plugin {
       this.app.workspace.on('file-menu', fileMenuHandlerCreateNew),
     )
     this.addCommand({
-      id: 'excel-univer-autocreate',
+      id: 'spreadsheet-autocreation',
       name: t('CREATE_EXCEL'),
       callback: () => {
         this.createAndOpenExcel(
