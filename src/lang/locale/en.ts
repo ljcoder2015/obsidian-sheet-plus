@@ -25,7 +25,7 @@ export default {
   BASE_COLOR: 'Base color scheme',
   BASE_COLOR_DESC: 'Choose default color scheme',
   FILE_SETTING: 'File setting',
-  FOLDER: 'FOLDER',
+  FOLDER: 'Folder',
   FOLDER_DESC: 'Create files in this folder by default',
   FILENAME_PREFIX: 'Filename prefix',
   FILENAME_PREFIX_DESC: 'Filename prefix',

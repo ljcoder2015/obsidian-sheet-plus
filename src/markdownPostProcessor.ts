@@ -328,9 +328,9 @@ async function processReadingMode(embeddedItems: NodeListOf<Element> | [HTMLElem
 
 function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: string): HTMLDivElement {
   const src = internalEmbedEl.getAttribute('src')
-  // @ts-expect-error
+
   if (!src)
-    return
+    return createDiv()
 
   // https://github.com/zsviczian/obsidian-excalidraw-plugin/issues/1059
   internalEmbedEl.removeClass('markdown-embed')

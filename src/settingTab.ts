@@ -16,7 +16,9 @@ export class ExcelProSettingTab extends PluginSettingTab {
 
     containerEl.empty()
 
-    containerEl.createEl('h1', { text: t('FILE_SETTING') })
+    new Setting(containerEl)
+      .setName(t('FILE_SETTING'))
+      .setHeading()
 
     new Setting(containerEl)
       .setName(t('FOLDER'))
@@ -57,7 +59,9 @@ export class ExcelProSettingTab extends PluginSettingTab {
           }),
       )
 
-    containerEl.createEl('h1', { text: t('EMBED_LINK_SETTING') })
+    new Setting(containerEl)
+      .setName(t('EMBED_LINK_SETTING'))
+      .setHeading()
 
     new Setting(containerEl)
       .setName(t('SHEET_HEIGHT'))
