@@ -1,5 +1,12 @@
 
 
+## [1.1.5](https://github.com/ljcoder2015/obsidian-excel-plus/compare/1.1.4...1.1.5) (2024-05-23)
+
+
+### Bug Fixes
+
+* Avoid "settings" in settings headings ([b47a3dc](https://github.com/ljcoder2015/obsidian-excel-plus/commit/b47a3dc93dac1b428540bf99e8755bab5d3a4008))
+
 ## [1.1.4](https://github.com/ljcoder2015/obsidian-excel-plus/compare/1.1.3...1.1.4) (2024-05-22)
 
 
