@@ -1,5 +1,12 @@
 
 
+## [1.1.6](https://github.com/ljcoder2015/obsidian-excel-plus/compare/1.1.5...1.1.6) (2024-05-24)
+
+
+### Bug Fixes
+
+* Indexing taking a long time for sheet file ([a8560c4](https://github.com/ljcoder2015/obsidian-excel-plus/commit/a8560c4be85c7f32158100f1b0545c8f815f8468))
+
 ## [1.1.5](https://github.com/ljcoder2015/obsidian-excel-plus/compare/1.1.4...1.1.5) (2024-05-23)
 
 
