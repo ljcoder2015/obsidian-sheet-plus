@@ -1,28 +1,15 @@
-import type {
-  WorkspaceLeaf,
-} from 'obsidian'
-import {
-  Notice,
-  TextFileView,
-  moment,
-} from 'obsidian'
+import type { WorkspaceLeaf } from 'obsidian'
+import { Notice, TextFileView, moment } from 'obsidian'
 import { FUniver } from '@univerjs/facade'
-import type {
-  IWorkbookData,
-  Univer,
-  Workbook,
-} from '@univerjs/core'
-import {
-  LocaleType,
-  UniverInstanceType,
-} from '@univerjs/core'
+import type { IWorkbookData, Univer, Workbook } from '@univerjs/core'
+import { LocaleType, UniverInstanceType } from '@univerjs/core'
 import type ExcelProPlugin from '../main'
 
 import {
   extractYAML,
+  getExcelData,
   rangeToRangeString,
   renderToHtml,
-  splitYAML,
 } from '../utils/data'
 import { randomString } from '../utils/uuid'
 import { FRONTMATTER, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
@@ -94,12 +81,12 @@ export class ExcelProView extends TextFileView {
   dispose() {
     // 释放工作簿
     if (this.workbook !== null && this.workbook !== undefined)
-    	this.workbook.dispose()
+      this.workbook.dispose()
 
     // 释放 univer
     if (this.univer !== null && this.univer !== undefined) {
-    	this.univer.dispose()
-    	this.univer = null
+      this.univer.dispose()
+      this.univer = null
     }
   }
 
@@ -134,24 +121,14 @@ export class ExcelProView extends TextFileView {
     this.univer = createUniver(id, locale, true)
     this.univerAPI = FUniver.newAPI(this.univer)
 
-    const markdown = splitYAML(this.data)?.rest
-    // const data = markdownToJSON(markdown);
-    if (markdown) {
-      const data = JSON.parse(markdown)
-      if (data) {
-        // workbookData 的内容都包含在 workbook 字段中
-        const workbookData: IWorkbookData = data
-        this.workbook = this.univer.createUnit(
-          UniverInstanceType.UNIVER_SHEET,
-          workbookData,
-        )
-      }
-      else {
-        this.workbook = this.univer.createUnit(
-          UniverInstanceType.UNIVER_SHEET,
-          {},
-        )
-      }
+    const data = getExcelData(this.data)
+    if (data) {
+      // workbookData 的内容都包含在 workbook 字段中
+      const workbookData: IWorkbookData = data
+      this.workbook = this.univer.createUnit(
+        UniverInstanceType.UNIVER_SHEET,
+        workbookData,
+      )
     }
     else {
       this.workbook = this.univer.createUnit(
@@ -181,9 +158,7 @@ export class ExcelProView extends TextFileView {
       if (!activeWorkbook)
         throw new Error('activeWorkbook is not defined')
 
-      const activeWorkbookData = JSON.stringify(
-        activeWorkbook.getSnapshot(),
-      )
+      const activeWorkbookData = JSON.stringify(activeWorkbook.getSnapshot())
 
       if (this.lastWorkbookData === null) {
         // 第一次加载不处理
@@ -216,7 +191,7 @@ export class ExcelProView extends TextFileView {
     }
     else {
       // 添加 --- 分隔符
-      header = ['---', '', `${header}`, '', '---', '', ''].join('\n')
+      header = ['---', '', `${header}`, '', '---', '', '', '```', ''].join('\n')
     }
 
     return header
@@ -225,7 +200,7 @@ export class ExcelProView extends TextFileView {
   saveDataToFile(data: string) {
     const yaml = this.headerData()
 
-    this.data = yaml + data
+    this.data = `${yaml + data}\n\`\`\``
 
     this.save(false)
       .then(() => {
@@ -244,8 +219,8 @@ export class ExcelProView extends TextFileView {
     this.data = data
 
     this.app.workspace.onLayoutReady(async () => {
-    	// console.log("setViewData", data);
-    	this.setupUniver()
+      // console.log("setViewData", data);
+      this.setupUniver()
     })
   }
 

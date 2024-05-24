@@ -127,3 +127,17 @@ button.univer-button-default {
     background-color: rgb(var(--bg-color-secondary));
 	box-shadow: none;
 }
+
+.univer-input-number-input {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    line-height: 34px;
+    color: rgb(var(--text-color));
+    text-align: center;
+    border: 0;
+    border-radius: var(--border-radius-base);
+    outline: 0;
+    transition: all .15s;
+    background: rgb(var(--bg-color-secondary));
+}

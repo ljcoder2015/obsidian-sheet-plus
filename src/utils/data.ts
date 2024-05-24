@@ -36,9 +36,13 @@ export function extractYAML(str: string): string | null {
 export function getExcelData(str: string): IWorkbookData | null {
   const markdown = splitYAML(str)?.rest
   if (markdown) {
-    const data: IWorkbookData = JSON.parse(markdown)
-    if (data)
-      return data
+    const json = markdown.replaceAll('```', '')
+    if (json) {
+      // console.log("getExcelData-----", json)
+      const data: IWorkbookData = JSON.parse(json)
+      if (data)
+        return data
+    }
   }
   return null
 }
