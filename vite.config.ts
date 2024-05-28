@@ -21,7 +21,7 @@ function generate(isDev?: boolean) {
     async writeBundle() {
       await writeFile(resolve(buildDir, 'manifest.json'), `${JSON.stringify({
         id: pkg.name,
-        name: 'Excel Plus',
+        name: 'Sheet Plus',
         version: pkg.version,
         minAppVersion: '1.5.11',
         description: pkg.description,
