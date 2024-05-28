@@ -1,7 +1,7 @@
 {
   "name": "excel-plus",
   "type": "module",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "spreadsheet solutions",
   "author": "ljcoder",
   "license": "Apache-2.0",
