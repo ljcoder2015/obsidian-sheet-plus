@@ -1,9 +1,9 @@
-# obsidian-excel-plus
+# obsidian-sheet-plus
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W2VVS7O)
 
-Obsidian Excel Plus  is here to revolutionize the way you handle spreadsheets within Obsidian。
+Obsidian Sheet Plus  is here to revolutionize the way you handle spreadsheets within Obsidian。
 
-Developed using the Univer framework, Obsidian Excel Plus features a Canvas-based rendering engine and formula engine. It supports Web Worker, ensuring high performance while also enabling large-scale data processing.
+Developed using the Univer framework, Obsidian Sheet Plus features a Canvas-based rendering engine and formula engine. It supports Web Worker, ensuring high performance while also enabling large-scale data processing.
 
 Its core functionality and capabilities are provided through plugins, making it easily extensible.
 
@@ -13,7 +13,7 @@ Its core functionality and capabilities are provided through plugins, making it 
 
 ## How to install
 
-[How to install](https://github.com/ljcoder2015/obsidian-excel-plus/wiki/How-to-install)
+[How to install](https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/How-to-install)
 
 ## Features
 
