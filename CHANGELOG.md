@@ -1,5 +1,12 @@
 
 
+## [1.1.8](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.1.7...1.1.8) (2024-05-29)
+
+
+### Bug Fixes
+
+* update readme ([1f5529d](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/1f5529dbf72cf4ee0fc93cfe53f08d4de0784f3d))
+
 ## [1.1.7](https://github.com/ljcoder2015/obsidian-excel-plus/compare/1.1.6...1.1.7) (2024-05-28)
 
 ## [1.1.7](https://github.com/ljcoder2015/obsidian-excel-plus/compare/1.1.6...1.1.7) (2024-05-28)
