@@ -4,6 +4,7 @@ import process from 'node:process'
 import { defineConfig } from 'vite'
 import builtins from 'builtin-modules'
 import dotenv from 'dotenv'
+import { univerPlugin } from '@univerjs/vite-plugin'
 import pkg from './package.json'
 
 dotenv.config()
@@ -44,7 +45,7 @@ export default defineConfig((_) => {
   return {
     plugins: [
       generate(dev),
-      // univerPlugin()
+      univerPlugin(),
     ],
     resolve: {
       alias: {

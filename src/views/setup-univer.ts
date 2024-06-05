@@ -4,6 +4,10 @@ import '@univerjs/sheets-ui/lib/index.css'
 import '@univerjs/sheets-formula/lib/index.css'
 import '@univerjs/sheets-numfmt/lib/index.css'
 import '@univerjs/find-replace/lib/index.css'
+import '@univerjs/drawing-ui/lib/index.css'
+import '@univerjs/sheets-drawing-ui/lib/index.css'
+import '@univerjs/sheets-filter-ui/lib/index.css'
+import '@univerjs/thread-comment-ui/lib/index.css'
 
 import { LocaleType, LogLevel, Univer } from '@univerjs/core'
 import { defaultTheme } from '@univerjs/design'
@@ -20,7 +24,22 @@ import { UniverFindReplacePlugin } from '@univerjs/find-replace'
 import { UniverSheetsFindReplacePlugin } from '@univerjs/sheets-find-replace'
 import { UniverDataValidationPlugin } from '@univerjs/data-validation'
 import { UniverSheetsDataValidationPlugin } from '@univerjs/sheets-data-validation'
+
+import { UniverDrawingPlugin } from '@univerjs/drawing'
+import { UniverDrawingUIPlugin } from '@univerjs/drawing-ui'
+import { UniverSheetsDrawingPlugin } from '@univerjs/sheets-drawing'
+import { UniverSheetsDrawingUIPlugin } from '@univerjs/sheets-drawing-ui'
+
+import { UniverSheetsFilterPlugin } from '@univerjs/sheets-filter'
+import { UniverSheetsFilterUIPlugin } from '@univerjs/sheets-filter-ui'
+
+import {
+  IThreadCommentMentionDataService,
+  UniverSheetsThreadCommentPlugin,
+} from '@univerjs/sheets-thread-comment'
+
 import { locales } from '../lang/locale'
+import { CustomMentionDataService } from './customMentionDataService'
 
 export function createUniver(
   id: string,
@@ -59,6 +78,26 @@ export function createUniver(
   // data validation
   univer.registerPlugin(UniverDataValidationPlugin)
   univer.registerPlugin(UniverSheetsDataValidationPlugin)
+
+  // 浮动图片
+  univer.registerPlugin(UniverDrawingPlugin)
+  univer.registerPlugin(UniverDrawingUIPlugin)
+  univer.registerPlugin(UniverSheetsDrawingPlugin)
+  univer.registerPlugin(UniverSheetsDrawingUIPlugin)
+
+  // 筛选
+  univer.registerPlugin(UniverSheetsFilterPlugin)
+  univer.registerPlugin(UniverSheetsFilterUIPlugin)
+
+  // 评论批注
+  univer.registerPlugin(UniverSheetsThreadCommentPlugin, {
+    overrides: [
+      [
+        IThreadCommentMentionDataService,
+        { useClass: CustomMentionDataService },
+      ],
+    ],
+  })
 
   return univer
 }

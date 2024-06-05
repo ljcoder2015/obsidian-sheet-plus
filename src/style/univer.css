@@ -81,7 +81,7 @@ button.univer-range-selector-modal-add-button {
 	box-shadow: none;
 }
 
-.univer-input {
+.my-univer .univer-input {
 	box-shadow: none !important;
 	color: rgb(var(--text-color)) !important;
 }
@@ -102,14 +102,43 @@ button.univer-toolbar-btn-active {
 }
 
 .my-univer input[type="search"],
-input[type="text"] {
+.my-univer input[type="text"] {
 	height: auto;
 	box-shadow: none;
 }
 
+.my-univer input[type=checkbox] {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: var(--checkbox-radius);
+    border: 1px solid var(--checkbox-border-color);
+    flex-shrink: 0;
+    padding: 0;
+    margin: 0;
+    margin-inline-end: 6px;
+    width: var(--checkbox-size);
+    height: var(--checkbox-size);
+    height: auto;
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+.univer-checkbox-target {
+    position: relative;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+}
+
 .my-univer input[type="text"]:focus,
-input[type="text"]:active,
-[type="text"]:focus-visible {
+.my-univer input[type="text"]:active,
+.my-univer [type="text"]:focus-visible {
+	box-shadow: none;
+}
+
+button.univer-button-link {
+    color: rgb(var(--primary-color));
+    background-color: transparent;
+    border-color: transparent;
 	box-shadow: none;
 }
 
