@@ -34,3 +34,12 @@ Its core functionality and capabilities are provided through plugins, making it 
 
 ### Data validation
 ![data validation](/images/data-validation.gif)
+
+### Filter
+![filter](/images/filter.gif)
+
+### Float Image
+![float image](/images/image.gif)
+
+### Comment
+![comment](/images/remark.gif)
