@@ -11,6 +11,7 @@
       "DOM.Iterable",
       "WebWorker"
 	  ],
+	  "experimentalDecorators": true,
 	  "baseUrl": ".",
 	  "module": "ESNext",
 	  "moduleResolution": "node",

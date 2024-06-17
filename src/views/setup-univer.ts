@@ -33,6 +33,10 @@ import { UniverSheetsDrawingUIPlugin } from '@univerjs/sheets-drawing-ui'
 import { UniverSheetsFilterPlugin } from '@univerjs/sheets-filter'
 import { UniverSheetsFilterUIPlugin } from '@univerjs/sheets-filter-ui'
 
+import { UniverThreadCommentPlugin } from '@univerjs/thread-comment'
+import { UniverThreadCommentUIPlugin } from '@univerjs/thread-comment-ui'
+
+import { UniverSheetsThreadCommentBasePlugin } from '@univerjs/sheets-thread-comment-base'
 import {
   IThreadCommentMentionDataService,
   UniverSheetsThreadCommentPlugin,
@@ -90,6 +94,10 @@ export function createUniver(
   univer.registerPlugin(UniverSheetsFilterUIPlugin)
 
   // 评论批注
+  univer.registerPlugin(UniverThreadCommentPlugin)
+  univer.registerPlugin(UniverThreadCommentUIPlugin)
+
+  univer.registerPlugin(UniverSheetsThreadCommentBasePlugin)
   univer.registerPlugin(UniverSheetsThreadCommentPlugin, {
     overrides: [
       [
