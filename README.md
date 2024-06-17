@@ -27,6 +27,23 @@ Its core functionality and capabilities are provided through plugins, making it 
 ![Formulas](/images/Formulas.gif)
 
 ### Embed link
+embed link rule:
+```
+![[file-folder/file-name#sheet-name|sri-sci:eri-eci<sheet-height>{html}]]
+```
+
+- `sri`: Start row index
+- `eri`: End row index
+- `sci`: Start column index
+- `eci`: End column index
+- `{html}`: Whether to display as HTML
+- `<sheet-height>`: Sheet height, dispaly HTML not work
+
+eg.
+```
+![[Excel 2024-06-05 13.41.50.univer#Sheet1|D8:G14<1000>{html}]]
+```
+
 ![embed link](/images/embed-link.gif)
 
 ### Find and replace
