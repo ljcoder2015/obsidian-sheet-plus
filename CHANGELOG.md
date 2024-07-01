@@ -1,5 +1,12 @@
 
 
+## [1.2.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.2.0...1.2.1) (2024-07-01)
+
+
+### Features
+
+* update readme ([4b4e021](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/4b4e021b1369295d6cc8d942a2871409006de657))
+
 # [1.2.0](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.1.8...1.2.0) (2024-06-05)
 
 ## [1.1.8](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.1.7...1.1.8) (2024-05-29)
