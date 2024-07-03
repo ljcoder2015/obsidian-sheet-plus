@@ -5,10 +5,9 @@ import type {
 } from 'obsidian'
 import {
   TFile,
-  moment,
 } from 'obsidian'
 import type { IWorkbookData } from '@univerjs/core'
-import { LocaleType, UniverInstanceType } from '@univerjs/core'
+import { UniverInstanceType } from '@univerjs/core'
 import type ExcelProPlugin from './main'
 
 import { getExcelData, getRangeData, renderToHtml } from './utils/data'
@@ -71,15 +70,17 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
     && !internalEmbedDiv.hasClass('markdown-reading-view')
     && !internalEmbedDiv.hasClass('markdown-embed')
     && internalEmbedDiv.parentElement
-  )
+  ) {
     internalEmbedDiv = internalEmbedDiv.parentElement
+  }
 
   if (
     internalEmbedDiv.hasClass('dataview')
     || internalEmbedDiv.hasClass('cm-preview-code-block')
     || internalEmbedDiv.hasClass('cm-embed-block')
-  )
-    return // https://github.com/zsviczian/obsidian-excalidraw-plugin/issues/835
+  ) {
+    return
+  } // https://github.com/zsviczian/obsidian-excalidraw-plugin/issues/835
 
   const markdownEmbed = internalEmbedDiv.hasClass('markdown-embed')
   const markdownReadingView = internalEmbedDiv.hasClass(
@@ -276,14 +277,11 @@ function createSheetEl(data: IWorkbookData | null, file: TFile, height = 300): H
 
   sheetDiv.appendChild(sheetEl)
 
-  // 设置多语言
-  let locale = LocaleType.EN_US
-  if (moment.locale() === 'zh-cn')
-    locale = LocaleType.ZH_CN
-  else if (moment.locale() === 'ru')
-    locale = LocaleType.RU_RU
-
-  const univer = createUniver(id, locale, false)
+  const options = {
+    header: false,
+    footer: true,
+  }
+  const univer = createUniver(options, id)
 
   if (data) {
     // workbookData 的内容都包含在 workbook 字段中
