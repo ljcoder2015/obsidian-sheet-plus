@@ -13,7 +13,7 @@ Its core functionality and capabilities are provided through plugins, making it 
 
 ## How to install
 
-[How to install](https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/How-to-install)
+![install](/images/install.gif)
 
 ## Features
 
