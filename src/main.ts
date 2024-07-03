@@ -103,8 +103,9 @@ export default class ExcelProPlugin extends Plugin {
           leaf.view instanceof MarkdownView
           && leaf.view.file
           && this.isExcelFile(leaf.view.file)
-        )
+        ) {
           this.setExcelView(leaf)
+        }
       }
     })
   }

@@ -1,27 +1,23 @@
-import '@univerjs/design/lib/index.css'
-import '@univerjs/ui/lib/index.css'
-import '@univerjs/sheets-ui/lib/index.css'
-import '@univerjs/sheets-formula/lib/index.css'
-import '@univerjs/sheets-numfmt/lib/index.css'
-import '@univerjs/find-replace/lib/index.css'
-import '@univerjs/drawing-ui/lib/index.css'
-import '@univerjs/sheets-drawing-ui/lib/index.css'
-import '@univerjs/sheets-filter-ui/lib/index.css'
-import '@univerjs/thread-comment-ui/lib/index.css'
-
-import { LocaleType, LogLevel, Univer } from '@univerjs/core'
+import { LogLevel, Univer } from '@univerjs/core'
 import { defaultTheme } from '@univerjs/design'
+
 import { UniverDocsPlugin } from '@univerjs/docs'
 import { UniverDocsUIPlugin } from '@univerjs/docs-ui'
-import { UniverFormulaEnginePlugin } from '@univerjs/engine-formula'
+
 import { UniverRenderEnginePlugin } from '@univerjs/engine-render'
 import { UniverSheetsPlugin } from '@univerjs/sheets'
+
+import { UniverFormulaEnginePlugin } from '@univerjs/engine-formula'
 import { UniverSheetsFormulaPlugin } from '@univerjs/sheets-formula'
+
 import { UniverSheetsNumfmtPlugin } from '@univerjs/sheets-numfmt'
+
 import { UniverSheetsUIPlugin } from '@univerjs/sheets-ui'
 import { UniverUIPlugin } from '@univerjs/ui'
+
 import { UniverFindReplacePlugin } from '@univerjs/find-replace'
 import { UniverSheetsFindReplacePlugin } from '@univerjs/sheets-find-replace'
+
 import { UniverDataValidationPlugin } from '@univerjs/data-validation'
 import { UniverSheetsDataValidationPlugin } from '@univerjs/sheets-data-validation'
 
@@ -42,17 +38,27 @@ import {
   UniverSheetsThreadCommentPlugin,
 } from '@univerjs/sheets-thread-comment'
 
-import { locales } from '../lang/locale'
+import type { IUniverUIConfig } from '@univerjs/ui/lib/types/controllers/ui/ui.controller'
+
+import { UniverSheetsHyperLinkPlugin } from '@univerjs/sheets-hyper-link'
+import { UniverSheetsHyperLinkUIPlugin } from '@univerjs/sheets-hyper-link-ui'
+
+import { UniverSheetsSortPlugin } from '@univerjs/sheets-sort'
+import { UniverSheetsSortUIPlugin } from '@univerjs/sheets-sort-ui'
+
+import { UniverSheetsConditionalFormattingUIPlugin } from '@univerjs/sheets-conditional-formatting-ui'
+import { SheetsConditionalFormattingPlugin } from '@univerjs/sheets-conditional-formatting'
+
+import { getLanguage, locales } from '../lang/locale'
 import { CustomMentionDataService } from './customMentionDataService'
 
 export function createUniver(
+  option: IUniverUIConfig,
   id: string,
-  locale = LocaleType.EN_US,
-  header = true,
 ) {
   const univer = new Univer({
     theme: defaultTheme,
-    locale,
+    locale: getLanguage(),
     logLevel: LogLevel.VERBOSE,
     locales,
     id,
@@ -65,8 +71,8 @@ export function createUniver(
   univer.registerPlugin(UniverRenderEnginePlugin)
   univer.registerPlugin(UniverUIPlugin, {
     container: id,
-    header,
-    footer: true,
+    header: option.header,
+    footer: option.footer,
   })
   univer.registerPlugin(UniverSheetsPlugin)
   univer.registerPlugin(UniverSheetsUIPlugin)
@@ -107,15 +113,17 @@ export function createUniver(
     ],
   })
 
-  return univer
-}
+  // 超链接
+  univer.registerPlugin(UniverSheetsHyperLinkPlugin)
+  univer.registerPlugin(UniverSheetsHyperLinkUIPlugin)
 
-export function createUniverNotUI(id: string) {
-  const univer = new Univer()
+  // 排序
+  univer.registerPlugin(UniverSheetsSortPlugin)
+  univer.registerPlugin(UniverSheetsSortUIPlugin)
 
-  univer.registerPlugin(UniverSheetsPlugin)
-  univer.registerPlugin(UniverFormulaEnginePlugin)
-  univer.registerPlugin(UniverSheetsFormulaPlugin)
+  // 条件渲染
+  univer.registerPlugin(UniverSheetsConditionalFormattingUIPlugin)
+  univer.registerPlugin(SheetsConditionalFormattingPlugin)
 
   return univer
 }

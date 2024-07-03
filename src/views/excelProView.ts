@@ -1,8 +1,8 @@
 import type { WorkspaceLeaf } from 'obsidian'
-import { Notice, TextFileView, moment } from 'obsidian'
+import { Notice, TextFileView } from 'obsidian'
 import { FUniver } from '@univerjs/facade'
 import type { IWorkbookData, Univer, Workbook } from '@univerjs/core'
-import { LocaleType, UniverInstanceType } from '@univerjs/core'
+import { UniverInstanceType } from '@univerjs/core'
 import type ExcelProPlugin from '../main'
 
 import {
@@ -112,13 +112,11 @@ export class ExcelProView extends TextFileView {
     })
 
     // 设置多语言
-    let locale = LocaleType.EN_US
-    if (moment.locale() === 'zh-cn')
-      locale = LocaleType.ZH_CN
-    else if (moment.locale() === 'ru')
-      locale = LocaleType.RU_RU
-
-    this.univer = createUniver(id, locale, true)
+    const options = {
+      header: true,
+      footer: true,
+    }
+    this.univer = createUniver(options, id)
     this.univerAPI = FUniver.newAPI(this.univer)
 
     const data = getExcelData(this.data)
