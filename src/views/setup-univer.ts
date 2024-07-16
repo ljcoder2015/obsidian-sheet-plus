@@ -47,7 +47,7 @@ import { UniverSheetsSortPlugin } from '@univerjs/sheets-sort'
 import { UniverSheetsSortUIPlugin } from '@univerjs/sheets-sort-ui'
 
 import { UniverSheetsConditionalFormattingUIPlugin } from '@univerjs/sheets-conditional-formatting-ui'
-import { SheetsConditionalFormattingPlugin } from '@univerjs/sheets-conditional-formatting'
+import { UniverSheetsConditionalFormattingPlugin } from '@univerjs/sheets-conditional-formatting'
 
 import { getLanguage, locales } from '../lang/locale'
 import { CustomMentionDataService } from './customMentionDataService'
@@ -123,7 +123,7 @@ export function createUniver(
 
   // 条件渲染
   univer.registerPlugin(UniverSheetsConditionalFormattingUIPlugin)
-  univer.registerPlugin(SheetsConditionalFormattingPlugin)
+  univer.registerPlugin(UniverSheetsConditionalFormattingPlugin)
 
   return univer
 }
