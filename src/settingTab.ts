@@ -17,8 +17,24 @@ export class ExcelProSettingTab extends PluginSettingTab {
     containerEl.empty()
 
     new Setting(containerEl)
-      .setName(t('FILE_SETTING'))
+      .setName(t('BASE_COLOR'))
       .setHeading()
+
+    new Setting(containerEl)
+      .setName(t('BASE_COLOR'))
+      .setDesc(t('BASE_COLOR_DESC'))
+      .addDropdown(dropdown =>
+        dropdown
+          .addOption('light', 'Light')
+          .addOption('dark', 'Dark')
+          .setValue(this.plugin.settings.theme)
+          .onChange(async (value) => {
+            this.plugin.settings.theme = value
+            this.plugin.saveSettings()
+          }),
+      )
+
+    new Setting(containerEl).setName(t('FILE_SETTING')).setHeading()
 
     new Setting(containerEl)
       .setName(t('FOLDER'))
@@ -59,9 +75,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           }),
       )
 
-    new Setting(containerEl)
-      .setName(t('EMBED_LINK_SETTING'))
-      .setHeading()
+    new Setting(containerEl).setName(t('EMBED_LINK_SETTING')).setHeading()
 
     new Setting(containerEl)
       .setName(t('SHEET_HEIGHT'))

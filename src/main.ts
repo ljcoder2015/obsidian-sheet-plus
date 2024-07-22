@@ -1,4 +1,5 @@
 import './style/univer.css'
+import '@/theme/dark.module.css'
 import './utils/polyfill'
 import type {
   Menu,

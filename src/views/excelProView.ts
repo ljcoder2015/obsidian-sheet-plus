@@ -15,6 +15,7 @@ import { randomString } from '../utils/uuid'
 import { FRONTMATTER, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { t } from '../lang/helpers'
 import { createUniver } from './setup-univer'
+import { updateSheetTheme } from '@/utils/theme'
 
 // import DataWorker from "web-worker:./workers/data.worker.ts";
 
@@ -111,7 +112,7 @@ export class ExcelProView extends TextFileView {
       },
     })
 
-    // 设置多语言
+    // 初始化univer
     const options = {
       header: true,
       footer: true,
@@ -134,6 +135,9 @@ export class ExcelProView extends TextFileView {
         {},
       )
     }
+
+    // 更新暗黑模式
+    updateSheetTheme(this.plugin.settings.theme === 'dark')
 
     this.univerAPI.onCommandExecuted((command) => {
       const blackList = [

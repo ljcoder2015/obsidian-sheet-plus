@@ -52,12 +52,17 @@ import { UniverSheetsConditionalFormattingPlugin } from '@univerjs/sheets-condit
 import { getLanguage, locales } from '../lang/locale'
 import { CustomMentionDataService } from './customMentionDataService'
 
+import dark from '@/theme/dark.module.css'
+
 export function createUniver(
   option: IUniverUIConfig,
   id: string,
 ) {
   const univer = new Univer({
-    theme: defaultTheme,
+    theme: {
+      ...defaultTheme,
+      ...dark,
+    },
     locale: getLanguage(),
     logLevel: LogLevel.VERBOSE,
     locales,

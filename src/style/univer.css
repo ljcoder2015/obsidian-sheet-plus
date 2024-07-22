@@ -1,74 +1,79 @@
 :root {
-	--ctx_menu_x: 0px;
-	--ctx_menu_y: 0px;
-	--toolbar-height: 100px;
-	--sheet-iframe-border-color: #f5f6f7;
-	--sheet-iframe-background-color: #fff;
-	--sheet-toolbar-background-color: #f5f6f7;
-	--sheet-toolbar-divider-color: #e0e2e4;
-	--sheet-dropdown-content-background-color: #fff;
-	--sheet-dropdown-content-color: rgba(0, 0, 0, 0.9);
-	--sheet-dropdown-title-color: rgba(0, 0, 0, 0.9);
-	--sheet-menu-color: #80868b;
-	--sheet-menu-active-background-color: #fff;
-	--sheet-header-background-color: #f8f8f9;
-	--sheet-checked-before: #4b89ff;
+  --ctx_menu_x: 0px;
+  --ctx_menu_y: 0px;
+  --toolbar-height: 100px;
+  --sheet-iframe-border-color: #f5f6f7;
+  --sheet-iframe-background-color: #fff;
+  --sheet-toolbar-background-color: #f5f6f7;
+  --sheet-toolbar-divider-color: #e0e2e4;
+  --sheet-dropdown-content-background-color: #fff;
+  --sheet-dropdown-content-color: rgba(0, 0, 0, 0.9);
+  --sheet-dropdown-title-color: rgba(0, 0, 0, 0.9);
+  --sheet-menu-color: #80868b;
+  --sheet-menu-active-background-color: #fff;
+  --sheet-header-background-color: #f8f8f9;
+  --sheet-checked-before: #4b89ff;
 }
 
 /* 修复数据验证 */
 .workspace-leaf {
-	contain: none !important;
+  contain: none !important;
 }
 
 /* Markdown 文档引入样式设置*/
 .sheet-iframe {
-	width: 100%;
-	background-color: var(--sheet-iframe-background-color);
-	border: 5px solid rgb(var(--bg-color));
+  width: 100%;
+  background-color: var(--sheet-iframe-background-color);
+  border: 5px solid rgb(var(--bg-color));
 }
 
 #sheet-box {
-	height: 100%;
-	padding-bottom: 24px;
-	box-sizing: border-box;
+  height: 100%;
+  padding-bottom: 24px;
+  box-sizing: border-box;
 }
 
 .sheet-html {
-	overflow-x: auto;
+  overflow-x: auto;
 }
 
 .sheet-html table {
-	border-collapse: collapse;
-	line-height: var(--table-line-height);
+  border-collapse: collapse;
+  line-height: var(--table-line-height);
 }
 
 .sheet-html td,
 .sheet-html th {
-	padding: var(--size-2-2) var(--size-4-2);
-	border: var(--table-border-width) solid var(--table-border-color);
-	max-width: var(--table-column-max-width);
+  padding: var(--size-2-2) var(--size-4-2);
+  border: var(--table-border-width) solid var(--table-border-color);
+  max-width: var(--table-column-max-width);
 }
 
 .sheet-html td {
-	font-size: var(--table-text-size);
-	color: var(--table-text-color);
+  font-size: var(--table-text-size);
+  color: var(--table-text-color);
 }
 
 .my-univer {
-	height: calc(100%);
-	border: 1px solid #ececec;
+  height: calc(100%);
+  border: 1px solid var(--sheet-iframe-border-color);
 }
 
 .univer-menu-item,
 .univer-icon-container,
 .more-numfmt-type,
 .univer-slide-tab-item {
-	color: black;
+  color: var(--text-color);
 }
 
 .univer-slide-tab-active {
-	color: rgb(var(--primary-color));
+  color: rgb(var(--primary-color));
 }
+
+.univer-theme .univer-slider-shortcuts {
+    background-color: rgb(var(--bg-color-secondary));
+}
+
 
 button.univer-button-text,
 button.univer-toolbar-btn,
@@ -77,96 +82,96 @@ button.univer-sheet-bar-btn,
 button.univer-data-validation-detail-button,
 button.univer-range-selector-icon,
 button.univer-range-selector-modal-add-button {
-	background-color: transparent;
-	box-shadow: none;
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .my-univer .univer-input {
-	box-shadow: none !important;
-	color: rgb(var(--text-color)) !important;
+  box-shadow: none !important;
+  color: rgb(var(--text-color)) !important;
 }
 
 button.univer-toolbar-btn-active {
-	background-color: rgb(var(--grey-100));
+  background-color: rgb(var(--grey-100));
 }
 
 .univer-modal-btn-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .univer-mdal-btn {
-	margin: 0 10px;
+  margin: 0 10px;
 }
 
 .my-univer input[type="search"],
 .my-univer input[type="text"] {
-	height: auto;
-	box-shadow: none;
+  height: auto;
+  box-shadow: none;
 }
 
-.my-univer input[type=checkbox] {
-    -webkit-appearance: none;
-    appearance: none;
-    border-radius: var(--checkbox-radius);
-    border: 1px solid var(--checkbox-border-color);
-    flex-shrink: 0;
-    padding: 0;
-    margin: 0;
-    margin-inline-end: 6px;
-    width: var(--checkbox-size);
-    height: var(--checkbox-size);
-    height: auto;
-    transition: box-shadow 0.15s ease-in-out;
+.my-univer input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: var(--checkbox-radius);
+  border: 1px solid var(--checkbox-border-color);
+  flex-shrink: 0;
+  padding: 0;
+  margin: 0;
+  margin-inline-end: 6px;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  height: auto;
+  transition: box-shadow 0.15s ease-in-out;
 }
 
 .univer-checkbox-target {
-    position: relative;
-    height: 28px;
-    display: inline-flex;
-    align-items: center;
+  position: relative;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .my-univer input[type="text"]:focus,
 .my-univer input[type="text"]:active,
 .my-univer [type="text"]:focus-visible {
-	box-shadow: none;
+  box-shadow: none;
 }
 
 button.univer-button-link {
-    color: rgb(var(--primary-color));
-    background-color: transparent;
-    border-color: transparent;
-	box-shadow: none;
+  color: rgb(var(--primary-color));
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
 }
 
 button.univer-button-primary {
-	font-weight: 500;
-	color: rgb(var(--color-white));
-	background-color: rgb(var(--primary-color));
-	border-color: rgb(var(--primary-color));
-	box-shadow: none;
+  font-weight: 500;
+  color: rgb(var(--color-white));
+  background-color: rgb(var(--primary-color));
+  border-color: rgb(var(--primary-color));
+  box-shadow: none;
 }
 
 button.univer-button-default {
-    font-weight: 400;
-    color: rgb(var(--text-color));
-    background-color: rgb(var(--bg-color-secondary));
-	box-shadow: none;
+  font-weight: 400;
+  color: rgb(var(--text-color));
+  background-color: rgb(var(--bg-color-secondary));
+  box-shadow: none;
 }
 
 .univer-input-number-input {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    line-height: 34px;
-    color: rgb(var(--text-color));
-    text-align: center;
-    border: 0;
-    border-radius: var(--border-radius-base);
-    outline: 0;
-    transition: all .15s;
-    background: rgb(var(--bg-color-secondary));
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  line-height: 34px;
+  color: rgb(var(--text-color));
+  text-align: center;
+  border: 0;
+  border-radius: var(--border-radius-base);
+  outline: 0;
+  transition: all 0.15s;
+  background: rgb(var(--bg-color-secondary));
 }
