@@ -14,9 +14,6 @@ function generate(isDev?: boolean) {
   if (!isDev)
     buildDir = 'dist'
 
-  if (isDev)
-    buildDir = process.cwd()
-
   return {
     name: 'obsidian',
     async writeBundle() {
@@ -35,6 +32,10 @@ function generate(isDev?: boolean) {
       rename(resolve(buildDir, 'style.css'), resolve(buildDir, 'styles.css'))
       // eslint-disable-next-line no-console
       console.log('build!')
+    },
+    async closeBundle() {
+      await copyFile(resolve(buildDir, 'styles.css'), join(process.cwd(), 'styles.css'))
+      await copyFile(resolve(buildDir, 'main.js'), join(process.cwd(), 'main.js'))
     },
   }
 }

@@ -59,7 +59,7 @@ export function createUniver(
   const univer = new Univer({
     theme: defaultTheme,
     locale: getLanguage(),
-    logLevel: LogLevel.VERBOSE,
+    logLevel: LogLevel.ERROR,
     locales,
     id,
   })
