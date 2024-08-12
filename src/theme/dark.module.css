@@ -1,0 +1,15 @@
+:export  {
+    primary-color: #8a5cf5;
+    primary-color-hover: #a882ff;
+
+    bg-color: #1e1e1e;
+    bg-color-secondary: #2e2e2e;
+    text-color: #dadada;
+    border-color: #393939;
+
+    grey100: #a882ff;
+    grey300: #a68af9;
+
+    bg-color-hover: #a882ff;
+    text-color-secondary-darker: #dadada;
+}
