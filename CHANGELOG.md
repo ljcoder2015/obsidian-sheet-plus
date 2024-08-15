@@ -1,5 +1,12 @@
 
 
+## [1.3.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.3.2...1.3.3) (2024-08-15)
+
+
+### Bug Fixes
+
+* memory leak ([ffb2384](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/ffb2384b80f8a670d5e031605ef73136823a9ded))
+
 ## [1.3.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.3.1...1.3.2) (2024-08-12)
 
 ## [1.3.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.3.0...1.3.1) (2024-07-16)
