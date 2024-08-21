@@ -1,5 +1,12 @@
 
 
+## [1.3.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.3.3...1.3.4) (2024-08-21)
+
+
+### Bug Fixes
+
+* iPad OS兼容性问题 ([68872b5](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/68872b5d2ecce2f3acc0c801577bd6ae262486ae))
+
 ## [1.3.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.3.2...1.3.3) (2024-08-15)
 
 
