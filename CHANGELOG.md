@@ -1,5 +1,12 @@
 
 
+## [1.3.5](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.3.4...1.3.5) (2024-08-23)
+
+
+### Bug Fixes
+
+* window.process bug ([eb52b77](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/eb52b7777f01cb75d61c26c3c727eac31bbc7a24))
+
 ## [1.3.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.3.3...1.3.4) (2024-08-21)
 
 
