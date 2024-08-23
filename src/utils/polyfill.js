@@ -25,8 +25,11 @@
 // }
 
 // eslint-disable-next-line node/prefer-global/process
-window.process = {
-  env: {
-    NODE_ENV: 'production',
-  },
+if (window.process === undefined) {
+  // eslint-disable-next-line node/prefer-global/process
+  window.process = {
+    env: {
+      NODE_ENV: 'development',
+    },
+  }
 }
