@@ -1,0 +1,13 @@
+diff --git a/lib/es/index.js b/lib/es/index.js
+index 85f3da064ec75f7099995c3b62573b5793946b07..7b233bbbcc6afc276f77d1a1fe9689b7b70fc29e 100644
+--- a/lib/es/index.js
++++ b/lib/es/index.js
+@@ -19943,7 +19943,7 @@ const _FontLibrary = class _FontLibrary {
+   constructor() {
+     __publicField(this, "isReady", !1);
+     __publicField(this, "_fontBook", /* @__PURE__ */ new Map());
+-    this._loadFontsToBook();
++    // this._loadFontsToBook();
+   }
+   async _loadFontsToBook() {
+     if (!(this.isReady || !await checkLocalFontsPermission()) && "queryLocalFonts" in window)
