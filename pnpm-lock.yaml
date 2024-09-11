@@ -125,7 +125,7 @@ dependencies:
 devDependencies:
   '@antfu/eslint-config':
     specifier: ^2.25.1
-    version: 2.25.1(@vue/compiler-sfc@3.5.3)(eslint@8.57.0)(typescript@5.5.4)
+    version: 2.25.1(@vue/compiler-sfc@3.5.4)(eslint@8.57.0)(typescript@5.5.4)
   '@release-it/conventional-changelog':
     specifier: ^8.0.1
     version: 8.0.1(release-it@17.6.0)
@@ -172,7 +172,7 @@ packages:
       '@babel/runtime': 7.25.6
     dev: false
 
-  /@antfu/eslint-config@2.25.1(@vue/compiler-sfc@3.5.3)(eslint@8.57.0)(typescript@5.5.4):
+  /@antfu/eslint-config@2.25.1(@vue/compiler-sfc@3.5.4)(eslint@8.57.0)(typescript@5.5.4):
     resolution: {integrity: sha512-aWnq8kNL4MM3RjXJtMvCGhzzXiukbNn4oXT3RFVgQ2KkBmryrlCos8HW7zfF27gggSqrMX8p75wHk8zM/Mo9+Q==}
     hasBin: true
     peerDependencies:
@@ -220,15 +220,15 @@ packages:
     dependencies:
       '@antfu/install-pkg': 0.3.5
       '@clack/prompts': 0.7.0
-      '@stylistic/eslint-plugin': 2.7.2(eslint@8.57.0)(typescript@5.5.4)
-      '@typescript-eslint/eslint-plugin': 8.4.0(@typescript-eslint/parser@8.4.0)(eslint@8.57.0)(typescript@5.5.4)
-      '@typescript-eslint/parser': 8.4.0(eslint@8.57.0)(typescript@5.5.4)
+      '@stylistic/eslint-plugin': 2.8.0(eslint@8.57.0)(typescript@5.5.4)
+      '@typescript-eslint/eslint-plugin': 8.5.0(@typescript-eslint/parser@8.5.0)(eslint@8.57.0)(typescript@5.5.4)
+      '@typescript-eslint/parser': 8.5.0(eslint@8.57.0)(typescript@5.5.4)
       '@vitest/eslint-plugin': 1.1.0(eslint@8.57.0)(typescript@5.5.4)
       eslint: 8.57.0
       eslint-config-flat-gitignore: 0.1.8
       eslint-flat-config-utils: 0.3.1
       eslint-merge-processors: 0.1.0(eslint@8.57.0)
-      eslint-plugin-antfu: 2.5.0(eslint@8.57.0)
+      eslint-plugin-antfu: 2.6.0(eslint@8.57.0)
       eslint-plugin-command: 0.2.4(eslint@8.57.0)
       eslint-plugin-eslint-comments: 3.2.0(eslint@8.57.0)
       eslint-plugin-import-x: 3.1.0(eslint@8.57.0)(typescript@5.5.4)
@@ -241,10 +241,10 @@ packages:
       eslint-plugin-regexp: 2.6.0(eslint@8.57.0)
       eslint-plugin-toml: 0.11.1(eslint@8.57.0)
       eslint-plugin-unicorn: 55.0.0(eslint@8.57.0)
-      eslint-plugin-unused-imports: 4.1.3(@typescript-eslint/eslint-plugin@8.4.0)(eslint@8.57.0)
+      eslint-plugin-unused-imports: 4.1.3(@typescript-eslint/eslint-plugin@8.5.0)(eslint@8.57.0)
       eslint-plugin-vue: 9.28.0(eslint@8.57.0)
       eslint-plugin-yml: 1.14.0(eslint@8.57.0)
-      eslint-processor-vue-blocks: 0.1.2(@vue/compiler-sfc@3.5.3)(eslint@8.57.0)
+      eslint-processor-vue-blocks: 0.1.2(@vue/compiler-sfc@3.5.4)(eslint@8.57.0)
       globals: 15.9.0
       jsonc-eslint-parser: 2.4.0
       local-pkg: 0.5.0
@@ -926,8 +926,8 @@ packages:
       react-dom: 18.3.1(react@18.3.1)
     dev: false
 
-  /@rc-component/trigger@2.2.2(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-xDyi0fJ3IV6XJEReMOewS9PEnnuLHKz4rjbgIniDsJFHjL5nROuUlu64mfo90jglLDkQUxRwK7aTtumA65/zYQ==}
+  /@rc-component/trigger@2.2.3(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-X1oFIpKoXAMXNDYCviOmTfuNuYxE4h5laBsyCqVAVMjNHxoF3/uiyA7XdegK1XbCvBbCZ6P6byWrEoDRpKL8+A==}
     engines: {node: '>=8.x'}
     peerDependencies:
       react: '>=16.9.0'
@@ -1094,14 +1094,13 @@ packages:
     engines: {node: '>=18'}
     dev: true
 
-  /@stylistic/eslint-plugin@2.7.2(eslint@8.57.0)(typescript@5.5.4):
-    resolution: {integrity: sha512-3DVLU5HEuk2pQoBmXJlzvrxbKNpu2mJ0SRqz5O/CJjyNCr12ZiPcYMEtuArTyPOk5i7bsAU44nywh1rGfe3gKQ==}
+  /@stylistic/eslint-plugin@2.8.0(eslint@8.57.0)(typescript@5.5.4):
+    resolution: {integrity: sha512-Ufvk7hP+bf+pD35R/QfunF793XlSRIC7USr3/EdgduK9j13i2JjmsM0LUz3/foS+jDYp2fzyWZA9N44CPur0Ow==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=8.40.0'
     dependencies:
-      '@types/eslint': 9.6.1
-      '@typescript-eslint/utils': 8.4.0(eslint@8.57.0)(typescript@5.5.4)
+      '@typescript-eslint/utils': 8.5.0(eslint@8.57.0)(typescript@5.5.4)
       eslint: 8.57.0
       eslint-visitor-keys: 4.0.0
       espree: 10.1.0
@@ -1207,8 +1206,8 @@ packages:
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
     dev: true
 
-  /@typescript-eslint/eslint-plugin@8.4.0(@typescript-eslint/parser@8.4.0)(eslint@8.57.0)(typescript@5.5.4):
-    resolution: {integrity: sha512-rg8LGdv7ri3oAlenMACk9e+AR4wUV0yrrG+XKsGKOK0EVgeEDqurkXMPILG2836fW4ibokTB5v4b6Z9+GYQDEw==}
+  /@typescript-eslint/eslint-plugin@8.5.0(@typescript-eslint/parser@8.5.0)(eslint@8.57.0)(typescript@5.5.4):
+    resolution: {integrity: sha512-lHS5hvz33iUFQKuPFGheAB84LwcJ60G8vKnEhnfcK1l8kGVLro2SFYW6K0/tj8FUhRJ0VHyg1oAfg50QGbPPHw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       '@typescript-eslint/parser': ^8.0.0 || ^8.0.0-alpha.0
@@ -1219,11 +1218,11 @@ packages:
         optional: true
     dependencies:
       '@eslint-community/regexpp': 4.11.0
-      '@typescript-eslint/parser': 8.4.0(eslint@8.57.0)(typescript@5.5.4)
-      '@typescript-eslint/scope-manager': 8.4.0
-      '@typescript-eslint/type-utils': 8.4.0(eslint@8.57.0)(typescript@5.5.4)
-      '@typescript-eslint/utils': 8.4.0(eslint@8.57.0)(typescript@5.5.4)
-      '@typescript-eslint/visitor-keys': 8.4.0
+      '@typescript-eslint/parser': 8.5.0(eslint@8.57.0)(typescript@5.5.4)
+      '@typescript-eslint/scope-manager': 8.5.0
+      '@typescript-eslint/type-utils': 8.5.0(eslint@8.57.0)(typescript@5.5.4)
+      '@typescript-eslint/utils': 8.5.0(eslint@8.57.0)(typescript@5.5.4)
+      '@typescript-eslint/visitor-keys': 8.5.0
       eslint: 8.57.0
       graphemer: 1.4.0
       ignore: 5.3.2
@@ -1234,8 +1233,8 @@ packages:
       - supports-color
     dev: true
 
-  /@typescript-eslint/parser@8.4.0(eslint@8.57.0)(typescript@5.5.4):
-    resolution: {integrity: sha512-NHgWmKSgJk5K9N16GIhQ4jSobBoJwrmURaLErad0qlLjrpP5bECYg+wxVTGlGZmJbU03jj/dfnb6V9bw+5icsA==}
+  /@typescript-eslint/parser@8.5.0(eslint@8.57.0)(typescript@5.5.4):
+    resolution: {integrity: sha512-gF77eNv0Xz2UJg/NbpWJ0kqAm35UMsvZf1GHj8D9MRFTj/V3tAciIWXfmPLsAAF/vUlpWPvUDyH1jjsr0cMVWw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
@@ -1244,10 +1243,10 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/scope-manager': 8.4.0
-      '@typescript-eslint/types': 8.4.0
-      '@typescript-eslint/typescript-estree': 8.4.0(typescript@5.5.4)
-      '@typescript-eslint/visitor-keys': 8.4.0
+      '@typescript-eslint/scope-manager': 8.5.0
+      '@typescript-eslint/types': 8.5.0
+      '@typescript-eslint/typescript-estree': 8.5.0(typescript@5.5.4)
+      '@typescript-eslint/visitor-keys': 8.5.0
       debug: 4.3.7
       eslint: 8.57.0
       typescript: 5.5.4
@@ -1263,16 +1262,16 @@ packages:
       '@typescript-eslint/visitor-keys': 7.18.0
     dev: true
 
-  /@typescript-eslint/scope-manager@8.4.0:
-    resolution: {integrity: sha512-n2jFxLeY0JmKfUqy3P70rs6vdoPjHK8P/w+zJcV3fk0b0BwRXC/zxRTEnAsgYT7MwdQDt/ZEbtdzdVC+hcpF0A==}
+  /@typescript-eslint/scope-manager@8.5.0:
+    resolution: {integrity: sha512-06JOQ9Qgj33yvBEx6tpC8ecP9o860rsR22hWMEd12WcTRrfaFgHr2RB/CA/B+7BMhHkXT4chg2MyboGdFGawYg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     dependencies:
-      '@typescript-eslint/types': 8.4.0
-      '@typescript-eslint/visitor-keys': 8.4.0
+      '@typescript-eslint/types': 8.5.0
+      '@typescript-eslint/visitor-keys': 8.5.0
     dev: true
 
-  /@typescript-eslint/type-utils@8.4.0(eslint@8.57.0)(typescript@5.5.4):
-    resolution: {integrity: sha512-pu2PAmNrl9KX6TtirVOrbLPLwDmASpZhK/XU7WvoKoCUkdtq9zF7qQ7gna0GBZFN0hci0vHaSusiL2WpsQk37A==}
+  /@typescript-eslint/type-utils@8.5.0(eslint@8.57.0)(typescript@5.5.4):
+    resolution: {integrity: sha512-N1K8Ix+lUM+cIDhL2uekVn/ZD7TZW+9/rwz8DclQpcQ9rk4sIL5CAlBC0CugWKREmDjBzI/kQqU4wkg46jWLYA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '*'
@@ -1280,8 +1279,8 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/typescript-estree': 8.4.0(typescript@5.5.4)
-      '@typescript-eslint/utils': 8.4.0(eslint@8.57.0)(typescript@5.5.4)
+      '@typescript-eslint/typescript-estree': 8.5.0(typescript@5.5.4)
+      '@typescript-eslint/utils': 8.5.0(eslint@8.57.0)(typescript@5.5.4)
       debug: 4.3.7
       ts-api-utils: 1.3.0(typescript@5.5.4)
       typescript: 5.5.4
@@ -1295,8 +1294,8 @@ packages:
     engines: {node: ^18.18.0 || >=20.0.0}
     dev: true
 
-  /@typescript-eslint/types@8.4.0:
-    resolution: {integrity: sha512-T1RB3KQdskh9t3v/qv7niK6P8yvn7ja1mS7QK7XfRVL6wtZ8/mFs/FHf4fKvTA0rKnqnYxl/uHFNbnEt0phgbw==}
+  /@typescript-eslint/types@8.5.0:
+    resolution: {integrity: sha512-qjkormnQS5wF9pjSi6q60bKUHH44j2APxfh9TQRXK8wbYVeDYYdYJGIROL87LGZZ2gz3Rbmjc736qyL8deVtdw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     dev: true
 
@@ -1322,8 +1321,8 @@ packages:
       - supports-color
     dev: true
 
-  /@typescript-eslint/typescript-estree@8.4.0(typescript@5.5.4):
-    resolution: {integrity: sha512-kJ2OIP4dQw5gdI4uXsaxUZHRwWAGpREJ9Zq6D5L0BweyOrWsL6Sz0YcAZGWhvKnH7fm1J5YFE1JrQL0c9dd53A==}
+  /@typescript-eslint/typescript-estree@8.5.0(typescript@5.5.4):
+    resolution: {integrity: sha512-vEG2Sf9P8BPQ+d0pxdfndw3xIXaoSjliG0/Ejk7UggByZPKXmJmw3GW5jV2gHNQNawBUyfahoSiCFVov0Ruf7Q==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '*'
@@ -1331,8 +1330,8 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/types': 8.4.0
-      '@typescript-eslint/visitor-keys': 8.4.0
+      '@typescript-eslint/types': 8.5.0
+      '@typescript-eslint/visitor-keys': 8.5.0
       debug: 4.3.7
       fast-glob: 3.3.2
       is-glob: 4.0.3
@@ -1360,16 +1359,16 @@ packages:
       - typescript
     dev: true
 
-  /@typescript-eslint/utils@8.4.0(eslint@8.57.0)(typescript@5.5.4):
-    resolution: {integrity: sha512-swULW8n1IKLjRAgciCkTCafyTHHfwVQFt8DovmaF69sKbOxTSFMmIZaSHjqO9i/RV0wIblaawhzvtva8Nmm7lQ==}
+  /@typescript-eslint/utils@8.5.0(eslint@8.57.0)(typescript@5.5.4):
+    resolution: {integrity: sha512-6yyGYVL0e+VzGYp60wvkBHiqDWOpT63pdMV2CVG4LVDd5uR6q1qQN/7LafBZtAtNIn/mqXjsSeS5ggv/P0iECw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
-      '@typescript-eslint/scope-manager': 8.4.0
-      '@typescript-eslint/types': 8.4.0
-      '@typescript-eslint/typescript-estree': 8.4.0(typescript@5.5.4)
+      '@typescript-eslint/scope-manager': 8.5.0
+      '@typescript-eslint/types': 8.5.0
+      '@typescript-eslint/typescript-estree': 8.5.0(typescript@5.5.4)
       eslint: 8.57.0
     transitivePeerDependencies:
       - supports-color
@@ -1384,11 +1383,11 @@ packages:
       eslint-visitor-keys: 3.4.3
     dev: true
 
-  /@typescript-eslint/visitor-keys@8.4.0:
-    resolution: {integrity: sha512-zTQD6WLNTre1hj5wp09nBIDiOc2U5r/qmzo7wxPn4ZgAjHql09EofqhF9WF+fZHzL5aCyaIpPcT2hyxl73kr9A==}
+  /@typescript-eslint/visitor-keys@8.5.0:
+    resolution: {integrity: sha512-yTPqMnbAZJNy2Xq2XU8AdtOW9tJIr+UQb64aXB9f3B1498Zx9JorVgFJcZpEc9UBuCCrdzKID2RGAMkYcDtZOw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     dependencies:
-      '@typescript-eslint/types': 8.4.0
+      '@typescript-eslint/types': 8.5.0
       eslint-visitor-keys: 3.4.3
     dev: true
 
@@ -1442,9 +1441,9 @@ packages:
       react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@rc-component/color-picker': 2.0.1(react-dom@18.3.1)(react@18.3.1)
-      '@rc-component/trigger': 2.2.2(react-dom@18.3.1)(react@18.3.1)
+      '@rc-component/trigger': 2.2.3(react-dom@18.3.1)(react@18.3.1)
       '@types/react-mentions': 4.4.0
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       clsx: 2.1.1
       dayjs: 1.11.13
       rc-dialog: 9.6.0(react-dom@18.3.1)(react@18.3.1)
@@ -1486,7 +1485,7 @@ packages:
       '@univerjs/design': 0.2.12(clsx@2.1.1)(dayjs@1.11.13)(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/docs': 0.2.12(@univerjs/core@0.2.12)(@univerjs/engine-render@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/ui': 0.2.12(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.5.4)
       clsx: 2.1.1
       react: 18.3.1
@@ -1525,7 +1524,7 @@ packages:
       '@univerjs/design': 0.2.12(clsx@2.1.1)(dayjs@1.11.13)(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/drawing': 0.2.12(@univerjs/core@0.2.12)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/ui': 0.2.12(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.5.4)
       clsx: 2.1.1
       react: 18.3.1
@@ -1541,7 +1540,7 @@ packages:
       rxjs: '>=7.0.0'
     dependencies:
       '@univerjs/core': 0.2.12(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       ot-json1: 1.0.2
       rxjs: 7.8.1
     transitivePeerDependencies:
@@ -1642,7 +1641,7 @@ packages:
       '@univerjs/core': 0.2.12(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/design': 0.2.12(clsx@2.1.1)(dayjs@1.11.13)(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/ui': 0.2.12(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.5.4)
       react: 18.3.1
       rxjs: 7.8.1
@@ -1650,8 +1649,8 @@ packages:
       - react-dom
     dev: false
 
-  /@univerjs/icons@0.1.77(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-ADkX1PkXG+rptU+OJzrPX+asVawRVKF6v+Ce3DYq/pVKOnKm8qPbKsbVmCMyxPOCq9N5Cd0TAkjJavyft+XsEw==}
+  /@univerjs/icons@0.1.78(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-Zsd2W76402fZGqSyQFDMiJhYYD2OWiPwy+hotYqMVS5Gn+HCuQcXDe2WkGDg9O7hb5gRtUuy2I1bSHRq346z4A==}
     peerDependencies:
       react: '*'
       react-dom: '*'
@@ -1711,7 +1710,7 @@ packages:
       '@univerjs/design': 0.2.12(clsx@2.1.1)(dayjs@1.11.13)(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/engine-formula': 0.2.12(@univerjs/core@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/protocol': 0.1.39-alpha.15(@grpc/grpc-js@1.9.14)(rxjs@7.8.1)
       '@univerjs/sheets': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-numfmt@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-conditional-formatting': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(@univerjs/sheets@0.2.12)(dayjs@1.11.13)(rxjs@7.8.1)
@@ -1764,7 +1763,7 @@ packages:
     dependencies:
       '@univerjs/core': 0.2.12(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/sheets': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-numfmt@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-ui': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/docs@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(@univerjs/sheets@0.2.12)(@univerjs/telemetry@0.2.12)(@univerjs/ui@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/ui': 0.2.12(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.5.4)
@@ -1799,7 +1798,7 @@ packages:
       '@univerjs/docs': 0.2.12(@univerjs/core@0.2.12)(@univerjs/engine-render@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-formula': 0.2.12(@univerjs/core@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/protocol': 0.1.39-alpha.15(@grpc/grpc-js@1.9.14)(rxjs@7.8.1)
       '@univerjs/sheets': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-numfmt@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-formula': 0.2.12(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/docs@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(@univerjs/rpc@0.2.12)(@univerjs/sheets-ui@0.2.12)(@univerjs/sheets@0.2.12)(@univerjs/ui@0.2.12)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
@@ -1835,7 +1834,7 @@ packages:
       '@univerjs/drawing': 0.2.12(@univerjs/core@0.2.12)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/drawing-ui': 0.2.12(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/drawing@0.2.12)(@univerjs/engine-render@0.2.12)(@univerjs/ui@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/sheets': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-numfmt@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-drawing': 0.2.12(@univerjs/core@0.2.12)(@univerjs/drawing@0.2.12)
       '@univerjs/sheets-ui': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/docs@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(@univerjs/sheets@0.2.12)(@univerjs/telemetry@0.2.12)(@univerjs/ui@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
@@ -1875,7 +1874,7 @@ packages:
       '@univerjs/core': 0.2.12(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/design': 0.2.12(clsx@2.1.1)(dayjs@1.11.13)(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/rpc': 0.2.12(@univerjs/core@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-numfmt@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-filter': 0.2.12(@univerjs/core@0.2.12)(@univerjs/sheets@0.2.12)(rxjs@7.8.1)
@@ -1940,7 +1939,7 @@ packages:
       '@univerjs/docs': 0.2.12(@univerjs/core@0.2.12)(@univerjs/engine-render@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-formula': 0.2.12(@univerjs/core@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/rpc': 0.2.12(@univerjs/core@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-numfmt@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-ui': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/docs@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(@univerjs/sheets@0.2.12)(@univerjs/telemetry@0.2.12)(@univerjs/ui@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
@@ -1972,7 +1971,7 @@ packages:
       '@univerjs/docs': 0.2.12(@univerjs/core@0.2.12)(@univerjs/engine-render@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-formula': 0.2.12(@univerjs/core@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/sheets': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-numfmt@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-hyper-link': 0.2.12(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/sheets@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-ui': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/docs@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(@univerjs/sheets@0.2.12)(@univerjs/telemetry@0.2.12)(@univerjs/ui@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
@@ -2017,7 +2016,7 @@ packages:
       '@univerjs/design': 0.2.12(clsx@2.1.1)(dayjs@1.11.13)(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/engine-numfmt': 0.2.12
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/sheets': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-numfmt@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-ui': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/docs@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(@univerjs/sheets@0.2.12)(@univerjs/telemetry@0.2.12)(@univerjs/ui@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/ui': 0.2.12(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.5.4)
@@ -2043,7 +2042,7 @@ packages:
       '@univerjs/core': 0.2.12(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/design': 0.2.12(clsx@2.1.1)(dayjs@1.11.13)(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/engine-formula': 0.2.12(@univerjs/core@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/sheets': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-numfmt@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-sort': 0.2.12(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/sheets@0.2.12)
       '@univerjs/sheets-ui': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/docs@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(@univerjs/sheets@0.2.12)(@univerjs/telemetry@0.2.12)(@univerjs/ui@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
@@ -2101,7 +2100,7 @@ packages:
       '@univerjs/core': 0.2.12(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/engine-formula': 0.2.12(@univerjs/core@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/sheets': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-numfmt@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-thread-comment-base': 0.2.12(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/sheets@0.2.12)(@univerjs/thread-comment@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-ui': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/docs@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(@univerjs/sheets@0.2.12)(@univerjs/telemetry@0.2.12)(@univerjs/ui@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
@@ -2134,7 +2133,7 @@ packages:
       '@univerjs/docs': 0.2.12(@univerjs/core@0.2.12)(@univerjs/engine-render@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-formula': 0.2.12(@univerjs/core@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/protocol': 0.1.39-alpha.15(@grpc/grpc-js@1.9.14)(rxjs@7.8.1)
       '@univerjs/sheets': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-numfmt@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/telemetry': 0.2.12(@univerjs/core@0.2.12)
@@ -2165,7 +2164,7 @@ packages:
       '@univerjs/docs': 0.2.12(@univerjs/core@0.2.12)(@univerjs/engine-render@0.2.12)(rxjs@7.8.1)
       '@univerjs/docs-ui': 0.2.12(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/docs@0.2.12)(@univerjs/engine-render@0.2.12)(@univerjs/ui@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/sheets': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-numfmt@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/sheets-ui': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/docs@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(@univerjs/sheets@0.2.12)(@univerjs/telemetry@0.2.12)(@univerjs/ui@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/ui': 0.2.12(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.5.4)
@@ -2223,7 +2222,7 @@ packages:
       '@univerjs/design': 0.2.12(clsx@2.1.1)(dayjs@1.11.13)(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/docs': 0.2.12(@univerjs/core@0.2.12)(@univerjs/engine-render@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/protocol': 0.1.39-alpha.15(@grpc/grpc-js@1.9.14)(rxjs@7.8.1)
       '@univerjs/thread-comment': 0.2.12(@grpc/grpc-js@1.9.14)(@univerjs/core@0.2.12)(rxjs@7.8.1)
       '@univerjs/ui': 0.2.12(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.5.4)
@@ -2266,7 +2265,7 @@ packages:
       '@univerjs/design': 0.2.12(clsx@2.1.1)(dayjs@1.11.13)(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/engine-formula': 0.2.12(@univerjs/core@0.2.12)(@univerjs/rpc@0.2.12)(rxjs@7.8.1)
       '@univerjs/engine-render': 0.2.12(patch_hash=c2dfsve3xsnmeheupbsqqunudm)(@univerjs/core@0.2.12)(rxjs@7.8.1)
-      '@univerjs/icons': 0.1.77(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/icons': 0.1.78(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/ui': 0.2.12(@univerjs/core@0.2.12)(@univerjs/design@0.2.12)(@univerjs/engine-formula@0.2.12)(@univerjs/engine-render@0.2.12)(clsx@2.1.1)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.5.4)
       clsx: 2.1.1
       localforage: 1.10.0
@@ -2276,7 +2275,7 @@ packages:
       react-dom: 18.3.1(react@18.3.1)
       rxjs: 7.8.1
     optionalDependencies:
-      vue: 3.5.3(typescript@5.5.4)
+      vue: 3.5.4(typescript@5.5.4)
     transitivePeerDependencies:
       - typescript
     dev: false
@@ -2305,85 +2304,85 @@ packages:
       typescript: 5.5.4
     dev: true
 
-  /@vue/compiler-core@3.5.3:
-    resolution: {integrity: sha512-adAfy9boPkP233NTyvLbGEqVuIfK/R0ZsBsIOW4BZNfb4BRpRW41Do1u+ozJpsb+mdoy80O20IzAsHaihRb5qA==}
+  /@vue/compiler-core@3.5.4:
+    resolution: {integrity: sha512-oNwn+BAt3n9dK9uAYvI+XGlutwuTq/wfj4xCBaZCqwwVIGtD7D6ViihEbyYZrDHIHTDE3Q6oL3/hqmAyFEy9DQ==}
     requiresBuild: true
     dependencies:
       '@babel/parser': 7.25.6
-      '@vue/shared': 3.5.3
+      '@vue/shared': 3.5.4
       entities: 4.5.0
       estree-walker: 2.0.2
       source-map-js: 1.2.1
 
-  /@vue/compiler-dom@3.5.3:
-    resolution: {integrity: sha512-wnzFArg9zpvk/811CDOZOadJRugf1Bgl/TQ3RfV4nKfSPok4hi0w10ziYUQR6LnnBAUlEXYLUfZ71Oj9ds/+QA==}
+  /@vue/compiler-dom@3.5.4:
+    resolution: {integrity: sha512-yP9RRs4BDLOLfldn6ah+AGCNovGjMbL9uHvhDHf5wan4dAHLnFGOkqtfE7PPe4HTXIqE7l/NILdYw53bo1C8jw==}
     requiresBuild: true
     dependencies:
-      '@vue/compiler-core': 3.5.3
-      '@vue/shared': 3.5.3
+      '@vue/compiler-core': 3.5.4
+      '@vue/shared': 3.5.4
 
-  /@vue/compiler-sfc@3.5.3:
-    resolution: {integrity: sha512-P3uATLny2tfyvMB04OQFe7Sczteno7SLFxwrOA/dw01pBWQHB5HL15a8PosoNX2aG/EAMGqnXTu+1LnmzFhpTQ==}
+  /@vue/compiler-sfc@3.5.4:
+    resolution: {integrity: sha512-P+yiPhL+NYH7m0ZgCq7AQR2q7OIE+mpAEgtkqEeH9oHSdIRvUO+4X6MPvblJIWcoe4YC5a2Gdf/RsoyP8FFiPQ==}
     dependencies:
       '@babel/parser': 7.25.6
-      '@vue/compiler-core': 3.5.3
-      '@vue/compiler-dom': 3.5.3
-      '@vue/compiler-ssr': 3.5.3
-      '@vue/shared': 3.5.3
+      '@vue/compiler-core': 3.5.4
+      '@vue/compiler-dom': 3.5.4
+      '@vue/compiler-ssr': 3.5.4
+      '@vue/shared': 3.5.4
       estree-walker: 2.0.2
       magic-string: 0.30.11
       postcss: 8.4.45
       source-map-js: 1.2.1
 
-  /@vue/compiler-ssr@3.5.3:
-    resolution: {integrity: sha512-F/5f+r2WzL/2YAPl7UlKcJWHrvoZN8XwEBLnT7S4BXwncH25iDOabhO2M2DWioyTguJAGavDOawejkFXj8EM1w==}
+  /@vue/compiler-ssr@3.5.4:
+    resolution: {integrity: sha512-acESdTXsxPnYr2C4Blv0ggx5zIFMgOzZmYU2UgvIff9POdRGbRNBHRyzHAnizcItvpgerSKQbllUc9USp3V7eg==}
     requiresBuild: true
     dependencies:
-      '@vue/compiler-dom': 3.5.3
-      '@vue/shared': 3.5.3
+      '@vue/compiler-dom': 3.5.4
+      '@vue/shared': 3.5.4
 
-  /@vue/reactivity@3.5.3:
-    resolution: {integrity: sha512-2w61UnRWTP7+rj1H/j6FH706gRBHdFVpIqEkSDAyIpafBXYH8xt4gttstbbCWdU3OlcSWO8/3mbKl/93/HSMpw==}
+  /@vue/reactivity@3.5.4:
+    resolution: {integrity: sha512-HKKbEuP7tYSGCq4e4nK6ZW6l5hyG66OUetefBp4budUyjvAYsnQDf+bgFzg2RAgnH0CInyqXwD9y47jwJEHrQw==}
     requiresBuild: true
     dependencies:
-      '@vue/shared': 3.5.3
+      '@vue/shared': 3.5.4
     dev: false
     optional: true
 
-  /@vue/runtime-core@3.5.3:
-    resolution: {integrity: sha512-5b2AQw5OZlmCzSsSBWYoZOsy75N4UdMWenTfDdI5bAzXnuVR7iR8Q4AOzQm2OGoA41xjk53VQKrqQhOz2ktWaw==}
+  /@vue/runtime-core@3.5.4:
+    resolution: {integrity: sha512-f3ek2sTA0AFu0n+w+kCtz567Euqqa3eHewvo4klwS7mWfSj/A+UmYTwsnUFo35KeyAFY60JgrCGvEBsu1n/3LA==}
     requiresBuild: true
     dependencies:
-      '@vue/reactivity': 3.5.3
-      '@vue/shared': 3.5.3
+      '@vue/reactivity': 3.5.4
+      '@vue/shared': 3.5.4
     dev: false
     optional: true
 
-  /@vue/runtime-dom@3.5.3:
-    resolution: {integrity: sha512-wPR1DEGc3XnQ7yHbmkTt3GoY0cEnVGQnARRdAkDzZ8MbUKEs26gogCQo6AOvvgahfjIcnvWJzkZArQ1fmWjcSg==}
+  /@vue/runtime-dom@3.5.4:
+    resolution: {integrity: sha512-ofyc0w6rbD5KtjhP1i9hGOKdxGpvmuB1jprP7Djlj0X7R5J/oLwuNuE98GJ8WW31Hu2VxQHtk/LYTAlW8xrJdw==}
     requiresBuild: true
     dependencies:
-      '@vue/reactivity': 3.5.3
-      '@vue/runtime-core': 3.5.3
-      '@vue/shared': 3.5.3
+      '@vue/reactivity': 3.5.4
+      '@vue/runtime-core': 3.5.4
+      '@vue/shared': 3.5.4
       csstype: 3.1.3
     dev: false
     optional: true
 
-  /@vue/server-renderer@3.5.3(vue@3.5.3):
-    resolution: {integrity: sha512-28volmaZVG2PGO3V3+gBPKoSHvLlE8FGfG/GKXKkjjfxLuj/50B/0OQGakM/g6ehQeqCrZYM4eHC4Ks48eig1Q==}
+  /@vue/server-renderer@3.5.4(vue@3.5.4):
+    resolution: {integrity: sha512-FbjV6DJLgKRetMYFBA1UXCroCiED/Ckr53/ba9wivyd7D/Xw9fpo0T6zXzCnxQwyvkyrL7y6plgYhWhNjGxY5g==}
     requiresBuild: true
     peerDependencies:
-      vue: 3.5.3
+      vue: 3.5.4
     dependencies:
-      '@vue/compiler-ssr': 3.5.3
-      '@vue/shared': 3.5.3
-      vue: 3.5.3(typescript@5.5.4)
+      '@vue/compiler-ssr': 3.5.4
+      '@vue/shared': 3.5.4
+      vue: 3.5.4(typescript@5.5.4)
     dev: false
     optional: true
 
-  /@vue/shared@3.5.3:
-    resolution: {integrity: sha512-Jp2v8nylKBT+PlOUjun2Wp/f++TfJVFjshLzNtJDdmFJabJa7noGMncqXRM1vXGX+Yo2V7WykQFNxusSim8SCA==}
+  /@vue/shared@3.5.4:
+    resolution: {integrity: sha512-L2MCDD8l7yC62Te5UUyPVpmexhL9ipVnYRw9CsWfm/BGRL5FwDX4a25bcJ/OJSD3+Hx+k/a8LDKcG2AFdJV3BA==}
     requiresBuild: true
 
   /@wendellhu/redi@0.16.1:
@@ -2458,8 +2457,8 @@ packages:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
     engines: {node: '>=8'}
 
-  /ansi-regex@6.0.1:
-    resolution: {integrity: sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==}
+  /ansi-regex@6.1.0:
+    resolution: {integrity: sha512-7HSX4QQb4CspciLpVFwyRe79O3xsIZDDLER21kERQ71oaPodF8jL725AgJMFAYbooIqolJoRLuM81SpeUkpkvA==}
     engines: {node: '>=12'}
     dev: true
 
@@ -2580,8 +2579,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001659
-      electron-to-chromium: 1.5.18
+      caniuse-lite: 1.0.30001660
+      electron-to-chromium: 1.5.19
       node-releases: 2.0.18
       update-browserslist-db: 1.1.0(browserslist@4.23.3)
     dev: true
@@ -2641,8 +2640,8 @@ packages:
     engines: {node: '>=14.16'}
     dev: true
 
-  /caniuse-lite@1.0.30001659:
-    resolution: {integrity: sha512-Qxxyfv3RdHAfJcXelgf0hU4DFUVXBGTjqrBUZLUh8AtlGnsDo+CnncYtTd95+ZKfnANUOzxyIQCuU/UeBZBYoA==}
+  /caniuse-lite@1.0.30001660:
+    resolution: {integrity: sha512-GacvNTTuATm26qC74pt+ad1fW15mlQ/zuTzzY1ZoIzECTP8HURDfF43kNxPgf7H1jmelCBQTTbBNxdSXOA7Bqg==}
     dev: true
 
   /chalk@2.4.2:
@@ -3194,8 +3193,8 @@ packages:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: true
 
-  /electron-to-chromium@1.5.18:
-    resolution: {integrity: sha512-1OfuVACu+zKlmjsNdcJuVQuVE61sZOLbNM4JAQ1Rvh6EOj0/EUKhMJjRH73InPlXSh8HIJk1cVZ8pyOV/FMdUQ==}
+  /electron-to-chromium@1.5.19:
+    resolution: {integrity: sha512-kpLJJi3zxTR1U828P+LIUDZ5ohixyo68/IcYOHLqnbTPr/wdgn4i1ECvmALN9E16JPA6cvCG5UG79gVwVdEK5w==}
     dev: true
 
   /emoji-regex@10.4.0:
@@ -3346,8 +3345,8 @@ packages:
       eslint: 8.57.0
     dev: true
 
-  /eslint-plugin-antfu@2.5.0(eslint@8.57.0):
-    resolution: {integrity: sha512-YLIWE22/ERe6Jpqt6bJdvALw8SWvf4x2DQjvVpRvAv8LrdHbwWckkoueAf8oQFgSOLsL1R/axa+exjpubPp0fw==}
+  /eslint-plugin-antfu@2.6.0(eslint@8.57.0):
+    resolution: {integrity: sha512-4dz0VgWGpZ6jUSEUPSI6OGFqBc+P8c7zFFXht5t+YwzIvBsruqVX7Hjl3I8KNNEyJmA4fL3+GIc+EWU1woTp1A==}
     peerDependencies:
       eslint: '*'
     dependencies:
@@ -3500,8 +3499,8 @@ packages:
       vue-eslint-parser:
         optional: true
     dependencies:
-      '@typescript-eslint/types': 8.4.0
-      '@typescript-eslint/utils': 8.4.0(eslint@8.57.0)(typescript@5.5.4)
+      '@typescript-eslint/types': 8.5.0
+      '@typescript-eslint/utils': 8.5.0(eslint@8.57.0)(typescript@5.5.4)
       eslint: 8.57.0
       minimatch: 9.0.5
       natural-compare-lite: 1.4.0
@@ -3567,7 +3566,7 @@ packages:
       strip-indent: 3.0.0
     dev: true
 
-  /eslint-plugin-unused-imports@4.1.3(@typescript-eslint/eslint-plugin@8.4.0)(eslint@8.57.0):
+  /eslint-plugin-unused-imports@4.1.3(@typescript-eslint/eslint-plugin@8.5.0)(eslint@8.57.0):
     resolution: {integrity: sha512-lqrNZIZjFMUr7P06eoKtQLwyVRibvG7N+LtfKtObYGizAAGrcqLkc3tDx+iAik2z7q0j/XI3ihjupIqxhFabFA==}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^8.0.0-0 || ^7.0.0 || ^6.0.0 || ^5.0.0
@@ -3576,7 +3575,7 @@ packages:
       '@typescript-eslint/eslint-plugin':
         optional: true
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.4.0(@typescript-eslint/parser@8.4.0)(eslint@8.57.0)(typescript@5.5.4)
+      '@typescript-eslint/eslint-plugin': 8.5.0(@typescript-eslint/parser@8.5.0)(eslint@8.57.0)(typescript@5.5.4)
       eslint: 8.57.0
     dev: true
 
@@ -3615,13 +3614,13 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-processor-vue-blocks@0.1.2(@vue/compiler-sfc@3.5.3)(eslint@8.57.0):
+  /eslint-processor-vue-blocks@0.1.2(@vue/compiler-sfc@3.5.4)(eslint@8.57.0):
     resolution: {integrity: sha512-PfpJ4uKHnqeL/fXUnzYkOax3aIenlwewXRX8jFinA1a2yCFnLgMuiH3xvCgvHHUlV2xJWQHbCTdiJWGwb3NqpQ==}
     peerDependencies:
       '@vue/compiler-sfc': ^3.3.0
       eslint: ^8.50.0 || ^9.0.0
     dependencies:
-      '@vue/compiler-sfc': 3.5.3
+      '@vue/compiler-sfc': 3.5.4
       eslint: 8.57.0
     dev: true
 
@@ -4447,8 +4446,8 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /is-unicode-supported@2.0.0:
-    resolution: {integrity: sha512-FRdAyx5lusK1iHG0TWpVtk9+1i+GjrzRffhDg4ovQ7mcidMQ6mj+MhKPmvh7Xwyv5gIS06ns49CA7Sqg7lC22Q==}
+  /is-unicode-supported@2.1.0:
+    resolution: {integrity: sha512-mE00Gnza5EEB3Ds0HfMyllZzbBrmLOX3vfWoj9A9PEnTfratQ/BcaJOuMhnkhjXvb2+FkY3VuHqtAGpTPmglFQ==}
     engines: {node: '>=18'}
     dev: true
 
@@ -5128,7 +5127,7 @@ packages:
       cli-cursor: 4.0.0
       cli-spinners: 2.9.2
       is-interactive: 2.0.0
-      is-unicode-supported: 2.0.0
+      is-unicode-supported: 2.1.0
       log-symbols: 6.0.0
       stdin-discarder: 0.2.2
       string-width: 7.2.0
@@ -5517,7 +5516,7 @@ packages:
       react-dom: '>=16.11.0'
     dependencies:
       '@babel/runtime': 7.25.6
-      '@rc-component/trigger': 2.2.2(react-dom@18.3.1)(react@18.3.1)
+      '@rc-component/trigger': 2.2.3(react-dom@18.3.1)(react@18.3.1)
       classnames: 2.5.1
       rc-util: 5.43.0(react-dom@18.3.1)(react@18.3.1)
       react: 18.3.1
@@ -5559,7 +5558,7 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.25.6
-      '@rc-component/trigger': 2.2.2(react-dom@18.3.1)(react@18.3.1)
+      '@rc-component/trigger': 2.2.3(react-dom@18.3.1)(react@18.3.1)
       classnames: 2.5.1
       rc-motion: 2.9.2(react-dom@18.3.1)(react@18.3.1)
       rc-overflow: 1.3.2(react-dom@18.3.1)(react@18.3.1)
@@ -5631,7 +5630,7 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.25.6
-      '@rc-component/trigger': 2.2.2(react-dom@18.3.1)(react@18.3.1)
+      '@rc-component/trigger': 2.2.3(react-dom@18.3.1)(react@18.3.1)
       classnames: 2.5.1
       dayjs: 1.11.13
       rc-overflow: 1.3.2(react-dom@18.3.1)(react@18.3.1)
@@ -5677,7 +5676,7 @@ packages:
       react-dom: '*'
     dependencies:
       '@babel/runtime': 7.25.6
-      '@rc-component/trigger': 2.2.2(react-dom@18.3.1)(react@18.3.1)
+      '@rc-component/trigger': 2.2.3(react-dom@18.3.1)(react@18.3.1)
       classnames: 2.5.1
       rc-motion: 2.9.2(react-dom@18.3.1)(react@18.3.1)
       rc-overflow: 1.3.2(react-dom@18.3.1)(react@18.3.1)
@@ -5709,7 +5708,7 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.25.6
-      '@rc-component/trigger': 2.2.2(react-dom@18.3.1)(react@18.3.1)
+      '@rc-component/trigger': 2.2.3(react-dom@18.3.1)(react@18.3.1)
       classnames: 2.5.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -6396,7 +6395,7 @@ packages:
     resolution: {integrity: sha512-iq6eVVI64nQQTRYq2KtEg2d2uU7LElhTJwsH4YzIHZshxlgZms/wIc4VoDQTlG/IvVIrBKG06CrZnp0qv7hkcQ==}
     engines: {node: '>=12'}
     dependencies:
-      ansi-regex: 6.0.1
+      ansi-regex: 6.1.0
     dev: true
 
   /strip-final-newline@2.0.0:
@@ -6773,8 +6772,8 @@ packages:
       - supports-color
     dev: true
 
-  /vue@3.5.3(typescript@5.5.4):
-    resolution: {integrity: sha512-xvRbd0HpuLovYbOHXRHlSBsSvmUJbo0pzbkKTApWnQGf3/cu5Z39mQeA5cZdLRVIoNf3zI6MSoOgHUT5i2jO+Q==}
+  /vue@3.5.4(typescript@5.5.4):
+    resolution: {integrity: sha512-3yAj2gkmiY+i7+22A1PWM+kjOVXjU74UPINcTiN7grIVPyFFI0lpGwHlV/4xydDmobaBn7/xmi+YG8HeSlCTcg==}
     requiresBuild: true
     peerDependencies:
       typescript: '*'
@@ -6782,11 +6781,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@vue/compiler-dom': 3.5.3
-      '@vue/compiler-sfc': 3.5.3
-      '@vue/runtime-dom': 3.5.3
-      '@vue/server-renderer': 3.5.3(vue@3.5.3)
-      '@vue/shared': 3.5.3
+      '@vue/compiler-dom': 3.5.4
+      '@vue/compiler-sfc': 3.5.4
+      '@vue/runtime-dom': 3.5.4
+      '@vue/server-renderer': 3.5.4(vue@3.5.4)
+      '@vue/shared': 3.5.4
       typescript: 5.5.4
     dev: false
     optional: true

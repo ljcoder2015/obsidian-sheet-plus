@@ -13,7 +13,10 @@ import { UniverSheetsFormulaPlugin } from '@univerjs/sheets-formula'
 import { UniverSheetsNumfmtPlugin } from '@univerjs/sheets-numfmt'
 
 import { UniverSheetsUIPlugin } from '@univerjs/sheets-ui'
+import type { IUniverUIConfig } from '@univerjs/ui'
 import { UniverUIPlugin } from '@univerjs/ui'
+
+// import { UniverUniscriptPlugin } from '@univerjs/uniscript'
 
 import { UniverFindReplacePlugin } from '@univerjs/find-replace'
 import { UniverSheetsFindReplacePlugin } from '@univerjs/sheets-find-replace'
@@ -38,8 +41,6 @@ import {
   UniverSheetsThreadCommentPlugin,
 } from '@univerjs/sheets-thread-comment'
 
-import type { IUniverUIConfig } from '@univerjs/ui/lib/types/controllers/ui/ui.controller'
-
 import { UniverSheetsHyperLinkPlugin } from '@univerjs/sheets-hyper-link'
 import { UniverSheetsHyperLinkUIPlugin } from '@univerjs/sheets-hyper-link-ui'
 
@@ -61,7 +62,6 @@ export function createUniver(
     locale: getLanguage(),
     logLevel: LogLevel.ERROR,
     locales,
-    id,
   })
 
   univer.registerPlugin(UniverDocsPlugin, {
@@ -124,6 +124,8 @@ export function createUniver(
   // 条件渲染
   univer.registerPlugin(UniverSheetsConditionalFormattingUIPlugin)
   univer.registerPlugin(UniverSheetsConditionalFormattingPlugin)
+
+  // univer.registerPlugin(UniverUniscriptPlugin)
 
   return univer
 }
