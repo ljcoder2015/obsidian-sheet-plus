@@ -1,7 +1,7 @@
 {
   "name": "sheet-plus",
   "type": "module",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "description": "Create Excel-like spreadsheets and easily embed them in Markdown.",
   "author": "ljcoder",
   "license": "Apache-2.0",
