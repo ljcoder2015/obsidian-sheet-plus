@@ -16,6 +16,8 @@ import { UniverSheetsUIPlugin } from '@univerjs/sheets-ui'
 import type { IUniverUIConfig } from '@univerjs/ui'
 import { UniverUIPlugin } from '@univerjs/ui'
 
+import { UniverChartPlugin } from '@xxs3315/univer-chart-plugin'
+
 // import { UniverUniscriptPlugin } from '@univerjs/uniscript'
 
 import { UniverFindReplacePlugin } from '@univerjs/find-replace'
@@ -126,6 +128,8 @@ export function createUniver(
   univer.registerPlugin(UniverSheetsConditionalFormattingPlugin)
 
   // univer.registerPlugin(UniverUniscriptPlugin)
+
+  univer.registerPlugin(UniverChartPlugin)
 
   return univer
 }
