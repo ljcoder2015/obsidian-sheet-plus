@@ -1,4 +1,4 @@
-import { LogLevel, Univer } from '@univerjs/core'
+import { LogLevel, Univer, UserManagerService } from '@univerjs/core'
 import { defaultTheme } from '@univerjs/design'
 
 import { UniverDocsPlugin } from '@univerjs/docs'
@@ -12,9 +12,7 @@ import { UniverSheetsFormulaPlugin } from '@univerjs/sheets-formula'
 
 import { UniverSheetsNumfmtPlugin } from '@univerjs/sheets-numfmt'
 
-import { UniverSheetsUIPlugin } from '@univerjs/sheets-ui'
 import type { IUniverUIConfig } from '@univerjs/ui'
-import { UniverUIPlugin } from '@univerjs/ui'
 
 // import { UniverUniscriptPlugin } from '@univerjs/uniscript'
 
@@ -30,16 +28,15 @@ import { UniverSheetsDrawingPlugin } from '@univerjs/sheets-drawing'
 import { UniverSheetsDrawingUIPlugin } from '@univerjs/sheets-drawing-ui'
 
 import { UniverSheetsFilterPlugin } from '@univerjs/sheets-filter'
-import { UniverSheetsFilterUIPlugin } from '@univerjs/sheets-filter-ui'
 
-import { UniverThreadCommentPlugin } from '@univerjs/thread-comment'
 import { UniverThreadCommentUIPlugin } from '@univerjs/thread-comment-ui'
 
-import { UniverSheetsThreadCommentBasePlugin } from '@univerjs/sheets-thread-comment-base'
 import {
   IThreadCommentMentionDataService,
   UniverSheetsThreadCommentPlugin,
 } from '@univerjs/sheets-thread-comment'
+
+import { UniverSheetsCrosshairHighlightPlugin } from '@univerjs/sheets-crosshair-highlight'
 
 import { UniverSheetsHyperLinkPlugin } from '@univerjs/sheets-hyper-link'
 import { UniverSheetsHyperLinkUIPlugin } from '@univerjs/sheets-hyper-link-ui'
@@ -47,11 +44,15 @@ import { UniverSheetsHyperLinkUIPlugin } from '@univerjs/sheets-hyper-link-ui'
 import { UniverSheetsSortPlugin } from '@univerjs/sheets-sort'
 import { UniverSheetsSortUIPlugin } from '@univerjs/sheets-sort-ui'
 
-import { UniverSheetsConditionalFormattingUIPlugin } from '@univerjs/sheets-conditional-formatting-ui'
 import { UniverSheetsConditionalFormattingPlugin } from '@univerjs/sheets-conditional-formatting'
 
+import { UniverUIPlugin } from '@univerjs/ui'
+import { UniverSheetsUIPlugin } from '@univerjs/sheets-ui'
+import { UniverSheetsFilterUIPlugin } from '@univerjs/sheets-filter-ui'
+import { UniverSheetsConditionalFormattingUIPlugin } from '@univerjs/sheets-conditional-formatting-ui'
+
 import { getLanguage, locales } from '../lang/locale'
-import { CustomMentionDataService } from './customMentionDataService'
+import { CustomMentionDataService, mockUser } from './customMentionDataService'
 
 export function createUniver(
   option: IUniverUIConfig,
@@ -64,16 +65,75 @@ export function createUniver(
     locales,
   })
 
-  univer.registerPlugin(UniverDocsPlugin, {
-    hasScroll: false,
-  })
-  univer.registerPlugin(UniverDocsUIPlugin)
   univer.registerPlugin(UniverRenderEnginePlugin)
+  // if (isMobile()) {
+  //   univer.registerPlugin(UniverFormulaEnginePlugin)
+
+  //   // core plugins
+  //   univer.registerPlugin(UniverDocsPlugin)
+  //   univer.registerPlugin(UniverMobileUIPlugin, {
+  //     container: id,
+  //     header: option.header,
+  //     footer: option.footer,
+  //     contextMenu: true,
+  //   })
+
+  //   univer.registerPlugin(UniverDocsUIPlugin)
+  //   univer.registerPlugin(UniverSheetsPlugin)
+
+  //   univer.registerPlugin(UniverSheetsMobileUIPlugin)
+  //   // 筛选
+  //   univer.registerPlugin(UniverSheetsFilterPlugin)
+  //   univer.registerPlugin(UniverSheetsFilterMobileUIPlugin)
+
+  //   univer.registerPlugin(UniverSheetsNumfmtPlugin)
+  //   univer.registerPlugin(UniverSheetsFormulaMobilePlugin)
+
+  //   // find replace
+  //   univer.registerPlugin(UniverSheetsFindReplacePlugin)
+  //   univer.registerPlugin(UniverFindReplacePlugin)
+
+  //   // data validation
+  //   univer.registerPlugin(UniverDataValidationPlugin)
+  //   univer.registerPlugin(UniverSheetsDataValidationMobilePlugin)
+
+  //   // 浮动图片
+  //   univer.registerPlugin(UniverDrawingPlugin)
+  //   univer.registerPlugin(UniverDrawingUIPlugin)
+  //   univer.registerPlugin(UniverSheetsDrawingPlugin)
+  //   univer.registerPlugin(UniverSheetsDrawingUIPlugin)
+
+  //   // 评论批注
+  //   // univer.registerPlugin(UniverThreadCommentUIPlugin, { overrides: [[IThreadCommentMentionDataService, { useClass: CustomMentionDataService }]] })
+  //   // univer.registerPlugin(UniverSheetsThreadCommentPlugin)
+
+  //   // 超链接
+  //   // univer.registerPlugin(UniverSheetsHyperLinkPlugin)
+  //   // univer.registerPlugin(UniverSheetsHyperLinkUIPlugin)
+
+  //   // 排序
+  //   univer.registerPlugin(UniverSheetsSortPlugin)
+  //   univer.registerPlugin(UniverSheetsSortUIPlugin)
+
+  //   // 条件渲染
+  //   univer.registerPlugin(UniverSheetsConditionalFormattingPlugin)
+  //   univer.registerPlugin(UniverSheetsConditionalFormattingMobileUIPlugin)
+
+  //   // 十字高亮
+  //   // univer.registerPlugin(UniverSheetsCrosshairHighlightPlugin)
+  // }
+  // else {
   univer.registerPlugin(UniverUIPlugin, {
     container: id,
     header: option.header,
     footer: option.footer,
   })
+
+  univer.registerPlugin(UniverDocsPlugin, {
+    hasScroll: false,
+  })
+  univer.registerPlugin(UniverDocsUIPlugin)
+
   univer.registerPlugin(UniverSheetsPlugin)
   univer.registerPlugin(UniverSheetsUIPlugin)
 
@@ -100,18 +160,8 @@ export function createUniver(
   univer.registerPlugin(UniverSheetsFilterUIPlugin)
 
   // 评论批注
-  univer.registerPlugin(UniverThreadCommentPlugin)
-  univer.registerPlugin(UniverThreadCommentUIPlugin)
-
-  univer.registerPlugin(UniverSheetsThreadCommentBasePlugin)
-  univer.registerPlugin(UniverSheetsThreadCommentPlugin, {
-    overrides: [
-      [
-        IThreadCommentMentionDataService,
-        { useClass: CustomMentionDataService },
-      ],
-    ],
-  })
+  univer.registerPlugin(UniverThreadCommentUIPlugin, { overrides: [[IThreadCommentMentionDataService, { useClass: CustomMentionDataService }]] })
+  univer.registerPlugin(UniverSheetsThreadCommentPlugin)
 
   // 超链接
   univer.registerPlugin(UniverSheetsHyperLinkPlugin)
@@ -125,7 +175,20 @@ export function createUniver(
   univer.registerPlugin(UniverSheetsConditionalFormattingUIPlugin)
   univer.registerPlugin(UniverSheetsConditionalFormattingPlugin)
 
-  // univer.registerPlugin(UniverUniscriptPlugin)
+  // 十字高亮
+  univer.registerPlugin(UniverSheetsCrosshairHighlightPlugin)
+  // }
+
+  const injector = univer.__getInjector()
+  const userManagerService = injector.get(UserManagerService)
+  userManagerService.setCurrentUser(mockUser)
 
   return univer
+}
+
+function isMobile(): boolean {
+  const flag = navigator.userAgent.match(
+    /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i,
+  )
+  return flag != null
 }

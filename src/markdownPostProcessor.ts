@@ -8,6 +8,8 @@ import {
 } from 'obsidian'
 import type { IWorkbookData } from '@univerjs/core'
 import { UniverInstanceType } from '@univerjs/core'
+import { FUniver } from '@univerjs/facade'
+import { WorkbookEditablePermission } from '@univerjs/sheets'
 import type ExcelProPlugin from './main'
 
 import { getExcelData, getRangeData, renderToHtml } from './utils/data'
@@ -290,6 +292,16 @@ function createSheetEl(data: IWorkbookData | null, file: TFile, height = 300): H
   }
   else {
     univer.createUnit(UniverInstanceType.UNIVER_SHEET, {})
+  }
+
+  const univerAPI = FUniver.newAPI(univer)
+  const permission = univerAPI.getPermission()
+  permission.setPermissionDialogVisible(false)
+  const activeWorkbook = univerAPI.getActiveWorkbook()
+
+  const unitId = activeWorkbook && activeWorkbook.getId()
+  if (unitId) {
+    permission.setWorkbookPermissionPoint(unitId, WorkbookEditablePermission, false)
   }
 
   return sheetDiv
