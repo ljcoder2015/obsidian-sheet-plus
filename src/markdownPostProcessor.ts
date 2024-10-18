@@ -98,9 +98,9 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
     const isFrontmatterDiv = Boolean(el.querySelector('.frontmatter'))
     el.empty()
     if (!isFrontmatterDiv) {
-      if (el.parentElement === containerEl)
+      if (el.parentElement === containerEl) {
         containerEl.removeChild(el)
-      return
+      }
     }
     internalEmbedDiv.empty()
 
@@ -309,6 +309,7 @@ function createSheetEl(data: IWorkbookData | null, file: TFile, height = 300): H
 
 // 预览模式解析
 async function processReadingMode(embeddedItems: NodeListOf<Element> | [HTMLElement], ctx: MarkdownPostProcessorContext) {
+  // console.log("processReadingMode")
   // We are processing a non-univer file in reading mode
   // Embedded files will be displayed in an .internal-embed container
 
