@@ -1,5 +1,12 @@
 
 
+## [1.4.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.4.0...1.4.1) (2024-10-18)
+
+
+### Bug Fixes
+
+* 44 Hover Edito ([1a1235d](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/1a1235db6a062d658af57e5eb97a54b146e602a0))
+
 # [1.4.0](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.3.6...1.4.0) (2024-10-17)
 
 ## [1.3.6](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.3.5...1.3.6) (2024-09-11)
