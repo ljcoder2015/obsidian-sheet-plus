@@ -1,5 +1,12 @@
 
 
+## [1.4.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.4.2...1.4.3) (2024-11-01)
+
+
+### Bug Fixes
+
+* pathched @univerjs/engine-render@0.4.2 ([0e44d95](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/0e44d9566749af7d65942ca36d500e17a2f3c42e))
+
 ## [1.4.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.4.1...1.4.2) (2024-11-01)
 
 ## [1.4.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.4.0...1.4.1) (2024-10-18)
