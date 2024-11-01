@@ -150,6 +150,10 @@ button.univer-button-primary {
 	box-shadow: none;
 }
 
+button.univer-toolbar-btn {
+	color: rgb(var(--text-color));
+}
+
 button.univer-button-default {
     font-weight: 400;
     color: rgb(var(--text-color));
