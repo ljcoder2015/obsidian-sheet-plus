@@ -9,6 +9,7 @@ import { UniverSheetsPlugin } from '@univerjs/sheets'
 
 import { UniverFormulaEnginePlugin } from '@univerjs/engine-formula'
 import { UniverSheetsFormulaPlugin } from '@univerjs/sheets-formula'
+import { UniverSheetsFormulaUIPlugin } from '@univerjs/sheets-formula-ui'
 
 import { UniverSheetsNumfmtPlugin } from '@univerjs/sheets-numfmt'
 
@@ -140,6 +141,7 @@ export function createUniver(
   univer.registerPlugin(UniverSheetsNumfmtPlugin)
   univer.registerPlugin(UniverFormulaEnginePlugin)
   univer.registerPlugin(UniverSheetsFormulaPlugin)
+  univer.registerPlugin(UniverSheetsFormulaUIPlugin)
 
   // find replace
   univer.registerPlugin(UniverSheetsFindReplacePlugin)

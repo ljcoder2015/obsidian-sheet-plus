@@ -42,6 +42,7 @@
     "@univerjs/sheets-filter-ui": "^0.4.2",
     "@univerjs/sheets-find-replace": "^0.4.2",
     "@univerjs/sheets-formula": "^0.4.2",
+    "@univerjs/sheets-formula-ui": "^0.4.2",
     "@univerjs/sheets-hyper-link": "^0.4.2",
     "@univerjs/sheets-hyper-link-ui": "^0.4.2",
     "@univerjs/sheets-numfmt": "^0.4.2",
