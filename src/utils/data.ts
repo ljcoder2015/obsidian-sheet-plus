@@ -191,9 +191,9 @@ export function rangeToRangeString(range: FRange): string {
   const eci = sci + range.getWidth() - 1
   // 格式 ${sci}${sri}:${eci}${eri}
   return `${numberToColRowString(sci, sri)}:${numberToColRowString(
-		eci,
-		eri,
-	)}`
+    eci,
+    eri,
+  )}`
 }
 
 /**

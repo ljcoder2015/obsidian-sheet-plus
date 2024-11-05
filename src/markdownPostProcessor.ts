@@ -268,7 +268,7 @@ function createSheetEl(data: IWorkbookData | null, file: TFile, height = 300): H
     })
   }
 
-  const id = `univer-${randomString(6)}`
+  const id = `univer-embed-${randomString(6)}`
   const sheetEl = createDiv({
     cls: 'sheet-iframe',
     attr: {
@@ -279,30 +279,32 @@ function createSheetEl(data: IWorkbookData | null, file: TFile, height = 300): H
 
   sheetDiv.appendChild(sheetEl)
 
-  const options = {
-    header: false,
-    footer: true,
-  }
-  const univer = createUniver(options, id)
+  setTimeout(() => {
+    const options = {
+      header: false,
+      footer: true,
+    }
+    const univer = createUniver(options, id)
 
-  if (data) {
-    // workbookData 的内容都包含在 workbook 字段中
-    const workbookData: IWorkbookData = data
-    univer.createUnit(UniverInstanceType.UNIVER_SHEET, workbookData)
-  }
-  else {
-    univer.createUnit(UniverInstanceType.UNIVER_SHEET, {})
-  }
+    if (data) {
+      // workbookData 的内容都包含在 workbook 字段中
+      const workbookData: IWorkbookData = data
+      univer.createUnit(UniverInstanceType.UNIVER_SHEET, workbookData)
+    }
+    else {
+      univer.createUnit(UniverInstanceType.UNIVER_SHEET, {})
+    }
 
-  const univerAPI = FUniver.newAPI(univer)
-  const permission = univerAPI.getPermission()
-  permission.setPermissionDialogVisible(false)
-  const activeWorkbook = univerAPI.getActiveWorkbook()
+    const univerAPI = FUniver.newAPI(univer)
+    const permission = univerAPI.getPermission()
+    permission.setPermissionDialogVisible(false)
+    const activeWorkbook = univerAPI.getActiveWorkbook()
 
-  const unitId = activeWorkbook && activeWorkbook.getId()
-  if (unitId) {
-    permission.setWorkbookPermissionPoint(unitId, WorkbookEditablePermission, false)
-  }
+    const unitId = activeWorkbook && activeWorkbook.getId()
+    if (unitId) {
+      permission.setWorkbookPermissionPoint(unitId, WorkbookEditablePermission, false)
+    }
+  }, 1000)
 
   return sheetDiv
 }
