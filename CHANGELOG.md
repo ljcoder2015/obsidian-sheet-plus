@@ -1,5 +1,12 @@
 
 
+## [1.4.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.4.3...1.4.4) (2024-11-05)
+
+
+### Bug Fixes
+
+* embed blank bug [#47](https://github.com/ljcoder2015/obsidian-sheet-plus/issues/47) ([dc2b321](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/dc2b321d7267682ec63b96214262392b096839f9))
+
 ## [1.4.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.4.2...1.4.3) (2024-11-01)
 
 
