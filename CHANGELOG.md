@@ -1,5 +1,7 @@
 
 
+# [1.5.0](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.4.4...1.5.0) (2024-12-05)
+
 ## [1.4.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.4.3...1.4.4) (2024-11-05)
 
 
