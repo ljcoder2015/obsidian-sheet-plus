@@ -1,8 +1,7 @@
 import type { WorkspaceLeaf } from 'obsidian'
 import { Notice, TextFileView } from 'obsidian'
-import { FUniver } from '@univerjs/facade'
 import type { IWorkbookData, Univer, Workbook } from '@univerjs/core'
-import { UniverInstanceType } from '@univerjs/core'
+import { FUniver, UniverInstanceType } from '@univerjs/core'
 import type ExcelProPlugin from '../main'
 
 import {

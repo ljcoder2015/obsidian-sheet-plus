@@ -1,6 +1,6 @@
-import type { Nullable } from '@univerjs/core'
-import type { IThreadCommentMentionDataSource } from '@univerjs/thread-comment-ui'
-import type { IThreadCommentMentionDataService } from '@univerjs/sheets-thread-comment'
+// import type { Nullable } from '@univerjs/core'
+// import type { IThreadCommentMentionDataSource } from '@univerjs/thread-comment-ui'
+// import type { IThreadCommentMentionDataService } from '@univerjs/sheets-thread-comment'
 
 export const mockUser = {
   userID: 'Owner_qxVnhPbQ',
@@ -10,24 +10,24 @@ export const mockUser = {
   canBindAnonymous: false,
 }
 
-export class CustomMentionDataService implements IThreadCommentMentionDataService {
-  dataSource: Nullable<IThreadCommentMentionDataSource>
-  trigger: string = '@'
+// export class CustomMentionDataService implements IThreadCommentMentionDataService {
+//   dataSource: Nullable<IThreadCommentMentionDataSource>
+//   trigger: string = '@'
 
-  async getMentions() {
-    return [
-      {
-        id: mockUser.userID,
-        label: mockUser.name,
-        type: 'user',
-        icon: mockUser.avatar,
-      },
-      {
-        id: '2',
-        label: 'User2',
-        type: 'user',
-        icon: mockUser.avatar,
-      },
-    ]
-  }
-}
+//   async getMentions() {
+//     return [
+//       {
+//         id: mockUser.userID,
+//         label: mockUser.name,
+//         type: 'user',
+//         icon: mockUser.avatar,
+//       },
+//       {
+//         id: '2',
+//         label: 'User2',
+//         type: 'user',
+//         icon: mockUser.avatar,
+//       },
+//     ]
+//   }
+// }

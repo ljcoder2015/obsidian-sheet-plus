@@ -7,8 +7,7 @@ import {
   TFile,
 } from 'obsidian'
 import type { IWorkbookData } from '@univerjs/core'
-import { UniverInstanceType } from '@univerjs/core'
-import { FUniver } from '@univerjs/facade'
+import { FUniver, UniverInstanceType } from '@univerjs/core'
 import { WorkbookEditablePermission } from '@univerjs/sheets'
 import type ExcelProPlugin from './main'
 
