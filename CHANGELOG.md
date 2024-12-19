@@ -1,5 +1,12 @@
 
 
+## [1.5.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.5.0...1.5.1) (2024-12-19)
+
+
+### Bug Fixes
+
+* memory ([77c9a65](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/77c9a6598a55616708d82f8b1d6ffdaed8992f58))
+
 # [1.5.0](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.4.4...1.5.0) (2024-12-05)
 
 ## [1.4.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.4.3...1.4.4) (2024-11-05)
