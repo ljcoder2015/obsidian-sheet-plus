@@ -1,0 +1,13 @@
+diff --git a/lib/es/index.js b/lib/es/index.js
+index cca21627a972c8c4e842781f08bd476ce0c52e28..24a9398320abb7bc646a18cce0d9075aa7801970 100644
+--- a/lib/es/index.js
++++ b/lib/es/index.js
+@@ -13630,7 +13630,7 @@ class Dy {
+   constructor() {
+     k(this, "isReady", !1);
+     k(this, "_fontBook", /* @__PURE__ */ new Map());
+-    this._loadFontsToBook();
++    // this._loadFontsToBook();
+   }
+   async _loadFontsToBook() {
+     if (!(this.isReady || !await jy()) && "queryLocalFonts" in window)
