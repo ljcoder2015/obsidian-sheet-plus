@@ -20,6 +20,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@ljcoder/charts": "git+ssh://git@github.com:ljcoder2015/univer-charts.git#v0.0.5",
     "@univerjs/core": "^0.5.1",
     "@univerjs/data-validation": "^0.5.1",
     "@univerjs/design": "^0.5.1",

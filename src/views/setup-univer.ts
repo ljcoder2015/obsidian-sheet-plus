@@ -27,7 +27,6 @@ import { UniverDrawingUIPlugin } from '@univerjs/drawing-ui'
 import { UniverSheetsDrawingPlugin } from '@univerjs/sheets-drawing'
 
 import { UniverSheetsFilterPlugin } from '@univerjs/sheets-filter'
-
 import { UniverThreadCommentPlugin } from '@univerjs/thread-comment'
 import { UniverThreadCommentUIPlugin } from '@univerjs/thread-comment-ui'
 import { UniverSheetsThreadCommentPlugin } from '@univerjs/sheets-thread-comment'
@@ -69,7 +68,7 @@ export function createUniver(
   const univer = new Univer({
     theme: defaultTheme,
     locale: getLanguage(),
-    logLevel: LogLevel.ERROR,
+    logLevel: LogLevel.VERBOSE,
     locales,
   })
 

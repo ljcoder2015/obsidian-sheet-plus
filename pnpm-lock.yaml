@@ -10,6 +10,9 @@ patchedDependencies:
     path: patches/@univerjs__engine-render@0.5.1.patch
 
 dependencies:
+  '@ljcoder/charts':
+    specifier: git+ssh://git@github.com:ljcoder2015/univer-charts.git#v0.0.5
+    version: git@github.com+ljcoder2015/univer-charts/85a611a00b03de42a3e6ef90e85ad956b2e37277(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2)
   '@univerjs/core':
     specifier: ^0.5.1
     version: 0.5.1(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
@@ -3012,6 +3015,13 @@ packages:
     resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
     engines: {node: '>=12'}
     dev: true
+
+  /echarts@5.5.1:
+    resolution: {integrity: sha512-Fce8upazaAXUVUVsjgV6mBnGuqgO+JNDlcgF79Dksy4+wgGpQB2lmYoO4TSweFg/mZITdpGHomw/cNBJZj1icA==}
+    dependencies:
+      tslib: 2.3.0
+      zrender: 5.6.0
+    dev: false
 
   /electron-to-chromium@1.5.69:
     resolution: {integrity: sha512-zz4e7EbJqqtdQtwt61ZYKrfEYlV0HpGbIGRVFGOO9YBZIhg0BDXtBcWxpqyAm6oyPl2Zp8tc5FrPpCZQH/Yazg==}
@@ -6138,7 +6148,7 @@ packages:
     peerDependencies:
       react: '>=16.8.3'
     dependencies:
-      '@babel/runtime': 7.4.5
+      '@babel/runtime': 7.26.0
       invariant: 2.2.4
       react: 18.3.1
     dev: false
@@ -6232,6 +6242,10 @@ packages:
     dependencies:
       typescript: 5.7.2
     dev: true
+
+  /tslib@2.3.0:
+    resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==}
+    dev: false
 
   /tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
@@ -6595,3 +6609,43 @@ packages:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
     engines: {node: '>=18'}
     dev: true
+
+  /zrender@5.6.0:
+    resolution: {integrity: sha512-uzgraf4njmmHAbEUxMJ8Oxg+P3fT04O+9p7gY+wJRVxo8Ge+KmYv0WJev945EH4wFuc4OY2NLXz46FZrWS9xJg==}
+    dependencies:
+      tslib: 2.3.0
+    dev: false
+
+  git@github.com+ljcoder2015/univer-charts/85a611a00b03de42a3e6ef90e85ad956b2e37277(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2):
+    resolution: {commit: 85a611a00b03de42a3e6ef90e85ad956b2e37277, repo: git@github.com:ljcoder2015/univer-charts.git, type: git}
+    id: git@github.com+ljcoder2015/univer-charts/85a611a00b03de42a3e6ef90e85ad956b2e37277
+    name: '@ljcoder/charts'
+    version: 0.0.3
+    peerDependencies:
+      react: ^16.9.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
+      rxjs: '>=7.0.0'
+    dependencies:
+      '@univerjs/core': 0.5.1(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
+      '@univerjs/design': 0.5.1(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/engine-formula': 0.5.1(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
+      '@univerjs/icons': 0.2.8(react-dom@18.3.1)(react@18.3.1)
+      '@univerjs/sheets': 0.5.1(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
+      '@univerjs/sheets-formula-ui': 0.5.1(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2)
+      '@univerjs/sheets-ui': 0.5.1(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2)
+      '@univerjs/ui': 0.5.1(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2)
+      echarts: 5.5.1
+      rc-dialog: 9.6.0(react-dom@18.3.1)(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-draggable: 4.4.6(react-dom@18.3.1)(react@18.3.1)
+      react-grid-layout: 1.5.0(react-dom@18.3.1)(react@18.3.1)
+      react-resizable: 3.0.5(react-dom@18.3.1)(react@18.3.1)
+      rxjs: 7.8.1
+    transitivePeerDependencies:
+      - '@grpc/grpc-js'
+      - date-fns
+      - luxon
+      - moment
+      - typescript
+    dev: false

@@ -60,3 +60,6 @@ eg.
 
 ### Comment
 ![comment](/images/remark.gif)
+
+### Charts
+![charts](/images/charts.gif)

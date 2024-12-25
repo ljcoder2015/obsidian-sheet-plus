@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
+import '@ljcoder/charts/lib/index.css'
+
 import type { Plugin, PluginCtor } from '@univerjs/core'
+import { UniverChartPlugin } from '@ljcoder/charts'
 import { UniverSheetsCrosshairHighlightPlugin } from '@univerjs/sheets-crosshair-highlight'
 import { UniverSheetsFindReplacePlugin } from '@univerjs/sheets-find-replace'
 import { UniverSheetsHyperLinkUIPlugin } from '@univerjs/sheets-hyper-link-ui'
@@ -27,6 +30,7 @@ export default function getVeryLazyPlugins() {
     [UniverSheetsSortUIPlugin],
     [UniverSheetsCrosshairHighlightPlugin],
     [UniverSheetsFindReplacePlugin],
+    [UniverChartPlugin],
   ]
 
   return plugins
