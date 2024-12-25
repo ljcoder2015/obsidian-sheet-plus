@@ -1,5 +1,12 @@
 
 
+## [1.5.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.5.1...1.5.2) (2024-12-25)
+
+
+### Features
+
+* charts ([ee72d4c](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/ee72d4c6db7984e34b41440b10126a42d40f8c70))
+
 ## [1.5.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.5.0...1.5.1) (2024-12-19)
 
 
