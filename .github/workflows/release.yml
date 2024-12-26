@@ -41,7 +41,7 @@ jobs:
         id: get_latest_release
         uses: jossef/action-latest-release-info@v1.2.2
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload main.js
         id: upload-main
