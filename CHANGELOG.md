@@ -1,5 +1,12 @@
 
 
+## [1.5.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.5.2...1.5.3) (2024-12-26)
+
+
+### Features
+
+* workflow 修改 ([1af4d24](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/1af4d24df7a8ee273b88670f71d45770f956686a))
+
 ## [1.5.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.5.1...1.5.2) (2024-12-25)
 
 
