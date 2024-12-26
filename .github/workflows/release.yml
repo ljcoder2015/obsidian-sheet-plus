@@ -39,9 +39,7 @@ jobs:
 
       - name: Get latest release upload URL
         id: get_latest_release
-        run: |
-          upload_url=$(gh release view --json uploadUrl -q .uploadUrl)
-          echo "upload_url=$upload_url" >>  $GITHUB_OUTPUT
+        uses: jossef/action-latest-release-info@v1.2.2
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
