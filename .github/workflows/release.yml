@@ -8,8 +8,9 @@ env:
   PLUGIN_NAME: excel-plus
 
 permissions:
-  contents: read
-  actions: write
+  contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
   build:
@@ -40,12 +41,6 @@ jobs:
           pnpm build
           mkdir ${{ env.PLUGIN_NAME }}
           echo "All build files are ready."
-
-      - name: Use GITHUB_TOKEN with gh CLI
-        id: get_token
-        run: |
-          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
-          gh api repos/${{ github.repository }}/releases/latest
 
       - name: Get latest release upload URL
         id: get_latest_release
