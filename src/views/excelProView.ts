@@ -8,14 +8,11 @@ import {
   extractYAML,
   getExcelData,
   rangeToRangeString,
-  renderToHtml,
 } from '../utils/data'
 import { randomString } from '../utils/uuid'
 import { FRONTMATTER, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { t } from '../lang/helpers'
-import { createUniver } from './setup-univer'
-
-// import DataWorker from "web-worker:./workers/data.worker.ts";
+import { createUniver } from './univer/setup-univer'
 
 export class ExcelProView extends TextFileView {
   public plugin: ExcelProPlugin

@@ -15,6 +15,7 @@ import {
 } from 'obsidian'
 
 import { around, dedupe } from 'monkey-around'
+import { update } from '@ljcoder/authorization'
 import {
   FRONTMATTER,
   FRONTMATTER_KEY,
@@ -34,7 +35,7 @@ import { ExcelProSettingTab } from './settingTab'
 import {
   initializeMarkdownPostProcessor,
   markdownPostProcessor,
-} from './markdownPostProcessor'
+} from './post-processor/markdownPostProcessor'
 
 export default class ExcelProPlugin extends Plugin {
   public settings: ExcelProSettings
@@ -93,7 +94,7 @@ export default class ExcelProPlugin extends Plugin {
     this.registerMarkdownPostProcessor(markdownPostProcessor)
   }
 
-  private registerEventListeners() {}
+  private registerEventListeners() { }
 
   private switchToExcelAfterLoad() {
     this.app.workspace.onLayoutReady(() => {
@@ -113,6 +114,9 @@ export default class ExcelProPlugin extends Plugin {
 
   async loadSettings() {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData())
+    update(this.settings.authorizationCode, () => {
+
+    })
   }
 
   async saveSettings() {
@@ -148,7 +152,35 @@ export default class ExcelProPlugin extends Plugin {
         )
       },
     })
+
+    // this.addCommand({
+    //   id: 'sheet-plus-copy-link-html',
+    //   name: t('COMMAND_LINK_HTML'),
+    //   callback: () => {
+    //     this.createAndOpenExcel(
+    //       getExcelFilename(this.settings),
+    //       undefined,
+    //       this.getBlackData(),
+    //     )
+    //   },
+    // })
+
+    // this.addCommand({
+    //   id: 'sheet-plus-copy-link-univer',
+    //   name: t('COMMAND_LINK_UNIVER'),
+    //   callback: () => {
+    //     this.createAndOpenExcel(
+    //       getExcelFilename(this.settings),
+    //       undefined,
+    //       this.getBlackData(),
+    //     )
+    //   },
+    // })
   }
+
+  // private copyEmbedLink(type: string) {
+
+  // }
 
   private registerMonkeyPatches() {
     const key = 'https://gitee.com/ljcoder2015/obsidian-excel-pro'

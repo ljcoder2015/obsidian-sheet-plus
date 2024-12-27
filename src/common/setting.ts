@@ -1,19 +1,21 @@
 export interface ExcelProSettings {
-	showSheetButton: string,
-	folder: string;
-	excelFilenamePrefix: string,
-	excelFilenameDateTime: string,
-	sheetHeight: string,
-	rowHeight: string,
-	colWidth: string
+  showSheetButton: string
+  folder: string
+  excelFilenamePrefix: string
+  excelFilenameDateTime: string
+  sheetHeight: string
+  rowHeight: string
+  colWidth: string
+  authorizationCode: string
 }
 
 export const DEFAULT_SETTINGS: ExcelProSettings = {
-	showSheetButton: "true",
-	folder: "/",
-	excelFilenamePrefix: "Excel ",
-	excelFilenameDateTime: "YYYY-MM-DD HH.mm.ss",
-	sheetHeight: "300",
-	rowHeight: "25",
-	colWidth: "100"
-};
+  showSheetButton: 'true',
+  folder: '/',
+  excelFilenamePrefix: 'Excel ',
+  excelFilenameDateTime: 'YYYY-MM-DD HH.mm.ss',
+  sheetHeight: '300',
+  rowHeight: '25',
+  colWidth: '100',
+  authorizationCode: '',
+}

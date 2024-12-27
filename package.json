@@ -20,6 +20,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@ljcoder/authorization": "git@github.com:ljcoder2015/univer-authorization.git#v1.1.0",
     "@ljcoder/charts": "git+ssh://git@github.com:ljcoder2015/univer-charts.git#v0.0.5",
     "@univerjs/core": "^0.5.1",
     "@univerjs/data-validation": "^0.5.1",
@@ -58,6 +59,7 @@
     "@univerjs/thread-comment-ui": "^0.5.1",
     "@univerjs/ui": "^0.5.1",
     "defu": "^6.1.4",
+    "echarts": "^5.5.1",
     "jszip": "^3.10.1",
     "monkey-around": "^3.0.0",
     "process": "^0.11.10"

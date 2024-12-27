@@ -45,4 +45,19 @@ export default {
   DEFAULT_COLS_LEN_DESC: 'Default number of rendered columns',
   SHOW_SHEET_BUTTON: 'Show sheet button',
   SHOW_SHEET_BUTTON_DESC: 'Show sheet button',
+
+  AUTHORIZATION_CODE: 'Authorization code',
+  AUTHORIZATION_CODE_DESC: 'Enter the authorization code to activate advanced functions',
+  AUTHORIZATION_CODE_SUBMIT: 'Submit',
+  AUTHORIZATION_CODE_SUCCESS: 'Successful activation',
+  AUTHORIZATION_CODE_FAILED: 'Activation failed. Please check whether the activation code is correct',
+
+  COMMAND_LINK_UNIVER: 'Generate spreadsheet embed links',
+  COMMAND_LINK_HTML: 'Generate HTML embed links',
+  COMMAND_LINK_CHARTS_BAR: 'Generate Bar Chart embed links',
+  COMMAND_LINK_CHARTS_BAR_RACING: 'Generate Bar Racing Chart embed links',
+  COMMAND_LINK_CHARTS_LINE: 'Generate Line Chart embed links',
+  COMMAND_LINK_CHARTS_AREA: 'Generate Line Area Chart embed links',
+  COMMAND_LINK_CHARTS_PIE: 'Generate Pie Chart embed links',
+  COMMAND_LINK_CHARTS_RING_PIE: 'Generate Ring Pie Chart embed links',
 }

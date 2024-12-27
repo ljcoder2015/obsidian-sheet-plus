@@ -1,19 +1,12 @@
-import type {
-  MarkdownPostProcessorContext,
-  MetadataCache,
-  Vault,
-} from 'obsidian'
-import {
-  TFile,
-} from 'obsidian'
-import type { IWorkbookData } from '@univerjs/core'
-import { FUniver, UniverInstanceType } from '@univerjs/core'
-import { WorkbookEditablePermission } from '@univerjs/sheets'
-import type ExcelProPlugin from './main'
+import type { MarkdownPostProcessorContext, MetadataCache, Vault } from 'obsidian'
+import { TFile } from 'obsidian'
 
-import { getExcelData, getRangeData, renderToHtml } from './utils/data'
-import { randomString } from './utils/uuid'
-import { createUniver } from './views/setup-univer'
+import type ExcelProPlugin from '../main'
+
+import { getExcelData, getRangeData } from '../utils/data'
+
+import { renderToHtml } from './html'
+import { createUniverEl } from './univer'
 
 let plugin: ExcelProPlugin
 let vault: Vault
@@ -106,7 +99,7 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
     const data = await vault.read(file)
     const src = internalEmbedDiv.getAttribute('src') ?? ''
     const alt = internalEmbedDiv.getAttribute('alt') ?? ''
-    const sheetDiv = createSheetDiv(src, alt, file, data)
+    const sheetDiv = createEmbedLinkDiv(src, alt, file, data)
     internalEmbedDiv.appendChild(sheetDiv)
 
     if (markdownEmbed) {
@@ -130,7 +123,7 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
   const src = internalEmbedDiv.getAttribute('src') ?? ''
   const alt = internalEmbedDiv.getAttribute('alt') ?? ''
 
-  const sheetDiv = createSheetDiv(src, alt, file, data)
+  const sheetDiv = createEmbedLinkDiv(src, alt, file, data)
   internalEmbedDiv.appendChild(sheetDiv)
 
   if (markdownEmbed) {
@@ -138,174 +131,6 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
     internalEmbedDiv.removeClass('markdown-embed')
     internalEmbedDiv.removeClass('inline-embed')
   }
-}
-
-/**
- * sheet 渲染成 HTML 代码
- * @param excelData excel 数据
- * @param file 文件
- * @param sheet 表格名字
- * @param range 渲染的表格范围
- * @returns HTML代码
- */
-function sheetRenderHtml(excelData: IWorkbookData | null, file: TFile, sheet: string, range: string): HTMLDivElement {
-  const sheetDiv = createDiv()
-
-  if (plugin.settings.showSheetButton == 'true') {
-    const fileEmbed = sheetDiv.createDiv({
-      cls: 'internal-embed file-embed mod-generic is-loaded',
-      text: file.basename,
-      attr: {
-        src: file.basename,
-        alt: file.basename,
-        contenteditable: false,
-        tabindex: -1,
-      },
-    })
-
-    // 点击按钮打开 sheet
-    fileEmbed.onClickEvent((e) => {
-      e.stopPropagation()
-      plugin.app.workspace.getLeaf().openFile(file)
-    })
-  }
-
-  const div = createDiv({
-    cls: 'sheet-html',
-    attr: {
-      tabindex: '-1',
-      contenteditable: 'false',
-    },
-  })
-
-  if (excelData == null)
-    return div
-
-  const table = renderToHtml(excelData, sheet, range)
-  div.appendChild(table)
-  sheetDiv.appendChild(div)
-  return sheetDiv
-}
-
-/**
- * 解析 embed link，根据配置渲染成 univer 或者 html
- * @param src 文件路径跟 sheet name
- * @param alt 参数配置
- * @param file 文件信息
- * @param data 文件转换后的 json 字符串
- * @returns
- */
-function createSheetDiv(src: string, alt: string, file: TFile, data: string): HTMLDivElement {
-  // console.log("createSheetDiv", src, alt)
-  // 是否转换成HTML
-  let toHTML = false
-
-  if (alt.includes('{html}')) {
-    // 单 sheet 中的某一区域
-    toHTML = true
-    alt = alt.replace('{html}', '')
-  }
-
-  let heigh = Number.parseInt(plugin.settings.sheetHeight)
-  const matchResult = alt.match(/<(\d+)>/)
-
-  if (matchResult && matchResult.length > 1) {
-    const extractedValue = matchResult[1] // 获取匹配到的数字
-    //   console.log("Extracted value:", extractedValue);
-    heigh = Number.parseInt(extractedValue)
-    alt = alt.replace(/<\d+>/, '')
-  }
-
-  const split = src.split('#')
-
-  const excelData = getExcelData(data)
-
-  // 生成内容
-  if (toHTML) {
-    const table = sheetRenderHtml(excelData, file, split[1], alt)
-    return table
-  }
-  else {
-    if (split.length > 1) {
-      const rangeData = getRangeData(excelData, split[1], alt)
-      const sheetDiv = createSheetEl(rangeData, file, heigh)
-      return sheetDiv
-    }
-    else {
-      const sheetDiv = createSheetEl(excelData, file, heigh)
-      return sheetDiv
-    }
-  }
-}
-
-/**
- * 创建表格元素
- * @param data 数据JSON对象
- * @param file 文件
- * @param height 渲染高度
- * @returns
- */
-function createSheetEl(data: IWorkbookData | null, file: TFile, height = 300): HTMLDivElement {
-  const sheetDiv = createDiv()
-
-  if (plugin.settings.showSheetButton == 'true') {
-    const fileEmbed = sheetDiv.createDiv({
-      cls: 'internal-embed file-embed mod-generic is-loaded',
-      text: file.basename,
-      attr: {
-        src: file.basename,
-        alt: file.basename,
-        contenteditable: false,
-        tabindex: -1,
-      },
-    })
-
-    // 点击按钮打开 sheet
-    fileEmbed.onClickEvent((e) => {
-      e.stopPropagation()
-      plugin.app.workspace.getLeaf().openFile(file)
-    })
-  }
-
-  const id = `univer-embed-${randomString(6)}`
-  const sheetEl = createDiv({
-    cls: 'sheet-iframe',
-    attr: {
-      id,
-      style: `height: ${height}px`,
-    },
-  })
-
-  sheetDiv.appendChild(sheetEl)
-
-  setTimeout(() => {
-    const options = {
-      header: false,
-      footer: true,
-    }
-    const univer = createUniver(options, id)
-
-    if (data) {
-      // workbookData 的内容都包含在 workbook 字段中
-      const workbookData: IWorkbookData = data
-      univer.createUnit(UniverInstanceType.UNIVER_SHEET, workbookData)
-    }
-    else {
-      univer.createUnit(UniverInstanceType.UNIVER_SHEET, {})
-    }
-
-    const univerAPI = FUniver.newAPI(univer)
-    const permission = univerAPI.getPermission()
-    permission.setPermissionDialogVisible(false)
-    const activeWorkbook = univerAPI.getActiveWorkbook()
-
-    const unitId = activeWorkbook && activeWorkbook.getId()
-    if (unitId) {
-      permission.setWorkbookPermissionPoint(unitId, WorkbookEditablePermission, false)
-    }
-  }, 1000)
-
-  return sheetDiv
 }
 
 // 预览模式解析
@@ -349,6 +174,87 @@ function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: strin
   internalEmbedEl.removeClass('inline-embed')
 
   const alt = internalEmbedEl.getAttribute('alt') ?? ''
-  const div = createSheetDiv(src, alt, file, data)
+  const div = createEmbedLinkDiv(src, alt, file, data)
   return div
+}
+
+/**
+ * 解析 embed link，根据配置渲染成不同的元素
+ * @param src 文件路径跟 sheetName， 例如: Excel 2024-06-05 16.27.15#Sheet1
+ * @param alt 参数配置 例如: A1:C7<100>{html}
+ * @param file 文件信息
+ * @param data 文件转换后的 json 字符串
+ * @returns HTMLDivElement
+ */
+function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string): HTMLDivElement {
+  // console.log("createEmbedLinkDiv", src, alt)
+  const parseResult = parseEmbedLinkSyntax(`${src}|${alt}`)
+
+  const excelData = getExcelData(data)
+
+  const embedLinkDiv = createDiv()
+
+  if (plugin.settings.showSheetButton === 'true') {
+    const fileEmbed = embedLinkDiv.createDiv({
+      cls: 'internal-embed file-embed mod-generic is-loaded',
+      text: file.basename,
+      attr: {
+        src: file.basename,
+        alt: file.basename,
+      },
+    })
+
+    // 点击按钮打开 sheet
+    fileEmbed.onClickEvent((e) => {
+      e.stopPropagation()
+      plugin.app.workspace.getLeaf().openFile(file)
+    })
+  }
+
+  // 生成内容
+  if (parseResult.displayType === 'html') {
+    const tableEl = renderToHtml(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
+    embedLinkDiv.appendChild(tableEl)
+    return embedLinkDiv
+  }
+  else if (parseResult.displayType === undefined) {
+    if (parseResult.startCell && parseResult.endCell) {
+      const rangeData = getRangeData(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
+      const univerEl = createUniverEl(rangeData, parseResult.height)
+      embedLinkDiv.appendChild(univerEl)
+      return embedLinkDiv
+    }
+    else {
+      const univerEl = createUniverEl(excelData, parseResult.height)
+      embedLinkDiv.appendChild(univerEl)
+      return embedLinkDiv
+    }
+  }
+}
+
+interface ParsedSyntax {
+  fileName: string
+  sheetName: string
+  startCell?: string // Optional start cell
+  endCell?: string // Optional end cell
+  height?: number // Optional height
+  displayType?: string // Optional display type
+}
+
+function parseEmbedLinkSyntax(input: string): ParsedSyntax {
+  const regex = /^([\w\-./\s]+)#([\w\s]+)(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w\-]+)\})?$/
+  const match = input.match(regex)
+
+  if (!match) {
+    throw new Error('Invalid syntax. Ensure the input matches the expected format.')
+  }
+
+  return {
+    fileName: match[1],
+    sheetName: match[2],
+    startCell: match[3] || undefined, // Optional start cell
+    endCell: match[4] || undefined, // Optional end cell
+    height: match[5] ? Number.parseInt(match[5], 10) : undefined, // Optional height
+    displayType: match[6] || undefined, // Optional display type
+  }
 }

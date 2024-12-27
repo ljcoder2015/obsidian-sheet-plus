@@ -55,7 +55,7 @@ import '@univerjs/sheets-numfmt/facade'
 import '@univerjs/sheets-hyper-link-ui/facade'
 import '@univerjs/sheets-thread-comment/facade'
 
-import { getLanguage, locales } from '../lang/locale'
+import { getLanguage, locales } from '../../lang/locale'
 import { mockUser } from './customMentionDataService'
 
 const LOAD_LAZY_PLUGINS_TIMEOUT = 1_000
@@ -68,7 +68,7 @@ export function createUniver(
   const univer = new Univer({
     theme: defaultTheme,
     locale: getLanguage(),
-    logLevel: LogLevel.VERBOSE,
+    logLevel: LogLevel.ERROR,
     locales,
   })
 

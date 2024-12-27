@@ -1,5 +1,6 @@
 import type { App } from 'obsidian'
-import { PluginSettingTab, Setting } from 'obsidian'
+import { Notice, PluginSettingTab, Setting } from 'obsidian'
+import { update } from '@ljcoder/authorization'
 import { t } from './lang/helpers'
 import type ExcelProPlugin from './main'
 
@@ -89,5 +90,31 @@ export class ExcelProSettingTab extends PluginSettingTab {
             this.plugin.saveSettings()
           }),
       )
+
+    new Setting(containerEl)
+      .setName(t('AUTHORIZATION_CODE'))
+      .setDesc(t('AUTHORIZATION_CODE_DESC'))
+      .addTextArea(text =>
+        text
+          .setValue(this.plugin.settings.authorizationCode)
+          .onChange(async (value) => {
+            this.plugin.settings.authorizationCode = value
+            this.plugin.saveSettings()
+          }),
+      )
+      .addButton((button) => {
+        button
+          .setButtonText(t('AUTHORIZATION_CODE_SUBMIT'))
+          .onClick(() => {
+            update(this.plugin.settings.authorizationCode, (res) => {
+              if (res.code === 0) {
+                new Notice(t('AUTHORIZATION_CODE_SUCCESS'))
+              }
+              else {
+                new Notice(t('AUTHORIZATION_CODE_FAILED'))
+              }
+            })
+          })
+      })
   }
 }
