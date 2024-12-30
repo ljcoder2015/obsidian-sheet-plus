@@ -7,6 +7,7 @@ import { getExcelData, getRangeData } from '../utils/data'
 
 import { renderToHtml } from './html'
 import { createUniverEl } from './univer'
+import { createEchartsEl } from './charts'
 
 let plugin: ExcelProPlugin
 let vault: Vault
@@ -230,6 +231,11 @@ function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string)
       return embedLinkDiv
     }
   }
+  else if (parseResult.displayType.contains('chart')) {
+    const chartsEl = createEchartsEl(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`, parseResult.displayType, parseResult.height)
+    embedLinkDiv.appendChild(chartsEl)
+    return embedLinkDiv
+  }
 }
 
 interface ParsedSyntax {
@@ -249,6 +255,16 @@ function parseEmbedLinkSyntax(input: string): ParsedSyntax {
     throw new Error('Invalid syntax. Ensure the input matches the expected format.')
   }
 
+  // displayType
+  // undefined 渲染 univer
+  // html 渲染 HTML
+  // chart-xx
+  // chart-bar
+  // chart-bar-racing
+  // chart-line
+  // chart-area
+  // chart-pie
+  // chart-ring-pie
   return {
     fileName: match[1],
     sheetName: match[2],

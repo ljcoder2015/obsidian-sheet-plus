@@ -1,5 +1,6 @@
 import type { IWorkbookData } from '@univerjs/core'
 import type { FRange } from '@univerjs/sheets/lib/types/facade/index'
+
 /**
  * Markdown 拆分yaml部分跟正文部分
  * @param str Markdown 文本
@@ -108,7 +109,7 @@ export function getRangeData(
   return data
 }
 
-interface RangeIndex {
+export interface RangeIndex {
   startCol: number
   startRow: number
   endCol: number
