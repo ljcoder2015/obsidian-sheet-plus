@@ -1,4 +1,4 @@
-import { LogLevel, Univer, UserManagerService } from '@univerjs/core'
+import { LocaleType, LogLevel, Univer, UserManagerService } from '@univerjs/core'
 import { defaultTheme } from '@univerjs/design'
 
 import { UniverDocsPlugin } from '@univerjs/docs'
@@ -43,6 +43,8 @@ import { UniverSheetsUIPlugin } from '@univerjs/sheets-ui'
 
 import { UniverSheetsZenEditorPlugin } from '@univerjs/sheets-zen-editor'
 
+import { UniverSheetsEmbedLinkUIPlugin } from '@ljcoder/embed-link-ui'
+
 import '@univerjs/sheets/facade'
 import '@univerjs/ui/facade'
 import '@univerjs/docs-ui/facade'
@@ -55,7 +57,7 @@ import '@univerjs/sheets-numfmt/facade'
 import '@univerjs/sheets-hyper-link-ui/facade'
 import '@univerjs/sheets-thread-comment/facade'
 
-import { getLanguage, locales } from '../../lang/locale'
+import { enUS, faIR, frFR, getLanguage, ruRU, viVN, zhCN, zhTW } from '../../lang/locale'
 import { mockUser } from './customMentionDataService'
 
 const LOAD_LAZY_PLUGINS_TIMEOUT = 1_000
@@ -69,7 +71,15 @@ export function createUniver(
     theme: defaultTheme,
     locale: getLanguage(),
     logLevel: LogLevel.ERROR,
-    locales,
+    locales: {
+      [LocaleType.ZH_CN]: zhCN,
+      [LocaleType.EN_US]: enUS,
+      [LocaleType.FR_FR]: frFR,
+      [LocaleType.RU_RU]: ruRU,
+      [LocaleType.ZH_TW]: zhTW,
+      [LocaleType.VI_VN]: viVN,
+      [LocaleType.FA_IR]: faIR,
+    },
   })
 
   univer.registerPlugin(UniverRenderEnginePlugin)
@@ -145,6 +155,8 @@ function registerDesktopPlugin(univer: Univer) {
 
   // 禅编辑器
   univer.registerPlugin(UniverSheetsZenEditorPlugin)
+
+  univer.registerPlugin(UniverSheetsEmbedLinkUIPlugin)
 
   // 部分插件需要延迟注册
   setTimeout(() => {

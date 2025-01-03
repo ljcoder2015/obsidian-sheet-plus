@@ -36,34 +36,9 @@ export class ExcelProView extends TextFileView {
 
   onload(): void {
     super.onload()
-    // 添加顶部导入按钮
-    // this.importEle = this.addAction(
-    // 	"download",
-    // 	t("IMPORT_XLSX_FILE"),
-    // 	(ev) => this.handleImportClick(ev)
-    // );
-
-    // this.exportEle = this.addAction("upload", t("EXPORT_XLSX_FILE"), (ev) =>
-    // 	this.handleExportClick(ev)
-    // );
-
-    this.embedLinkEle = this.addAction('link', t('COPY_EMBED_LINK'), ev =>
-      this.handleEmbedLink(ev))
 
     this.copyHTMLEle = this.addAction('file-code', t('COPY_TO_HTML'), _ =>
       this.copyToHTML())
-
-    // data worker 处理存储数据
-    // this.dataWorker = new DataWorker();
-
-    // this.dataWorker.onmessage = (e) => {
-    // 	console.log("Message received from worker =======", e);
-
-    // 	const { name, options } = e.data;
-    // 	if (name === "save-data") {
-    // 		this.saveDataToFile(options);
-    // 	}
-    // };
   }
 
   onunload(): void {
@@ -115,7 +90,7 @@ export class ExcelProView extends TextFileView {
     this.univer = createUniver(options, id)
     this.univerAPI = FUniver.newAPI(this.univer)
 
-    const data = getExcelData(this.data)
+    const data = getExcelData(this.data, this.file)
     if (data) {
       // workbookData 的内容都包含在 workbook 字段中
       const workbookData: IWorkbookData = data
@@ -127,7 +102,9 @@ export class ExcelProView extends TextFileView {
     else {
       this.workbook = this.univer.createUnit(
         UniverInstanceType.UNIVER_SHEET,
-        {},
+        {
+          name: this.file.path,
+        },
       )
     }
 
@@ -216,66 +193,6 @@ export class ExcelProView extends TextFileView {
       // console.log("setViewData", data);
       this.setupUniver()
     })
-  }
-
-  // 处理顶部导入按钮点击事件
-  handleImportClick(ev: MouseEvent) {
-    const importEle = document.getElementById('import')
-    importEle?.click()
-  }
-
-  handleFile(_: Event) {
-    // const files = e.target?.files;
-    // if (!files) {
-    // 	new Notice(t("GET_FILE_FAILED"));
-    // 	return;
-    // }
-    // const f = files[0];
-    // const reader = new FileReader();
-    // reader.onload = (e) => {
-    // 	const data = e.target?.result;
-    // 	if (data) {
-    // 		this.process_wb(XLSX.read(data));
-    // 	} else {
-    // 		new Notice(t("READ_FILE_FAILED"));
-    // 	}
-    // };
-    // reader.readAsArrayBuffer(f);
-  }
-
-  // process_wb(wb: XLSX.WorkBook) {
-  // 	const sheetData = stox(wb);
-  // 	if (sheetData) {
-  // 		this.sheet.loadData(sheetData);
-  // 		this.saveData(JSON.stringify(sheetData));
-  // 	} else {
-  // 		new Notice(t("DATA_PARSING_ERROR"));
-  // 	}
-  // }
-
-  handleExportClick(_: MouseEvent) {}
-
-  handleEmbedLink(_: Event) {
-    const activeWorkbook = this.univerAPI.getActiveWorkbook()
-    const activeSheet = activeWorkbook?.getActiveSheet()
-    const selection = activeSheet?.getSelection()
-    const range = selection?.getActiveRange()
-
-    if (range) {
-      const rangeString = rangeToRangeString(range)
-      // 格式 ${sci}${sri}:${eci}${eri}
-      if (this.file && activeSheet) {
-        const link = `![[${
-          this.file.basename
-        }#${activeSheet?.getSheetName()}|${rangeString}]]`
-        // console.log(range, link);
-        navigator.clipboard.writeText(link)
-        new Notice(t('COPY_EMBED_LINK_SUCCESS'))
-      }
-      else {
-        new Notice(t('COPY_EMBED_LINK_FAILED'))
-      }
-    }
   }
 
   copyToHTML() {

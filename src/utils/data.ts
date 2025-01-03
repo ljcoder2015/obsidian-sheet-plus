@@ -1,5 +1,6 @@
 import type { IWorkbookData } from '@univerjs/core'
 import type { FRange } from '@univerjs/sheets/lib/types/facade/index'
+import type { TFile } from 'obsidian'
 
 /**
  * Markdown 拆分yaml部分跟正文部分
@@ -33,15 +34,17 @@ export function extractYAML(str: string): string | null {
  * @param str Markdown 文本
  * @returns
  */
-export function getExcelData(str: string): IWorkbookData | null {
+export function getExcelData(str: string, file: TFile): IWorkbookData | null {
   const markdown = splitYAML(str)?.rest
   if (markdown) {
     const json = markdown.replaceAll('```', '')
     if (json) {
       // console.log("getExcelData-----", json)
       const data: IWorkbookData = JSON.parse(json)
-      if (data)
+      if (data) {
+        data.name = file.path
         return data
+      }
     }
   }
   return null

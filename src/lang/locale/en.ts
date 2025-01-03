@@ -47,6 +47,7 @@ export default {
   SHOW_SHEET_BUTTON_DESC: 'Show sheet button',
 
   AUTHORIZATION_CODE: 'Authorization code',
+  AUTHORIZATION_CODE_GET: 'Get Authorization code',
   AUTHORIZATION_CODE_DESC: 'Enter the authorization code to activate advanced functions',
   AUTHORIZATION_CODE_SUBMIT: 'Submit',
   AUTHORIZATION_CODE_SUCCESS: 'Successful activation',

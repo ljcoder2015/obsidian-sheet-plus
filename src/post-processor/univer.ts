@@ -38,6 +38,7 @@ export function createUniverEl(data: IWorkbookData | null, height = 300): HTMLDi
 
     const univerAPI = FUniver.newAPI(univer)
     const permission = univerAPI.getPermission()
+    permission.setPermissionDialogVisible(false)
     const activeWorkbook = univerAPI.getActiveWorkbook()
 
     const unitId = activeWorkbook && activeWorkbook.getId()

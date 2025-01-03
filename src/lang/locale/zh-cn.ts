@@ -47,6 +47,7 @@ export default {
   SHOW_SHEET_BUTTON_DESC: '是否显示标题按钮',
 
   AUTHORIZATION_CODE: '授权码',
+  AUTHORIZATION_CODE_GET: '获取授权码',
   AUTHORIZATION_CODE_DESC: '输入授权码，激活高级功能',
   AUTHORIZATION_CODE_SUBMIT: '提交',
   AUTHORIZATION_CODE_SUCCESS: '激活成功',

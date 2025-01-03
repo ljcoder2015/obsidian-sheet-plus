@@ -1,13 +1,13 @@
 import type { MarkdownPostProcessorContext, MetadataCache, Vault } from 'obsidian'
 import { TFile } from 'obsidian'
 
+import { createEchartsEl } from '@ljcoder/embed-link'
 import type ExcelProPlugin from '../main'
 
 import { getExcelData, getRangeData } from '../utils/data'
 
 import { renderToHtml } from './html'
 import { createUniverEl } from './univer'
-import { createEchartsEl } from './charts'
 
 let plugin: ExcelProPlugin
 let vault: Vault
@@ -44,7 +44,7 @@ export async function markdownPostProcessor(el: HTMLElement, ctx: MarkdownPostPr
 // 编辑模式
 async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorContext) {
   const file = plugin.app.vault.getAbstractFileByPath(ctx.sourcePath)
-  // console.log("tmpObsidianWYSIWYG");
+  // console.log('tmpObsidianWYSIWYG', ctx.sourcePath, file)
   if (!(file instanceof TFile))
     return
   if (!plugin.isExcelFile(file))
@@ -151,7 +151,7 @@ async function processReadingMode(embeddedItems: NodeListOf<Element> | [HTMLElem
       return true
 
     const file = metadataCache.getFirstLinkpathDest(fname, ctx.sourcePath)
-    // console.log("forEach", file, ctx.sourcePath);
+    // console.log('forEach', file, ctx.sourcePath)
 
     // if the embeddedFile exits and it is an univer file
     // then lets replace the .internal-embed with the generated PNG or SVG image
@@ -188,10 +188,10 @@ function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: strin
  * @returns HTMLDivElement
  */
 function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string): HTMLDivElement {
-  // console.log("createEmbedLinkDiv", src, alt)
+  // console.log('createEmbedLinkDiv', src, alt)
   const parseResult = parseEmbedLinkSyntax(`${src}|${alt}`)
 
-  const excelData = getExcelData(data)
+  const excelData = getExcelData(data, file)
 
   const embedLinkDiv = createDiv()
 
@@ -208,7 +208,11 @@ function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string)
     // 点击按钮打开 sheet
     fileEmbed.onClickEvent((e) => {
       e.stopPropagation()
-      plugin.app.workspace.getLeaf().openFile(file)
+      plugin.app.workspace.getLeaf().openFile(file, { state: {
+        sheetName: parseResult.sheetName,
+        startCell: parseResult.startCell,
+        endCell: parseResult.endCell,
+      } })
     })
   }
 
@@ -239,6 +243,7 @@ function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string)
 }
 
 interface ParsedSyntax {
+  filePath?: string
   fileName: string
   sheetName: string
   startCell?: string // Optional start cell
@@ -248,10 +253,15 @@ interface ParsedSyntax {
 }
 
 function parseEmbedLinkSyntax(input: string): ParsedSyntax {
-  const regex = /^([\w\-./\s]+)#([\w\s]+)(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w\-]+)\})?$/
-  const match = input.match(regex)
+  // 首先分离路径和文件名及其后的语法部分
+  const pathParts = input.split('/')
+  const filePath = pathParts.slice(0, -1).join('/')
+  const fileNameAndRest = pathParts[pathParts.length - 1]
 
-  if (!match) {
+  const fileRegex = /^([\w\-.\s]+)#([\w\s]+)(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w\-]+)\})?$/
+  const fileMatch = fileNameAndRest.match(fileRegex)
+
+  if (!fileMatch) {
     throw new Error('Invalid syntax. Ensure the input matches the expected format.')
   }
 
@@ -266,11 +276,12 @@ function parseEmbedLinkSyntax(input: string): ParsedSyntax {
   // chart-pie
   // chart-ring-pie
   return {
-    fileName: match[1],
-    sheetName: match[2],
-    startCell: match[3] || undefined, // Optional start cell
-    endCell: match[4] || undefined, // Optional end cell
-    height: match[5] ? Number.parseInt(match[5], 10) : undefined, // Optional height
-    displayType: match[6] || undefined, // Optional display type
+    filePath,
+    fileName: fileMatch[1],
+    sheetName: fileMatch[2],
+    startCell: fileMatch[3] || undefined, // Optional start cell
+    endCell: fileMatch[4] || undefined, // Optional end cell
+    height: fileMatch[5] ? Number.parseInt(fileMatch[5], 10) : undefined, // Optional height
+    displayType: fileMatch[6] || undefined, // Optional display type
   }
 }

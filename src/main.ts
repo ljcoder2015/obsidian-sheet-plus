@@ -343,7 +343,6 @@ export default class ExcelProPlugin extends Plugin {
       return true
 
     const fileCache = f ? this.app.metadataCache.getFileCache(f) : null
-    // console.log("isExcelFile", fileCache?.frontmatter, f)
     return (
       !!fileCache?.frontmatter && !!fileCache?.frontmatter[FRONTMATTER_KEY]
     )

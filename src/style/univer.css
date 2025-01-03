@@ -15,6 +15,11 @@
 	--sheet-checked-before: #4b89ff;
 }
 
+.authorization-code-container {
+	text-align: center;
+	font-size: 20px;
+}
+
 /* 修复数据验证 */
 .workspace-leaf {
 	contain: none !important;
@@ -22,6 +27,7 @@
 
 /* Markdown 文档引入样式设置*/
 .sheet-iframe {
+	text-align: center;
 	width: 100%;
 	background-color: var(--sheet-iframe-background-color);
 	border: 5px solid rgb(var(--bg-color));
