@@ -1,5 +1,12 @@
 
 
+## [1.6.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.6.0...1.6.1) (2025-01-05)
+
+
+### Bug Fixes
+
+* plugin not working ([aaf1769](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/aaf1769d6eb3028ab8c65afea145e8f4c3c061fe))
+
 # [1.6.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.5.3...1.6.0) (2025-01-05)
 
 
