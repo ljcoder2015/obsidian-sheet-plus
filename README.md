@@ -13,8 +13,8 @@ Its core functionality and capabilities are provided through plugins, making it 
 
 ## Paid Feature
 Enabling the paid feature unlocks more content.
-- ![Purchase Authorization Code](https://ko-fi.com/s/353d33a2dd)
-- ![How to Use an Authorization Code](https://ko-fi.com/post/How-to-Use-an-Authorization-Code-S6S318IUM7)
+- [Purchase Authorization Code](https://ko-fi.com/s/353d33a2dd)
+- [How to Use an Authorization Code](https://ko-fi.com/post/How-to-Use-an-Authorization-Code-S6S318IUM7)
 
 ### Embed Chart Link
 ![Embed Chart Link](/images/embed-link-chart.gif)
