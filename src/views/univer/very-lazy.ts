@@ -22,6 +22,7 @@ import { UniverSheetsCrosshairHighlightPlugin } from '@univerjs/sheets-crosshair
 import { UniverSheetsFindReplacePlugin } from '@univerjs/sheets-find-replace'
 import { UniverSheetsHyperLinkUIPlugin } from '@univerjs/sheets-hyper-link-ui'
 import { UniverSheetsSortUIPlugin } from '@univerjs/sheets-sort-ui'
+import { UniverSheetsImportExportPlugin } from '@ljcoder/import-export'
 
 export default function getVeryLazyPlugins() {
   const plugins: Array<[PluginCtor<Plugin>] | [PluginCtor<Plugin>, unknown]> = [
@@ -31,6 +32,7 @@ export default function getVeryLazyPlugins() {
     [UniverSheetsCrosshairHighlightPlugin],
     [UniverSheetsFindReplacePlugin],
     [UniverChartPlugin],
+    [UniverSheetsImportExportPlugin],
   ]
 
   return plugins

@@ -43,8 +43,6 @@ import { UniverSheetsUIPlugin } from '@univerjs/sheets-ui'
 
 import { UniverSheetsZenEditorPlugin } from '@univerjs/sheets-zen-editor'
 
-import { UniverSheetsEmbedLinkUIPlugin } from '@ljcoder/embed-link-ui'
-
 import '@univerjs/sheets/facade'
 import '@univerjs/ui/facade'
 import '@univerjs/docs-ui/facade'
@@ -155,8 +153,6 @@ function registerDesktopPlugin(univer: Univer) {
 
   // 禅编辑器
   univer.registerPlugin(UniverSheetsZenEditorPlugin)
-
-  univer.registerPlugin(UniverSheetsEmbedLinkUIPlugin)
 
   // 部分插件需要延迟注册
   setTimeout(() => {
