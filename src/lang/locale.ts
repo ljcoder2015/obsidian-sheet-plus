@@ -8,6 +8,13 @@ import embedLinkruRU from '@ljcoder/embed-link-ui/lib/es/locale/ru-RU'
 import embedLinkviVN from '@ljcoder/embed-link-ui/lib/es/locale/vi-VN'
 import embedLinkzhCN from '@ljcoder/embed-link-ui/lib/es/locale/zh-CN'
 import embedLinkzhTW from '@ljcoder/embed-link-ui/lib/es/locale/zh-TW'
+import importExportenUS from '@ljcoder/import-export/lib/es/locale/en-US'
+import importExportfaIR from '@ljcoder/import-export/lib/es/locale/fa-IR'
+import importExportfrFR from '@ljcoder/import-export/lib/es/locale/fr-FR'
+import importExportruRU from '@ljcoder/import-export/lib/es/locale/ru-RU'
+import importExportviVN from '@ljcoder/import-export/lib/es/locale/vi-VN'
+import importExportzhCN from '@ljcoder/import-export/lib/es/locale/zh-CN'
+import importExportzhTW from '@ljcoder/import-export/lib/es/locale/zh-TW'
 import designenUS from '@univerjs/design/lib/es/locale/en-US'
 import designfaIR from '@univerjs/design/lib/es/locale/fa-IR'
 import designfrFR from '@univerjs/design/lib/es/locale/fr-FR'
@@ -201,6 +208,7 @@ export const enUS = Tools.deepMerge(
   threadcommentuienUS,
   uienUS,
   embedLinkenUS,
+  importExportenUS,
 )
 export const frFR = Tools.deepMerge(
   {},
@@ -227,6 +235,7 @@ export const frFR = Tools.deepMerge(
   threadcommentuifrFR,
   uifrFR,
   embedLinkfrFR,
+  importExportfrFR,
 )
 export const ruRU = Tools.deepMerge(
   {},
@@ -253,6 +262,7 @@ export const ruRU = Tools.deepMerge(
   threadcommentuiruRU,
   uiruRU,
   embedLinkruRU,
+  importExportruRU,
 )
 export const zhCN = Tools.deepMerge(
   {},
@@ -279,6 +289,7 @@ export const zhCN = Tools.deepMerge(
   threadcommentuizhCN,
   uizhCN,
   embedLinkzhCN,
+  importExportzhCN,
 )
 export const zhTW = Tools.deepMerge(
   {},
@@ -305,6 +316,7 @@ export const zhTW = Tools.deepMerge(
   threadcommentuizhTW,
   uizhTW,
   embedLinkzhTW,
+  importExportzhTW,
 )
 export const viVN = Tools.deepMerge(
   {},
@@ -331,6 +343,7 @@ export const viVN = Tools.deepMerge(
   threadcommentuiviVN,
   uiviVN,
   embedLinkviVN,
+  importExportviVN,
 )
 export const faIR = Tools.deepMerge(
   {},
@@ -357,4 +370,5 @@ export const faIR = Tools.deepMerge(
   threadcommentuifaIR,
   uifaIR,
   embedLinkfaIR,
+  importExportfaIR,
 )
