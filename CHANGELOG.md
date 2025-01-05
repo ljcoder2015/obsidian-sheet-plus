@@ -1,5 +1,15 @@
 
 
+# [1.6.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.5.3...1.6.0) (2025-01-05)
+
+
+### Features
+
+* 生成嵌入链接插件 ([b021053](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/b0210533b7157146535a29c9ff4a9096c14a955f))
+* embed chart link & import plugin ([3e855df](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/3e855df2c1f1fc7a48ca73394f658aacfa7ff1f3))
+* embed chart link & import plugin ([adaeb59](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/adaeb59995894a42e1392a9aec4a40617b18f677))
+* **location:** 图表渲染 ([ef2fe4b](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/ef2fe4b23240ed4e9c4513fb76b019e73c3472b3))
+
 ## [1.5.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.5.2...1.5.3) (2024-12-26)
 
 
