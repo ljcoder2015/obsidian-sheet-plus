@@ -1,5 +1,12 @@
 
 
+## [1.6.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.6.1...1.6.2) (2025-01-06)
+
+
+### Bug Fixes
+
+* Embedded Link Renders Chart Data Incorrectly ([b7937e5](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/b7937e57cd286bc6623d47f80d0bb00149728022))
+
 ## [1.6.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.6.0...1.6.1) (2025-01-05)
 
 
