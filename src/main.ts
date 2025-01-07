@@ -115,9 +115,11 @@ export default class ExcelProPlugin extends Plugin {
   async loadSettings() {
     const settingData = await this.loadData()
     this.settings = Object.assign({}, DEFAULT_SETTINGS, settingData)
-    update(this.settings.authorizationCode, () => {
+    if (this.settings.authorizationCode && this.settings.authorizationCode.length > 0) {
+      update(this.settings.authorizationCode, () => {
 
-    })
+      })
+    }
   }
 
   async saveSettings() {
