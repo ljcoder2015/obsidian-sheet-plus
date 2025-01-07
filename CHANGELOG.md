@@ -1,5 +1,12 @@
 
 
+## [1.7.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.0...1.7.1) (2025-01-07)
+
+
+### Features
+
+*  Embedded Links Adapt to Chinese Sheet Names ([1264edb](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/1264edb24d3fdc9e2e3c8ec8877df98f0158677c))
+
 # [1.7.0](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.6.2...1.7.0) (2025-01-07)
 
 
