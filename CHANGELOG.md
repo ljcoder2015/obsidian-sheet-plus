@@ -1,5 +1,13 @@
 
 
+# [1.7.0](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.6.2...1.7.0) (2025-01-07)
+
+
+### Features
+
+* Embedded Link Navigates to the Source File and Highlights the Selection ([f7be561](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/f7be5617c031e129ddbaec66a52cb0abd24d7134))
+* Embedded Link Navigates to the Source File and Highlights the Selection ([c95895a](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/c95895adf3b1fa5719f1d49fe32a4faf675dd2b0))
+
 ## [1.6.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.6.1...1.6.2) (2025-01-06)
 
 
