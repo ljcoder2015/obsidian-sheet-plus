@@ -11,20 +11,20 @@ patchedDependencies:
 
 dependencies:
   '@ljcoder/authorization':
-    specifier: git+ssh://git@github.com:ljcoder2015/authorization.git#v1.0.0
-    version: github.com/ljcoder2015/authorization/575c6f2023166ee26d8698950b3be03c46d79cee
+    specifier: git+ssh://git@github.com:ljcoder2015/authorization.git#v1.1.0
+    version: git@github.com+ljcoder2015/authorization/d90d64f22493800925050c4eaea2c2000c5b785f
   '@ljcoder/charts':
     specifier: git+ssh://git@github.com:ljcoder2015/univer-charts.git#v0.0.5
-    version: github.com/ljcoder2015/univer-charts/85a611a00b03de42a3e6ef90e85ad956b2e37277(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2)
+    version: git@github.com+ljcoder2015/univer-charts/85a611a00b03de42a3e6ef90e85ad956b2e37277(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2)
   '@ljcoder/embed-link':
-    specifier: git+ssh://git@github.com:ljcoder2015/univer-embed-link.git#v1.2.7
-    version: github.com/ljcoder2015/univer-embed-link/7eaef4a580190ae60874f2864b9a62af1fec14f6(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
+    specifier: git+ssh://git@github.com:ljcoder2015/univer-embed-link.git#v1.3.0
+    version: git@github.com+ljcoder2015/univer-embed-link/cf48c467a2b45dd27e2b853cebf570b083895149(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
   '@ljcoder/embed-link-ui':
     specifier: git+ssh://git@github.com:ljcoder2015/embed-link-ui.git#v0.0.4
-    version: github.com/ljcoder2015/embed-link-ui/fca876bb8c8f8f42a5b0917ae861ffca0d587430(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2)
+    version: git@github.com+ljcoder2015/embed-link-ui/fca876bb8c8f8f42a5b0917ae861ffca0d587430(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2)
   '@ljcoder/import-export':
-    specifier: git+ssh://git@github.com:ljcoder2015/univer-import-export.git#v0.0.5
-    version: github.com/ljcoder2015/univer-import-export/157370b4a90a3d2ce2defc355838777577b5f2f8(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2)
+    specifier: git+ssh://git@github.com:ljcoder2015/univer-import-export.git#v0.1.0
+    version: git@github.com+ljcoder2015/univer-import-export/e4e08ae06ba7718cde966fec7b35cb1fa2666d7c(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2)
   '@univerjs/core':
     specifier: ^0.5.1
     version: 0.5.1(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
@@ -6990,19 +6990,19 @@ packages:
       tslib: 2.3.0
     dev: false
 
-  github.com/ljcoder2015/authorization/575c6f2023166ee26d8698950b3be03c46d79cee:
-    resolution: {commit: 575c6f2023166ee26d8698950b3be03c46d79cee, repo: git+ssh://git@github.com/ljcoder2015/authorization.git, type: git}
+  git@github.com+ljcoder2015/authorization/d90d64f22493800925050c4eaea2c2000c5b785f:
+    resolution: {commit: d90d64f22493800925050c4eaea2c2000c5b785f, repo: git@github.com:ljcoder2015/authorization.git, type: git}
     name: '@ljcoder/authorization'
-    version: 1.0.0
+    version: 1.1.0
     dependencies:
       axios: 1.7.9
     transitivePeerDependencies:
       - debug
     dev: false
 
-  github.com/ljcoder2015/embed-link-ui/fca876bb8c8f8f42a5b0917ae861ffca0d587430(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2):
-    resolution: {commit: fca876bb8c8f8f42a5b0917ae861ffca0d587430, repo: git+ssh://git@github.com/ljcoder2015/embed-link-ui.git, type: git}
-    id: github.com/ljcoder2015/embed-link-ui/fca876bb8c8f8f42a5b0917ae861ffca0d587430
+  git@github.com+ljcoder2015/embed-link-ui/fca876bb8c8f8f42a5b0917ae861ffca0d587430(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2):
+    resolution: {commit: fca876bb8c8f8f42a5b0917ae861ffca0d587430, repo: git@github.com:ljcoder2015/embed-link-ui.git, type: git}
+    id: git@github.com+ljcoder2015/embed-link-ui/fca876bb8c8f8f42a5b0917ae861ffca0d587430
     name: '@ljcoder/embed-link-ui'
     version: 0.0.2
     peerDependencies:
@@ -7025,11 +7025,11 @@ packages:
       - typescript
     dev: false
 
-  github.com/ljcoder2015/univer-authorization/586921852352faafa6228c1d08096b6786fa18e3(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1):
-    resolution: {commit: 586921852352faafa6228c1d08096b6786fa18e3, repo: git+ssh://git@github.com/ljcoder2015/univer-authorization.git, type: git}
-    id: github.com/ljcoder2015/univer-authorization/586921852352faafa6228c1d08096b6786fa18e3
+  git@github.com+ljcoder2015/univer-authorization/93beea512701df5e1db0527ee555c5ea95f321e6(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1):
+    resolution: {commit: 93beea512701df5e1db0527ee555c5ea95f321e6, repo: git@github.com:ljcoder2015/univer-authorization.git, type: git}
+    id: git@github.com+ljcoder2015/univer-authorization/93beea512701df5e1db0527ee555c5ea95f321e6
     name: '@ljcoder/univer-authorization'
-    version: 1.0.0
+    version: 1.1.0
     dependencies:
       '@univerjs/core': 0.5.1(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
       axios: 1.7.9
@@ -7040,9 +7040,9 @@ packages:
       - rxjs
     dev: false
 
-  github.com/ljcoder2015/univer-charts/85a611a00b03de42a3e6ef90e85ad956b2e37277(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2):
-    resolution: {commit: 85a611a00b03de42a3e6ef90e85ad956b2e37277, repo: git+ssh://git@github.com/ljcoder2015/univer-charts.git, type: git}
-    id: github.com/ljcoder2015/univer-charts/85a611a00b03de42a3e6ef90e85ad956b2e37277
+  git@github.com+ljcoder2015/univer-charts/85a611a00b03de42a3e6ef90e85ad956b2e37277(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2):
+    resolution: {commit: 85a611a00b03de42a3e6ef90e85ad956b2e37277, repo: git@github.com:ljcoder2015/univer-charts.git, type: git}
+    id: git@github.com+ljcoder2015/univer-charts/85a611a00b03de42a3e6ef90e85ad956b2e37277
     name: '@ljcoder/charts'
     version: 0.0.3
     peerDependencies:
@@ -7074,9 +7074,9 @@ packages:
       - typescript
     dev: false
 
-  github.com/ljcoder2015/univer-embed-link/7eaef4a580190ae60874f2864b9a62af1fec14f6(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1):
-    resolution: {commit: 7eaef4a580190ae60874f2864b9a62af1fec14f6, repo: git+ssh://git@github.com/ljcoder2015/univer-embed-link.git, type: git}
-    id: github.com/ljcoder2015/univer-embed-link/7eaef4a580190ae60874f2864b9a62af1fec14f6
+  git@github.com+ljcoder2015/univer-embed-link/cf48c467a2b45dd27e2b853cebf570b083895149(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1):
+    resolution: {commit: cf48c467a2b45dd27e2b853cebf570b083895149, repo: git@github.com:ljcoder2015/univer-embed-link.git, type: git}
+    id: git@github.com+ljcoder2015/univer-embed-link/cf48c467a2b45dd27e2b853cebf570b083895149
     name: '@ljcoder/embed-link'
     version: 1.2.7
     peerDependencies:
@@ -7084,7 +7084,7 @@ packages:
       react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
       rxjs: '>=7.0.0'
     dependencies:
-      '@ljcoder/authorization': github.com/ljcoder2015/authorization/575c6f2023166ee26d8698950b3be03c46d79cee
+      '@ljcoder/authorization': git@github.com+ljcoder2015/authorization/d90d64f22493800925050c4eaea2c2000c5b785f
       '@univerjs/core': 0.5.1(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
       echarts: 5.5.1
       react: 18.3.1
@@ -7095,13 +7095,13 @@ packages:
       - debug
     dev: false
 
-  github.com/ljcoder2015/univer-import-export/157370b4a90a3d2ce2defc355838777577b5f2f8(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2):
-    resolution: {commit: 157370b4a90a3d2ce2defc355838777577b5f2f8, repo: git+ssh://git@github.com/ljcoder2015/univer-import-export.git, type: git}
-    id: github.com/ljcoder2015/univer-import-export/157370b4a90a3d2ce2defc355838777577b5f2f8
+  git@github.com+ljcoder2015/univer-import-export/e4e08ae06ba7718cde966fec7b35cb1fa2666d7c(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2):
+    resolution: {commit: e4e08ae06ba7718cde966fec7b35cb1fa2666d7c, repo: git@github.com:ljcoder2015/univer-import-export.git, type: git}
+    id: git@github.com+ljcoder2015/univer-import-export/e4e08ae06ba7718cde966fec7b35cb1fa2666d7c
     name: '@ljcoder/import-export'
-    version: 0.0.3
+    version: 0.1.0
     dependencies:
-      '@ljcoder/univer-authorization': github.com/ljcoder2015/univer-authorization/586921852352faafa6228c1d08096b6786fa18e3(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
+      '@ljcoder/univer-authorization': git@github.com+ljcoder2015/univer-authorization/93beea512701df5e1db0527ee555c5ea95f321e6(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/core': 0.5.1(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
       '@univerjs/design': 0.5.1(react-dom@18.3.1)(react@18.3.1)
       '@univerjs/engine-formula': 0.5.1(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)

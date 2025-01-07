@@ -208,11 +208,7 @@ function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string)
     // 点击按钮打开 sheet
     fileEmbed.onClickEvent((e) => {
       e.stopPropagation()
-      plugin.app.workspace.getLeaf().openFile(file, { state: {
-        sheetName: parseResult.sheetName,
-        startCell: parseResult.startCell,
-        endCell: parseResult.endCell,
-      } })
+      plugin.openExcel(file, 'new-pane', true, `${parseResult.sheetName}|${parseResult.startCell}:${parseResult.endCell}`)
     })
   }
 

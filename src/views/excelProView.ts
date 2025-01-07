@@ -2,11 +2,13 @@ import type { WorkspaceLeaf } from 'obsidian'
 import { Notice, TextFileView } from 'obsidian'
 import type { IWorkbookData, Univer, Workbook } from '@univerjs/core'
 import { FUniver, UniverInstanceType } from '@univerjs/core'
+import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import type ExcelProPlugin from '../main'
 
 import {
   extractYAML,
   getExcelData,
+  rangeToNumber,
   rangeToRangeString,
 } from '../utils/data'
 import { randomString } from '../utils/uuid'
@@ -28,6 +30,8 @@ export class ExcelProView extends TextFileView {
   private univerId: string
   private lastWorkbookData: string // 上次保存的数据
   // private dataWorker: Worker; // 用来异步解析数据
+
+  private subPath: string | null
 
   constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
     super(leaf)
@@ -59,6 +63,8 @@ export class ExcelProView extends TextFileView {
       this.univer.dispose()
       this.univer = null
     }
+
+    this.subPath = null
   }
 
   getViewType(): string {
@@ -186,12 +192,51 @@ export class ExcelProView extends TextFileView {
     this.data = this.headerData()
   }
 
+  setEphemeralState(state: any): void {
+    if (state.subpath) {
+      const path = state.subpath as string
+      this.subPath = path
+
+      this.scrollToRange()
+    }
+  }
+
+  scrollToRange() {
+    if (this.subPath) {
+      const array = this.subPath.split('|')
+      const sheetName = array[0]
+      const rangeString = array[1]
+      const rangeNumber = rangeToNumber(rangeString)
+
+      // 打开文件后的子路径，用来选中表格范围
+      const activeWorkbook = this.univerAPI.getActiveWorkbook()
+      const sheet = activeWorkbook.getSheetByName(sheetName)
+      activeWorkbook.setActiveSheet(sheet)
+      // getRange(row: number, column: number, numRows: number, numColumns: number): FRange;
+      const selection = sheet.getRange(rangeNumber.startRow, rangeNumber.startCol, rangeNumber.endRow - rangeNumber.startRow + 1, rangeNumber.endCol - rangeNumber.startCol + 1)
+      sheet.setActiveSelection(selection)
+
+      setTimeout(() => {
+        const GAP = 1
+        this.univerAPI.executeCommand(ScrollToRangeOperation.id, {
+          range: {
+            startRow: Math.max(selection.getRow() - GAP, 0),
+            endRow: selection.getRow() + selection.getHeight() + GAP,
+            startColumn: selection.getColumn(),
+            endColumn: selection.getColumn() + selection.getWidth() + GAP,
+          },
+        })
+      }, 1000)
+    }
+  }
+
   setViewData(data: string, _: boolean): void {
     this.data = data
 
     this.app.workspace.onLayoutReady(async () => {
       // console.log("setViewData", data);
       this.setupUniver()
+      this.scrollToRange()
     })
   }
 
