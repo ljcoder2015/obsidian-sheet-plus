@@ -1,5 +1,12 @@
 
 
+## [1.7.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.1...1.7.2) (2025-01-07)
+
+
+### Bug Fixes
+
+*  Add Deduplication Logic for Authorization Codes ([63381f0](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/63381f044727844c368a8eef81b50fbf6167a80f))
+
 ## [1.7.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.0...1.7.1) (2025-01-07)
 
 
