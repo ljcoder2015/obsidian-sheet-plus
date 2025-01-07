@@ -122,7 +122,7 @@ export interface RangeIndex {
 /**
  * range 字符串转换成 RangeIndex
  * @param range 例如A1:C3
- * @returns
+ * @returns RangeIndex
  */
 export function rangeToNumber(range: string): RangeIndex {
   const [start, end] = range.split(':')
