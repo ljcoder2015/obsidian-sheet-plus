@@ -254,7 +254,8 @@ function parseEmbedLinkSyntax(input: string): ParsedSyntax {
   const filePath = pathParts.slice(0, -1).join('/')
   const fileNameAndRest = pathParts[pathParts.length - 1]
 
-  const fileRegex = /^([\w\-.\s]+)#([\w\s]+)(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w\-]+)\})?$/
+  // 正则表达式，支持中文、字母、数字、特殊字符（如 - . 空格等）
+  const fileRegex = /^([\w\-.\s\u4E00-\u9FA5]+)#([\w\s\u4E00-\u9FA5]+)(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w\-]+)\})?$/
   const fileMatch = fileNameAndRest.match(fileRegex)
 
   if (!fileMatch) {
@@ -271,7 +272,7 @@ function parseEmbedLinkSyntax(input: string): ParsedSyntax {
   // chart-area
   // chart-pie
   // chart-ring-pie
-  return {
+  const result = {
     filePath,
     fileName: fileMatch[1],
     sheetName: fileMatch[2],
@@ -280,4 +281,6 @@ function parseEmbedLinkSyntax(input: string): ParsedSyntax {
     height: fileMatch[5] ? Number.parseInt(fileMatch[5], 10) : undefined, // Optional height
     displayType: fileMatch[6] || undefined, // Optional display type
   }
+  // console.log(result)
+  return result
 }

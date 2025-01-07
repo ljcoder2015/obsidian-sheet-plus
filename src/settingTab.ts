@@ -106,14 +106,19 @@ export class ExcelProSettingTab extends PluginSettingTab {
         button
           .setButtonText(t('AUTHORIZATION_CODE_SUBMIT'))
           .onClick(() => {
-            update(this.plugin.settings.authorizationCode, (res) => {
-              if (res.code === 0) {
-                new Notice(t('AUTHORIZATION_CODE_SUCCESS'))
-              }
-              else {
-                new Notice(t('AUTHORIZATION_CODE_FAILED'))
-              }
-            })
+            if (this.plugin.settings.authorizationCode && this.plugin.settings.authorizationCode.length > 0) {
+              update(this.plugin.settings.authorizationCode, (res) => {
+                if (res.code === 0) {
+                  new Notice(t('AUTHORIZATION_CODE_SUCCESS'))
+                }
+                else {
+                  new Notice(t('AUTHORIZATION_CODE_FAILED'))
+                }
+              })
+            }
+            else {
+              new Notice(t('AUTHORIZATION_CODE_FAILED'))
+            }
           })
       })
 

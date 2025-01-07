@@ -11,6 +11,7 @@ import { createUniver } from '../views/univer/setup-univer'
  * @returns HTMLDivElement
  */
 export function createUniverEl(data: IWorkbookData | null, height = 300): HTMLDivElement {
+  // console.log('createUniverEl', data)
   const id = `univer-embed-${randomString(6)}`
   const univerEl = createDiv({
     cls: 'sheet-iframe',

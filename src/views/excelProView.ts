@@ -203,20 +203,19 @@ export class ExcelProView extends TextFileView {
 
   scrollToRange() {
     if (this.subPath) {
-      const array = this.subPath.split('|')
-      const sheetName = array[0]
-      const rangeString = array[1]
-      const rangeNumber = rangeToNumber(rangeString)
-
-      // 打开文件后的子路径，用来选中表格范围
-      const activeWorkbook = this.univerAPI.getActiveWorkbook()
-      const sheet = activeWorkbook.getSheetByName(sheetName)
-      activeWorkbook.setActiveSheet(sheet)
-      // getRange(row: number, column: number, numRows: number, numColumns: number): FRange;
-      const selection = sheet.getRange(rangeNumber.startRow, rangeNumber.startCol, rangeNumber.endRow - rangeNumber.startRow + 1, rangeNumber.endCol - rangeNumber.startCol + 1)
-      sheet.setActiveSelection(selection)
-
       setTimeout(() => {
+        const array = this.subPath.split('|')
+        const sheetName = array[0]
+        const rangeString = array[1]
+        const rangeNumber = rangeToNumber(rangeString)
+        // 打开文件后的子路径，用来选中表格范围
+        const activeWorkbook = this.univerAPI.getActiveWorkbook()
+        const sheet = activeWorkbook.getSheetByName(sheetName)
+        activeWorkbook.setActiveSheet(sheet)
+        // getRange(row: number, column: number, numRows: number, numColumns: number): FRange;
+        const selection = sheet.getRange(rangeNumber.startRow, rangeNumber.startCol, rangeNumber.endRow - rangeNumber.startRow + 1, rangeNumber.endCol - rangeNumber.startCol + 1)
+        sheet.setActiveSelection(selection)
+
         const GAP = 1
         this.univerAPI.executeCommand(ScrollToRangeOperation.id, {
           range: {
