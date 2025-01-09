@@ -254,8 +254,10 @@ function parseEmbedLinkSyntax(input: string): ParsedSyntax {
   const filePath = pathParts.slice(0, -1).join('/')
   const fileNameAndRest = pathParts[pathParts.length - 1]
 
-  // 正则表达式，支持中文、字母、数字、特殊字符（如 - . 空格等）
-  const fileRegex = /^([\w\-.\s\u4E00-\u9FA5]+)#([\w\s\u4E00-\u9FA5]+)(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w\-]+)\})?$/
+  // 正则表达式，支持所有 Unicode 字符（包括特殊字符、中文、俄文、泰文等）
+  // eslint-disable-next-line regexp/no-super-linear-backtracking
+  const fileRegex = /^(.+?)#(.+?)(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w\-]+)\})?$/
+
   const fileMatch = fileNameAndRest.match(fileRegex)
 
   if (!fileMatch) {
