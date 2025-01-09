@@ -1,5 +1,12 @@
 
 
+## [1.7.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.3...1.7.4) (2025-01-09)
+
+
+### Bug Fixes
+
+* Embedded links HTML Rendering ([fa64c66](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/fa64c668882be80b7399d65b429aab32926b3a9e))
+
 ## [1.7.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.2...1.7.3) (2025-01-09)
 
 
