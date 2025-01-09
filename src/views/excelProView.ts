@@ -4,6 +4,7 @@ import type { IWorkbookData, Univer, Workbook } from '@univerjs/core'
 import { FUniver, UniverInstanceType } from '@univerjs/core'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import type ExcelProPlugin from '../main'
+import { renderToHtml } from '../post-processor/html'
 
 import {
   extractYAML,

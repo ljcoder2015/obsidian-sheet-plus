@@ -25,6 +25,15 @@
 	contain: none !important;
 }
 
+.lj-table {
+	border-spacing: 0px;
+	border: 0.5px solid #7f7f7f;
+}
+
+.lj-table td {
+	border: 0.5px solid #7f7f7f;
+}
+
 /* Markdown 文档引入样式设置*/
 .sheet-iframe {
 	text-align: center;
