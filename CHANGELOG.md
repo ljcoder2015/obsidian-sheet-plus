@@ -1,5 +1,17 @@
 
 
+## [1.7.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.2...1.7.3) (2025-01-09)
+
+
+### Bug Fixes
+
+* Embedded links support special characters and multiple languages ([57529b1](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/57529b19d543aeac18636a8752e0cf69fd6c3635))
+
+
+### Features
+
+* issues template ([eda91a4](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/eda91a45ccd4545c799aca98d151b3060eb3fb97))
+
 ## [1.7.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.1...1.7.2) (2025-01-07)
 
 
