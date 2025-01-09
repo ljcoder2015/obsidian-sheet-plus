@@ -27,7 +27,7 @@ If applicable, add screenshots to help explain your problem.
  - OS: [e.g. Windows, MacOS, iOS]
  - Version [e.g. 22]
 
-**Obsidian (please complete the following information):**
+**Sheet Plus Plugin (please complete the following information):**
  - Version [e.g. 22]
 
 **Additional context**
