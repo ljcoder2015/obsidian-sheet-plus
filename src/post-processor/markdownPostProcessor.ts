@@ -215,7 +215,9 @@ function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string)
   // 生成内容
   if (parseResult.displayType === 'html') {
     const tableEl = renderToHtml(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
-    embedLinkDiv.appendChild(tableEl)
+    const tableBox = createDiv({ cls: 'lj-table-box' })
+    tableBox.appendChild(tableEl)
+    embedLinkDiv.appendChild(tableBox)
     return embedLinkDiv
   }
   else if (parseResult.displayType === undefined) {

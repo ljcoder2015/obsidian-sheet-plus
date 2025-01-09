@@ -25,6 +25,10 @@
 	contain: none !important;
 }
 
+.lj-table-box {
+	overflow-x: scroll;
+}
+
 .lj-table {
 	border-spacing: 0px;
 	border: 0.5px solid #7f7f7f;
