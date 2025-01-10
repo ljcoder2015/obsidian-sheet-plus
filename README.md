@@ -1,27 +1,41 @@
 # obsidian-sheet-plus
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W2VVS7O)
-
 Obsidian Sheet Plus  is here to revolutionize the way you handle spreadsheets within Obsidian。
 
-Developed using the Univer framework, Obsidian Sheet Plus features a Canvas-based rendering engine and formula engine. It supports Web Worker, ensuring high performance while also enabling large-scale data processing.
-
-Its core functionality and capabilities are provided through plugins, making it easily extensible.
+Developed using the Univer framework, Obsidian Sheet Plus features a Canvas-based rendering engine and formula engine.
 
 ## Discord
 
 [https://discord.gg/fufpbG4tJg](https://discord.gg/fufpbG4tJg)
 
-## Paid Feature
-Enabling the paid feature unlocks more content.
+## Purchase Authorization Code
+Unlock more advanced features after purchasing an authorization code
 - [Purchase Authorization Code](https://ko-fi.com/s/353d33a2dd)
 - [How to Use an Authorization Code](https://ko-fi.com/post/How-to-Use-an-Authorization-Code-S6S318IUM7)
 
-### Embed Chart Link
-![Embed Chart Link](/images/embed-link-chart.gif)
-### Import
-![Import](/images/import.gif)
+## Comparison of Paid and Free Features
+|Feature|Paid|Free|
+|---|:---:|:--:|
+|Embed Sheet Link|✔︎|✔︎|
+|Embed HTML Link|✔︎|✔︎|
+|**Embed Chart Link**|✔︎|✘|
+|**import**|✔︎|✘|
+|Number formats|✔︎|✔︎|
+|Formulas|✔︎|✔︎|
+|Find and replace|✔︎|✔︎|
+|Data validation|✔︎|✔︎|
+|Image|✔︎|✔︎|
+|Comment|✔︎|✔︎|
+|Chart|✔︎|✔︎|
 
-## Free Features
+## Tutorial
+
+- [Chart Tutorial](https://ko-fi.com/post/Chart-Tutorial-D1D718RT5M)
+
+## Feature Demonstration
+### Embed Chart Link (Paid)
+![Embed Chart Link](/images/embed-link-chart.gif)
+### Import (Paid)
+![Import](/images/import.gif)
 
 ### Editing
 ![create](/images/create.gif)
