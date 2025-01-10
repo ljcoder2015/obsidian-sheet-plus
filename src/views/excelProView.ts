@@ -44,6 +44,9 @@ export class ExcelProView extends TextFileView {
 
     this.copyHTMLEle = this.addAction('file-code', t('COPY_TO_HTML'), _ =>
       this.copyToHTML())
+
+    // 添加事件监听器
+    document.addEventListener('keydown', this.handleEscapeKey)
   }
 
   onunload(): void {
@@ -66,6 +69,23 @@ export class ExcelProView extends TextFileView {
     }
 
     this.subPath = null
+
+    // 调用移除事件监听器的函数
+    this.removeListener()
+  }
+
+  // 定义事件处理函数
+  handleEscapeKey(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      // console.log('ESC 键被按下')
+      // 在这里可以执行需要的操作
+    }
+  }
+
+  // 在某个时刻移除事件监听器
+  // 比如当你关闭某个模态框时
+  removeListener() {
+    document.removeEventListener('keydown', this.handleEscapeKey)
   }
 
   getViewType(): string {

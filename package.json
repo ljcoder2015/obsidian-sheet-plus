@@ -29,6 +29,7 @@
     "@univerjs/data-validation": "^0.5.1",
     "@univerjs/design": "^0.5.1",
     "@univerjs/docs": "^0.5.1",
+    "@univerjs/docs-drawing": "0.5.1",
     "@univerjs/docs-ui": "^0.5.1",
     "@univerjs/drawing": "^0.5.1",
     "@univerjs/drawing-ui": "^0.5.1",

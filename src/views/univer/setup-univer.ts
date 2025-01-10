@@ -22,6 +22,7 @@ import { UniverFindReplacePlugin } from '@univerjs/find-replace'
 import { UniverDataValidationPlugin } from '@univerjs/data-validation'
 import { UniverSheetsDataValidationPlugin } from '@univerjs/sheets-data-validation'
 
+import { UniverDocsDrawingPlugin } from '@univerjs/docs-drawing'
 import { UniverDrawingPlugin } from '@univerjs/drawing'
 import { UniverDrawingUIPlugin } from '@univerjs/drawing-ui'
 import { UniverSheetsDrawingPlugin } from '@univerjs/sheets-drawing'
@@ -31,8 +32,6 @@ import { UniverThreadCommentPlugin } from '@univerjs/thread-comment'
 import { UniverThreadCommentUIPlugin } from '@univerjs/thread-comment-ui'
 import { UniverSheetsThreadCommentPlugin } from '@univerjs/sheets-thread-comment'
 import { UniverSheetsThreadCommentUIPlugin } from '@univerjs/sheets-thread-comment-ui'
-
-import { UniverSheetsHyperLinkPlugin } from '@univerjs/sheets-hyper-link'
 
 import { UniverSheetsSortPlugin } from '@univerjs/sheets-sort'
 
@@ -81,7 +80,6 @@ export function createUniver(
   })
 
   univer.registerPlugin(UniverRenderEnginePlugin)
-  univer.registerPlugin(UniverFormulaEnginePlugin)
 
   univer.registerPlugin(UniverUIPlugin, {
     container: id,
@@ -111,6 +109,8 @@ function registerDesktopPlugin(univer: Univer) {
   univer.registerPlugin(UniverSheetsNumfmtPlugin)
   univer.registerPlugin(UniverSheetsNumfmtUIPlugin)
 
+  // 公式
+  univer.registerPlugin(UniverFormulaEnginePlugin)
   // find replace
   univer.registerPlugin(UniverFindReplacePlugin)
   // univer.registerPlugin(UniverSheetsFindReplacePlugin)
@@ -123,6 +123,7 @@ function registerDesktopPlugin(univer: Univer) {
   // 浮动图片
   univer.registerPlugin(UniverDrawingPlugin)
   univer.registerPlugin(UniverDrawingUIPlugin)
+  univer.registerPlugin(UniverDocsDrawingPlugin)
   univer.registerPlugin(UniverSheetsDrawingPlugin)
   // univer.registerPlugin(UniverSheetsDrawingUIPlugin)
 
@@ -137,7 +138,7 @@ function registerDesktopPlugin(univer: Univer) {
   univer.registerPlugin(UniverSheetsThreadCommentUIPlugin)
 
   // 超链接
-  univer.registerPlugin(UniverSheetsHyperLinkPlugin)
+  // univer.registerPlugin(UniverSheetsHyperLinkPlugin)
   // univer.registerPlugin(UniverSheetsHyperLinkUIPlugin)
 
   // 排序
