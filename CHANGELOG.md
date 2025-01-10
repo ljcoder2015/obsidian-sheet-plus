@@ -1,5 +1,17 @@
 
 
+## [1.7.6](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.5...1.7.6) (2025-01-10)
+
+
+### Bug Fixes
+
+* UniverSheetsDrawingUIPlugin dependency bug ([a3a1f33](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/a3a1f33dcf24fb0c7055eb2d7745dedf355db4c7))
+
+
+### Features
+
+* update readme ([25a7181](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/25a7181250748784c00d00114c047e1a30902786))
+
 ## [1.7.5](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.4...1.7.5) (2025-01-09)
 
 
