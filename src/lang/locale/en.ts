@@ -43,8 +43,10 @@ export default {
   DEFAULT_ROWS_LEN_DESC: 'Default number of render rows',
   DEFAULT_COLS_LEN: 'Default render columns',
   DEFAULT_COLS_LEN_DESC: 'Default number of rendered columns',
-  SHOW_SHEET_BUTTON: 'Show sheet button',
-  SHOW_SHEET_BUTTON_DESC: 'Show sheet button',
+  SHOW_SHEET_BUTTON: 'Jump to Original Text Button',
+  SHOW_SHEET_BUTTON_DESC: 'This option determines whether to display a button for jumping to the original content via an embedded link.',
+  SHOW_SHEET_FOOTER: 'Enable Sheet Footer Display',
+  SHOW_SHEET_FOOTER_DESC: 'When this option is enabled, the embedded table link will automatically display content at the bottom of the Sheet.',
 
   AUTHORIZATION_CODE: 'Authorization code',
   AUTHORIZATION_CODE_GET: 'Get Authorization code',

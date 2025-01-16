@@ -10,7 +10,7 @@ import { createUniver } from '../views/univer/setup-univer'
  * @param height 渲染高度
  * @returns HTMLDivElement
  */
-export function createUniverEl(data: IWorkbookData | null, height = 300): HTMLDivElement {
+export function createUniverEl(data: IWorkbookData | null, height = 300, showFooter = false): HTMLDivElement {
   // console.log('createUniverEl', data)
   const id = `univer-embed-${randomString(6)}`
   const univerEl = createDiv({
@@ -24,7 +24,7 @@ export function createUniverEl(data: IWorkbookData | null, height = 300): HTMLDi
   setTimeout(() => {
     const options = {
       header: false,
-      footer: true,
+      footer: showFooter,
     }
     const univer = createUniver(options, id)
 

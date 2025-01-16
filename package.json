@@ -20,7 +20,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@ljcoder/authorization": "git+ssh://git@github.com:ljcoder2015/authorization.git#v1.1.0",
+    "@ljcoder/authorization": "git+ssh://git@github.com:ljcoder2015/authorization.git#v1.2.0",
     "@ljcoder/charts": "git+ssh://git@github.com:ljcoder2015/univer-charts.git#v0.0.5",
     "@ljcoder/embed-link": "git+ssh://git@github.com:ljcoder2015/univer-embed-link.git#v1.3.0",
     "@ljcoder/embed-link-ui": "git+ssh://git@github.com:ljcoder2015/embed-link-ui.git#v0.0.4",

@@ -43,8 +43,10 @@ export default {
   DEFAULT_ROWS_LEN_DESC: '创建表格时默认渲染最大行数',
   DEFAULT_COLS_LEN: '默认渲染列数',
   DEFAULT_COLS_LEN_DESC: '创建表格时默认渲染最大列数',
-  SHOW_SHEET_BUTTON: '显示标题按钮',
-  SHOW_SHEET_BUTTON_DESC: '是否显示标题按钮',
+  SHOW_SHEET_BUTTON: '跳转原文按钮',
+  SHOW_SHEET_BUTTON_DESC: '此选项控制是否显示一个按钮，用于通过嵌入链接跳转到原文内容',
+  SHOW_SHEET_FOOTER: '显示表格底部内容',
+  SHOW_SHEET_FOOTER_DESC: '启用该选项后，嵌入的表格链接会自动显示表格底部内容',
 
   AUTHORIZATION_CODE: '授权码',
   AUTHORIZATION_CODE_GET: '获取授权码',

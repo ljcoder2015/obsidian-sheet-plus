@@ -7,6 +7,7 @@ export interface ExcelProSettings {
   rowHeight: string
   colWidth: string
   authorizationCode: string
+  embedLinkShowFooter: string
 }
 
 export const DEFAULT_SETTINGS: ExcelProSettings = {
@@ -18,4 +19,5 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   rowHeight: '25',
   colWidth: '100',
   authorizationCode: '',
+  embedLinkShowFooter: 'false',
 }

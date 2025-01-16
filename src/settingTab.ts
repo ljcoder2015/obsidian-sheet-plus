@@ -92,6 +92,20 @@ export class ExcelProSettingTab extends PluginSettingTab {
       )
 
     new Setting(containerEl)
+      .setName(t('SHOW_SHEET_FOOTER'))
+      .setDesc(t('SHOW_SHEET_FOOTER_DESC'))
+      .addDropdown(dropdown =>
+        dropdown
+          .addOption('true', 'True')
+          .addOption('false', 'False')
+          .setValue(this.plugin.settings.embedLinkShowFooter)
+          .onChange(async (value) => {
+            this.plugin.settings.embedLinkShowFooter = value
+            this.plugin.saveSettings()
+          }),
+      )
+
+    new Setting(containerEl)
       .setName(t('AUTHORIZATION_CODE'))
       .setDesc(t('AUTHORIZATION_CODE_DESC'))
       .addTextArea(text =>

@@ -43,7 +43,7 @@
 	text-align: center;
 	width: 100%;
 	background-color: var(--sheet-iframe-background-color);
-	border: 5px solid rgb(var(--bg-color));
+	border: 1px solid rgb(var(--bg-color));
 }
 
 #sheet-box {
