@@ -1,5 +1,12 @@
 
 
+## [1.7.7](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.6...1.7.7) (2025-01-16)
+
+
+### Features
+
+* Displays Footer of the Table ([6c6d31d](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/6c6d31d7089d24d1282155e3df75db9af23aaeab))
+
 ## [1.7.6](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.5...1.7.6) (2025-01-10)
 
 
