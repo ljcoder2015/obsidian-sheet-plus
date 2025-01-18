@@ -1,5 +1,13 @@
 
 
+# [1.8.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.7...1.8.0) (2025-01-18)
+
+
+### Features
+
+* added export feature ([44ad4c3](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/44ad4c3e8ea0c2255570e89079b8f94c4895e2f4))
+* update readme.md ([a01ef5b](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/a01ef5b7193e44c023599b6ff4c1fa9b9bf3c299))
+
 ## [1.7.7](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.6...1.7.7) (2025-01-16)
 
 
