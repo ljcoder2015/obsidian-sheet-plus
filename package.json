@@ -24,7 +24,7 @@
     "@ljcoder/charts": "git+ssh://git@github.com:ljcoder2015/univer-charts.git#v0.0.5",
     "@ljcoder/embed-link": "git+ssh://git@github.com:ljcoder2015/univer-embed-link.git#v1.3.0",
     "@ljcoder/embed-link-ui": "git+ssh://git@github.com:ljcoder2015/embed-link-ui.git#v0.0.4",
-    "@ljcoder/import-export": "git+ssh://git@github.com:ljcoder2015/univer-import-export.git#v0.1.0",
+    "@ljcoder/import-export": "git+ssh://git@github.com:ljcoder2015/univer-import-export.git#v0.4.0",
     "@univerjs/core": "^0.5.1",
     "@univerjs/data-validation": "^0.5.1",
     "@univerjs/design": "^0.5.1",
