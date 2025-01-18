@@ -19,6 +19,7 @@ Unlock more advanced features after purchasing an authorization code
 |Embed HTML Link|✔︎|✔︎|
 |**Embed Chart Link**|✔︎|✘|
 |**import**|✔︎|✘|
+|**export**|✔︎|✘|
 |Number formats|✔︎|✔︎|
 |Formulas|✔︎|✔︎|
 |Find and replace|✔︎|✔︎|
@@ -36,6 +37,8 @@ Unlock more advanced features after purchasing an authorization code
 ![Embed Chart Link](/images/embed-link-chart.gif)
 ### Import (Paid)
 ![Import](/images/import.gif)
+### Export (Paid)
+![Import](/images/export.gif)
 
 ### Editing
 ![create](/images/create.gif)
