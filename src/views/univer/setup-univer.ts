@@ -21,6 +21,7 @@ import { UniverFindReplacePlugin } from '@univerjs/find-replace'
 
 import { UniverDataValidationPlugin } from '@univerjs/data-validation'
 import { UniverSheetsDataValidationPlugin } from '@univerjs/sheets-data-validation'
+// import { UniverSheetsDataValidationUIPlugin } from '@univerjs/sheets-data-validation-ui'
 
 import { UniverDocsDrawingPlugin } from '@univerjs/docs-drawing'
 import { UniverDrawingPlugin } from '@univerjs/drawing'
@@ -41,6 +42,7 @@ import { UniverUIPlugin } from '@univerjs/ui'
 import { UniverSheetsUIPlugin } from '@univerjs/sheets-ui'
 
 import { UniverSheetsZenEditorPlugin } from '@univerjs/sheets-zen-editor'
+import { UniverSheetsHyperLinkPlugin } from '@univerjs/sheets-hyper-link'
 
 import '@univerjs/sheets/facade'
 import '@univerjs/ui/facade'
@@ -57,8 +59,8 @@ import '@univerjs/sheets-thread-comment/facade'
 import { enUS, faIR, frFR, getLanguage, ruRU, viVN, zhCN, zhTW } from '../../lang/locale'
 import { mockUser } from './customMentionDataService'
 
-const LOAD_LAZY_PLUGINS_TIMEOUT = 1_000
-const LOAD_VERY_LAZY_PLUGINS_TIMEOUT = 3_000
+const LOAD_LAZY_PLUGINS_TIMEOUT = 100
+const LOAD_VERY_LAZY_PLUGINS_TIMEOUT = 300
 
 export function createUniver(
   option: IUniverUIConfig,
@@ -79,6 +81,7 @@ export function createUniver(
     },
   })
 
+  univer.registerPlugin(UniverDocsPlugin)
   univer.registerPlugin(UniverRenderEnginePlugin)
 
   univer.registerPlugin(UniverUIPlugin, {
@@ -89,6 +92,8 @@ export function createUniver(
 
   registerDesktopPlugin(univer)
 
+  lazyRegisterDesktopPlugin(univer)
+
   const injector = univer.__getInjector()
   const userManagerService = injector.get(UserManagerService)
   userManagerService.setCurrentUser(mockUser)
@@ -97,13 +102,10 @@ export function createUniver(
 }
 
 function registerDesktopPlugin(univer: Univer) {
-  univer.registerPlugin(UniverDocsPlugin)
   univer.registerPlugin(UniverDocsUIPlugin)
 
   univer.registerPlugin(UniverSheetsPlugin)
   univer.registerPlugin(UniverSheetsUIPlugin)
-  univer.registerPlugin(UniverSheetsFormulaPlugin)
-  univer.registerPlugin(UniverSheetsFormulaUIPlugin)
 
   // 数字格式
   univer.registerPlugin(UniverSheetsNumfmtPlugin)
@@ -111,6 +113,9 @@ function registerDesktopPlugin(univer: Univer) {
 
   // 公式
   univer.registerPlugin(UniverFormulaEnginePlugin)
+  univer.registerPlugin(UniverSheetsFormulaPlugin)
+  univer.registerPlugin(UniverSheetsFormulaUIPlugin)
+
   // find replace
   univer.registerPlugin(UniverFindReplacePlugin)
   // univer.registerPlugin(UniverSheetsFindReplacePlugin)
@@ -138,7 +143,7 @@ function registerDesktopPlugin(univer: Univer) {
   univer.registerPlugin(UniverSheetsThreadCommentUIPlugin)
 
   // 超链接
-  // univer.registerPlugin(UniverSheetsHyperLinkPlugin)
+  univer.registerPlugin(UniverSheetsHyperLinkPlugin)
   // univer.registerPlugin(UniverSheetsHyperLinkUIPlugin)
 
   // 排序
@@ -154,7 +159,10 @@ function registerDesktopPlugin(univer: Univer) {
 
   // 禅编辑器
   univer.registerPlugin(UniverSheetsZenEditorPlugin)
+}
 
+// 创建表格实例后调用
+export function lazyRegisterDesktopPlugin(univer: Univer) {
   // 部分插件需要延迟注册
   setTimeout(() => {
     import('./lazy').then((lazy) => {

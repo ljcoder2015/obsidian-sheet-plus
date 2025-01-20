@@ -1,7 +1,7 @@
-import type { WorkspaceLeaf } from 'obsidian'
+import type { TFile, WorkspaceLeaf } from 'obsidian'
 import { Notice, TextFileView } from 'obsidian'
 import type { IWorkbookData, Univer, Workbook } from '@univerjs/core'
-import { FUniver, UniverInstanceType } from '@univerjs/core'
+import { CommandType, FUniver, UniverInstanceType } from '@univerjs/core'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import type ExcelProPlugin from '../main'
 import { renderToHtml } from '../post-processor/html'
@@ -39,49 +39,52 @@ export class ExcelProView extends TextFileView {
     this.plugin = plugin
   }
 
+  onLoadFile(file: TFile): Promise<void> {
+    // console.log('onLoadFile', file.name, this.containerEl)
+    this.createUniverEl()
+    return super.onLoadFile(file)
+  }
+
+  setViewData(data: string, _: boolean): void {
+    this.data = data
+
+    this.app.workspace.onLayoutReady(async () => {
+      // console.log("setViewData");
+      this.setupUniver()
+    })
+  }
+
+  onUnloadFile(file: TFile): Promise<void> {
+    // console.log('onUnloadFile', file.name)
+    // 释放 univer 相关对象
+    this.dispose()
+    return super.onUnloadFile(file)
+  }
+
   onload(): void {
     super.onload()
 
     this.copyHTMLEle = this.addAction('file-code', t('COPY_TO_HTML'), _ =>
       this.copyToHTML())
-  }
 
-  onunload(): void {
-    // console.log(`Excel Pro View onunload`);
-    // 释放 univer 相关对象
-    this.dispose()
-
-    super.onunload()
+    this.createUniverEl()
   }
 
   dispose() {
-    // 释放工作簿
-    if (this.workbook !== null && this.workbook !== undefined)
-      this.workbook.dispose()
-
     // 释放 univer
-    if (this.univer !== null && this.univer !== undefined) {
-      this.univer.dispose()
-      this.univer = null
-    }
+    this.univer?.dispose()
+
+    this.univer = null
+    this.univerAPI = null
 
     this.subPath = null
-  }
-
-  // 定义事件处理函数
-  handleEscapeKey(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      // console.log('ESC 键被按下')
-      // 在这里可以执行需要的操作
-    }
   }
 
   getViewType(): string {
     return VIEW_TYPE_EXCEL_PRO
   }
 
-  setupUniver() {
-    this.dispose()
+  createUniverEl() {
     this.contentEl.empty()
     this.sheetEle = this.contentEl.createDiv({
       attr: {
@@ -96,13 +99,17 @@ export class ExcelProView extends TextFileView {
         class: 'my-univer',
       },
     })
+    this.univerId = id
+  }
 
+  setupUniver() {
     // 设置多语言
     const options = {
       header: true,
       footer: true,
     }
-    this.univer = createUniver(options, id)
+
+    this.univer = createUniver(options, this.univerId)
     this.univerAPI = FUniver.newAPI(this.univer)
 
     const data = getExcelData(this.data, this.file)
@@ -124,27 +131,15 @@ export class ExcelProView extends TextFileView {
     }
 
     this.univerAPI.onCommandExecuted((command) => {
-      const blackList = [
-        'sheet.operation.set-scroll',
-        'sheet.command.set-scroll-relative',
-        'sheet.operation.set-selections',
-        'doc.operation.set-selections',
-        'sheet.operation.set-activate-cell-edit',
-        'sheet.operation.set-selections',
-        'sheet.command.scroll-view',
-        'formula-ui.operation.search-function',
-        'formula-ui.operation.help-function',
-        'formula.mutation.set-formula-calculation-start',
-      ]
-
-      if (blackList.contains(command.id))
+      if (command.type !== CommandType.MUTATION) {
         return
+      }
 
       const activeWorkbook = this.univerAPI.getActiveWorkbook()
       if (!activeWorkbook)
         throw new Error('activeWorkbook is not defined')
 
-      const activeWorkbookData = JSON.stringify(activeWorkbook.getSnapshot())
+      const activeWorkbookData = JSON.stringify(activeWorkbook.save())
 
       if (this.lastWorkbookData === null) {
         // 第一次加载不处理
@@ -157,7 +152,7 @@ export class ExcelProView extends TextFileView {
         return
       }
 
-      // console.log("\n===onCommandExecuted===\n", activeWorkbookData, "\n===command===", command)
+      // console.log("\n===command===", command)
 
       this.lastWorkbookData = activeWorkbookData
 
@@ -193,6 +188,7 @@ export class ExcelProView extends TextFileView {
         // console.log("save data success", this.file);
       })
       .catch((e) => {
+        new Notice(t('SAVE_DATA_ERROR'))
         // console.log("save data error", e);
       })
   }
@@ -236,16 +232,6 @@ export class ExcelProView extends TextFileView {
         })
       }, 1000)
     }
-  }
-
-  setViewData(data: string, _: boolean): void {
-    this.data = data
-
-    this.app.workspace.onLayoutReady(async () => {
-      // console.log("setViewData", data);
-      this.setupUniver()
-      this.scrollToRange()
-    })
   }
 
   copyToHTML() {

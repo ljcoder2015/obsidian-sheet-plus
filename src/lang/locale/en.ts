@@ -21,6 +21,8 @@ export default {
   IMPORT_XLSX_FILE: 'import xlsx file',
   EXPORT_XLSX_FILE: 'export xlsx file',
 
+  SAVE_DATA_ERROR: 'save data error',
+
   // ExcelSettingTab.ts
   BASE_COLOR: 'Base color scheme',
   BASE_COLOR_DESC: 'Choose default color scheme',
