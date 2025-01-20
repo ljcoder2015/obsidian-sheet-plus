@@ -1,5 +1,12 @@
 
 
+## [1.8.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.8.1...1.8.2) (2025-01-20)
+
+
+### Bug Fixes
+
+* create menu icon ([b0cb273](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/b0cb27356f0d0b891f0660328653b14e825f6129))
+
 ## [1.8.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.8.0...1.8.1) (2025-01-20)
 
 
