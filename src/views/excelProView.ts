@@ -71,11 +71,11 @@ export class ExcelProView extends TextFileView {
   }
 
   dispose() {
-    // 释放 univer
-    this.univer?.dispose()
+    // 释放 univer !无需手动调用
+    // this.univer?.dispose()
 
-    this.univer = null
-    this.univerAPI = null
+    // this.univer = null
+    // this.univerAPI = null
 
     this.subPath = null
   }
