@@ -1,5 +1,13 @@
 
 
+## [1.8.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.8.0...1.8.1) (2025-01-20)
+
+
+### Bug Fixes
+
+* Fixed issues with form creation and destruction timing ([4dcaa42](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/4dcaa42b00c4fc5e7e7f1ed85cd33298238d7bc6))
+* Fixed issues with form creation and destruction timing ([6e30134](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/6e3013427c1323b14bdbc2a7254439736de4661d))
+
 # [1.8.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.7.7...1.8.0) (2025-01-18)
 
 
