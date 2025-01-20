@@ -54,7 +54,7 @@ export default class ExcelProPlugin extends Plugin {
     this.registerExtensions(['univer'], VIEW_TYPE_EXCEL_PRO)
 
     // This creates an icon in the left ribbon.
-    this.addRibbonIcon('table', t('CREATE_EXCEL'), () => {
+    this.addRibbonIcon('sheet', t('CREATE_EXCEL'), () => {
       // Called when the user clicks the icon.
       this.createAndOpenExcel(
         getExcelFilename(this.settings),
@@ -129,15 +129,18 @@ export default class ExcelProPlugin extends Plugin {
   private registerCommands() {
     const fileMenuHandlerCreateNew = (menu: Menu, file: TFile) => {
       menu.addItem((item: MenuItem) => {
-        item.setTitle(t('CREATE_EXCEL')).onClick(() => {
-          let filepath = file.path
-          if (file instanceof TFile) {
-            filepath = normalizePath(
-              file.path.substr(0, file.path.lastIndexOf(file.name)),
-            )
-          }
-          this.createAndOpenExcel(getExcelFilename(this.settings), filepath)
-        })
+        item
+          .setTitle(t('CREATE_EXCEL'))
+          .setIcon('sheet')
+          .onClick(() => {
+            let filepath = file.path
+            if (file instanceof TFile) {
+              filepath = normalizePath(
+                file.path.substr(0, file.path.lastIndexOf(file.name)),
+              )
+            }
+            this.createAndOpenExcel(getExcelFilename(this.settings), filepath)
+          })
       })
     }
 
@@ -146,6 +149,7 @@ export default class ExcelProPlugin extends Plugin {
     )
     this.addCommand({
       id: 'spreadsheet-autocreation',
+      icon: 'sheet',
       name: t('CREATE_EXCEL'),
       callback: () => {
         this.createAndOpenExcel(
@@ -155,35 +159,7 @@ export default class ExcelProPlugin extends Plugin {
         )
       },
     })
-
-    // this.addCommand({
-    //   id: 'sheet-plus-copy-link-html',
-    //   name: t('COMMAND_LINK_HTML'),
-    //   callback: () => {
-    //     this.createAndOpenExcel(
-    //       getExcelFilename(this.settings),
-    //       undefined,
-    //       this.getBlackData(),
-    //     )
-    //   },
-    // })
-
-    // this.addCommand({
-    //   id: 'sheet-plus-copy-link-univer',
-    //   name: t('COMMAND_LINK_UNIVER'),
-    //   callback: () => {
-    //     this.createAndOpenExcel(
-    //       getExcelFilename(this.settings),
-    //       undefined,
-    //       this.getBlackData(),
-    //     )
-    //   },
-    // })
   }
-
-  // private copyEmbedLink(type: string) {
-
-  // }
 
   private registerMonkeyPatches() {
     const key = 'https://gitee.com/ljcoder2015/obsidian-excel-pro'
