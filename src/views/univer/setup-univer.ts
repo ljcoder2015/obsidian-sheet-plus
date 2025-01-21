@@ -39,7 +39,8 @@ import { UniverSheetsSortPlugin } from '@univerjs/sheets-sort'
 import { UniverSheetsConditionalFormattingPlugin } from '@univerjs/sheets-conditional-formatting'
 
 import { UniverUIPlugin } from '@univerjs/ui'
-import { UniverSheetsUIPlugin } from '@univerjs/sheets-ui'
+
+import { AddRangeProtectionFromToolbarCommand, SetRangeFontFamilyCommand, UniverSheetsUIPlugin } from '@univerjs/sheets-ui'
 
 import { UniverSheetsZenEditorPlugin } from '@univerjs/sheets-zen-editor'
 import { UniverSheetsHyperLinkPlugin } from '@univerjs/sheets-hyper-link'
@@ -105,7 +106,16 @@ function registerDesktopPlugin(univer: Univer) {
   univer.registerPlugin(UniverDocsUIPlugin)
 
   univer.registerPlugin(UniverSheetsPlugin)
-  univer.registerPlugin(UniverSheetsUIPlugin)
+  univer.registerPlugin(UniverSheetsUIPlugin, {
+    menu: {
+      [SetRangeFontFamilyCommand.id]: {
+        hidden: true,
+      },
+      [AddRangeProtectionFromToolbarCommand.id]: {
+        hidden: true,
+      },
+    },
+  })
 
   // 数字格式
   univer.registerPlugin(UniverSheetsNumfmtPlugin)
