@@ -1,5 +1,12 @@
 
 
+## [1.8.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.8.2...1.8.3) (2025-01-21)
+
+
+### Features
+
+* Hide font Settings and permission protection menus ([128dc05](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/128dc0568dfe319030763769a54649fb13521bc0))
+
 ## [1.8.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.8.1...1.8.2) (2025-01-20)
 
 
