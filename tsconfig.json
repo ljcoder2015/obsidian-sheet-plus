@@ -9,7 +9,9 @@
       "DOM.Iterable",
       "WebWorker"
 	  ],
+    "experimentalDecorators": true,
     "allowArbitraryExtensions": true,
+    "downlevelIteration": true,
     "outDir": "local"
   },
   "include": ["src"]

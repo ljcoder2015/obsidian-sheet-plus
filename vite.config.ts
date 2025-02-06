@@ -65,7 +65,7 @@ export default defineConfig((_) => {
       },
       emptyOutDir: !dev,
       sourcemap: dev ? 'inline' : false,
-      target: 'es2018',
+      target: 'ESNext',
       rollupOptions: {
         output: {
           globals: {

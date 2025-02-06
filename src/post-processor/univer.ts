@@ -24,9 +24,10 @@ export function createUniverEl(data: IWorkbookData | null, height = 300, showFoo
   setTimeout(() => {
     const options = {
       header: false,
+      contextMenu: false,
       footer: showFooter,
     }
-    const univer = createUniver(options, id)
+    const univer = createUniver(options, id, true)
 
     if (data) {
       // workbookData 的内容都包含在 workbook 字段中

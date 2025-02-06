@@ -36,6 +36,7 @@
     "@univerjs/engine-formula": "^0.5.1",
     "@univerjs/engine-render": "^0.5.1",
     "@univerjs/find-replace": "^0.5.1",
+    "@univerjs/protocol": "^0.1.43",
     "@univerjs/sheets": "^0.5.1",
     "@univerjs/sheets-conditional-formatting": "^0.5.1",
     "@univerjs/sheets-conditional-formatting-ui": "^0.5.1",
