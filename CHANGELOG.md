@@ -1,5 +1,12 @@
 
 
+## [1.8.5](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.8.4...1.8.5) (2025-02-06)
+
+
+### Bug Fixes
+
+* chart css bug ([400b479](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/400b47905fe4c60c64068d8b2a0fb83d6b19bc7b))
+
 ## [1.8.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.8.3...1.8.4) (2025-02-06)
 
 
