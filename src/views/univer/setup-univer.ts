@@ -1,3 +1,5 @@
+import '@ljcoder/charts/lib/index.css'
+
 import { IAuthzIoService, LocaleType, LogLevel, Univer, UserManagerService } from '@univerjs/core'
 import { defaultTheme } from '@univerjs/design'
 
@@ -82,7 +84,7 @@ export function createUniver(
   const univer = new Univer({
     theme: defaultTheme,
     locale: getLanguage(),
-    logLevel: LogLevel.VERBOSE,
+    logLevel: LogLevel.ERROR,
     locales: {
       [LocaleType.ZH_CN]: zhCN,
       [LocaleType.EN_US]: enUS,
