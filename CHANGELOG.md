@@ -1,5 +1,13 @@
 
 
+## [1.8.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.8.3...1.8.4) (2025-02-06)
+
+
+### Features
+
+* In order to enhance the user interface presentation on mobile devices, it is imperative to eliminate the editing capabilities and simultaneously address the permission-related issues that have been identified. ([cac141a](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/cac141a0109c78eb07ed68ee6e7f09518e7b89e4))
+* update readme ([2a1b6d2](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/2a1b6d2bd5ae62492abf1db09f3b39914233143c))
+
 ## [1.8.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.8.2...1.8.3) (2025-01-21)
 
 
