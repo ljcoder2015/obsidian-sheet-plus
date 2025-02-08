@@ -28,9 +28,9 @@ Unlock more advanced features after purchasing an authorization code
 |Comment|✔︎|✔︎|
 |Chart|✔︎|✔︎|
 
-## Tutorial
+## User Guide
 
-- [Chart Tutorial](https://ko-fi.com/post/Chart-Tutorial-D1D718RT5M)
+- [User Guide](https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/User-Guide)
 
 ## Feature Demonstration
 ### Embed Chart Link (Paid)
