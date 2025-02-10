@@ -15,7 +15,7 @@ import {
 } from 'obsidian'
 
 import { around, dedupe } from 'monkey-around'
-import { update } from '@ljcoder/authorization'
+import { check, update } from '@ljcoder/authorization'
 import {
   FRONTMATTER,
   FRONTMATTER_KEY,
@@ -116,9 +116,11 @@ export default class ExcelProPlugin extends Plugin {
     const settingData = await this.loadData()
     this.settings = Object.assign({}, DEFAULT_SETTINGS, settingData)
     if (this.settings.authorizationCode && this.settings.authorizationCode.length > 0) {
-      update(this.settings.authorizationCode, () => {
+      if (!check()) {
+        update(this.settings.authorizationCode, () => {
 
-      })
+        })
+      }
     }
   }
 
