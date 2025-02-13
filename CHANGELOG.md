@@ -1,5 +1,12 @@
 
 
+# [1.9.0](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.8.6...1.9.0) (2025-02-13)
+
+
+### Features
+
+* **import-export:** import data validation, import image, export image ([9344e97](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/9344e97f9632af95f10720cf9e2b874be703b61a))
+
 ## [1.8.6](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.8.5...1.8.6) (2025-02-10)
 
 
