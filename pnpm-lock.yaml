@@ -17,8 +17,8 @@ dependencies:
     specifier: git+ssh://git@github.com:ljcoder2015/univer-charts.git#v0.0.5
     version: git@github.com+ljcoder2015/univer-charts/85a611a00b03de42a3e6ef90e85ad956b2e37277(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2)
   '@ljcoder/embed-link':
-    specifier: git+ssh://git@github.com:ljcoder2015/univer-embed-link.git#v1.3.0
-    version: git@github.com+ljcoder2015/univer-embed-link/cf48c467a2b45dd27e2b853cebf570b083895149(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
+    specifier: git+ssh://git@github.com:ljcoder2015/univer-embed-link.git#v1.4.0
+    version: git@github.com+ljcoder2015/univer-embed-link/1dcdb025dbc4df48c07917baf81d89e7ef930b45(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)
   '@ljcoder/embed-link-ui':
     specifier: git+ssh://git@github.com:ljcoder2015/embed-link-ui.git#v0.0.4
     version: git@github.com+ljcoder2015/embed-link-ui/fca876bb8c8f8f42a5b0917ae861ffca0d587430(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1)(typescript@5.7.2)
@@ -7008,16 +7008,6 @@ packages:
       tslib: 2.3.0
     dev: false
 
-  git@github.com+ljcoder2015/authorization/d90d64f22493800925050c4eaea2c2000c5b785f:
-    resolution: {commit: d90d64f22493800925050c4eaea2c2000c5b785f, repo: git@github.com:ljcoder2015/authorization.git, type: git}
-    name: '@ljcoder/authorization'
-    version: 1.1.0
-    dependencies:
-      axios: 1.7.9
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   git@github.com+ljcoder2015/authorization/f8d7ed34d90795dca54a648bce2483a6dd1acbb8:
     resolution: {commit: f8d7ed34d90795dca54a648bce2483a6dd1acbb8, repo: git@github.com:ljcoder2015/authorization.git, type: git}
     name: '@ljcoder/authorization'
@@ -7102,17 +7092,17 @@ packages:
       - typescript
     dev: false
 
-  git@github.com+ljcoder2015/univer-embed-link/cf48c467a2b45dd27e2b853cebf570b083895149(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1):
-    resolution: {commit: cf48c467a2b45dd27e2b853cebf570b083895149, repo: git@github.com:ljcoder2015/univer-embed-link.git, type: git}
-    id: git@github.com+ljcoder2015/univer-embed-link/cf48c467a2b45dd27e2b853cebf570b083895149
+  git@github.com+ljcoder2015/univer-embed-link/1dcdb025dbc4df48c07917baf81d89e7ef930b45(@grpc/grpc-js@1.9.14)(react-dom@18.3.1)(react@18.3.1)(rxjs@7.8.1):
+    resolution: {commit: 1dcdb025dbc4df48c07917baf81d89e7ef930b45, repo: git@github.com:ljcoder2015/univer-embed-link.git, type: git}
+    id: git@github.com+ljcoder2015/univer-embed-link/1dcdb025dbc4df48c07917baf81d89e7ef930b45
     name: '@ljcoder/embed-link'
-    version: 1.2.7
+    version: 1.4.0
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
       rxjs: '>=7.0.0'
     dependencies:
-      '@ljcoder/authorization': git@github.com+ljcoder2015/authorization/d90d64f22493800925050c4eaea2c2000c5b785f
+      '@ljcoder/authorization': git@github.com+ljcoder2015/authorization/f8d7ed34d90795dca54a648bce2483a6dd1acbb8
       '@univerjs/core': 0.5.1(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.1)
       echarts: 5.5.1
       react: 18.3.1
