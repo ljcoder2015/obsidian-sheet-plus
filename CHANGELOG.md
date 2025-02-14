@@ -1,5 +1,12 @@
 
 
+## [1.9.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.9.1...1.9.2) (2025-02-14)
+
+
+### Features
+
+* **embed-link:** update to v1.4.0 ([a4fa343](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/a4fa343c152b1538eadcc5948306c203884ac993))
+
 ## [1.9.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.9.0...1.9.1) (2025-02-14)
 
 
