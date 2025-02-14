@@ -1,5 +1,12 @@
 
 
+## [1.9.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.9.0...1.9.1) (2025-02-14)
+
+
+### Bug Fixes
+
+* **authorization:** authorization bug ([3436e5f](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/3436e5fe178dfa8090e897a80a10cc2e9995ecbe))
+
 # [1.9.0](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.8.6...1.9.0) (2025-02-13)
 
 

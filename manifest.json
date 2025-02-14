@@ -1,7 +1,7 @@
 {
   "id": "sheet-plus",
   "name": "Sheet Plus",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "minAppVersion": "1.5.11",
   "description": "Create Excel-like spreadsheets and easily embed them in Markdown.",
   "author": "ljcoder",
