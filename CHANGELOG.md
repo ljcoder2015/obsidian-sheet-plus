@@ -1,5 +1,12 @@
 
 
+# [1.10.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.9.3...1.10.0) (2025-02-16)
+
+
+### Features
+
+* udpate univer 0.6.0 ([f1a9d7d](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/f1a9d7d76650dd1e06e8d4501b4d01a5ea619e28))
+
 ## [1.9.3](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.9.2...1.9.3) (2025-02-16)
 
 
