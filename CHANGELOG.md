@@ -1,5 +1,17 @@
 
 
+## [1.9.3](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.9.2...1.9.3) (2025-02-16)
+
+
+### Bug Fixes
+
+* import authorization ([9817d0a](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/9817d0a5117de752c04abd51af986750efeb8e0d))
+
+
+### Features
+
+* udpate readme ([b7276dd](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/b7276dd7d7f61d4f0bc2aed3a8d62a5e9fa60d29))
+
 ## [1.9.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.9.1...1.9.2) (2025-02-14)
 
 
