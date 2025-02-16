@@ -1,5 +1,12 @@
 
 
+## [1.10.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.10.0...1.10.1) (2025-02-16)
+
+
+### Bug Fixes
+
+* High memory usage ([2f5fc10](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/2f5fc10784763011bbe41c7d1615bf41d08a809d))
+
 # [1.10.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.9.3...1.10.0) (2025-02-16)
 
 
