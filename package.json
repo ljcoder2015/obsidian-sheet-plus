@@ -87,6 +87,11 @@
     "typescript": "^5.7.2",
     "vite": "^5.4.11"
   },
+  "pnpm": {
+    "patchedDependencies": {
+      "@univerjs/engine-render": "patches/@univerjs__engine-render.patch"
+    }
+  },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
   },
