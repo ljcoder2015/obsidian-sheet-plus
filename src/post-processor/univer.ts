@@ -1,5 +1,6 @@
 import type { IWorkbookData } from '@univerjs/core'
-import { FUniver, UniverInstanceType } from '@univerjs/core'
+import { UniverInstanceType } from '@univerjs/core'
+import { FUniver } from '@univerjs/core/facade'
 import { WorkbookEditablePermission } from '@univerjs/sheets'
 import { randomString } from '../utils/uuid'
 import { createUniver } from '../views/univer/setup-univer'

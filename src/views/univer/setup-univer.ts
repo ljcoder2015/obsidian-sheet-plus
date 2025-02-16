@@ -45,18 +45,9 @@ import { AddRangeProtectionFromToolbarCommand, ChangeSheetProtectionFromSheetBar
 import { UniverSheetsZenEditorPlugin } from '@univerjs/sheets-zen-editor'
 import { UniverSheetsHyperLinkPlugin } from '@univerjs/sheets-hyper-link'
 
-import { UniverSheetsConditionalFormattingMobileUIPlugin, UniverSheetsConditionalFormattingUIPlugin } from '@univerjs/sheets-conditional-formatting-ui'
-import { UniverSheetsDataValidationMobileUIPlugin, UniverSheetsDataValidationUIPlugin } from '@univerjs/sheets-data-validation-ui'
-import { UniverSheetsDrawingUIPlugin } from '@univerjs/sheets-drawing-ui'
-import { UniverSheetsFilterMobileUIPlugin, UniverSheetsFilterUIPlugin } from '@univerjs/sheets-filter-ui'
-import { UniverSheetsEmbedLinkUIPlugin } from '@ljcoder/embed-link-ui'
-
-import { UniverChartPlugin } from '@ljcoder/charts'
-import { UniverSheetsCrosshairHighlightPlugin } from '@univerjs/sheets-crosshair-highlight'
-import { UniverSheetsFindReplacePlugin } from '@univerjs/sheets-find-replace'
-import { UniverSheetsHyperLinkUIPlugin } from '@univerjs/sheets-hyper-link-ui'
-import { UniverSheetsSortUIPlugin } from '@univerjs/sheets-sort-ui'
-import { UniverSheetsImportExportPlugin } from '@ljcoder/import-export'
+import { UniverSheetsConditionalFormattingMobileUIPlugin } from '@univerjs/sheets-conditional-formatting-ui'
+import { UniverSheetsDataValidationMobileUIPlugin } from '@univerjs/sheets-data-validation-ui'
+import { UniverSheetsFilterMobileUIPlugin } from '@univerjs/sheets-filter-ui'
 
 import { Platform } from 'obsidian'
 
@@ -106,6 +97,7 @@ export function createUniver(
   }
   else {
     registerDesktopPlugin(univer, option, id)
+    registerLazyDesktopPlugin(univer)
   }
   return univer
 }
@@ -156,23 +148,23 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, id: stri
 
   // find replace
   univer.registerPlugin(UniverFindReplacePlugin)
-  univer.registerPlugin(UniverSheetsFindReplacePlugin)
+  // univer.registerPlugin(UniverSheetsFindReplacePlugin)
 
   // data validation
   univer.registerPlugin(UniverDataValidationPlugin)
   univer.registerPlugin(UniverSheetsDataValidationPlugin)
-  univer.registerPlugin(UniverSheetsDataValidationUIPlugin)
+  // univer.registerPlugin(UniverSheetsDataValidationUIPlugin)
 
   // 浮动图片
   univer.registerPlugin(UniverDrawingPlugin)
   univer.registerPlugin(UniverDrawingUIPlugin)
   univer.registerPlugin(UniverDocsDrawingPlugin)
   univer.registerPlugin(UniverSheetsDrawingPlugin)
-  univer.registerPlugin(UniverSheetsDrawingUIPlugin)
+  // univer.registerPlugin(UniverSheetsDrawingUIPlugin)
 
   // 筛选
   univer.registerPlugin(UniverSheetsFilterPlugin)
-  univer.registerPlugin(UniverSheetsFilterUIPlugin)
+  // univer.registerPlugin(UniverSheetsFilterUIPlugin)
 
   // 评论批注
   univer.registerPlugin(UniverThreadCommentPlugin)
@@ -182,30 +174,49 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, id: stri
 
   // 超链接
   univer.registerPlugin(UniverSheetsHyperLinkPlugin)
-  univer.registerPlugin(UniverSheetsHyperLinkUIPlugin)
+  // univer.registerPlugin(UniverSheetsHyperLinkUIPlugin)
 
   // 嵌入链接
-  univer.registerPlugin(UniverSheetsEmbedLinkUIPlugin)
+  // univer.registerPlugin(UniverSheetsEmbedLinkUIPlugin)
 
   // 排序
   univer.registerPlugin(UniverSheetsSortPlugin)
-  univer.registerPlugin(UniverSheetsSortUIPlugin)
+  // univer.registerPlugin(UniverSheetsSortUIPlugin)
 
   // 条件渲染
   univer.registerPlugin(UniverSheetsConditionalFormattingPlugin)
-  univer.registerPlugin(UniverSheetsConditionalFormattingUIPlugin)
+  // univer.registerPlugin(UniverSheetsConditionalFormattingUIPlugin)
 
   // 禅编辑器
   univer.registerPlugin(UniverSheetsZenEditorPlugin)
 
   // 十字高亮
-  univer.registerPlugin(UniverSheetsCrosshairHighlightPlugin)
+  // univer.registerPlugin(UniverSheetsCrosshairHighlightPlugin)
 
   // 图表
-  univer.registerPlugin(UniverChartPlugin)
+  // univer.registerPlugin(UniverChartPlugin)
 
   // 导入导出
-  univer.registerPlugin(UniverSheetsImportExportPlugin)
+  // univer.registerPlugin(UniverSheetsImportExportPlugin)
+}
+
+function registerLazyDesktopPlugin(univer: Univer) {
+  const LOAD_LAZY_PLUGINS_TIMEOUT = 100
+  const LOAD_VERY_LAZY_PLUGINS_TIMEOUT = 1_000
+
+  setTimeout(() => {
+    import('./lazy').then((lazy) => {
+      const plugins = lazy.default()
+      plugins.forEach(p => univer.registerPlugin(p[0], p[1]))
+    })
+  }, LOAD_LAZY_PLUGINS_TIMEOUT)
+
+  setTimeout(() => {
+    import('./very-lazy').then((lazy) => {
+      const plugins = lazy.default()
+      plugins.forEach(p => univer.registerPlugin(p[0], p[1]))
+    })
+  }, LOAD_VERY_LAZY_PLUGINS_TIMEOUT)
 }
 
 function registerMobilePlugin(univer: Univer, option: IUniverUIConfig, id: string) {
