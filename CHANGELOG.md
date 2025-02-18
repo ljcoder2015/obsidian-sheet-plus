@@ -1,5 +1,13 @@
 
 
+## [1.10.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.10.1...1.10.3) (2025-02-18)
+
+
+### Features
+
+* add univer setting ([9a38fa0](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/9a38fa0557737d2b385cdfbe0741a7bc1df2a46b))
+* mobile render mode ([fa88eae](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/fa88eaee1c72f0b6923aa4cdeb14c1fc9893a878))
+
 ## [1.10.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.10.1...1.10.2) (2025-02-18)
 
 
