@@ -4,6 +4,7 @@ import { FUniver } from '@univerjs/core/facade'
 import { WorkbookEditablePermission } from '@univerjs/sheets'
 import { randomString } from '../utils/uuid'
 import { createUniver } from '../views/univer/setup-univer'
+import type ExcelProPlugin from '../main'
 
 /**
  * 创建表格元素
@@ -11,7 +12,7 @@ import { createUniver } from '../views/univer/setup-univer'
  * @param height 渲染高度
  * @returns HTMLDivElement
  */
-export function createUniverEl(data: IWorkbookData | null, height = 300, showFooter = false): HTMLDivElement {
+export function createUniverEl(data: IWorkbookData | null, height = 300, showFooter = false, plugin: ExcelProPlugin): HTMLDivElement {
   // console.log('createUniverEl', data)
   const id = `univer-embed-${randomString(6)}`
   const univerEl = createDiv({
@@ -28,7 +29,7 @@ export function createUniverEl(data: IWorkbookData | null, height = 300, showFoo
       contextMenu: false,
       footer: showFooter,
     }
-    const univer = createUniver(options, id, true)
+    const univer = createUniver(options, id, plugin, true)
 
     if (data) {
       // workbookData 的内容都包含在 workbook 字段中

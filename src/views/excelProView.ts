@@ -110,7 +110,7 @@ export class ExcelProView extends TextFileView {
       footer: true,
     }
 
-    this.univer = createUniver(options, this.univerId)
+    this.univer = createUniver(options, this.univerId, this.plugin.settings.mobileRenderMode)
     this.univerAPI = FUniver.newAPI(this.univer)
 
     const data = getExcelData(this.data, this.file)

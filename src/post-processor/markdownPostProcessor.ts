@@ -223,12 +223,12 @@ function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string)
   else if (parseResult.displayType === undefined) {
     if (parseResult.startCell && parseResult.endCell) {
       const rangeData = getRangeData(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
-      const univerEl = createUniverEl(rangeData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true')
+      const univerEl = createUniverEl(rangeData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true', plugin.settings.mobileRenderMode)
       embedLinkDiv.appendChild(univerEl)
       return embedLinkDiv
     }
     else {
-      const univerEl = createUniverEl(excelData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true')
+      const univerEl = createUniverEl(excelData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true', plugin.settings.mobileRenderMode)
       embedLinkDiv.appendChild(univerEl)
       return embedLinkDiv
     }
