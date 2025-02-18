@@ -106,6 +106,24 @@ export class ExcelProSettingTab extends PluginSettingTab {
       )
 
     new Setting(containerEl)
+      .setName(t('UNIVER_SETTING'))
+      .setHeading()
+
+    new Setting(containerEl)
+      .setName(t('MOBILE_RENDER_MODE'))
+      .setDesc(t('MOBILE_RENDER_MODE_DESC'))
+      .addDropdown(dropdown =>
+        dropdown
+          .addOption('mobile', 'Mobile')
+          .addOption('desktop', 'Desktop')
+          .setValue(this.plugin.settings.mobileRenderMode)
+          .onChange(async (value) => {
+            this.plugin.settings.mobileRenderMode = value
+            this.plugin.saveSettings()
+          }),
+      )
+
+    new Setting(containerEl)
       .setName(t('AUTHORIZATION_CODE'))
       .setDesc(t('AUTHORIZATION_CODE_DESC'))
       .addTextArea(text =>

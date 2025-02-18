@@ -8,6 +8,7 @@ export interface ExcelProSettings {
   colWidth: string
   authorizationCode: string
   embedLinkShowFooter: string
+  mobileRenderMode: string
 }
 
 export const DEFAULT_SETTINGS: ExcelProSettings = {
@@ -20,4 +21,5 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   colWidth: '100',
   authorizationCode: '',
   embedLinkShowFooter: 'false',
+  mobileRenderMode: 'mobile',
 }

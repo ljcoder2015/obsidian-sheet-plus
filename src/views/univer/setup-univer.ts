@@ -92,7 +92,7 @@ export function createUniver(
   const userManagerService = injector.get(UserManagerService)
   userManagerService.setCurrentUser(mockUser)
 
-  if (Platform.isPhone) {
+  if (Platform.isPhone && this.plugin.settings.mobileRenderMode === 'mobile') {
     registerMobilePlugin(univer, option, id)
   }
   else {
@@ -120,7 +120,7 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, id: stri
   univer.registerPlugin(UniverSheetsUIPlugin, {
     menu: {
       [SetRangeFontFamilyCommand.id]: {
-        hidden: true,
+        hidden: false,
       },
       [AddRangeProtectionFromToolbarCommand.id]: {
         hidden: true,

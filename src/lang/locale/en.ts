@@ -50,6 +50,11 @@ export default {
   SHOW_SHEET_FOOTER: 'Enable Sheet Footer Display',
   SHOW_SHEET_FOOTER_DESC: 'When this option is enabled, the embedded table link will automatically display content at the bottom of the Sheet.',
 
+  UNIVER_SETTING: 'Univer Setting',
+
+  MOBILE_RENDER_MODE: 'Mobile Render Mode',
+  MOBILE_RENDER_MODE_DESC: 'Mobile rendering mode: select mobile to render in mobile style, and desktop to render in desktop client style.',
+
   AUTHORIZATION_CODE: 'Authorization code',
   AUTHORIZATION_CODE_GET: 'Get Authorization code',
   AUTHORIZATION_CODE_DESC: 'Enter the authorization code to activate advanced functions',

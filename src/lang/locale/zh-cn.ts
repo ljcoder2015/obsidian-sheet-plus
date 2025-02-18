@@ -50,6 +50,11 @@ export default {
   SHOW_SHEET_FOOTER: '显示表格底部内容',
   SHOW_SHEET_FOOTER_DESC: '启用该选项后，嵌入的表格链接会自动显示表格底部内容',
 
+  UNIVER_SETTING: 'Univer 配置',
+
+  MOBILE_RENDER_MODE: '手机端渲染模式',
+  MOBILE_RENDER_MODE_DESC: '手机端渲染模式, 选择 mobile 渲染成手机端样式, desktop 渲染成客户端样式',
+
   AUTHORIZATION_CODE: '授权码',
   AUTHORIZATION_CODE_GET: '获取授权码',
   AUTHORIZATION_CODE_DESC: '输入授权码，激活高级功能',
