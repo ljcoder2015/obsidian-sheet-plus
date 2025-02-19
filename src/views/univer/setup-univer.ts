@@ -129,7 +129,7 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, id: stri
   univer.registerPlugin(UniverSheetsUIPlugin, {
     menu: {
       [SetRangeFontFamilyCommand.id]: {
-        hidden: false,
+        hidden: true,
       },
       [AddRangeProtectionFromToolbarCommand.id]: {
         hidden: true,
