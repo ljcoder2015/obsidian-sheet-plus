@@ -1,5 +1,12 @@
 
 
+## [1.10.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.10.3...1.10.4) (2025-02-27)
+
+
+### Features
+
+* add loading overlay ([81faa9a](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/81faa9aacfaac77437d0743f625c5a37d0425853))
+
 ## [1.10.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.10.1...1.10.3) (2025-02-18)
 
 
