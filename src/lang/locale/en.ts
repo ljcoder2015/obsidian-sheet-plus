@@ -70,4 +70,6 @@ export default {
   COMMAND_LINK_CHARTS_AREA: 'Generate Line Area Chart embed links',
   COMMAND_LINK_CHARTS_PIE: 'Generate Pie Chart embed links',
   COMMAND_LINK_CHARTS_RING_PIE: 'Generate Ring Pie Chart embed links',
+
+  LOADING: 'Loading',
 }

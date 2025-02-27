@@ -1,7 +1,7 @@
 import type { TFile, WorkspaceLeaf } from 'obsidian'
 import { Notice, TextFileView } from 'obsidian'
 import type { IWorkbookData, Univer, Workbook } from '@univerjs/core'
-import { CommandType, UniverInstanceType } from '@univerjs/core'
+import { CommandType, LifecycleStages, UniverInstanceType } from '@univerjs/core'
 import { FUniver } from '@univerjs/core/facade'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import type ExcelProPlugin from '../main'
@@ -20,9 +20,7 @@ import { createUniver } from './univer/setup-univer'
 
 export class ExcelProView extends TextFileView {
   public plugin: ExcelProPlugin
-  public importEle: HTMLElement
-  public exportEle: HTMLElement
-  public embedLinkEle: HTMLElement
+  public loadingEle: HTMLElement
   public copyHTMLEle: HTMLElement
   public sheetEle: HTMLElement
   public univerAPI: FUniver // 表格操作对象
@@ -87,7 +85,26 @@ export class ExcelProView extends TextFileView {
 
   createUniverEl() {
     this.contentEl.empty()
-    this.sheetEle = this.contentEl.createDiv({
+    const sheetContainer = this.contentEl.createDiv({
+      cls: 'sheet-container',
+    })
+
+    // 添加加载遮罩
+    this.loadingEle = sheetContainer.createDiv({
+      cls: 'sheet-loading-overlay',
+    })
+
+    const textEl = this.loadingEle.createEl('p', {
+      cls: 'loading-text',
+      text: t('LOADING'),
+    })
+
+    textEl.createSpan({ text: '.' })
+    textEl.createSpan({ text: '.' })
+    textEl.createSpan({ text: '.' })
+    textEl.createSpan({ text: '.' })
+
+    this.sheetEle = sheetContainer.createDiv({
       attr: {
         id: 'sheet-box',
       },
@@ -131,14 +148,21 @@ export class ExcelProView extends TextFileView {
       )
     }
 
-    this.univerAPI.onCommandExecuted((command) => {
-      if (command.type !== CommandType.MUTATION) {
+    this.univerAPI.addEvent(this.univerAPI.Event.LifeCycleChanged, (res) => {
+      if (res.stage === LifecycleStages.Rendered) {
+        this.loadingEle.remove()
+      }
+    })
+
+    this.univerAPI.addEvent(this.univerAPI.Event.CommandExecuted, (res) => {
+      if (res.type !== CommandType.MUTATION) {
         return
       }
 
       const activeWorkbook = this.univerAPI.getActiveWorkbook()
-      if (!activeWorkbook)
-        throw new Error('activeWorkbook is not defined')
+      if (!activeWorkbook) {
+        return
+      }
 
       const activeWorkbookData = JSON.stringify(activeWorkbook.save())
 

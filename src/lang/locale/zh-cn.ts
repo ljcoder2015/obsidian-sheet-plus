@@ -70,4 +70,6 @@ export default {
   COMMAND_LINK_CHARTS_AREA: '生成 面积图 嵌入链接',
   COMMAND_LINK_CHARTS_PIE: '生成 饼图 嵌入链接',
   COMMAND_LINK_CHARTS_RING_PIE: '生成 圆环图 嵌入链接',
+
+  LOADING: '加载中',
 }
