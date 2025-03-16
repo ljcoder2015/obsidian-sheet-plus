@@ -169,7 +169,7 @@
 .univer-slide-tab-active {
 	color: rgb(var(--primary-color));
 }
-
+button.clickable-icon
 button.univer-button-text,
 button.univer-toolbar-btn,
 button.univer-dialog-close,
@@ -202,9 +202,15 @@ button.univer-toolbar-btn-active {
 }
 
 .my-univer input[type="search"],
+.my-univer input[type="search"]:active,
+.my-univer input[type="search"]:focus,
+.my-univer input[type="search"]:focus-visible,
 .my-univer input[type="text"] {
 	height: auto;
 	box-shadow: none;
+}
+.univer-cell-link-edit input[type="search"]:focus-visible {
+  box-shadow: none;
 }
 
 .my-univer input[type=checkbox] {
@@ -233,6 +239,11 @@ button.univer-toolbar-btn-active {
 .my-univer input[type="text"]:active,
 .my-univer [type="text"]:focus-visible {
 	box-shadow: none;
+}
+
+.univer-grid button:not(.clickable-icon),
+.my-univer button:not(.clickable-icon) {
+  box-shadow: none;
 }
 
 button.univer-button-link {

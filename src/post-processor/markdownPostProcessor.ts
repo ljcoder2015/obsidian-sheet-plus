@@ -1,7 +1,7 @@
 import type { MarkdownPostProcessorContext, MetadataCache, Vault } from 'obsidian'
 import { TFile } from 'obsidian'
 
-import { createEchartsEl } from '@ljcoder/embed-link'
+import { createEchartsEl } from '@ljcoder/obsidian-embed-link'
 import type ExcelProPlugin from '../main'
 
 import { getExcelData, getRangeData } from '../utils/data'

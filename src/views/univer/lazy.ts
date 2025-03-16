@@ -15,22 +15,10 @@
  */
 
 import type { Plugin, PluginCtor } from '@univerjs/core'
-import { UniverChartPlugin } from '@ljcoder/charts'
-import { UniverSheetsEmbedLinkUIPlugin } from '@ljcoder/embed-link-ui'
-import { UniverSheetsImportExportPlugin } from '@ljcoder/import-export'
-import { UniverSheetsConditionalFormattingUIPlugin } from '@univerjs/sheets-conditional-formatting-ui'
-import { UniverSheetsDataValidationUIPlugin } from '@univerjs/sheets-data-validation-ui'
-import { UniverSheetsDrawingUIPlugin } from '@univerjs/sheets-drawing-ui'
-import { UniverSheetsFilterUIPlugin } from '@univerjs/sheets-filter-ui'
+import { UniverSheetsOutgoingLinkUIPlugin } from '@ljcoder/sheets-outgoing-link-ui'
 
 export default function getLazyPlugins(): Array<[PluginCtor<Plugin>] | [PluginCtor<Plugin>, unknown]> {
   return [
-    [UniverSheetsDataValidationUIPlugin],
-    [UniverSheetsConditionalFormattingUIPlugin],
-    [UniverSheetsFilterUIPlugin],
-    [UniverSheetsDrawingUIPlugin],
-    [UniverSheetsImportExportPlugin],
-    [UniverChartPlugin],
-    [UniverSheetsEmbedLinkUIPlugin],
+    [UniverSheetsOutgoingLinkUIPlugin],
   ]
 }

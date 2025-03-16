@@ -71,6 +71,7 @@ import { UniverSheetsSortUIPlugin } from '@univerjs/sheets-sort-ui'
 import { UniverSheetsCrosshairHighlightPlugin } from '@univerjs/sheets-crosshair-highlight'
 import { UniverChartPlugin } from '@ljcoder/charts'
 import { UniverSheetsImportExportPlugin } from '@ljcoder/import-export'
+import { UniverSheetsOutgoingLinkUIPlugin } from '@ljcoder/sheets-outgoing-link-ui'
 import { enUS, faIR, frFR, getLanguage, ruRU, viVN, zhCN, zhTW } from '../../lang/locale'
 import { LJAuthzService } from './mockUserService'
 import { mockUser } from './customMentionDataService'
@@ -84,7 +85,7 @@ export function createUniver(
   const univer = new Univer({
     theme: defaultTheme,
     locale: getLanguage(),
-    logLevel: LogLevel.ERROR,
+    logLevel: LogLevel.VERBOSE,
     locales: {
       [LocaleType.ZH_CN]: zhCN,
       [LocaleType.EN_US]: enUS,
@@ -207,26 +208,30 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, id: stri
 
   // 导入导出
   univer.registerPlugin(UniverSheetsImportExportPlugin)
+
+  // 外链
+  // univer.registerPlugin(UniverSheetsOutgoingLinkPlugin)
+  univer.registerPlugin(UniverSheetsOutgoingLinkUIPlugin)
 }
 
-// function registerLazyDesktopPlugin(univer: Univer) {
-//   const LOAD_LAZY_PLUGINS_TIMEOUT = 100
-//   const LOAD_VERY_LAZY_PLUGINS_TIMEOUT = 1_000
+function registerLazyDesktopPlugin(univer: Univer) {
+  // const LOAD_LAZY_PLUGINS_TIMEOUT = 100
+  // const LOAD_VERY_LAZY_PLUGINS_TIMEOUT = 1_000
 
-//   setTimeout(() => {
-//     import('./lazy').then((lazy) => {
-//       const plugins = lazy.default()
-//       plugins.forEach(p => univer.registerPlugin(p[0], p[1]))
-//     })
-//   }, LOAD_LAZY_PLUGINS_TIMEOUT)
+  // setTimeout(() => {
+  //   import('./lazy').then((lazy) => {
+  //     const plugins = lazy.default()
+  //     plugins.forEach(p => univer.registerPlugin(p[0], p[1]))
+  //   })
+  // }, LOAD_LAZY_PLUGINS_TIMEOUT)
 
-//   setTimeout(() => {
-//     import('./very-lazy').then((lazy) => {
-//       const plugins = lazy.default()
-//       plugins.forEach(p => univer.registerPlugin(p[0], p[1]))
-//     })
-//   }, LOAD_VERY_LAZY_PLUGINS_TIMEOUT)
-// }
+  // setTimeout(() => {
+  //   import('./very-lazy').then((lazy) => {
+  //     const plugins = lazy.default()
+  //     plugins.forEach(p => univer.registerPlugin(p[0], p[1]))
+  //   })
+  // }, LOAD_VERY_LAZY_PLUGINS_TIMEOUT)
+}
 
 function registerMobilePlugin(univer: Univer, option: IUniverUIConfig, id: string) {
   // core plugins

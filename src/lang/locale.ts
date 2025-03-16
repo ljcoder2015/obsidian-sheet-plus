@@ -1,6 +1,14 @@
 import { moment } from 'obsidian'
 import { LocaleType, Tools } from '@univerjs/core'
 
+import outgoingLinkenUS from '@ljcoder/sheets-outgoing-link-ui/lib/es/locale/en-US'
+import outgoingLinkfaIR from '@ljcoder/sheets-outgoing-link-ui/lib/es/locale/fa-IR'
+import outgoingLinkfrFR from '@ljcoder/sheets-outgoing-link-ui/lib/es/locale/fr-FR'
+import outgoingLinkruRU from '@ljcoder/sheets-outgoing-link-ui/lib/es/locale/ru-RU'
+import outgoingLinkviVN from '@ljcoder/sheets-outgoing-link-ui/lib/es/locale/vi-VN'
+import outgoingLinkzhCN from '@ljcoder/sheets-outgoing-link-ui/lib/es/locale/zh-CN'
+import outgoingLinkzhTW from '@ljcoder/sheets-outgoing-link-ui/lib/es/locale/zh-TW'
+
 import embedLinkenUS from '@ljcoder/embed-link-ui/lib/es/locale/en-US'
 import embedLinkfaIR from '@ljcoder/embed-link-ui/lib/es/locale/fa-IR'
 import embedLinkfrFR from '@ljcoder/embed-link-ui/lib/es/locale/fr-FR'
@@ -209,6 +217,7 @@ export const enUS = Tools.deepMerge(
   uienUS,
   embedLinkenUS,
   importExportenUS,
+  outgoingLinkenUS,
 )
 export const frFR = Tools.deepMerge(
   {},
@@ -236,6 +245,7 @@ export const frFR = Tools.deepMerge(
   uifrFR,
   embedLinkfrFR,
   importExportfrFR,
+  outgoingLinkfrFR,
 )
 export const ruRU = Tools.deepMerge(
   {},
@@ -263,6 +273,7 @@ export const ruRU = Tools.deepMerge(
   uiruRU,
   embedLinkruRU,
   importExportruRU,
+  outgoingLinkruRU,
 )
 export const zhCN = Tools.deepMerge(
   {},
@@ -290,6 +301,7 @@ export const zhCN = Tools.deepMerge(
   uizhCN,
   embedLinkzhCN,
   importExportzhCN,
+  outgoingLinkzhCN,
 )
 export const zhTW = Tools.deepMerge(
   {},
@@ -317,6 +329,7 @@ export const zhTW = Tools.deepMerge(
   uizhTW,
   embedLinkzhTW,
   importExportzhTW,
+  outgoingLinkzhTW,
 )
 export const viVN = Tools.deepMerge(
   {},
@@ -344,6 +357,7 @@ export const viVN = Tools.deepMerge(
   uiviVN,
   embedLinkviVN,
   importExportviVN,
+  outgoingLinkviVN,
 )
 export const faIR = Tools.deepMerge(
   {},
@@ -371,4 +385,5 @@ export const faIR = Tools.deepMerge(
   uifaIR,
   embedLinkfaIR,
   importExportfaIR,
+  outgoingLinkfaIR,
 )

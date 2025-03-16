@@ -4,6 +4,9 @@ import type { IWorkbookData, Univer, Workbook } from '@univerjs/core'
 import { CommandType, LifecycleStages, UniverInstanceType } from '@univerjs/core'
 import { FUniver } from '@univerjs/core/facade'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
+import { SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
+import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
+import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
 import type ExcelProPlugin from '../main'
 import { renderToHtml } from '../post-processor/html'
 
@@ -155,6 +158,26 @@ export class ExcelProView extends TextFileView {
     })
 
     this.univerAPI.addEvent(this.univerAPI.Event.CommandExecuted, (res) => {
+      if (res.id === SearchOutgoingLinkCommand.id) {
+        const links = this.app.vault.getFiles().map((file) => {
+          return {
+            basename: file.basename,
+            extension: file.extension,
+            name: file.name,
+            path: file.path,
+            type: SheetOutgoingLinkType.FILE,
+          }
+        })
+        this.univerAPI?.executeCommand(SearchResultOutgoingLinkCommand.id, { links })
+      }
+
+      if (res.id === NavigationOutgoingLinkOperation.id) {
+        const params = res.params as INavigationOutgoingLinkOperationParams
+        if (params.url.startsWith('[[')) {
+          this.app.workspace.openLinkText(params.url.slice(2, -2), '', 'split')
+        }
+      }
+
       if (res.type !== CommandType.MUTATION) {
         return
       }
