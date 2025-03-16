@@ -27,6 +27,7 @@ Unlock more advanced features after purchasing an authorization code
 |Image|✔︎|✔︎|
 |Comment|✔︎|✔︎|
 |Chart|✔︎|✔︎|
+|Outgoing Link|✔︎|✔︎|
 
 ## User Guide
 For a detailed tutorial on using the plugin, please refer to the user guide.
@@ -40,6 +41,9 @@ For a detailed tutorial on using the plugin, please refer to the user guide.
 ![Import](/images/import.gif)
 ### Export (Paid)
 ![Import](/images/export.gif)
+
+### Outgoing Link
+![Outgoing-link](/images//outgoing-link.gif)
 
 ### Editing
 ![create](/images/create.gif)
