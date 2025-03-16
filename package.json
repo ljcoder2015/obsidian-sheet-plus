@@ -1,7 +1,7 @@
 {
   "name": "sheet-plus",
   "type": "module",
-  "version": "1.10.4",
+  "version": "1.11.0",
   "description": "Create Excel-like spreadsheets and easily embed them in Markdown.",
   "author": "ljcoder",
   "license": "Apache-2.0",
@@ -23,7 +23,7 @@
     "@ljcoder/authorization": "git+ssh://git@github.com:ljcoder2015/authorization.git#v1.4.0",
     "@ljcoder/charts": "git+ssh://git@github.com:ljcoder2015/univer-charts.git#v0.2.0",
     "@ljcoder/embed-link-ui": "git+ssh://git@github.com:ljcoder2015/univer-embed-link-ui.git#v0.2.1",
-    "@ljcoder/import-export": "git+ssh://git@github.com:ljcoder2015/univer-import-export.git#v0.8.1",
+    "@ljcoder/import-export": "git+ssh://git@github.com:ljcoder2015/univer-import-export.git#v0.8.2",
     "@ljcoder/obsidian-embed-link": "git+ssh://git@github.com:ljcoder2015/obsidian-embed-link.git#v1.5.2",
     "@ljcoder/sheets-outgoing-link": "git+ssh://git@github.com:ljcoder2015/univer-outgoing-link.git#v1.1.0",
     "@ljcoder/sheets-outgoing-link-ui": "git+ssh://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#v1.1.3",

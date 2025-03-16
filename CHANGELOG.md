@@ -1,5 +1,12 @@
 
 
+# [1.11.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.10.4...1.11.0) (2025-03-16)
+
+
+### Features
+
+* outgoing link ([b683761](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/b683761c4ab61f205a2c0f2d931ebd5ecb452a58))
+
 ## [1.10.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.10.3...1.10.4) (2025-02-27)
 
 
