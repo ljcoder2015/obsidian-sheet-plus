@@ -1,5 +1,17 @@
 
 
+## [1.11.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.0...1.11.1) (2025-03-25)
+
+
+### Bug Fixes
+
+* fix import rich text bug ([77fbb7e](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/77fbb7e1eef7a85884cd0f5fa246a13b597c8349))
+
+
+### Features
+
+* update readme ([9415d7f](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/9415d7fd11054ba8861f12225cd8878153b296a6))
+
 # [1.11.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.10.4...1.11.0) (2025-03-16)
 
 
