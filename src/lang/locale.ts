@@ -186,6 +186,14 @@ export function getLanguage() {
       return LocaleType.ZH_CN
     case 'ru':
       return LocaleType.RU_RU
+    case 'fr':
+      return LocaleType.FR_FR
+    case 'zh-tw':
+      return LocaleType.ZH_TW
+    case 'vi':
+      return LocaleType.VI_VN
+    case 'fa':
+      return LocaleType.FA_IR
     default:
       return LocaleType.EN_US
   }
