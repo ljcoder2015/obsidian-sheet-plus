@@ -1,5 +1,7 @@
 
 
+## [1.11.2](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.1...1.11.2) (2025-03-26)
+
 ## [1.11.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.0...1.11.1) (2025-03-25)
 
 
