@@ -11,6 +11,10 @@
     "excel",
     "spreadsheet"
   ],
+  "engines": {
+    "node": ">=20 || <=22",
+    "pnpm": ">=10"
+  },
   "scripts": {
     "prepare": "simple-git-hooks",
     "dev": "vite build --watch",
@@ -88,6 +92,11 @@
     "simple-git-hooks": "^2.11.1",
     "typescript": "^5.7.2",
     "vite": "^5.4.11"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
