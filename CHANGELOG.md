@@ -1,5 +1,13 @@
 
 
+## [1.11.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.2...1.11.3) (2025-03-28)
+
+
+### Bug Fixes
+
+* **charts:** Fixing chart display bug ([e81a8b7](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/e81a8b71115a77915ef94f5a95e8ebcb8152214b))
+* **chart:** update version 0.2.3 ([464be7c](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/464be7cf819979a3ede8b410f369f2d0ed314586))
+
 ## [1.11.2](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.1...1.11.2) (2025-03-26)
 
 ## [1.11.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.0...1.11.1) (2025-03-25)
