@@ -1,5 +1,12 @@
 
 
+## [1.11.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.3...1.11.4) (2025-03-28)
+
+
+### Bug Fixes
+
+* **charts:** embed link bug ([c73429f](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/c73429fa09665e52514b4ca12ce613956b1f02ce))
+
 ## [1.11.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.2...1.11.3) (2025-03-28)
 
 
