@@ -57,8 +57,15 @@ export class ExcelProView extends TextFileView {
   }
 
   onUnloadFile(file: TFile): Promise<void> {
-    // console.log('onUnloadFile', file.name)
-    // 释放 univer 相关对象
+    // 释放图表
+    const charts = document.getElementsByClassName('univer-dialog-plus-content')
+    const elementsArray = Array.from(charts) // 转为静态数组
+
+    // 遍历数组移除所有元素
+    elementsArray.forEach((element) => {
+      element.remove()
+    })
+
     this.dispose()
     return super.onUnloadFile(file)
   }
