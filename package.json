@@ -13,7 +13,7 @@
   ],
   "engines": {
     "node": ">=20 || <=22",
-    "pnpm": ">=10"
+    "pnpm": ">=8"
   },
   "scripts": {
     "prepare": "simple-git-hooks",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@ljcoder/authorization": "git+ssh://git@github.com:ljcoder2015/authorization.git#v1.4.0",
-    "@ljcoder/charts": "git+ssh://git@github.com:ljcoder2015/univer-charts.git#v0.2.7",
+    "@ljcoder/charts": "git+ssh://git@github.com:ljcoder2015/univer-charts.git#v0.2.10",
     "@ljcoder/embed-link-ui": "git+ssh://git@github.com:ljcoder2015/univer-embed-link-ui.git#v0.2.2",
     "@ljcoder/import-export": "git+ssh://git@github.com:ljcoder2015/univer-import-export.git#v0.8.6",
     "@ljcoder/obsidian-embed-link": "git+ssh://git@github.com:ljcoder2015/obsidian-embed-link.git#v1.5.2",

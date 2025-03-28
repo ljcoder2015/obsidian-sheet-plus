@@ -161,6 +161,7 @@ export class ExcelProView extends TextFileView {
     this.univerAPI.addEvent(this.univerAPI.Event.LifeCycleChanged, (res) => {
       if (res.stage === LifecycleStages.Rendered) {
         this.loadingEle.remove()
+        this.univerAPI.executeCommand('sheet.command.display-chart')
       }
     })
 
