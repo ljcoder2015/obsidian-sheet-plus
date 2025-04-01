@@ -30,119 +30,119 @@ importers:
         specifier: git+ssh://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#v1.1.4
         version: git+https://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#d0db6e707fbba8956d4057a314c1e07ad4f92661(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/core':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/data-validation':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/design':
-        specifier: 0.6.6
-        version: 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.6.7
+        version: 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@univerjs/docs':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/docs-drawing':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/docs-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/drawing':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/drawing-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/engine-formula':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/engine-render':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/find-replace':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/protocol':
         specifier: ^0.1.43
         version: 0.1.44(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
       '@univerjs/sheets':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/sheets-conditional-formatting':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/sheets-conditional-formatting-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/sheets-crosshair-highlight':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/sheets-data-validation':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/sheets-data-validation-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/sheets-drawing':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/sheets-drawing-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/sheets-filter':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/sheets-filter-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/sheets-find-replace':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/sheets-formula':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/sheets-formula-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/sheets-hyper-link':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/sheets-hyper-link-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/sheets-numfmt':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/sheets-numfmt-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/sheets-sort':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/sheets-sort-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/sheets-thread-comment':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/sheets-thread-comment-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/sheets-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/sheets-zen-editor':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/thread-comment':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/thread-comment-ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/ui':
-        specifier: 0.6.6
-        version: 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: 0.6.7
+        version: 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       defu:
         specifier: ^6.1.4
         version: 6.1.4
@@ -1299,63 +1299,63 @@ packages:
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
 
-  '@univerjs/core@0.6.6':
-    resolution: {integrity: sha512-grAdLKDjbFANq7Uhej62FEaQa4siv8rr19d3vEgb8MM4k4Y9Wlhs0mtZxlB+9+IzOOR2KQ+O32SeYIxVhc1mOQ==}
+  '@univerjs/core@0.6.7':
+    resolution: {integrity: sha512-mq0epTe2n6DEZ39PaeKcv0sg2jAmlEwgyjlyudxfo+YyaKh5qAN/PXhf5NzTpY3FXFh6p0XyQKtJA6kA1Y9XUw==}
     peerDependencies:
       '@wendellhu/redi': 0.17.1
       rxjs: '>=7.0.0'
 
-  '@univerjs/data-validation@0.6.6':
-    resolution: {integrity: sha512-zj8rU318w95Q4Rl5S63lhJ4GnQPV/BBLzfwaJd/ToGMd4l8G2/vjoEcEM3tPmjqXj9SgYiVjFi36BNba6H70gA==}
+  '@univerjs/data-validation@0.6.7':
+    resolution: {integrity: sha512-JPc6xkMlr6Tyl6qBP2nawSgkvzp0Vxalg5O1WKO3TJvnsd38Gmg1uAZDHqrvFsdr1bAMNSczCQutzjlwkHsD0A==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/design@0.6.6':
-    resolution: {integrity: sha512-tLzPsDjh1gHCxye4Zt9N9B7IYXmxiB8owe+SyeXJ8vipnHewm7Ogx2uShjC7m2f8d44uyU+HMVuLvn65HIwEkA==}
+  '@univerjs/design@0.6.7':
+    resolution: {integrity: sha512-0a9NeioA2SM9giQVgaTRl1bIdZ49dZgyR/1i/mtZeSn/6BZtt5RSFYboGKLDNW0tc4zXMDkwSe3HiRWHoZfA9Q==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
 
-  '@univerjs/docs-drawing@0.6.6':
-    resolution: {integrity: sha512-LmlPRSgDPpQ1Bf6zYyulX9o/Taw3OiSJSaq1Z1BkZWM0FKSHO9gme2XXC2ZIfbv0d7oYLTXrVXaSEZcuDI7LWA==}
+  '@univerjs/docs-drawing@0.6.7':
+    resolution: {integrity: sha512-JDzcAqqrwfzUkM5w/fL8TnGi+Tz6bq2b+altR96md/dxOLeWfdD62cyKRRWTMIVP5tjI3NOBJjWMP/TKyZ5DOg==}
 
-  '@univerjs/docs-ui@0.6.6':
-    resolution: {integrity: sha512-w6bxsa61UW/IZdDLXbnRckcGjyyk18C96SyuFVwgPICL+pYoyW5UVdrHOuMdgajEdb2ogU8ztwdh3P5l5KvtVQ==}
+  '@univerjs/docs-ui@0.6.7':
+    resolution: {integrity: sha512-eL2lRhsHkL5EO6C4V9NDwfhpcBfCFjE6nBr8IRTy7iB2UOo363dv9S6MEwIrxRWiMbEoLczZoXvj3T/ldPF5Pg==}
     peerDependencies:
       react: '>=16.9.0'
       rxjs: '>=7.0.0'
 
-  '@univerjs/docs@0.6.6':
-    resolution: {integrity: sha512-HHaIaJozABh9dpp7MesrzQz54gf/WcOu8+LL4s+Vz1728HPSCD3g+jnC29fQcm5fKjdQ0yE4CkcjD8318snrGA==}
+  '@univerjs/docs@0.6.7':
+    resolution: {integrity: sha512-KVIW9KmrOEfTxGDSly/ArfZqeZLGwSKzgMDo0IdLFVo0bfe3N6RB1ce9J7inX6wtDPyNiJ8x9MR8xW9A18OnZQ==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/drawing-ui@0.6.6':
-    resolution: {integrity: sha512-V+uFw1vNogvWf+td68/bsw+ColwWTG2Mzj+15+NEbfIcBOA4HmDzL5fpKjJqKi9V/34WHC9CD+vEgFiRgpknmg==}
+  '@univerjs/drawing-ui@0.6.7':
+    resolution: {integrity: sha512-L9WxzC6uwaNRSfjYTzE15SLYwlnX0ZvxEFilJg5/60kXBOFiRpO7r+5DriT7eKeU1Gx72NWE1DUeGQvwORRVVA==}
     peerDependencies:
       react: '>=16.9.0'
       rxjs: '>=7.0.0'
 
-  '@univerjs/drawing@0.6.6':
-    resolution: {integrity: sha512-yRJRsrUs0mGkP0lCg47cutIu+w7o21DxRikF6dpXa43/huerN+GkChQ+bSnOk3nP56ORKqMcvo/MjRUFH5Fi+w==}
+  '@univerjs/drawing@0.6.7':
+    resolution: {integrity: sha512-ub/4W+o1cFKINvorspiyafKbA2af/UYz/H1XHt/hh42WCoF6mdJ7d/tx8Cj03mpfhfsxWah92EvCccUw8N4ksQ==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/engine-formula@0.6.6':
-    resolution: {integrity: sha512-N3LhN46BmoKMmbBy80a7t6JJJlDhwUBu9KHiQH5ReYXNm4hE3ynP8dbEuP6pyaY/i/ZHDHu6i+spHQYdlIP0JQ==}
+  '@univerjs/engine-formula@0.6.7':
+    resolution: {integrity: sha512-LnyDhMpeXDfaqK620Bw8lE1DhqU6Ta0471d/P27aNE/93DvCNcyOdVq9xLkKM5+0gWITK5DBXJ441JL51aNp1g==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/engine-numfmt@0.6.6':
-    resolution: {integrity: sha512-SwlWtJkKaBgmbuhvy4mRN4EzwDJ0yrejVHkWS+dW1WwPEpCIo0pUUL4nJSTEMl4CJ9YxKUG6IYpptBzWmn5bIg==}
+  '@univerjs/engine-numfmt@0.6.7':
+    resolution: {integrity: sha512-+lk8UjIeBLdg8DA5NWbxRUdD3/My+1YBEPnbkNYy8r27QKOJgnBHxvEyhUpTH0ohoIE90EvA+MCI0i4RxX4ubA==}
 
-  '@univerjs/engine-render@0.6.6':
-    resolution: {integrity: sha512-ZvYih+xMwPT4/EveNvbpHYNHz5SUHnjJz8PjIGjEJRLrmSVNHobQU0JCuR2MGd19CNVuvDAEpI0KLtRNuDaAOA==}
+  '@univerjs/engine-render@0.6.7':
+    resolution: {integrity: sha512-wuEcjn9fWvqYwzz2jaLqq3a6e1PjllCCB7C+57RFEYQAh+BiNzbGBoMOq58WFAJG6BEmL2TBK2efC2UbaftLSw==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/find-replace@0.6.6':
-    resolution: {integrity: sha512-curmK95YhJWJooyCBWnVCcdjhJXEPfBgiYnzd4iqRwZ9LHObRZ8qoejtb7VaqSoH6e4PH4DTB155RNsaKebLTA==}
+  '@univerjs/find-replace@0.6.7':
+    resolution: {integrity: sha512-ollnQF0LVC+zaUZGyq6WpGdZzIJBQFE0HMzlSJYRl5XiqA90xu+/Y7NDoO6VaSDMbhmLxaJaoYPSJBuppjxg/w==}
     peerDependencies:
       react: '>=16.9.0'
       rxjs: '>=7.0.0'
@@ -1368,6 +1368,12 @@ packages:
 
   '@univerjs/icons@0.2.22':
     resolution: {integrity: sha512-PgngxaQjcHaFHkQKJNfu53+1Lz77V4f/Rar5orVkEuATqoKuo0uW7zArfV044oK7UINfnhnGTEE22gXTmEOy9w==}
+    peerDependencies:
+      react: '*'
+      react-dom: '*'
+
+  '@univerjs/icons@0.2.32':
+    resolution: {integrity: sha512-Vorm9CfnnwqengJneIPv8EDwXs+WxwQai61ys9JxXIGIP02dvdiDfQ/su3isYm7KveNi0SY0bUH35TPlszRBWA==}
     peerDependencies:
       react: '*'
       react-dom: '*'
@@ -1386,151 +1392,158 @@ packages:
       '@grpc/grpc-js': '>=1'
       rxjs: '>=7.8'
 
-  '@univerjs/rpc@0.6.6':
-    resolution: {integrity: sha512-1RshtJEOLinvOdI/NhqDW/OFoVPAtavlBQQmsfWNSFT4VCjCTYq+Iud4oie7OrUqbi6Qt7mq99HrGES9z3w7Jw==}
+  '@univerjs/protocol@0.1.45':
+    resolution: {integrity: sha512-pdQR6Im6gbmge7UgbyQCSMuX3mn3fCNafk4MmCkn5NbEluOURVxhshn6jfEHLraUyw+vz/ghwBiouVHR+n1C2g==}
+    engines: {node: '>=18.0.0', pnpm: '>=10.0.0'}
+    peerDependencies:
+      '@grpc/grpc-js': '>=1'
+      rxjs: '>=7.8'
+
+  '@univerjs/rpc@0.6.7':
+    resolution: {integrity: sha512-XWojgHUZkdiZePKRCeEeu7JwACOTBpcZTE1s2C3z5P5bBah7943T9d4EzwDG2GqAJiFX8cYHvi7TEy7J39Qw2w==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-conditional-formatting-ui@0.6.6':
-    resolution: {integrity: sha512-LzhbfyYcDXOWofs7/0UQ9IpuPcaA+nTYWtXWPCxF522SlSRQPnRH6YASe0t9rJnwy5W+z6frBGnfG5BNT09sxw==}
+  '@univerjs/sheets-conditional-formatting-ui@0.6.7':
+    resolution: {integrity: sha512-cXTOLK7AaC8GhE3+ILJ/8fSBDTt9tKcraWPJIS+AQ1X7B81OXyhFpTgpilF8EozSLNe58cRbggXJcBHVrdgiqg==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-conditional-formatting@0.6.6':
-    resolution: {integrity: sha512-J8a2ssZ+2EZrKU/PGrn1B6sEVWJjnvmAGnM+ZxheQHK/BHMyGnyHOwTHe0FW0LQeUM3gqpitpTfHkYhYweoZXQ==}
+  '@univerjs/sheets-conditional-formatting@0.6.7':
+    resolution: {integrity: sha512-742qH/y9OvAIkhnr7uSUkkCu4cAH0hLtkyMS56/RxaUtDrJJ8FHv0pL0nK/VY4aPSdWFWH3BhC+H/hGOd8Nq6A==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-crosshair-highlight@0.6.6':
-    resolution: {integrity: sha512-TAYgPyJOOez/uNTHXjP51o5ELk906e3Z5kDafC7hQX2ldWuVPRnMNG2Et/mtjgU8IQZ2RxL5UmsWeO1OYi6ElA==}
-    peerDependencies:
-      react: '>=16.9.0'
-      rxjs: '>=7.0.0'
-
-  '@univerjs/sheets-data-validation-ui@0.6.6':
-    resolution: {integrity: sha512-JbY+vW3abpHMW1TBYTi3QkcN1koXXHRAfgomM2+wWkE460jGnSWavqzQSApaDcREsabT814haTZ7pEs2yCIobQ==}
+  '@univerjs/sheets-crosshair-highlight@0.6.7':
+    resolution: {integrity: sha512-GaQYE24s2uq3rbl/iwVcKWqap2rPhkrBV5WJgD/gvF9CPr+3NlYpVHeyDIgKqP+HLb31Bh7am1lEEfaR9OrYCA==}
     peerDependencies:
       react: '>=16.9.0'
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-data-validation@0.6.6':
-    resolution: {integrity: sha512-+s1tVlPdF3auWeyCm+eeUxKwqWE3rEhXUj+CYPeTlbQM6mOPZVkDfCYozmFBdMqL4M2vtL09Z8cLTGqTzJ/oCg==}
-    peerDependencies:
-      rxjs: '>=7.0.0'
-
-  '@univerjs/sheets-drawing-ui@0.6.6':
-    resolution: {integrity: sha512-ACZ7yK3YIFE/0QKwdRUkc5xILxfkRBlBhEkHUGfmkRyCr6wDUfBi8iuXq4YZHhHlyAKp5KEv/HAULd/FarShwQ==}
+  '@univerjs/sheets-data-validation-ui@0.6.7':
+    resolution: {integrity: sha512-6NHldkAf3qbUW6yoEMy0epHzMZpKKCpVYeCb1FH5/s+4UwS65wCrmKsMklX36JI/HkjNYwz968mmkNT74HTRww==}
     peerDependencies:
       react: '>=16.9.0'
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-drawing@0.6.6':
-    resolution: {integrity: sha512-kq+4h0g09XddDBvtuVdMMZ8OgHwqBTraHO4e75rIBAQYBQn6q1dX/H00RCy/ckHQISwrMgmcV7DAZuYRS2pLTw==}
+  '@univerjs/sheets-data-validation@0.6.7':
+    resolution: {integrity: sha512-BAFsDt5U+zBqCEKTnbSU0xLEvy9+qJzBCD3AEkS59f7wd4UpklIOsGMnSHS6AgGEgRxxIbBD2GRioCLFI6FH4A==}
+    peerDependencies:
+      rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-filter-ui@0.6.6':
-    resolution: {integrity: sha512-btHUOkTLsvn2fjVQkiuSapeDEIu8XeGH6/uzXAxHjO5bp2BjqAnQ2tWSgV32QizMOtzAmKt8afvML/49mDgmOA==}
+  '@univerjs/sheets-drawing-ui@0.6.7':
+    resolution: {integrity: sha512-XOmm67LFIthTyjilEKsVLZvYzduzl/+4d7We0Ip6r31S0YFOXQYRdYXUiC+l5Jwe6YCzLJ5f3LFBCuY6Ayy5EQ==}
     peerDependencies:
       react: '>=16.9.0'
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-filter@0.6.6':
-    resolution: {integrity: sha512-/ut14W5Ec1YXQqEKjTQH24iPehJ0JX3CH63EjqUGzTyeBaj5+Pnsk1CP5wSKEfWZSVLOrZSqkyPrZoU8wLv1vg==}
-    peerDependencies:
-      rxjs: '>=7.0.0'
+  '@univerjs/sheets-drawing@0.6.7':
+    resolution: {integrity: sha512-X+dGs1t+Y1IVWqBxevrYA3Yyw6E6f0xy3eio19u0F2JsZxeqjxOueE/4YcnXNNGSGG2t3TJMcLnecbvshiWxzg==}
 
-  '@univerjs/sheets-find-replace@0.6.6':
-    resolution: {integrity: sha512-7CY1Oy/mhCXsP4enBujzSEpPwmn4sDks/CzEo6Reye6iPsXYukK9UbbkQOilHKh7JMdEf1oLlduVOe7/cmpYXg==}
-    peerDependencies:
-      rxjs: '>=7.0.0'
-
-  '@univerjs/sheets-formula-ui@0.6.6':
-    resolution: {integrity: sha512-dSubUGHVPEg1q39G/qwjIa910ei55vFdSj+V6cj6nVxj3w3yzkLpFzQwmTf/sQOq/YhZwSea1Wrh/1CiiYfXzw==}
+  '@univerjs/sheets-filter-ui@0.6.7':
+    resolution: {integrity: sha512-Ia05+4aMWbVUXq46Nex3rr4lHLHagizOyE0L5x/K+FN+l+is4e4HgVRltBrHlFHYOYuOG3KgWYizBFMDZHEygg==}
     peerDependencies:
       react: '>=16.9.0'
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-formula@0.6.6':
-    resolution: {integrity: sha512-sLQJZuDAZ/Lz0d8J/Ie8VyJpS/W7jyI3fAFCeP9wY+rPCriv/5rErksovdvHhDor9/POPUDMMfU5kBmFySl4xA==}
+  '@univerjs/sheets-filter@0.6.7':
+    resolution: {integrity: sha512-W2OvGthWeIcB5ncuQ3bB1XACUcfqpCh5+B7ZXINZRAWbTKJqVMcDSi1cmYbh1eK+PeBt057zXfIKI5RjgD850w==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-hyper-link-ui@0.6.6':
-    resolution: {integrity: sha512-goShPuHB59jz/GLJ53kVJyJ85QpBkCX4YiDZ2UQWaoBicCv9uEWoiiPf8qgs08Wwm2CmYHAf371A54B3Gn4xzw==}
-    peerDependencies:
-      react: '>=16.9.0'
-      rxjs: '>=7.0.0'
-
-  '@univerjs/sheets-hyper-link@0.6.6':
-    resolution: {integrity: sha512-hrR3yunhv+ii+/IewEiokaI0xmA2yKvU/nf/aLn2ved9O3W4/Gjp5b/5h3H/ZBuCAl5J7e42VIUG2GJP3UpHDg==}
+  '@univerjs/sheets-find-replace@0.6.7':
+    resolution: {integrity: sha512-yjZsyUM1RoP5v1eg73zj+NU4xacbiANiStVdc9vFKgjZE67qKn/RluNy97rWjzkVnoEeydciU3phjuJBPhwQBw==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-numfmt-ui@0.6.6':
-    resolution: {integrity: sha512-4ZpeiyVgYAxow+mpWK+HK5WfShsK340MEG4uhyXHMChzyEP40HvGdAay3VkIyc1sH8s8Hup0715fdboOx6lDvA==}
+  '@univerjs/sheets-formula-ui@0.6.7':
+    resolution: {integrity: sha512-xol8ykmLezOfaYsBSoMd8NgFQqNTc0uViEUlhPbYe8E7d0lwJv72GZ5V31OV9nZwWa+zw98UwbkOjnBU1Jh3tg==}
     peerDependencies:
       react: '>=16.9.0'
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-numfmt@0.6.6':
-    resolution: {integrity: sha512-WltNyoXBKNKVVK5D/KFS18E87t5hW5zoJTWOSVF0gEsDmAUSbARMsDCXAroNKv2dd8Ad8BHq4nBBcK3ltDuVbA==}
+  '@univerjs/sheets-formula@0.6.7':
+    resolution: {integrity: sha512-BpTD7nzH8X3TnT64yZ3DzfEq/8jl16sXoWfxEH4BguwxO5ws+3SYO+okDCgxht6ZXbc2JvCbfedOgRgNf7FP1A==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-sort-ui@0.6.6':
-    resolution: {integrity: sha512-WxlX/hYGqdMuS/vg1H9jN5sMWMH9EkuCNjinp7OpPflmzAZeQaPbGgCIjy4gzFD4XFOYJuaUgFKYeGfos44RDw==}
-    peerDependencies:
-      react: '>=16.9.0'
-      rxjs: '>=7.0.0'
-
-  '@univerjs/sheets-sort@0.6.6':
-    resolution: {integrity: sha512-hXM8I+WHvT7GgRZOBU8w3qb8Y8NaykUp3JK1e8jjUHPSVXkTYJ2lskgFEVVJ9yOb0F4SKnAh4+17WUDDeUInTQ==}
-
-  '@univerjs/sheets-thread-comment-ui@0.6.6':
-    resolution: {integrity: sha512-tu+tRcWkEZSP2FevBHQ1PLegi8+3S1C02Kv4ok7xfyFGdr6xGrcpSbr3dMJAVRTbYDq2jrHAyQtZByvq9/tA+Q==}
+  '@univerjs/sheets-hyper-link-ui@0.6.7':
+    resolution: {integrity: sha512-OLjDRuOLhjXhZ5CqL37rSLgfntEcN4JRjASw6BZ27BIke+1emXkFnPXH72hJI9B2ZOfr/JKhU/K0n94PLFgdrw==}
     peerDependencies:
       react: '>=16.9.0'
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-thread-comment@0.6.6':
-    resolution: {integrity: sha512-0pb1B10lWrJWKr5/lmIh8RYB4NZKy7KUVnlp0Ck+xiIXhakI6yYD0x1BpVCcy8FyAh9WOkTFLkGsP81110nhAg==}
+  '@univerjs/sheets-hyper-link@0.6.7':
+    resolution: {integrity: sha512-/pb16BqF8l5Csx4BUs/qQpJIrfNwaPf/4N6F7JP9x8WSVUS88MdOGn9SYWbkcUNdgOd2BeTjOrf1Rzt/rZOW3g==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets-ui@0.6.6':
-    resolution: {integrity: sha512-kDWruoC4XDtLc92373RV56uCNrNUniPg8CuxdGLWirfztgiHWnek1rsjUdvuDYrXMzKjJW05MhQ9FmA2yreeKw==}
-    peerDependencies:
-      react: '>=16.9.0'
-      rxjs: '>=7.0.0'
-
-  '@univerjs/sheets-zen-editor@0.6.6':
-    resolution: {integrity: sha512-K//mE5HqNcWm1Za2bxDWK2vuLwPG91qnNBogoSVxFnDV/M12kk+9Ckx8cR65sn7VD8qnC97Zyi1u8b0+kQz3WA==}
+  '@univerjs/sheets-numfmt-ui@0.6.7':
+    resolution: {integrity: sha512-WEbCkqgd0rumDwoTDV3jx/4+nGjXCsfsGBWywc4bURWPq0KqbvELQfo6cbq10/U0peYTWAMu9e8FLswGz4MBUg==}
     peerDependencies:
       react: '>=16.9.0'
       rxjs: '>=7.0.0'
 
-  '@univerjs/sheets@0.6.6':
-    resolution: {integrity: sha512-FtlxtEtDNXjFpdDYT8uWfdQY+eSzBWxPUGqlpoxCaoou5iQRif6zdAF1N8/6/XPaDScKBauteSVll29F+xkxvg==}
+  '@univerjs/sheets-numfmt@0.6.7':
+    resolution: {integrity: sha512-vywhZVUcv+5dQ/5fRYG3e8NlLOlkJLSSqaUrFjH/ExNAD845R2Iil/S/d6WkIhjY8r9/rlfClN7y5k/2RhwuYQ==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/telemetry@0.6.6':
-    resolution: {integrity: sha512-tr8zOAYV0sE9KEoPGgo7mSH7U+4B8/KgyVBYfp02lNw6CzHatlFdDRkXlciyzqICFBVbJ1F/TR7/5uYHcRKFLA==}
-
-  '@univerjs/thread-comment-ui@0.6.6':
-    resolution: {integrity: sha512-nWynCQUlBpaqLeA7WicfZ+wmC8dro7GJqRjOLC1RTomJbmnWeYCngag38HaPvGZqatNCErinPLkCdEqL15W8gw==}
+  '@univerjs/sheets-sort-ui@0.6.7':
+    resolution: {integrity: sha512-dpbG8DKObMp3mhygFb4akzjdjYzrU264Vt7VFJjbp9J+K1ai6sxiuSGfcLLTsghT6DjY1ZbezbsfoGLKsmLUpg==}
     peerDependencies:
       react: '>=16.9.0'
       rxjs: '>=7.0.0'
 
-  '@univerjs/thread-comment@0.6.6':
-    resolution: {integrity: sha512-dOduWpX5VBTU4KicKEGVLw4rvD7Rv4e+AH37ofHlAsizJ5S50+D2vbrS7/93EEz2jTLs92/hC9+797YUsfsDMg==}
+  '@univerjs/sheets-sort@0.6.7':
+    resolution: {integrity: sha512-caps6ZdVITyiDvkRHUr2hmBSqZu6uSoxksgsgFBrEdTlWwfvVCUB+vPlULPFp42PdOiHOXoPGwcvCI9Zn7m1qA==}
+
+  '@univerjs/sheets-thread-comment-ui@0.6.7':
+    resolution: {integrity: sha512-iQ0efhKLos+FT1mDvTeCPttqwqO9NRe2km7Cn8Iv550foULX2eWcufyWVkTM4ZDgB9Ltt8Pp6u/jgaaYdUoKPQ==}
+    peerDependencies:
+      react: '>=16.9.0'
+      rxjs: '>=7.0.0'
+
+  '@univerjs/sheets-thread-comment@0.6.7':
+    resolution: {integrity: sha512-uBonAz6ZkkpUSm4ocl4qBLBY/SMht2JaS8UEm0+qJvGBcGM+HwciMKhwudBZk+6neH7XhC2QqUl3VEi1TBWMXA==}
     peerDependencies:
       rxjs: '>=7.0.0'
 
-  '@univerjs/ui@0.6.6':
-    resolution: {integrity: sha512-4pUcIQ/kpKJTufLUAvrUbMlHJ6bDhYyeLT8o1RgYVfwficxlXUU2wPVY/igKojIzfMIEUMt1uvV42/EpPr7LkQ==}
+  '@univerjs/sheets-ui@0.6.7':
+    resolution: {integrity: sha512-G7ttgmlW4ezgMFDykKcyb7dXBuUYXT1Xcjsws9FC/wsEZ7vaSV4/dE7vZwy5S8z4VIXnW8cm66DuuVYM8aJFzw==}
+    peerDependencies:
+      react: '>=16.9.0'
+      rxjs: '>=7.0.0'
+
+  '@univerjs/sheets-zen-editor@0.6.7':
+    resolution: {integrity: sha512-Hu5sO3mAZzCLXE+8NTcMK175qUmUZBz6nArWUixXo8I8k6TSgaecRLbIVg5g5snijX0fPO4g88trGfqFha1L+g==}
+    peerDependencies:
+      react: '>=16.9.0'
+      rxjs: '>=7.0.0'
+
+  '@univerjs/sheets@0.6.7':
+    resolution: {integrity: sha512-GxL6n+Jxji/5MHGilKmrVi6eOcbb3GdnSsvfCaVSy8lAR2V5uC89c5hxIKXy6Vu5Y/QnYBo8NqjdXGIjq3KvhA==}
+    peerDependencies:
+      rxjs: '>=7.0.0'
+
+  '@univerjs/telemetry@0.6.7':
+    resolution: {integrity: sha512-WCoeWhsilxLr0Tqe3Jxr7Ng+JLPzMyFLY4pVIN2YfWevXlorKdSYttbz+F707L/xtB5Yvq2KtUD3mflMWhDZRQ==}
+
+  '@univerjs/thread-comment-ui@0.6.7':
+    resolution: {integrity: sha512-VXF63UoksnUm9tL9NMo4i3oD/yqup9d2K4zVvoo3Be46EDNkBFhTQ/Yd0e2z5+AZZcsDt7VC64m08lKCdmtzpQ==}
+    peerDependencies:
+      react: '>=16.9.0'
+      rxjs: '>=7.0.0'
+
+  '@univerjs/thread-comment@0.6.7':
+    resolution: {integrity: sha512-LwR98j8lPWiumqpWUae8hOXaWZtVgJrmqdF2+HFePfjT72gcVrQoww7kwkUzKulVgGxPvvKXlRBKi8OAC/9xNg==}
+    peerDependencies:
+      rxjs: '>=7.0.0'
+
+  '@univerjs/ui@0.6.7':
+    resolution: {integrity: sha512-B6GD1KEjIMh5qqEs2gw63XPJDJlj77ORpti49GbrQAkKh0BLTyHjA0ijte3y3sS3m/EkdRCuQRyGfSr/MJboZA==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -3132,8 +3145,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  nanoid@5.1.3:
-    resolution: {integrity: sha512-zAbEOEr7u2CbxwoMRlz/pNSpRP0FdAU4pRaYunCdEezWohXFs+a0Xw7RfkKaezMsmSM1vttcLthJtwRnVtOfHQ==}
+  nanoid@5.1.5:
+    resolution: {integrity: sha512-Ir/+ZpE9fDsNH0hQ3C68uyThDXzYcim2EqcZ8zn8Chtt1iylPT9xXJB0kPCnqzgcEGikO9RxSrh63MsmVCU7Fw==}
     engines: {node: ^18 || >=20}
     hasBin: true
 
@@ -4564,14 +4577,14 @@ snapshots:
 
   '@ljcoder/charts@git+https://git@github.com:ljcoder2015/univer-charts.git#d14a32b7e12ab21829579cb63bf23cf8e16d0a80(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/icons': 0.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-formula-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-formula-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       echarts: 5.6.0
       rc-dialog: 9.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
@@ -4592,11 +4605,11 @@ snapshots:
 
   '@ljcoder/embed-link-ui@git+https://git@github.com:ljcoder2015/univer-embed-link-ui.git#b1347e09d840ef815365b85a55e9e664ef05deb4(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@univerjs/icons': 0.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -4613,10 +4626,10 @@ snapshots:
   '@ljcoder/import-export@git+https://git@github.com:ljcoder2015/univer-import-export.git#6fd95661cddc79675f535eb59e71f5f529ce718d(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
       '@ljcoder/univer-authorization': git+https://git@github.com:ljcoder2015/univer-authorization.git#3351ba7893fb4af08216c6cfab9f9ad139f00ce5(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       exceljs: 4.4.0
     transitivePeerDependencies:
       - '@grpc/grpc-js'
@@ -4635,7 +4648,7 @@ snapshots:
   '@ljcoder/obsidian-embed-link@git+https://git@github.com:ljcoder2015/obsidian-embed-link.git#8c5cfe3207538113913fd8479070dd1405ef0f34(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
       '@ljcoder/authorization': git+https://git@github.com:ljcoder2015/authorization.git#d2cebda9341d4d8e6dfec2e763498d5034a579da
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       echarts: 5.6.0
     transitivePeerDependencies:
       - '@grpc/grpc-js'
@@ -4646,18 +4659,18 @@ snapshots:
   '@ljcoder/sheets-outgoing-link-ui@git+https://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#d0db6e707fbba8956d4057a314c1e07ad4f92661(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
       '@ljcoder/sheets-outgoing-link': git+https://git@github.com:ljcoder2015/univer-outgoing-link.git#7ad92363fd7ecf2789be639ade37b1c6214dbcd0(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/docs': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/docs-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/docs': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/docs-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@univerjs/protocol': 0.1.44(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-data-validation': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-data-validation': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       clsx: 2.1.1
       rc-select: 14.16.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
@@ -4675,11 +4688,11 @@ snapshots:
 
   '@ljcoder/sheets-outgoing-link@git+https://git@github.com:ljcoder2015/univer-outgoing-link.git#7ad92363fd7ecf2789be639ade37b1c6214dbcd0(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/docs': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/docs': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       '@univerjs/protocol': 0.1.43(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       rxjs: 7.8.2
@@ -4690,7 +4703,7 @@ snapshots:
   '@ljcoder/univer-authorization@git+https://git@github.com:ljcoder2015/univer-authorization.git#3351ba7893fb4af08216c6cfab9f9ad139f00ce5(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
       '@ljcoder/authorization': git+https://git@github.com:ljcoder2015/authorization.git#d2cebda9341d4d8e6dfec2e763498d5034a579da
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
@@ -5304,15 +5317,15 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
-  '@univerjs/core@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/core@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/protocol': 0.1.44(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
+      '@univerjs/protocol': 0.1.45(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
       '@wendellhu/redi': 0.17.1
       dayjs: 1.11.13
       fast-diff: 1.3.0
       kdbush: 4.0.2
       lodash-es: 4.17.21
-      nanoid: 5.1.3
+      nanoid: 5.1.5
       numeral: 2.0.6
       numfmt: 2.5.2
       ot-json1: 1.0.2
@@ -5321,22 +5334,22 @@ snapshots:
     transitivePeerDependencies:
       - '@grpc/grpc-js'
 
-  '@univerjs/data-validation@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/data-validation@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/design@0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@univerjs/design@0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@radix-ui/react-dropdown-menu': 2.1.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-popover': 1.1.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-separator': 1.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-tooltip': 1.1.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@rc-component/trigger': 2.2.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       clsx: 2.1.1
       dayjs: 1.11.13
       rc-dialog: 9.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -5359,24 +5372,24 @@ snapshots:
       - luxon
       - moment
 
-  '@univerjs/docs-drawing@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/docs-drawing@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/drawing': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/drawing': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
       - rxjs
 
-  '@univerjs/docs-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/docs-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/docs': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/drawing': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/docs': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/drawing': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5390,23 +5403,23 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/docs@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/docs@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/drawing-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/drawing-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/drawing': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/drawing': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5420,21 +5433,21 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/drawing@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/drawing@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       ot-json1: 1.0.2
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/engine-formula@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/engine-formula@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
       '@flatten-js/interval-tree': 1.1.3
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-numfmt': 0.6.6
-      '@univerjs/rpc': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-numfmt': 0.6.7
+      '@univerjs/rpc': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       decimal.js: 10.5.0
       numfmt: 2.5.2
       rxjs: 7.8.2
@@ -5442,13 +5455,13 @@ snapshots:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/engine-numfmt@0.6.6': {}
+  '@univerjs/engine-numfmt@0.6.7': {}
 
-  '@univerjs/engine-render@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/engine-render@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
       '@floating-ui/dom': 1.6.13
       '@floating-ui/utils': 0.2.9
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       cjk-regex: 3.3.0
       franc-min: 6.2.0
       opentype.js: 1.3.4
@@ -5457,13 +5470,13 @@ snapshots:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/find-replace@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/find-replace@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5487,6 +5500,11 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
+  '@univerjs/icons@0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
   '@univerjs/protocol@0.1.43(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)':
     dependencies:
       '@grpc/grpc-js': 1.13.0
@@ -5497,26 +5515,31 @@ snapshots:
       '@grpc/grpc-js': 1.13.0
       rxjs: 7.8.2
 
-  '@univerjs/rpc@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/protocol@0.1.45(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@grpc/grpc-js': 1.13.0
+      rxjs: 7.8.2
+
+  '@univerjs/rpc@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+    dependencies:
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/sheets-conditional-formatting-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-conditional-formatting-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-conditional-formatting': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-formula-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-conditional-formatting': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-formula-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-grid-layout: 1.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -5532,26 +5555,26 @@ snapshots:
       - moment
       - typescript
 
-  '@univerjs/sheets-conditional-formatting@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/sheets-conditional-formatting@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/sheets-crosshair-highlight@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-crosshair-highlight@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5565,22 +5588,22 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/sheets-data-validation-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-data-validation-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
       '@flatten-js/interval-tree': 1.1.3
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/data-validation': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/docs': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-data-validation': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-formula-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/sheets-numfmt': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/data-validation': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/docs': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-data-validation': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-formula-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/sheets-numfmt': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5594,33 +5617,33 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/sheets-data-validation@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/sheets-data-validation@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/data-validation': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/protocol': 0.1.44(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/data-validation': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/protocol': 0.1.45(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/sheets-drawing-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-drawing-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/docs-drawing': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/docs-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/drawing': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/drawing-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-drawing': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/docs-drawing': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/docs-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/drawing': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/drawing-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-drawing': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5634,26 +5657,26 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/sheets-drawing@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/sheets-drawing@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/drawing': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/drawing': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
       - rxjs
 
-  '@univerjs/sheets-filter-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-filter-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/rpc': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-filter': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/rpc': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-filter': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5667,23 +5690,24 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/sheets-filter@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/sheets-filter@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/rpc': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/sheets-find-replace@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-find-replace@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/find-replace': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/find-replace': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
@@ -5697,19 +5721,19 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/sheets-formula-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-formula-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/docs': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/docs-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/docs': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/docs-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5723,32 +5747,32 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/sheets-formula@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/sheets-formula@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/rpc': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/rpc': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/sheets-hyper-link-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-hyper-link-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/docs': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/docs-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-data-validation': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-formula-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/sheets-hyper-link': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/docs': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/docs-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-data-validation': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-formula-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/sheets-hyper-link': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5762,30 +5786,30 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/sheets-hyper-link@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/sheets-hyper-link@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/docs': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/protocol': 0.1.44(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/docs': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/protocol': 0.1.45(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/sheets-numfmt-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-numfmt-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-numfmt': 0.6.6
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-numfmt': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-numfmt': 0.6.7
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-numfmt': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5799,27 +5823,27 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/sheets-numfmt@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/sheets-numfmt@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-numfmt': 0.6.6
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-numfmt': 0.6.7
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/sheets-sort-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-sort-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-sort': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-sort': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5833,28 +5857,28 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/sheets-sort@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/sheets-sort@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
       - rxjs
 
-  '@univerjs/sheets-thread-comment-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-thread-comment-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-thread-comment': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/thread-comment': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/thread-comment-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-thread-comment': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/thread-comment': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/thread-comment-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5868,31 +5892,31 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/sheets-thread-comment@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/sheets-thread-comment@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/thread-comment': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/thread-comment': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/sheets-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/docs': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/docs-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-numfmt': 0.6.6
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/protocol': 0.1.44(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/telemetry': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/docs': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/docs-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-numfmt': 0.6.7
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/protocol': 0.1.45(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/telemetry': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5906,17 +5930,17 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/sheets-zen-editor@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/sheets-zen-editor@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/docs': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/docs-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/sheets': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/sheets-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/docs': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/docs-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/sheets': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/sheets-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5930,34 +5954,34 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/sheets@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/sheets@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-formula': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/engine-numfmt': 0.6.6
-      '@univerjs/protocol': 0.1.44(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
-      '@univerjs/rpc': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-formula': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/engine-numfmt': 0.6.7
+      '@univerjs/protocol': 0.1.45(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
+      '@univerjs/rpc': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/telemetry@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/telemetry@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
       - rxjs
 
-  '@univerjs/thread-comment-ui@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/thread-comment-ui@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/docs-ui': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/thread-comment': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/ui': 0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/docs-ui': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/thread-comment': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/ui': 0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       react: 18.3.1
       rxjs: 7.8.2
     transitivePeerDependencies:
@@ -5971,21 +5995,21 @@ snapshots:
       - react-dom
       - typescript
 
-  '@univerjs/thread-comment@0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
+  '@univerjs/thread-comment@0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/protocol': 0.1.44(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/protocol': 0.1.45(@grpc/grpc-js@1.13.0)(rxjs@7.8.2)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
 
-  '@univerjs/ui@0.6.6(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@univerjs/ui@0.6.7(@grpc/grpc-js@1.13.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
-      '@univerjs/core': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/design': 0.6.6(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@univerjs/engine-render': 0.6.6(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
-      '@univerjs/icons': 0.2.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/core': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/design': 0.6.7(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@univerjs/engine-render': 0.6.7(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.17.1)(rxjs@7.8.2)
+      '@univerjs/icons': 0.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@wendellhu/redi': 0.17.1
       localforage: 1.10.0
       rc-notification: 5.6.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -7699,7 +7723,7 @@ snapshots:
 
   nanoid@3.3.9: {}
 
-  nanoid@5.1.3: {}
+  nanoid@5.1.5: {}
 
   natural-compare-lite@1.4.0: {}
 

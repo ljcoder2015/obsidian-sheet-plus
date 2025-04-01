@@ -257,7 +257,6 @@ export class ExcelProView extends TextFileView {
     if (state.subpath) {
       const path = state.subpath as string
       this.subPath = path
-
       this.scrollToRange()
     }
   }
