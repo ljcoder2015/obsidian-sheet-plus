@@ -1,5 +1,12 @@
 
 
+## [1.11.5](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.4...1.11.5) (2025-04-01)
+
+
+### Bug Fixes
+
+* hover popover ([8cfe521](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/8cfe521221f09ccc5f6434b119eed68ca6b4b308))
+
 ## [1.11.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.3...1.11.4) (2025-03-28)
 
 
