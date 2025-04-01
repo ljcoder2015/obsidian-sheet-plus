@@ -30,7 +30,7 @@ export async function markdownPostProcessor(el: HTMLElement, ctx: MarkdownPostPr
   // check to see if we are rendering in editing mode or live preview
   // if yes, then there should be no .internal-embed containers
   const embeddedItems = el.querySelectorAll('.internal-embed')
-  // console.log("markdownPostProcessor", embeddedItems.length);
+  // console.log("markdownPostProcessor", el);
   if (embeddedItems.length === 0) {
     // 编辑模式
     tmpObsidianWYSIWYG(el, ctx)
@@ -44,7 +44,7 @@ export async function markdownPostProcessor(el: HTMLElement, ctx: MarkdownPostPr
 // 编辑模式
 async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorContext) {
   const file = plugin.app.vault.getAbstractFileByPath(ctx.sourcePath)
-  // console.log('tmpObsidianWYSIWYG', ctx.sourcePath, file)
+  // console.log('tmpObsidianWYSIWYG', ctx, el)
   if (!(file instanceof TFile))
     return
   if (!plugin.isExcelFile(file))
@@ -85,11 +85,26 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
     !internalEmbedDiv.hasClass('internal-embed')
     && (markdownEmbed || markdownReadingView)
   ) {
+    // console.log('预览', containerEl)
     // 鼠标放在 embed link 上弹出的预览页面
     // We are processing the markdown preview of an actual univer file
     // the univer file in markdown preview mode
     const isFrontmatterDiv = Boolean(el.querySelector('.frontmatter'))
-    el.empty()
+    let dataHeading = ''
+    if (ctx.frontmatter) {
+      el.empty()
+    }
+    else {
+      let warningEl = el.querySelector('div>*[data-heading^=\'Unable to find ')
+      if (!warningEl) {
+        // changed in Obsidian 1.8.9
+        warningEl = el.querySelector('div > *[data-heading]')
+      }
+      if (warningEl) {
+        dataHeading = warningEl.getAttr('data-heading')
+      }
+    }
+
     if (!isFrontmatterDiv) {
       if (el.parentElement === containerEl) {
         containerEl.removeChild(el)
@@ -98,7 +113,7 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
     internalEmbedDiv.empty()
 
     const data = await vault.read(file)
-    const src = internalEmbedDiv.getAttribute('src') ?? ''
+    const src = internalEmbedDiv.getAttribute('src') ?? file.path.slice(0, -(file.extension.length + 1))
     const alt = internalEmbedDiv.getAttribute('alt') ?? ''
     const sheetDiv = createEmbedLinkDiv(src, alt, file, data)
     internalEmbedDiv.appendChild(sheetDiv)
@@ -121,7 +136,7 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
   internalEmbedDiv.empty()
 
   const data = await vault.read(file)
-  const src = internalEmbedDiv.getAttribute('src') ?? ''
+  const src = internalEmbedDiv.getAttribute('src') ?? file.path.slice(0, -(file.extension.length + 1))
   const alt = internalEmbedDiv.getAttribute('alt') ?? ''
 
   const sheetDiv = createEmbedLinkDiv(src, alt, file, data)
@@ -188,7 +203,6 @@ function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: strin
  * @returns HTMLDivElement
  */
 function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string): HTMLDivElement {
-  // console.log('createEmbedLinkDiv', src, alt)
   const parseResult = parseEmbedLinkSyntax(`${src}|${alt}`)
 
   const excelData = getExcelData(data, file)
@@ -223,17 +237,17 @@ function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string)
   else if (parseResult.displayType === undefined) {
     if (parseResult.startCell && parseResult.endCell) {
       const rangeData = getRangeData(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
-      const univerEl = createUniverEl(rangeData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true', plugin.settings.mobileRenderMode)
+      const univerEl = createUniverEl(rangeData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true', plugin)
       embedLinkDiv.appendChild(univerEl)
       return embedLinkDiv
     }
     else {
-      const univerEl = createUniverEl(excelData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true', plugin.settings.mobileRenderMode)
+      const univerEl = createUniverEl(excelData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true', plugin)
       embedLinkDiv.appendChild(univerEl)
       return embedLinkDiv
     }
   }
-  else if (parseResult.displayType.contains('chart')) {
+  else if (parseResult.displayType?.contains('chart')) {
     const chartsEl = createEchartsEl(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`, parseResult.displayType, parseResult.height)
     embedLinkDiv.appendChild(chartsEl)
     return embedLinkDiv
@@ -258,7 +272,7 @@ function parseEmbedLinkSyntax(input: string): ParsedSyntax {
 
   // 正则表达式，支持所有 Unicode 字符（包括特殊字符、中文、俄文、泰文等）
   // eslint-disable-next-line regexp/no-super-linear-backtracking
-  const fileRegex = /^(.+?)#(.+?)(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w\-]+)\})?$/
+  const fileRegex = /^(.+?)(?:#(.+?))?(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w\-]+)\})?$/
 
   const fileMatch = fileNameAndRest.match(fileRegex)
 

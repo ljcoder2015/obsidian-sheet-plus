@@ -29,7 +29,7 @@ export function createUniverEl(data: IWorkbookData | null, height = 300, showFoo
       contextMenu: false,
       footer: showFooter,
     }
-    const univer = createUniver(options, id, plugin, true)
+    const univer = createUniver(options, id, plugin.settings.mobileRenderMode, true)
 
     if (data) {
       // workbookData 的内容都包含在 workbook 字段中
