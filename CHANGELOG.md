@@ -1,5 +1,12 @@
 
 
+## [1.11.7](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.6...1.11.7) (2025-05-12)
+
+
+### Bug Fixes
+
+* **import-export:** Export of the repair formula bug ([d8744c6](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/d8744c69bcd288913daa7dd7fbeba376ef69ac74))
+
 ## [1.11.6](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.5...1.11.6) (2025-04-01)
 
 
