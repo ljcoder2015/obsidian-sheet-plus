@@ -1,8 +1,8 @@
 diff --git a/lib/es/index.js b/lib/es/index.js
-index b854a7f9e0c82f7e538e19abb47e0d50958a63ea..93a8a837a922caf97b9f8acad1f8c42013f07b96 100644
+index 7b26bedaaafdcb17689c2be3e8530b58f6f7ef95..7bdc11ce53a54c3872822ec05af7b9cdb577adcd 100644
 --- a/lib/es/index.js
 +++ b/lib/es/index.js
-@@ -13600,7 +13600,7 @@ class fy {
+@@ -44979,7 +44979,7 @@ class Gz {
    constructor() {
      k(this, "isReady", !1);
      k(this, "_fontBook", /* @__PURE__ */ new Map());
@@ -10,4 +10,4 @@ index b854a7f9e0c82f7e538e19abb47e0d50958a63ea..93a8a837a922caf97b9f8acad1f8c420
 +    // this._loadFontsToBook();
    }
    async _loadFontsToBook() {
-     if (!(this.isReady || !await py()) && "queryLocalFonts" in window)
+     if (!(this.isReady || !await qz()) && "queryLocalFonts" in window)
