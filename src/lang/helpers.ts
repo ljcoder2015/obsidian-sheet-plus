@@ -1,64 +1,66 @@
-//Solution copied from obsidian-kanban: https://github.com/mgmeyers/obsidian-kanban/blob/44118e25661bff9ebfe54f71ae33805dc88ffa53/src/lang/helpers.ts
+// Solution copied from obsidian-kanban: https://github.com/mgmeyers/obsidian-kanban/blob/44118e25661bff9ebfe54f71ae33805dc88ffa53/src/lang/helpers.ts
 
-import { moment } from "obsidian";
-import ar from "./locale/ar";
-import cz from "./locale/cz";
-import da from "./locale/da";
-import de from "./locale/de";
-import en from "./locale/en";
-import enGB from "./locale/en-gb";
-import es from "./locale/es";
-import fr from "./locale/fr";
-import hi from "./locale/hi";
-import id from "./locale/id";
-import it from "./locale/it";
-import ja from "./locale/ja";
-import ko from "./locale/ko";
-import nl from "./locale/nl";
-import no from "./locale/no";
-import pl from "./locale/pl";
-import pt from "./locale/pt";
-import ptBR from "./locale/pt-br";
-import ro from "./locale/ro";
-import ru from "./locale/ru";
-import tr from "./locale/tr";
-import zhCN from "./locale/zh-cn";
-import zhTW from "./locale/zh-tw";
+import { moment } from 'obsidian'
+import ar from './locale/ar'
+import cz from './locale/cz'
+import da from './locale/da'
+import de from './locale/de'
+import en from './locale/en'
+import enGB from './locale/en-gb'
+import es from './locale/es'
+import fr from './locale/fr'
+import hi from './locale/hi'
+import id from './locale/id'
+import it from './locale/it'
+import ja from './locale/ja'
+import ko from './locale/ko'
+import nl from './locale/nl'
+import no from './locale/no'
+import pl from './locale/pl'
+import pt from './locale/pt'
+import ptBR from './locale/pt-br'
+import ro from './locale/ro'
+import ru from './locale/ru'
+import tr from './locale/tr'
+import zhCN from './locale/zh-cn'
+import zhTW from './locale/zh-tw'
+import hr from './locale/hr'
 
 const localeMap: { [k: string]: Partial<typeof en> } = {
   ar,
-  cs: cz,
+  'cs': cz,
   da,
   de,
   en,
-  "en-gb": enGB,
+  'en-gb': enGB,
   es,
   fr,
   hi,
+  hr,
   id,
   it,
   ja,
   ko,
   nl,
-  nn: no,
+  'nn': no,
   pl,
   pt,
-  "pt-br": ptBR,
+  'pt-br': ptBR,
   ro,
   ru,
   tr,
-  "zh-cn": zhCN,
-  "zh-tw": zhTW,
-};
+  'zh-cn': zhCN,
+  'zh-tw': zhTW,
+}
 
-const locale = localeMap[moment.locale()];
+const locale = localeMap[moment.locale()]
 
 export function t(str: keyof typeof en): string {
   if (!locale) {
-    // TODO 
+    // TODO
   }
 
   // console.log(moment.locale())
 
-  return (locale && locale[str]) || en[str];
+  return (locale && locale[str]) || en[str]
 }
