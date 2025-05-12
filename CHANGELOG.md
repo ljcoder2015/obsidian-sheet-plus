@@ -1,5 +1,12 @@
 
 
+## [1.11.9](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.8...1.11.9) (2025-05-12)
+
+
+### Features
+
+* **univer:** patch engine-render ([9a4021c](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/9a4021ce8d1916238de9893fe8044ef5b735534e))
+
 ## [1.11.8](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.7...1.11.8) (2025-05-12)
 
 
