@@ -1,5 +1,12 @@
 
 
+## [1.11.8](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.7...1.11.8) (2025-05-12)
+
+
+### Features
+
+* **univer:** update version 0.6.10 ([205ba04](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/205ba04d50f91b55ce3bce23e85e4cba5cfe730d))
+
 ## [1.11.7](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.6...1.11.7) (2025-05-12)
 
 
