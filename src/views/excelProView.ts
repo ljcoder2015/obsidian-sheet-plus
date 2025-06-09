@@ -137,7 +137,9 @@ export class ExcelProView extends TextFileView {
       footer: true,
     }
 
-    this.univer = createUniver(options, this.univerId, this.plugin.settings.mobileRenderMode)
+    const darkMode = this.plugin.settings.darkModal === 'dark'
+
+    this.univer = createUniver(options, this.univerId, this.plugin.settings.mobileRenderMode, darkMode)
     this.univerAPI = FUniver.newAPI(this.univer)
 
     const data = getExcelData(this.data, this.file)

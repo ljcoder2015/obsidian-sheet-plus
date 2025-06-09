@@ -80,10 +80,12 @@ export function createUniver(
   option: IUniverUIConfig,
   id: string,
   mobileRenderMode: string,
+  darkMode: boolean,
   isEmbed: boolean = false,
 ) {
   const univer = new Univer({
     theme: defaultTheme,
+    darkMode,
     locale: getLanguage(),
     logLevel: LogLevel.VERBOSE,
     locales: {

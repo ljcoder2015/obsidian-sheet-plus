@@ -17,6 +17,22 @@ export class ExcelProSettingTab extends PluginSettingTab {
 
     containerEl.empty()
 
+    containerEl.createEl('h1', { text: t('BASE_COLOR') })
+
+    new Setting(containerEl)
+      .setName(t('BASE_COLOR'))
+      .setDesc(t('BASE_COLOR_DESC'))
+      .addDropdown(dropdown =>
+        dropdown
+          .addOption('light', 'Light')
+          .addOption('dark', 'Dark')
+          .setValue(this.plugin.settings.darkModal)
+          .onChange(async (value) => {
+            this.plugin.settings.darkModal = value
+            this.plugin.saveSettings()
+          }),
+      )
+
     new Setting(containerEl)
       .setName(t('FILE_SETTING'))
       .setHeading()

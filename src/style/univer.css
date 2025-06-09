@@ -67,6 +67,11 @@
 	border: 1px solid #ececec;
 }
 
+.univer-dark .sheet-loading-overlay {
+  background-color: #1e1e1e;
+  border-color: #363636;
+}
+
 /* 逐个字上下跳动动画 */
 .loading-text {
   font-size: 16px;
@@ -74,6 +79,10 @@
   display: flex;
   justify-content: center; /* 文字水平居中 */
 	align-items: center;
+}
+
+.univer-dark .loading-text {
+  color: #dadada;
 }
 
 /* 每个字的动画 */
@@ -95,19 +104,6 @@
   }
   100% {
     transform: translateY(0); /* 还原回起始位置 */
-  }
-}
-
-/* 文字颜色变化动画 */
-@keyframes colorChange {
-  0% {
-    color: #333; /* 初始颜色 */
-  }
-  50% {
-    color: #ccc; /* 蓝色 */
-  }
-  100% {
-    color: #333; /* 还原为初始颜色 */
   }
 }
 
@@ -157,6 +153,10 @@
 .my-univer {
 	height: calc(100%);
 	border: 1px solid #ececec;
+}
+
+.univer-dark .my-univer {
+  border-color: #363636;
 }
 
 .univer-menu-item,

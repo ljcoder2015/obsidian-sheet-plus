@@ -9,6 +9,7 @@ export interface ExcelProSettings {
   authorizationCode: string
   embedLinkShowFooter: string
   mobileRenderMode: string
+  darkModal: string
 }
 
 export const DEFAULT_SETTINGS: ExcelProSettings = {
@@ -22,4 +23,5 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   authorizationCode: '',
   embedLinkShowFooter: 'false',
   mobileRenderMode: 'mobile',
+  darkModal: 'light',
 }
