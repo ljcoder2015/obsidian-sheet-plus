@@ -1,5 +1,13 @@
 
 
+# [1.12.0](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.9...1.12.0) (2025-06-11)
+
+
+### Features
+
+* add note and table plugin ([8599740](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/85997408761c0542c2dc7af1907cb9c82b94e40a))
+* update univer to 0.8.0, add dark mode ([2890e89](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/2890e896f83b414f03ef2c220825097cd331ec70))
+
 ## [1.11.9](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.8...1.11.9) (2025-05-12)
 
 
