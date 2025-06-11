@@ -63,6 +63,13 @@ import '@univerjs/sheets-formula/facade'
 import '@univerjs/sheets-numfmt/facade'
 import '@univerjs/sheets-hyper-link-ui/facade'
 import '@univerjs/sheets-thread-comment/facade'
+import '@univerjs/sheets-table/facade'
+import '@univerjs/sheets-note/facade'
+
+import { UniverSheetsTablePlugin } from '@univerjs/sheets-table'
+import { UniverSheetsTableUIPlugin } from '@univerjs/sheets-table-ui'
+import { UniverSheetsNotePlugin } from '@univerjs/sheets-note'
+import { UniverSheetsNoteUIPlugin } from '@univerjs/sheets-note-ui'
 
 import { UniverSheetsFindReplacePlugin } from '@univerjs/sheets-find-replace'
 import { UniverSheetsDrawingUIPlugin } from '@univerjs/sheets-drawing-ui'
@@ -215,6 +222,14 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, id: stri
   // 外链
   // univer.registerPlugin(UniverSheetsOutgoingLinkPlugin)
   univer.registerPlugin(UniverSheetsOutgoingLinkUIPlugin)
+
+  // 表格
+  univer.registerPlugin(UniverSheetsTablePlugin)
+  univer.registerPlugin(UniverSheetsTableUIPlugin)
+
+  // 批注
+  univer.registerPlugin(UniverSheetsNotePlugin)
+  univer.registerPlugin(UniverSheetsNoteUIPlugin)
 }
 
 function registerLazyDesktopPlugin(univer: Univer) {

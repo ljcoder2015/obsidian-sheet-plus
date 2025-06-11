@@ -1,6 +1,22 @@
 import { moment } from 'obsidian'
 import { LocaleType, Tools } from '@univerjs/core'
 
+import SheetsTableUIenUS from '@univerjs/sheets-table-ui/lib/es/locale/en-US'
+import SheetsTableUIfaIR from '@univerjs/sheets-table-ui/lib/es/locale/fa-IR'
+import SheetsTableUIfrFR from '@univerjs/sheets-table-ui/lib/es/locale/fr-FR'
+import SheetsTableUIruRU from '@univerjs/sheets-table-ui/lib/es/locale/ru-RU'
+import SheetsTableUIviVN from '@univerjs/sheets-table-ui/lib/es/locale/vi-VN'
+import SheetsTableUIZhCN from '@univerjs/sheets-table-ui/lib/es/locale/zh-CN'
+import SheetsTableUIZhTW from '@univerjs/sheets-table-ui/lib/es/locale/zh-TW'
+
+import SheetsNoteUIenUS from '@univerjs/sheets-note-ui/lib/es/locale/en-US'
+import SheetsNoteUIfaIR from '@univerjs/sheets-note-ui/lib/es/locale/fa-IR'
+import SheetsNoteUIfrFR from '@univerjs/sheets-note-ui/lib/es/locale/fr-FR'
+import SheetsNoteUIviVN from '@univerjs/sheets-note-ui/lib/es/locale/vi-VN'
+import SheetsNoteUIruRU from '@univerjs/sheets-note-ui/lib/es/locale/ru-RU'
+import SheetsNoteUIZhCN from '@univerjs/sheets-note-ui/lib/es/locale/zh-CN'
+import SheetsNoteUIZhTW from '@univerjs/sheets-note-ui/lib/es/locale/zh-TW'
+
 import outgoingLinkenUS from '@ljcoder/sheets-outgoing-link-ui/lib/es/locale/en-US'
 import outgoingLinkfaIR from '@ljcoder/sheets-outgoing-link-ui/lib/es/locale/fa-IR'
 import outgoingLinkfrFR from '@ljcoder/sheets-outgoing-link-ui/lib/es/locale/fr-FR'
@@ -226,6 +242,8 @@ export const enUS = Tools.deepMerge(
   embedLinkenUS,
   importExportenUS,
   outgoingLinkenUS,
+  SheetsTableUIenUS,
+  SheetsNoteUIenUS,
 )
 export const frFR = Tools.deepMerge(
   {},
@@ -254,6 +272,8 @@ export const frFR = Tools.deepMerge(
   embedLinkfrFR,
   importExportfrFR,
   outgoingLinkfrFR,
+  SheetsTableUIfrFR,
+  SheetsNoteUIfrFR,
 )
 export const ruRU = Tools.deepMerge(
   {},
@@ -282,6 +302,8 @@ export const ruRU = Tools.deepMerge(
   embedLinkruRU,
   importExportruRU,
   outgoingLinkruRU,
+  SheetsTableUIruRU,
+  SheetsNoteUIruRU,
 )
 export const zhCN = Tools.deepMerge(
   {},
@@ -310,6 +332,8 @@ export const zhCN = Tools.deepMerge(
   embedLinkzhCN,
   importExportzhCN,
   outgoingLinkzhCN,
+  SheetsTableUIZhCN,
+  SheetsNoteUIZhCN,
 )
 export const zhTW = Tools.deepMerge(
   {},
@@ -338,6 +362,8 @@ export const zhTW = Tools.deepMerge(
   embedLinkzhTW,
   importExportzhTW,
   outgoingLinkzhTW,
+  SheetsTableUIZhTW,
+  SheetsNoteUIZhTW,
 )
 export const viVN = Tools.deepMerge(
   {},
@@ -366,6 +392,8 @@ export const viVN = Tools.deepMerge(
   embedLinkviVN,
   importExportviVN,
   outgoingLinkviVN,
+  SheetsTableUIviVN,
+  SheetsNoteUIviVN,
 )
 export const faIR = Tools.deepMerge(
   {},
@@ -394,4 +422,6 @@ export const faIR = Tools.deepMerge(
   embedLinkfaIR,
   importExportfaIR,
   outgoingLinkfaIR,
+  SheetsTableUIfaIR,
+  SheetsNoteUIfaIR,
 )
