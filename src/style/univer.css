@@ -50,6 +50,11 @@
   position: relative;
   width: 100%;
   height: 100%;
+  background-color: white;
+}
+
+.univer-dark .sheet-iframe {
+  background-color: #282828;
 }
 
 .sheet-loading-overlay {
@@ -244,6 +249,7 @@ button.univer-toolbar-btn-active {
 .univer-grid button:not(.clickable-icon),
 .my-univer button:not(.clickable-icon) {
   box-shadow: none;
+  background-color: transparent;
 }
 
 button.univer-button-link {
@@ -284,4 +290,53 @@ button.univer-button-default {
     outline: 0;
     transition: all .15s;
     background: rgb(var(--bg-color-secondary));
+}
+
+.outgoing-link {
+    .rc-select {
+        width: 100%;
+    }
+
+    .rc-select-single:not(.rc-select-customize-input) .rc-select-selector .rc-select-selection-search-input {
+        background: transparent;
+        height: 26px;
+        padding-left: 6px;
+    }
+
+    .rc-select-single .rc-select-selector .rc-select-selection-item,
+    .rc-select-single .rc-select-selector .rc-select-selection-placeholder {
+        top: 4px;
+        left: 6px;
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .rc-select-single:not(.rc-select-customize-input) .rc-select-selector {
+        border-radius: 6px;
+        border-color: rgb(227, 229, 234);
+    }
+
+    .rc-select-show-arrow .rc-select-arrow {
+        top: 6px;
+    }
+}
+
+.univer-dark .outgoing-link {
+    .rc-select-single:not(.rc-select-customize-input) .rc-select-selector {
+        border: none;
+    }
+
+    .rc-select-single:not(.rc-select-customize-input) .rc-select-selector .rc-select-selection-search-input {
+        color: #fff;
+    }
+
+    .rc-select-dropdown {
+        border: 1px solid #31363f;
+        border-radius: 6px;
+        background: #272a2f;
+    }
+
+    .rc-select-item-option-active {
+        background: #31363f;
+    }
 }

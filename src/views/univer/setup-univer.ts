@@ -1,4 +1,5 @@
 import '@ljcoder/charts/lib/index.css'
+import '@ljcoder/sheets-outgoing-link-ui/lib/index.css'
 
 import { IAuthzIoService, LocaleType, LogLevel, Univer, UserManagerService } from '@univerjs/core'
 import { defaultTheme } from '@univerjs/design'
