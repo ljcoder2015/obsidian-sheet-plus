@@ -32,8 +32,8 @@ importers:
         specifier: git+ssh://git@github.com:ljcoder2015/univer-outgoing-link.git#v1.2.2
         version: git+https://git@github.com:ljcoder2015/univer-outgoing-link.git#ce9a85d8899c91c8dd7c5aaac2dfe13f0a384175(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.18.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)
       '@ljcoder/sheets-outgoing-link-ui':
-        specifier: git+ssh://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#v1.2.2
-        version: git+https://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#1b1b66025fa191cff56c958b4e78d589be6acab3(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.18.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
+        specifier: git+ssh://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#v1.2.3
+        version: git+https://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#0a119f03e167d5e2ba8dcbbb646839a9f15d73af(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.18.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)
       '@univerjs/core':
         specifier: 0.8.0
         version: 0.8.0(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.18.0)(rxjs@7.8.2)
@@ -595,8 +595,8 @@ packages:
     resolution: {commit: cf4ba8bf74f7af0624f70f3b91a91300c6332372, repo: git@github.com:ljcoder2015/obsidian-embed-link.git, type: git}
     version: 1.6.0
 
-  '@ljcoder/sheets-outgoing-link-ui@git+https://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#1b1b66025fa191cff56c958b4e78d589be6acab3':
-    resolution: {commit: 1b1b66025fa191cff56c958b4e78d589be6acab3, repo: git@github.com:ljcoder2015/univer-outgoing-link-ui.git, type: git}
+  '@ljcoder/sheets-outgoing-link-ui@git+https://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#0a119f03e167d5e2ba8dcbbb646839a9f15d73af':
+    resolution: {commit: 0a119f03e167d5e2ba8dcbbb646839a9f15d73af, repo: git@github.com:ljcoder2015/univer-outgoing-link-ui.git, type: git}
     version: 1.2.2
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18.0.0
@@ -4718,7 +4718,7 @@ snapshots:
       - debug
       - rxjs
 
-  '@ljcoder/sheets-outgoing-link-ui@git+https://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#1b1b66025fa191cff56c958b4e78d589be6acab3(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.18.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
+  '@ljcoder/sheets-outgoing-link-ui@git+https://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#0a119f03e167d5e2ba8dcbbb646839a9f15d73af(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.18.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.2)':
     dependencies:
       '@ljcoder/sheets-outgoing-link': git+https://git@github.com:ljcoder2015/univer-outgoing-link.git#ce9a85d8899c91c8dd7c5aaac2dfe13f0a384175(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.18.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)
       '@univerjs/core': 0.8.0(@grpc/grpc-js@1.13.0)(@wendellhu/redi@0.18.0)(rxjs@7.8.2)

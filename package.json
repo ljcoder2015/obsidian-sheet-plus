@@ -30,7 +30,7 @@
     "@ljcoder/import-export": "git+ssh://git@github.com:ljcoder2015/univer-import-export.git#v0.9.0",
     "@ljcoder/obsidian-embed-link": "git+ssh://git@github.com:ljcoder2015/obsidian-embed-link.git#v1.6.0",
     "@ljcoder/sheets-outgoing-link": "git+ssh://git@github.com:ljcoder2015/univer-outgoing-link.git#v1.2.2",
-    "@ljcoder/sheets-outgoing-link-ui": "git+ssh://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#v1.2.2",
+    "@ljcoder/sheets-outgoing-link-ui": "git+ssh://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#v1.2.3",
     "@univerjs/core": "0.8.0",
     "@univerjs/data-validation": "0.8.0",
     "@univerjs/design": "0.8.0",
