@@ -1,5 +1,12 @@
 
 
+## [1.12.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.12.1...1.12.2) (2025-06-12)
+
+
+### Bug Fixes
+
+* **formula:** Cell Formulas dont seem to update cells when other cells update ([c55a170](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/c55a170c56a2d8d5760aced745086642f141f486))
+
 ## [1.12.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.12.0...1.12.1) (2025-06-11)
 
 # [1.12.0](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.11.9...1.12.0) (2025-06-11)
