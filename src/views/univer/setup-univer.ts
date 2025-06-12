@@ -11,7 +11,7 @@ import { UniverRenderEnginePlugin } from '@univerjs/engine-render'
 import { UniverSheetsPlugin } from '@univerjs/sheets'
 
 import { UniverFormulaEnginePlugin } from '@univerjs/engine-formula'
-import { UniverSheetsFormulaPlugin } from '@univerjs/sheets-formula'
+import { CalculationMode, UniverSheetsFormulaPlugin } from '@univerjs/sheets-formula'
 import { UniverSheetsFormulaUIPlugin } from '@univerjs/sheets-formula-ui'
 
 import { UniverSheetsNumfmtPlugin } from '@univerjs/sheets-numfmt'
@@ -163,7 +163,9 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, id: stri
 
   // 公式
   univer.registerPlugin(UniverFormulaEnginePlugin)
-  univer.registerPlugin(UniverSheetsFormulaPlugin)
+  univer.registerPlugin(UniverSheetsFormulaPlugin, {
+    initialFormulaComputing: CalculationMode.FORCED,
+  })
   univer.registerPlugin(UniverSheetsFormulaUIPlugin)
 
   // find replace

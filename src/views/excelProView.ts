@@ -81,10 +81,11 @@ export class ExcelProView extends TextFileView {
 
   dispose() {
     // 释放 univer !无需手动调用
-    // this.univer?.dispose()
+    this.univer?.dispose()
 
-    // this.univer = null
-    // this.univerAPI = null
+    this.univerAPI.dispose()
+    this.univer = null
+    this.univerAPI = null
 
     this.subPath = null
   }
@@ -128,9 +129,6 @@ export class ExcelProView extends TextFileView {
       },
     })
     this.univerId = id
-  }
-
-  setupUniver() {
     // 设置多语言
     const options = {
       header: true,
@@ -141,7 +139,9 @@ export class ExcelProView extends TextFileView {
 
     this.univer = createUniver(options, this.univerId, this.plugin.settings.mobileRenderMode, darkMode)
     this.univerAPI = FUniver.newAPI(this.univer)
+  }
 
+  setupUniver() {
     const data = getExcelData(this.data, this.file)
     if (data) {
       // workbookData 的内容都包含在 workbook 字段中
