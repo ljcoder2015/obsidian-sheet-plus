@@ -132,6 +132,7 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, id: stri
     footer: option.footer,
     toolbar: option.toolbar,
     contextMenu: option.contextMenu,
+    ribbonType: 'simple',
   })
 
   univer.registerPlugin(UniverDocsUIPlugin)
@@ -139,6 +140,12 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, id: stri
   univer.registerPlugin(UniverSheetsPlugin)
   univer.registerPlugin(UniverSheetsUIPlugin, {
     menu: {
+      'formula-ui.operation.insert-function': {
+        hidden: true,
+      },
+      'formula-ui.operation.more-functions': {
+        hidden: true,
+      },
       [SetRangeFontFamilyCommand.id]: {
         hidden: true,
       },
