@@ -1,5 +1,12 @@
 
 
+## [1.12.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.12.2...1.12.3) (2025-06-13)
+
+
+### Features
+
+* **menu:** Set menu to simple mode ([dae824a](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/dae824ab101c74103366312e8da05de429afb412))
+
 ## [1.12.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.12.1...1.12.2) (2025-06-12)
 
 
