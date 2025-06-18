@@ -23,8 +23,8 @@ importers:
         specifier: git+ssh://git@github.com:ljcoder2015/univer-embed-link-ui.git#v0.3.0
         version: git+https://git@github.com:ljcoder2015/univer-embed-link-ui.git#bd6096d29d70a15fbf9ca5743984b45dc4c6dd91(@grpc/grpc-js@1.13.4)(@wendellhu/redi@0.18.3)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.3)
       '@ljcoder/import-export':
-        specifier: git+ssh://git@github.com:ljcoder2015/univer-import-export.git#v0.9.1
-        version: git+https://git@github.com:ljcoder2015/univer-import-export.git#19213c3a0749664a7b2926040f4ce9cc3de2e3cc(@grpc/grpc-js@1.13.4)(@wendellhu/redi@0.18.3)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.3)
+        specifier: git+ssh://git@github.com:ljcoder2015/univer-import-export.git#v0.9.5
+        version: git+https://git@github.com:ljcoder2015/univer-import-export.git#a11651d0ad3db6d8c590431c824211ad7ad69a16(@grpc/grpc-js@1.13.4)(@wendellhu/redi@0.18.3)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.3)
       '@ljcoder/obsidian-embed-link':
         specifier: git+ssh://git@github.com:ljcoder2015/obsidian-embed-link.git#v1.6.0
         version: git+https://git@github.com:ljcoder2015/obsidian-embed-link.git#cf4ba8bf74f7af0624f70f3b91a91300c6332372(@grpc/grpc-js@1.13.4)(@wendellhu/redi@0.18.3)(rxjs@7.8.2)
@@ -599,9 +599,9 @@ packages:
       react: ^16.9.0 || ^17.0.0 || ^18.0.0
       rxjs: '>=7.0.0'
 
-  '@ljcoder/import-export@git+https://git@github.com:ljcoder2015/univer-import-export.git#19213c3a0749664a7b2926040f4ce9cc3de2e3cc':
-    resolution: {commit: 19213c3a0749664a7b2926040f4ce9cc3de2e3cc, repo: git@github.com:ljcoder2015/univer-import-export.git, type: git}
-    version: 0.9.0
+  '@ljcoder/import-export@git+https://git@github.com:ljcoder2015/univer-import-export.git#a11651d0ad3db6d8c590431c824211ad7ad69a16':
+    resolution: {commit: a11651d0ad3db6d8c590431c824211ad7ad69a16, repo: git@github.com:ljcoder2015/univer-import-export.git, type: git}
+    version: 0.9.5
 
   '@ljcoder/obsidian-embed-link@git+https://git@github.com:ljcoder2015/obsidian-embed-link.git#cf4ba8bf74f7af0624f70f3b91a91300c6332372':
     resolution: {commit: cf4ba8bf74f7af0624f70f3b91a91300c6332372, repo: git@github.com:ljcoder2015/obsidian-embed-link.git, type: git}
@@ -4779,7 +4779,7 @@ snapshots:
       - react-dom
       - typescript
 
-  '@ljcoder/import-export@git+https://git@github.com:ljcoder2015/univer-import-export.git#19213c3a0749664a7b2926040f4ce9cc3de2e3cc(@grpc/grpc-js@1.13.4)(@wendellhu/redi@0.18.3)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.3)':
+  '@ljcoder/import-export@git+https://git@github.com:ljcoder2015/univer-import-export.git#a11651d0ad3db6d8c590431c824211ad7ad69a16(@grpc/grpc-js@1.13.4)(@wendellhu/redi@0.18.3)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.8.3)':
     dependencies:
       '@ljcoder/univer-authorization': git+https://git@github.com:ljcoder2015/univer-authorization.git#ed215d7610ceeae75c6d1e7ffa68294260ed0775(@grpc/grpc-js@1.13.4)(@wendellhu/redi@0.18.3)(rxjs@7.8.2)
       '@univerjs/core': 0.8.1(@grpc/grpc-js@1.13.4)(@wendellhu/redi@0.18.3)(rxjs@7.8.2)
