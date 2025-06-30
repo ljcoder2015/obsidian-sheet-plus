@@ -1,5 +1,12 @@
 
 
+## [1.12.5](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.12.4...1.12.5) (2025-06-30)
+
+
+### Bug Fixes
+
+* **import-export:** Fix color export bug ([4bf9416](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/4bf94169835f39cd86f39a5d7e124e51cf53b9e5))
+
 ## [1.12.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.12.3...1.12.4) (2025-06-18)
 
 
