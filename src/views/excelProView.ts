@@ -80,10 +80,10 @@ export class ExcelProView extends TextFileView {
   }
 
   dispose() {
-    // 释放 univer !无需手动调用
+    // 释放 univer !无需手动调用，调用引起注册问题(已修复)，不调用会引起公式不计算
     this.univer?.dispose()
 
-    this.univerAPI.dispose()
+    // this.univerAPI?.dispose()
     this.univer = null
     this.univerAPI = null
 
