@@ -1,0 +1,13 @@
+diff --git a/lib/es/index.js b/lib/es/index.js
+index ea1251ed947bc38a34610b4e62c95197ef8d03d7..54f1905f94237dd00032a2fde66a670b68a3bbcd 100644
+--- a/lib/es/index.js
++++ b/lib/es/index.js
+@@ -45392,7 +45392,7 @@ class Qz {
+   constructor() {
+     k(this, "isReady", !1);
+     k(this, "_fontBook", /* @__PURE__ */ new Map());
+-    this._loadFontsToBook();
++    // this._loadFontsToBook();
+   }
+   async _loadFontsToBook() {
+     if (!(this.isReady || !await Jz()) && "queryLocalFonts" in window)
