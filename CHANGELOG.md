@@ -1,5 +1,13 @@
 
 
+## [1.12.7](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.12.6...1.12.7) (2025-07-28)
+
+
+### Features
+
+* set number format local ([50816fe](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/50816fec0bbc0d58d8575c0222fbab91efed89ab))
+* updated univer to version 0.9.1 ([97d1ee2](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/97d1ee20ad52e81bcbe3e165f750cd455c01538e))
+
 ## [1.12.6](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.12.5...1.12.6) (2025-07-02)
 
 ## [1.12.5](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.12.4...1.12.5) (2025-06-30)
