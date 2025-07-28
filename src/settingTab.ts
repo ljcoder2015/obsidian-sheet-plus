@@ -126,6 +126,45 @@ export class ExcelProSettingTab extends PluginSettingTab {
       .setHeading()
 
     new Setting(containerEl)
+      .setName(t('NUMBER_FORMAT_LOCALE'))
+      .setDesc(t('NUMBER_FORMAT_LOCALE_DESC'))
+      .addDropdown(dropdown =>
+        dropdown
+          .addOption('zh-CN', '简体中文（中国）')
+          .addOption('zh-TW', '繁體中文（台灣）')
+          .addOption('cs', 'Čeština (Česko)')
+          .addOption('da', 'Dansk (Danmark)')
+          .addOption('nl', 'Nederlands (Nederland)')
+          .addOption('en', 'English (United States)')
+          .addOption('fi', 'Suomi (Suomi)')
+          .addOption('fr', 'Français (France)')
+          .addOption('de', 'Deutsch (Deutschland)')
+          .addOption('el', 'Ελληνικά (Ελλάδα)')
+          .addOption('hu', 'Magyar (Magyarország)')
+          .addOption('is', 'Íslenska (Ísland)')
+          .addOption('id', 'Bahasa Indonesia (Indonesia)')
+          .addOption('it', 'Italiano (Italia)')
+          .addOption('ja', '日本語（日本）')
+          .addOption('ko', '한국어 (대한민국)')
+          .addOption('nb', 'Norsk bokmål (Norge)')
+          .addOption('pl', 'Polski (Polska)')
+          .addOption('pt', 'Português (Portugal)')
+          .addOption('ru', 'Русский (Россия)')
+          .addOption('sk', 'Slovenčina (Slovensko)')
+          .addOption('es', 'Español (España)')
+          .addOption('sv', 'Svenska (Sverige)')
+          .addOption('th', 'ไทย (ประเทศไทย)')
+          .addOption('tr', 'Türkçe (Türkiye)')
+          .addOption('vi', 'Tiếng Việt (Việt Nam)')
+
+          .setValue(this.plugin.settings.numberFormatLocal)
+          .onChange(async (value) => {
+            this.plugin.settings.numberFormatLocal = value
+            this.plugin.saveSettings()
+          }),
+      )
+
+    new Setting(containerEl)
       .setName(t('MOBILE_RENDER_MODE'))
       .setDesc(t('MOBILE_RENDER_MODE_DESC'))
       .addDropdown(dropdown =>

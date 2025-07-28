@@ -52,6 +52,9 @@ export default {
 
   UNIVER_SETTING: 'Univer 配置',
 
+  NUMBER_FORMAT_LOCALE: '数字格式区域设置',
+  NUMBER_FORMAT_LOCALE_DESC: '设置数字格式的区域',
+
   MOBILE_RENDER_MODE: '手机端渲染模式',
   MOBILE_RENDER_MODE_DESC: '手机端渲染模式, 选择 mobile 渲染成手机端样式, desktop 渲染成客户端样式',
 

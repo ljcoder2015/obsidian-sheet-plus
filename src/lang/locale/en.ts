@@ -55,6 +55,9 @@ export default {
   MOBILE_RENDER_MODE: 'Mobile Render Mode',
   MOBILE_RENDER_MODE_DESC: 'Mobile rendering mode: select mobile to render in mobile style, and desktop to render in desktop client style.',
 
+  NUMBER_FORMAT_LOCALE: 'Number format locale settings',
+  NUMBER_FORMAT_LOCALE_DESC: 'Set the locale for number formatting',
+
   AUTHORIZATION_CODE: 'Authorization code',
   AUTHORIZATION_CODE_GET: 'Get Authorization code',
   AUTHORIZATION_CODE_DESC: 'Enter the authorization code to activate advanced functions',
