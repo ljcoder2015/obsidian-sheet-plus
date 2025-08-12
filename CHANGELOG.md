@@ -1,5 +1,12 @@
 
 
+## [1.12.10](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.12.9...1.12.10) (2025-08-12)
+
+
+### Bug Fixes
+
+* Number format locale setting not respected in embedded sheet ([683a131](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/683a1319028c8898e9e8e6e68a6259216721b04d))
+
 ## [1.12.9](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/1.12.8...1.12.9) (2025-08-11)
 
 
