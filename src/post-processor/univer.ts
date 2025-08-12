@@ -1,4 +1,4 @@
-import type { IWorkbookData } from '@univerjs/core'
+import type { INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
 import { UniverInstanceType } from '@univerjs/core'
 import { FUniver } from '@univerjs/core/facade'
 import { WorkbookEditablePermission } from '@univerjs/sheets'
@@ -50,6 +50,9 @@ export function createUniverEl(data: IWorkbookData | null, height = 300, showFoo
     if (unitId) {
       permission.setWorkbookPermissionPoint(unitId, WorkbookEditablePermission, false)
     }
+
+    const localeTag = plugin.settings.numberFormatLocal as INumfmtLocaleTag
+    univerAPI.getActiveWorkbook().setNumfmtLocal(localeTag)
   }, 1000)
 
   return univerEl

@@ -21,7 +21,7 @@ export function initializeMarkdownPostProcessor(p: ExcelProPlugin) {
 
 /**
  * markdown 文本处理
- * 在 markdown 中出入 ![[*.univer.md]] 链接，就会触发此方法
+ * 在 markdown 中出输入 ![[*.univer.md]] 链接，就会触发此方法
  * @param el 父元素
  * @param ctx 上下文
  */

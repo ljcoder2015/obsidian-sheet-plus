@@ -1,6 +1,6 @@
 import type { TFile, WorkspaceLeaf } from 'obsidian'
 import { Notice, TextFileView } from 'obsidian'
-import type { INumfmtLocalTag, IWorkbookData, Univer, Workbook } from '@univerjs/core'
+import type { INumfmtLocaleTag, IWorkbookData, Univer, Workbook } from '@univerjs/core'
 import { CommandType, LifecycleStages, UniverInstanceType } from '@univerjs/core'
 import { FUniver } from '@univerjs/core/facade'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
@@ -161,7 +161,7 @@ export class ExcelProView extends TextFileView {
     }
 
     // set number format local
-    const localeTag = this.plugin.settings.numberFormatLocal as INumfmtLocalTag
+    const localeTag = this.plugin.settings.numberFormatLocal as INumfmtLocaleTag
     this.univerAPI.getActiveWorkbook().setNumfmtLocal(localeTag)
 
     this.univerAPI.addEvent(this.univerAPI.Event.LifeCycleChanged, (res) => {
