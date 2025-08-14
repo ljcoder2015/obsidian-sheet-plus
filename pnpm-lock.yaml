@@ -17,8 +17,8 @@ importers:
         specifier: git+ssh://git@github.com:ljcoder2015/authorization.git#v1.4.0
         version: git+https://git@github.com:ljcoder2015/authorization.git#d2cebda9341d4d8e6dfec2e763498d5034a579da
       '@ljcoder/charts':
-        specifier: git+ssh://git@github.com:ljcoder2015/univer-charts.git#v1.10.3
-        version: git+https://git@github.com:ljcoder2015/univer-charts.git#74cfb273517a690a3bc1f51274ec47c9cb56df81(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)
+        specifier: git+ssh://git@github.com:ljcoder2015/univer-charts.git#v1.10.5
+        version: git+https://git@github.com:ljcoder2015/univer-charts.git#4b04bea8e8d7f6bfbc7c4bd77ecc1d4120cea405(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)
       '@ljcoder/embed-link-ui':
         specifier: git+ssh://git@github.com:ljcoder2015/univer-embed-link-ui.git#v1.10.4
         version: git+https://git@github.com:ljcoder2015/univer-embed-link-ui.git#3ee026c882f357442c0d85ae18b7bda5c05841dc(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)
@@ -584,9 +584,9 @@ packages:
     resolution: {commit: d2cebda9341d4d8e6dfec2e763498d5034a579da, repo: git@github.com:ljcoder2015/authorization.git, type: git}
     version: 1.4.0
 
-  '@ljcoder/charts@git+https://git@github.com:ljcoder2015/univer-charts.git#74cfb273517a690a3bc1f51274ec47c9cb56df81':
-    resolution: {commit: 74cfb273517a690a3bc1f51274ec47c9cb56df81, repo: git@github.com:ljcoder2015/univer-charts.git, type: git}
-    version: 1.10.3
+  '@ljcoder/charts@git+https://git@github.com:ljcoder2015/univer-charts.git#4b04bea8e8d7f6bfbc7c4bd77ecc1d4120cea405':
+    resolution: {commit: 4b04bea8e8d7f6bfbc7c4bd77ecc1d4120cea405, repo: git@github.com:ljcoder2015/univer-charts.git, type: git}
+    version: 1.10.5
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
@@ -4697,7 +4697,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@ljcoder/charts@git+https://git@github.com:ljcoder2015/univer-charts.git#74cfb273517a690a3bc1f51274ec47c9cb56df81(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)':
+  '@ljcoder/charts@git+https://git@github.com:ljcoder2015/univer-charts.git#4b04bea8e8d7f6bfbc7c4bd77ecc1d4120cea405(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)':
     dependencies:
       '@univerjs/core': 0.10.3(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(rxjs@7.8.2)
       '@univerjs/design': 0.10.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
