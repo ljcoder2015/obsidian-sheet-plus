@@ -1,5 +1,5 @@
 import type { IWorkbookData } from '@univerjs/core'
-import type { FRange } from '@univerjs/sheets/lib/types/facade/index'
+import type { FRange } from '@univerjs/sheets/facade'
 import type { TFile } from 'obsidian'
 
 /**
@@ -35,16 +35,19 @@ export function extractYAML(str: string): string | null {
  * @returns
  */
 export function getExcelData(str: string, file: TFile): IWorkbookData | null {
-  const markdown = splitYAML(str)?.rest
-  if (markdown) {
-    const json = markdown.replaceAll('```', '')
-    if (json) {
-      // console.log("getExcelData-----", json)
-      const data: IWorkbookData = JSON.parse(json)
-      if (data) {
-        data.name = file.path
-        return data
-      }
+  const sheet = parseMarkdown(str).blocks.get('sheet')
+  if (sheet) {
+    let data: IWorkbookData
+    if (typeof sheet == 'string') {
+      data = JSON.parse(sheet) as IWorkbookData
+    }
+    else if (typeof sheet == 'object') {
+      data = sheet as IWorkbookData
+    }
+
+    if (data) {
+      data.name = file.path
+      return data
     }
   }
   return null
@@ -221,4 +224,89 @@ export function numberToColRowString(
   }
 
   return result + row
+}
+
+interface ParsedHeader {
+  raw: string // 原始头部（包含 ---）
+  properties: Record<string, string> // 属性键值对
+}
+
+export interface ParsedMarkdown {
+  header?: ParsedHeader
+  blocks: Map<string, any>
+}
+
+export function parseMarkdown(md: string): ParsedMarkdown {
+  // 匹配头部（--- 开头到 --- 结束，支持多行）
+  // eslint-disable-next-line regexp/no-super-linear-backtracking
+  const headerMatch = md.match(/^---\s*\n([\s\S]*?)\n---\s*/)
+  let header: ParsedHeader | undefined
+
+  if (headerMatch) {
+    const raw = `---\n${headerMatch[1]}\n---`
+    const props: Record<string, string> = {}
+
+    headerMatch[1].split('\n').forEach((line) => {
+      // eslint-disable-next-line regexp/no-super-linear-backtracking
+      const m = line.match(/^([^:]+):\s*(.*)$/)
+      if (m) {
+        props[m[1].trim()] = m[2].trim()
+      }
+    })
+
+    header = { raw, properties: props }
+  }
+
+  const restMd = headerMatch ? md.slice(headerMatch[0].length) : md
+
+  const blockRegex = /```([^\n]*)\n([\s\S]*?)```/g
+  const blocks = new Map<string, any>()
+  let isFirstBlock = true
+
+  let match
+  // eslint-disable-next-line no-cond-assign
+  while ((match = blockRegex.exec(restMd)) !== null) {
+    let blockType = match[1].trim()
+    if (!blockType)
+      blockType = isFirstBlock ? 'sheet' : 'default'
+    isFirstBlock = false
+
+    const jsonText = match[2].trim().replace(/[“”]/g, '"')
+    try {
+      blocks.set(blockType, JSON.parse(jsonText))
+    }
+    catch {
+      blocks.set(blockType, jsonText)
+    }
+  }
+
+  return { header, blocks }
+}
+
+/**
+ * 将解析后的 markdown 对象重新导出为 markdown
+ */
+/**
+ * 将 header + blocks 生成 markdown
+ * @param parsed ParsedMarkdown 对象
+ */
+export function stringifyMarkdown(parsed: ParsedMarkdown): string {
+  let headerStr = ''
+
+  // console.log(parsed.header?.properties)
+  if (parsed.header?.properties && Object.keys(parsed.header.properties).length > 0) {
+    const propsLines = Object.entries(parsed.header.properties)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join('\n')
+    headerStr = `---\n${propsLines}\n---\n`
+  }
+
+  let blocksStr = ''
+  if (parsed.blocks) {
+    for (const [type, content] of parsed.blocks) {
+      blocksStr += `\`\`\`${type}\n${JSON.stringify(content)}\n\`\`\`\n`
+    }
+  }
+
+  return `${headerStr}${blocksStr}`
 }

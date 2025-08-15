@@ -10,11 +10,16 @@ import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-u
 import type ExcelProPlugin from '../main'
 import { renderToHtml } from '../post-processor/html'
 
+import type {
+  ParsedMarkdown,
+} from '../utils/data'
+
 import {
-  extractYAML,
   getExcelData,
+  parseMarkdown,
   rangeToNumber,
   rangeToRangeString,
+  stringifyMarkdown,
 } from '../utils/data'
 import { randomString } from '../utils/uuid'
 import { FRONTMATTER, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
@@ -36,6 +41,8 @@ export class ExcelProView extends TextFileView {
 
   private subPath: string | null
 
+  private markdownData: ParsedMarkdown
+
   constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
     super(leaf)
     this.plugin = plugin
@@ -49,6 +56,7 @@ export class ExcelProView extends TextFileView {
 
   setViewData(data: string, _: boolean): void {
     this.data = data
+    this.markdownData = parseMarkdown(this.data)
 
     this.app.workspace.onLayoutReady(async () => {
       // console.log("setViewData");
@@ -218,7 +226,7 @@ export class ExcelProView extends TextFileView {
 
       this.lastWorkbookData = activeWorkbookData
 
-      this.saveDataToFile(activeWorkbookData)
+      this.saveDataToFile('sheet', activeWorkbookData)
     })
   }
 
@@ -227,23 +235,19 @@ export class ExcelProView extends TextFileView {
   }
 
   headerData() {
-    let header = extractYAML(this.data)
+    let header = this.markdownData.header.raw
 
     if (header == null) {
       header = FRONTMATTER
-    }
-    else {
-      // 添加 --- 分隔符
-      header = ['---', '', `${header}`, '', '---', '', '', '```', ''].join('\n')
     }
 
     return header
   }
 
-  saveDataToFile(data: string) {
-    const yaml = this.headerData()
-
-    this.data = `${yaml + data}\n\`\`\``
+  saveDataToFile(key: string, data: string) {
+    this.markdownData.blocks[key] = JSON.parse(data)
+    const yaml = stringifyMarkdown(this.markdownData)
+    this.data = yaml
 
     this.save(false)
       .then(() => {

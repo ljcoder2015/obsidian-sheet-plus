@@ -5,6 +5,7 @@ import { defineConfig } from 'vite'
 import builtins from 'builtin-modules'
 import dotenv from 'dotenv'
 import { univerPlugin } from '@univerjs/vite-plugin'
+import tailwindcss from '@tailwindcss/vite'
 import pkg from './package.json'
 
 dotenv.config()
@@ -47,6 +48,7 @@ export default defineConfig((_) => {
     plugins: [
       generate(dev),
       univerPlugin(),
+      tailwindcss(),
     ],
     resolve: {
       alias: {
