@@ -17,7 +17,7 @@
   },
   "scripts": {
     "prepare": "simple-git-hooks",
-    "dev": "vite build --watch",
+    "dev": "vite build",
     "build": "vite build",
     "release": "release-it",
     "lint": "eslint .",
@@ -74,6 +74,7 @@
     "@univerjs/thread-comment": "0.10.3",
     "@univerjs/thread-comment-ui": "0.10.3",
     "@univerjs/ui": "0.10.3",
+    "antd": "^5.27.0",
     "defu": "^6.1.4",
     "echarts": "^5.5.1",
     "jszip": "^3.10.1",

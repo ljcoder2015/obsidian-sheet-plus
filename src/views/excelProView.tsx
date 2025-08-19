@@ -7,6 +7,9 @@ import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import { SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
 import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
 import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
+import type { Root } from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
+import React from 'react'
 import type ExcelProPlugin from '../main'
 import { renderToHtml } from '../post-processor/html'
 
@@ -25,12 +28,28 @@ import { randomString } from '../utils/uuid'
 import { FRONTMATTER, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { t } from '../lang/helpers'
 import { createUniver } from './univer/setup-univer'
+import { ContentView } from './ContentView'
+
+export interface ITab {
+  id: string
+  name: string
+  type: string
+}
+
+export interface ITabs {
+  tabs: ITab[]
+  order: string[]
+}
 
 export class ExcelProView extends TextFileView {
+  root: Root | null = null
   public plugin: ExcelProPlugin
   public loadingEle: HTMLElement
   public copyHTMLEle: HTMLElement
   public sheetEle: HTMLElement
+  public tabsHeader: HTMLElement | null = null
+  public content: HTMLElement | null = null
+
   public univerAPI: FUniver // 表格操作对象
   public univer: Univer | null // 表格对象
   public workbook: Workbook // 工作簿
@@ -42,6 +61,8 @@ export class ExcelProView extends TextFileView {
   private subPath: string | null
 
   private markdownData: ParsedMarkdown
+  private tabs: ITabs
+  private activeId: string | null = null
 
   constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
     super(leaf)
@@ -50,7 +71,7 @@ export class ExcelProView extends TextFileView {
 
   onLoadFile(file: TFile): Promise<void> {
     // console.log('onLoadFile', file.name, this.containerEl)
-    this.createUniverEl()
+    this.renderContent()
     return super.onLoadFile(file)
   }
 
@@ -58,22 +79,18 @@ export class ExcelProView extends TextFileView {
     this.data = data
     this.markdownData = parseMarkdown(this.data)
 
+    const tabsData = this.markdownData.blocks.get('tabs')
+    this.tabs = tabsData ? (tabsData as ITabs) : { tabs: [{ id: 'sheet', name: 'Sheet', type: 'sheet' }], order: ['sheet'] }
+
     this.app.workspace.onLayoutReady(async () => {
       // console.log("setViewData");
-      this.setupUniver()
+      // this.setupUniver()
+      // this.renderTabs()
+      // this.renderContent()
     })
   }
 
   onUnloadFile(file: TFile): Promise<void> {
-    // 释放图表
-    const charts = document.getElementsByClassName('univer-dialog-plus-content')
-    const elementsArray = Array.from(charts) // 转为静态数组
-
-    // 遍历数组移除所有元素
-    elementsArray.forEach((element) => {
-      element.remove()
-    })
-
     this.dispose()
     return super.onUnloadFile(file)
   }
@@ -88,6 +105,7 @@ export class ExcelProView extends TextFileView {
   }
 
   dispose() {
+    this.root?.unmount()
     // 释放 univer !无需手动调用，调用引起注册问题(已修复)，不调用会引起公式不计算
     this.univer?.dispose()
 
@@ -100,6 +118,11 @@ export class ExcelProView extends TextFileView {
 
   getViewType(): string {
     return VIEW_TYPE_EXCEL_PRO
+  }
+
+  renderContent() {
+    this.root = createRoot(this.contentEl)
+    this.root.render(<ContentView />)
   }
 
   createUniverEl() {
