@@ -27,19 +27,9 @@ import {
 import { randomString } from '../utils/uuid'
 import { FRONTMATTER, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { t } from '../lang/helpers'
+import { PluginContext } from '../context/pluginContext'
 import { createUniver } from './univer/setup-univer'
 import { ContentView } from './ContentView'
-
-export interface ITab {
-  id: string
-  name: string
-  type: string
-}
-
-export interface ITabs {
-  tabs: ITab[]
-  order: string[]
-}
 
 export class ExcelProView extends TextFileView {
   root: Root | null = null
@@ -61,8 +51,6 @@ export class ExcelProView extends TextFileView {
   private subPath: string | null
 
   private markdownData: ParsedMarkdown
-  private tabs: ITabs
-  private activeId: string | null = null
 
   constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
     super(leaf)
@@ -70,38 +58,32 @@ export class ExcelProView extends TextFileView {
   }
 
   onLoadFile(file: TFile): Promise<void> {
-    // console.log('onLoadFile', file.name, this.containerEl)
-    this.renderContent()
+    // console.log('onLoadFile', file.name)
+    // this.renderContent()
     return super.onLoadFile(file)
   }
 
   setViewData(data: string, _: boolean): void {
+    // console.log('setViewData')
     this.data = data
     this.markdownData = parseMarkdown(this.data)
-
-    const tabsData = this.markdownData.blocks.get('tabs')
-    this.tabs = tabsData ? (tabsData as ITabs) : { tabs: [{ id: 'sheet', name: 'Sheet', type: 'sheet' }], order: ['sheet'] }
+    this.renderContent()
 
     this.app.workspace.onLayoutReady(async () => {
-      // console.log("setViewData");
-      // this.setupUniver()
-      // this.renderTabs()
-      // this.renderContent()
+
     })
   }
 
   onUnloadFile(file: TFile): Promise<void> {
-    this.dispose()
+    // console.log('onUnloadFile', file.name)
+    this.root?.unmount()
     return super.onUnloadFile(file)
   }
 
   onload(): void {
     super.onload()
 
-    this.copyHTMLEle = this.addAction('file-code', t('COPY_TO_HTML'), _ =>
-      this.copyToHTML())
-
-    this.createUniverEl()
+    this.copyHTMLEle = this.addAction('file-code', t('COPY_TO_HTML'), _ => this.copyToHTML())
   }
 
   dispose() {
@@ -121,8 +103,13 @@ export class ExcelProView extends TextFileView {
   }
 
   renderContent() {
+    this.contentEl.empty()
     this.root = createRoot(this.contentEl)
-    this.root.render(<ContentView />)
+    this.root.render(
+      <PluginContext.Provider value={this}>
+        <ContentView />
+      </PluginContext.Provider>,
+    )
   }
 
   createUniverEl() {

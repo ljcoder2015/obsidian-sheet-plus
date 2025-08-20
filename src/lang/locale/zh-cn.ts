@@ -75,4 +75,10 @@ export default {
   COMMAND_LINK_CHARTS_RING_PIE: '生成 圆环图 嵌入链接',
 
   LOADING: '加载中',
+
+  TAB_TYPE_SHEET: '表格',
+  TAB_TYPE_KANBAN: '看板',
+  TAB_TYPE_GROUP: '分组',
+  TAB_TYPE_BI: 'BI分析',
+  TAB_TYPE_PIVOT: '透视表',
 }

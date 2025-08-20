@@ -132,7 +132,7 @@
 }
 
 #sheet-box {
-	height: 100%;
+	height: calc(100vh - var(--toolbar-height) - 66px);
 	box-sizing: border-box;
 }
 
@@ -341,4 +341,8 @@ button.univer-button-default {
     .rc-select-item-option-active {
         background: #31363f;
     }
+}
+
+:where(.css-dev-only-do-not-override-ma4ozq).ant-tabs-top >.ant-tabs-nav {
+  margin: 0;
 }

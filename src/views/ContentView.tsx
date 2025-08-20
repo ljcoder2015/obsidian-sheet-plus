@@ -1,30 +1,81 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ConfigProvider, Dropdown, Menu, Tabs, theme } from 'antd'
+import type { IWorkbookData } from '@univerjs/core'
 import { randomString } from '../utils/uuid'
+import { usePluginContext } from '../context/pluginContext'
+import type { ParsedMarkdown } from '../utils/data'
+import { getData, parseMarkdown, setData, stringifyMarkdown } from '../utils/data'
+import type { MultiSheet } from '../common/constants'
+import { TabType } from '../common/constants'
+import { t } from '../lang/helpers'
+import { SheetTab } from './tabs/SheetTab'
+import type { ExcelProView } from './excelProView'
 
 export function ContentView() {
+  const pluginContext: ExcelProView = usePluginContext()
+  const { data, plugin } = pluginContext
+  const [activeKey, setActiveKey] = useState('sheet')
+  const [tabs, setTabs] = useState<MultiSheet>([
+    {
+      key: 'sheet',
+      type: TabType.SHEET,
+      label: t('TAB_TYPE_SHEET'),
+    },
+  ])
+  const [items, setItems] = useState([])
+  const [markdownData, setMarkdownData] = useState<ParsedMarkdown | null>(null)
+
+  useEffect(() => {
+    if (data) {
+      setMarkdownData(parseMarkdown(data))
+    }
+    return () => {
+      setMarkdownData(null)
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (markdownData) {
+      const tabsData = getData<MultiSheet>(markdownData, 'multiSheet')
+      if (tabsData) {
+        setTabs(tabsData.tabs)
+        setActiveKey(tabsData.defaultActiveKey)
+      }
+      else {
+        setData(markdownData, 'multiSheet', {
+          tabs,
+          defaultActiveKey: activeKey,
+        })
+        const data = stringifyMarkdown(markdownData)
+        pluginContext.data = data
+        pluginContext.save(false)
+      }
+    }
+  }, [markdownData])
+
+  useEffect(() => {
+    if (markdownData) {
+      setItems(tabs.map((item) => {
+        let children = <div />
+        if (item.type === TabType.SHEET) {
+          children = <SheetTab data={getData<IWorkbookData>(markdownData, item.key)} />
+        }
+        return {
+          key: item.key,
+          label: item.label,
+          children,
+        }
+      }))
+    }
+  }, [tabs, markdownData])
+
   // 定义标签类型
   const tabTypes = [
-    { type: 'sheet', name: '表格' },
     { type: 'group', name: '分组' },
     { type: 'kanban', name: '看板' },
     { type: 'bi', name: 'BI分析' },
     { type: 'pivot', name: '透视表' },
   ]
-
-  const [activeKey, setActiveKey] = useState('1')
-  const [items, setItems] = useState([
-    {
-      key: '1',
-      label: '表格',
-      children: '表格内容',
-    },
-    {
-      key: '2',
-      label: '分组',
-      children: '分组内容',
-    },
-  ])
 
   // 处理删除标签
   const onEdit = (key: string, action: 'delete') => {
@@ -82,7 +133,7 @@ export function ContentView() {
     <div>
       <ConfigProvider
         theme={{
-          algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
+          algorithm: [theme.darkAlgorithm],
         }}
       >
         <Tabs
@@ -92,7 +143,6 @@ export function ContentView() {
           activeKey={activeKey}
           onChange={onChange}
           onEdit={onEdit}
-          renderAddButton={renderAddButton}
         />
       </ConfigProvider>
     </div>

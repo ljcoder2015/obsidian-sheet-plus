@@ -236,6 +236,14 @@ export interface ParsedMarkdown {
   blocks: Map<string, any>
 }
 
+export function getData<T>(parsed: ParsedMarkdown, key: string): T | undefined {
+  return parsed?.blocks?.get(key) as T | undefined || undefined
+}
+
+export function setData<T>(parsed: ParsedMarkdown, key: string, value: T) {
+  parsed.blocks.set(key, value)
+}
+
 export function parseMarkdown(md: string): ParsedMarkdown {
   // 匹配头部（--- 开头到 --- 结束，支持多行）
   // eslint-disable-next-line regexp/no-super-linear-backtracking

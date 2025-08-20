@@ -75,4 +75,10 @@ export default {
   COMMAND_LINK_CHARTS_RING_PIE: 'Generate Ring Pie Chart embed links',
 
   LOADING: 'Loading',
+
+  TAB_TYPE_SHEET: 'Sheet',
+  TAB_TYPE_KANBAN: 'Kanban',
+  TAB_TYPE_GROUP: 'Group',
+  TAB_TYPE_BI: 'BI',
+  TAB_TYPE_PIVOT: 'Pivot',
 }

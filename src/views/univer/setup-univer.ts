@@ -86,7 +86,7 @@ import { mockUser } from './customMentionDataService'
 
 export function createUniver(
   option: IUniverUIConfig,
-  id: string,
+  container: string | HTMLElement,
   mobileRenderMode: string,
   darkMode: boolean,
   isEmbed: boolean = false,
@@ -113,21 +113,21 @@ export function createUniver(
   userManagerService.setCurrentUser(mockUser)
 
   if (Platform.isPhone && mobileRenderMode === 'mobile') {
-    registerMobilePlugin(univer, option, id)
+    registerMobilePlugin(univer, option, container)
   }
   else {
-    registerDesktopPlugin(univer, option, id)
+    registerDesktopPlugin(univer, option, container)
     // registerLazyDesktopPlugin(univer)
   }
   return univer
 }
 
-function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, id: string) {
+function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, container: string | HTMLElement) {
   univer.registerPlugin(UniverDocsPlugin)
   univer.registerPlugin(UniverRenderEnginePlugin)
 
   univer.registerPlugin(UniverUIPlugin, {
-    container: id,
+    container,
     header: option.header,
     footer: option.footer,
     toolbar: option.toolbar,
@@ -260,12 +260,12 @@ function registerLazyDesktopPlugin(univer: Univer) {
   // }, LOAD_VERY_LAZY_PLUGINS_TIMEOUT)
 }
 
-function registerMobilePlugin(univer: Univer, option: IUniverUIConfig, id: string) {
+function registerMobilePlugin(univer: Univer, option: IUniverUIConfig, container: string | HTMLElement) {
   // core plugins
   univer.registerPlugin(UniverDocsPlugin)
   univer.registerPlugin(UniverRenderEnginePlugin)
   univer.registerPlugin(UniverMobileUIPlugin, {
-    container: id,
+    container,
     contextMenu: false,
     header: option.header,
     footer: option.footer,
