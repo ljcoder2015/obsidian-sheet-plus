@@ -1,15 +1,9 @@
 import type { TFile, WorkspaceLeaf } from 'obsidian'
 import { Notice, TextFileView } from 'obsidian'
-import type { INumfmtLocaleTag, IWorkbookData, Univer, Workbook } from '@univerjs/core'
-import { CommandType, LifecycleStages, UniverInstanceType } from '@univerjs/core'
-import { FUniver } from '@univerjs/core/facade'
-import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
-import { SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
-import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
-import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
 import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
 import React from 'react'
+import type { FUniver } from '@univerjs/core/facade'
 import type ExcelProPlugin from '../main'
 import { renderToHtml } from '../post-processor/html'
 
@@ -18,17 +12,13 @@ import type {
 } from '../utils/data'
 
 import {
-  getExcelData,
   parseMarkdown,
-  rangeToNumber,
   rangeToRangeString,
-  stringifyMarkdown,
 } from '../utils/data'
-import { randomString } from '../utils/uuid'
 import { FRONTMATTER, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { t } from '../lang/helpers'
+import { AppContext } from '../context/appContext'
 import { PluginContext } from '../context/pluginContext'
-import { createUniver } from './univer/setup-univer'
 import { ContentView } from './ContentView'
 
 export class ExcelProView extends TextFileView {
@@ -36,21 +26,11 @@ export class ExcelProView extends TextFileView {
   public plugin: ExcelProPlugin
   public loadingEle: HTMLElement
   public copyHTMLEle: HTMLElement
-  public sheetEle: HTMLElement
-  public tabsHeader: HTMLElement | null = null
-  public content: HTMLElement | null = null
+  public univerAPI: FUniver | null = null
 
-  public univerAPI: FUniver // 表格操作对象
-  public univer: Univer | null // 表格对象
-  public workbook: Workbook // 工作簿
+  public subPath: string | null = null
 
-  private univerId: string
-  private lastWorkbookData: string // 上次保存的数据
-  // private dataWorker: Worker; // 用来异步解析数据
-
-  private subPath: string | null
-
-  private markdownData: ParsedMarkdown
+  public markdownData: ParsedMarkdown | null = null
 
   constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
     super(leaf)
@@ -59,7 +39,6 @@ export class ExcelProView extends TextFileView {
 
   onLoadFile(file: TFile): Promise<void> {
     // console.log('onLoadFile', file.name)
-    // this.renderContent()
     return super.onLoadFile(file)
   }
 
@@ -68,10 +47,6 @@ export class ExcelProView extends TextFileView {
     this.data = data
     this.markdownData = parseMarkdown(this.data)
     this.renderContent()
-
-    this.app.workspace.onLayoutReady(async () => {
-
-    })
   }
 
   onUnloadFile(file: TFile): Promise<void> {
@@ -86,16 +61,13 @@ export class ExcelProView extends TextFileView {
     this.copyHTMLEle = this.addAction('file-code', t('COPY_TO_HTML'), _ => this.copyToHTML())
   }
 
+  onunload(): void {
+    // console.log('onunload', file.name)
+    this.dispose()
+  }
+
   dispose() {
     this.root?.unmount()
-    // 释放 univer !无需手动调用，调用引起注册问题(已修复)，不调用会引起公式不计算
-    this.univer?.dispose()
-
-    // this.univerAPI?.dispose()
-    this.univer = null
-    this.univerAPI = null
-
-    this.subPath = null
   }
 
   getViewType(): string {
@@ -106,138 +78,12 @@ export class ExcelProView extends TextFileView {
     this.contentEl.empty()
     this.root = createRoot(this.contentEl)
     this.root.render(
-      <PluginContext.Provider value={this}>
-        <ContentView />
-      </PluginContext.Provider>,
+      <AppContext.Provider value={this.app}>
+        <PluginContext.Provider value={this}>
+          <ContentView />
+        </PluginContext.Provider>
+      </AppContext.Provider>,
     )
-  }
-
-  createUniverEl() {
-    this.contentEl.empty()
-    const sheetContainer = this.contentEl.createDiv({
-      cls: 'sheet-container',
-    })
-
-    // 添加加载遮罩
-    this.loadingEle = sheetContainer.createDiv({
-      cls: 'sheet-loading-overlay',
-    })
-
-    const textEl = this.loadingEle.createEl('p', {
-      cls: 'loading-text',
-      text: t('LOADING'),
-    })
-
-    textEl.createSpan({ text: '.' })
-    textEl.createSpan({ text: '.' })
-    textEl.createSpan({ text: '.' })
-    textEl.createSpan({ text: '.' })
-
-    this.sheetEle = sheetContainer.createDiv({
-      attr: {
-        id: 'sheet-box',
-      },
-    })
-
-    const id = `univer-${randomString(6)}`
-    this.sheetEle.createDiv({
-      attr: {
-        id,
-        class: 'my-univer',
-      },
-    })
-    this.univerId = id
-    // 设置多语言
-    const options = {
-      header: true,
-      footer: true,
-    }
-
-    const darkMode = this.plugin.settings.darkModal === 'dark'
-
-    this.univer = createUniver(options, this.univerId, this.plugin.settings.mobileRenderMode, darkMode)
-    this.univerAPI = FUniver.newAPI(this.univer)
-  }
-
-  setupUniver() {
-    const data = getExcelData(this.data, this.file)
-    if (data) {
-      // workbookData 的内容都包含在 workbook 字段中
-      const workbookData: IWorkbookData = data
-      this.workbook = this.univer.createUnit(
-        UniverInstanceType.UNIVER_SHEET,
-        workbookData,
-      )
-    }
-    else {
-      this.workbook = this.univer.createUnit(
-        UniverInstanceType.UNIVER_SHEET,
-        {
-          name: this.file.path,
-        },
-      )
-    }
-
-    // set number format local
-    const localeTag = this.plugin.settings.numberFormatLocal as INumfmtLocaleTag
-    this.univerAPI.getActiveWorkbook().setNumfmtLocal(localeTag)
-
-    this.univerAPI.addEvent(this.univerAPI.Event.LifeCycleChanged, (res) => {
-      if (res.stage === LifecycleStages.Rendered) {
-        this.loadingEle.remove()
-        // this.univerAPI.executeCommand('sheet.command.display-chart')
-      }
-    })
-
-    this.univerAPI.addEvent(this.univerAPI.Event.CommandExecuted, (res) => {
-      if (res.id === SearchOutgoingLinkCommand.id) {
-        const links = this.app.vault.getFiles().map((file) => {
-          return {
-            basename: file.basename,
-            extension: file.extension,
-            name: file.name,
-            path: file.path,
-            type: SheetOutgoingLinkType.FILE,
-          }
-        })
-        this.univerAPI?.executeCommand(SearchResultOutgoingLinkCommand.id, { links })
-      }
-
-      if (res.id === NavigationOutgoingLinkOperation.id) {
-        const params = res.params as INavigationOutgoingLinkOperationParams
-        if (params.url.startsWith('[[')) {
-          this.app.workspace.openLinkText(params.url.slice(2, -2), '', 'split')
-        }
-      }
-
-      if (res.type !== CommandType.MUTATION) {
-        return
-      }
-
-      const activeWorkbook = this.univerAPI.getActiveWorkbook()
-      if (!activeWorkbook) {
-        return
-      }
-
-      const activeWorkbookData = JSON.stringify(activeWorkbook.save())
-
-      if (this.lastWorkbookData === null) {
-        // 第一次加载不处理
-        this.lastWorkbookData = activeWorkbookData
-        return
-      }
-
-      if (this.lastWorkbookData === activeWorkbookData) {
-        // 没变化不处理
-        return
-      }
-
-      // console.log("\n===command===", command)
-
-      this.lastWorkbookData = activeWorkbookData
-
-      this.saveDataToFile('sheet', activeWorkbookData)
-    })
   }
 
   getViewData(): string {
@@ -254,21 +100,6 @@ export class ExcelProView extends TextFileView {
     return header
   }
 
-  saveDataToFile(key: string, data: string) {
-    this.markdownData.blocks[key] = JSON.parse(data)
-    const yaml = stringifyMarkdown(this.markdownData)
-    this.data = yaml
-
-    this.save(false)
-      .then(() => {
-        // console.log("save data success", this.file);
-      })
-      .catch((e) => {
-        new Notice(t('SAVE_DATA_ERROR'))
-        // console.log("save data error", e);
-      })
-  }
-
   clear(): void {
     this.data = this.headerData()
   }
@@ -277,39 +108,13 @@ export class ExcelProView extends TextFileView {
     if (state.subpath) {
       const path = state.subpath as string
       this.subPath = path
-      this.scrollToRange()
-    }
-  }
-
-  scrollToRange() {
-    if (this.subPath) {
-      setTimeout(() => {
-        const array = this.subPath.split('|')
-        const sheetName = array[0]
-        const rangeString = array[1]
-        const rangeNumber = rangeToNumber(rangeString)
-        // 打开文件后的子路径，用来选中表格范围
-        const activeWorkbook = this.univerAPI.getActiveWorkbook()
-        const sheet = activeWorkbook.getSheetByName(sheetName)
-        activeWorkbook.setActiveSheet(sheet)
-        // getRange(row: number, column: number, numRows: number, numColumns: number): FRange;
-        const selection = sheet.getRange(rangeNumber.startRow, rangeNumber.startCol, rangeNumber.endRow - rangeNumber.startRow + 1, rangeNumber.endCol - rangeNumber.startCol + 1)
-        sheet.setActiveSelection(selection)
-
-        const GAP = 1
-        this.univerAPI.executeCommand(ScrollToRangeOperation.id, {
-          range: {
-            startRow: Math.max(selection.getRow() - GAP, 0),
-            endRow: selection.getRow() + selection.getHeight() + GAP,
-            startColumn: selection.getColumn(),
-            endColumn: selection.getColumn() + selection.getWidth() + GAP,
-          },
-        })
-      }, 1000)
     }
   }
 
   copyToHTML() {
+    if (this.univerAPI === null) {
+      return
+    }
     const workbook = this.univerAPI.getActiveWorkbook()
 
     const workbookData = workbook?.getSnapshot()

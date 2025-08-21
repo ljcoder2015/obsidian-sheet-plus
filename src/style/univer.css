@@ -248,6 +248,7 @@ button.univer-toolbar-btn-active {
 	box-shadow: none;
 }
 
+.lj-content-view button:not(.clickable-icon),
 .univer-grid button:not(.clickable-icon),
 .my-univer button:not(.clickable-icon) {
   box-shadow: none;
@@ -341,8 +342,4 @@ button.univer-button-default {
     .rc-select-item-option-active {
         background: #31363f;
     }
-}
-
-:where(.css-dev-only-do-not-override-ma4ozq).ant-tabs-top >.ant-tabs-nav {
-  margin: 0;
 }

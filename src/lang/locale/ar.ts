@@ -75,7 +75,7 @@ export default {
   COMMAND_LINK_CHARTS_PIE: 'إنشاء رابط مضمن لمخطط دائري',
   COMMAND_LINK_CHARTS_RING_PIE: 'إنشاء رابط مضمن لمخطط حلقي',
 
-  LOADING: 'جارٍ التحميل',
+  LOADING: 'جارٍ التحميل...',
 
   TAB_TYPE_SHEET: 'جدول',
   TAB_TYPE_KANBAN: 'لوحة كانبان',

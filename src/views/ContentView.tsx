@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ConfigProvider, Dropdown, Menu, Tabs, theme } from 'antd'
 import type { IWorkbookData } from '@univerjs/core'
+import { Notice } from 'obsidian'
 import { randomString } from '../utils/uuid'
 import { usePluginContext } from '../context/pluginContext'
 import type { ParsedMarkdown } from '../utils/data'
@@ -24,6 +25,7 @@ export function ContentView() {
   ])
   const [items, setItems] = useState([])
   const [markdownData, setMarkdownData] = useState<ParsedMarkdown | null>(null)
+  const [algorithm, setAlgorithm] = useState([])
 
   useEffect(() => {
     if (data) {
@@ -34,6 +36,23 @@ export function ContentView() {
     }
   }, [data])
 
+  // 保存数据
+  const saveData = (data: any, key: string) => {
+    setData(markdownData, key, data)
+    const markdown = stringifyMarkdown(markdownData)
+    if (markdown) {
+      pluginContext.data = markdown
+      pluginContext.save(false)
+        .then(() => {
+          // console.log('save data success', pluginContext.file.path)
+        })
+        .catch(() => {
+          new Notice(t('SAVE_DATA_ERROR'))
+          // console.log("save data error", e);
+        })
+    }
+  }
+
   useEffect(() => {
     if (markdownData) {
       const tabsData = getData<MultiSheet>(markdownData, 'multiSheet')
@@ -42,13 +61,10 @@ export function ContentView() {
         setActiveKey(tabsData.defaultActiveKey)
       }
       else {
-        setData(markdownData, 'multiSheet', {
+        saveData({
           tabs,
           defaultActiveKey: activeKey,
-        })
-        const data = stringifyMarkdown(markdownData)
-        pluginContext.data = data
-        pluginContext.save(false)
+        }, 'multiSheet')
       }
     }
   }, [markdownData])
@@ -58,7 +74,7 @@ export function ContentView() {
       setItems(tabs.map((item) => {
         let children = <div />
         if (item.type === TabType.SHEET) {
-          children = <SheetTab data={getData<IWorkbookData>(markdownData, item.key)} />
+          children = <SheetTab id={item.key} data={getData<IWorkbookData>(markdownData, item.key)} saveData={saveData} />
         }
         return {
           key: item.key,
@@ -68,6 +84,15 @@ export function ContentView() {
       }))
     }
   }, [tabs, markdownData])
+
+  useEffect(() => {
+    if (plugin.settings.darkModal === 'dark') {
+      setAlgorithm([theme.darkAlgorithm])
+    }
+    else {
+      setAlgorithm([])
+    }
+  }, [plugin.settings.darkModal])
 
   // 定义标签类型
   const tabTypes = [
@@ -130,10 +155,18 @@ export function ContentView() {
   }
 
   return (
-    <div>
+    <div className="lj-content-view">
       <ConfigProvider
         theme={{
-          algorithm: [theme.darkAlgorithm],
+          algorithm,
+          components: {
+            Spin: {
+              contentHeight: '100%',
+            },
+            Tabs: {
+              horizontalMargin: 0,
+            },
+          },
         }}
       >
         <Tabs

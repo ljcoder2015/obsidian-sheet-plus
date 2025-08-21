@@ -74,7 +74,7 @@ export default {
   COMMAND_LINK_CHARTS_PIE: 'Generate Pie Chart embed links',
   COMMAND_LINK_CHARTS_RING_PIE: 'Generate Ring Pie Chart embed links',
 
-  LOADING: 'Loading',
+  LOADING: 'Loading...',
 
   TAB_TYPE_SHEET: 'Sheet',
   TAB_TYPE_KANBAN: 'Kanban',

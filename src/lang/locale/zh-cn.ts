@@ -74,7 +74,7 @@ export default {
   COMMAND_LINK_CHARTS_PIE: '生成 饼图 嵌入链接',
   COMMAND_LINK_CHARTS_RING_PIE: '生成 圆环图 嵌入链接',
 
-  LOADING: '加载中',
+  LOADING: '加载中...',
 
   TAB_TYPE_SHEET: '表格',
   TAB_TYPE_KANBAN: '看板',
