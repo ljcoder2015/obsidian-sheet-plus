@@ -166,6 +166,14 @@
   border-color: #363636;
 }
 
+.my-tab-bar {
+  border-color: #ececec;
+}
+
+.univer-dark .my-tab-bar {
+  border-color: #363636;
+}
+
 .univer-menu-item,
 .univer-icon-container,
 .more-numfmt-type,
@@ -248,7 +256,10 @@ button.univer-toolbar-btn-active {
 	box-shadow: none;
 }
 
-.lj-content-view button:not(.clickable-icon),
+.lj-content-view button:not(.clickable-icon) {
+  box-shadow: none;
+}
+
 .univer-grid button:not(.clickable-icon),
 .my-univer button:not(.clickable-icon) {
   box-shadow: none;

@@ -17,6 +17,7 @@ import {
 import { around, dedupe } from 'monkey-around'
 import { update } from '@ljcoder/authorization'
 import {
+  DEFAULT_CONTENT,
   FRONTMATTER,
   FRONTMATTER_KEY,
   VIEW_TYPE_EXCEL_PRO,
@@ -85,7 +86,7 @@ export default class ExcelProPlugin extends Plugin {
   }
 
   private getBlackData() {
-    return FRONTMATTER
+    return FRONTMATTER + DEFAULT_CONTENT
   }
 
   private addMarkdownPostProcessor() {

@@ -81,4 +81,11 @@ export default {
   TAB_TYPE_GROUP: 'Group',
   TAB_TYPE_BI: 'BI',
   TAB_TYPE_PIVOT: 'Pivot',
+
+  TAB_MENU_DEFAULT: 'Default',
+  TAB_MENU_DELETE: 'Delete',
+  TAB_MENU_RENAME: 'Rename',
+
+  TAB_HELP_TITLE: 'Help Center',
+  TAB_HELP_CONTENT: 'View Help Documentation',
 }

@@ -233,15 +233,30 @@ interface ParsedHeader {
 
 export interface ParsedMarkdown {
   header?: ParsedHeader
-  blocks: Map<string, any>
+  blocks?: Map<string, any>
 }
 
 export function getData<T>(parsed: ParsedMarkdown, key: string): T | undefined {
   return parsed?.blocks?.get(key) as T | undefined || undefined
 }
 
-export function setData<T>(parsed: ParsedMarkdown, key: string, value: T) {
-  parsed.blocks.set(key, value)
+export function setData<T>(parsed: ParsedMarkdown, key: string, value: T): ParsedMarkdown {
+  if (!parsed.blocks) {
+    return parsed
+  }
+  return {
+    ...parsed,
+    blocks: new Map(parsed.blocks).set(key, value),
+  }
+}
+
+export function removeData(parsed: ParsedMarkdown, key: string): ParsedMarkdown {
+  const blocks = new Map(parsed.blocks)
+  blocks.delete(key)
+  return {
+    ...parsed,
+    blocks,
+  }
 }
 
 export function parseMarkdown(md: string): ParsedMarkdown {

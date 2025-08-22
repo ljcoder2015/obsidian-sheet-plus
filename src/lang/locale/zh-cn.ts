@@ -81,4 +81,11 @@ export default {
   TAB_TYPE_GROUP: '分组',
   TAB_TYPE_BI: 'BI分析',
   TAB_TYPE_PIVOT: '透视表',
+
+  TAB_MENU_DEFAULT: '默认显示',
+  TAB_MENU_DELETE: '删除',
+  TAB_MENU_RENAME: '重命名',
+
+  TAB_HELP_TITLE: '帮助中心',
+  TAB_HELP_CONTENT: '查看帮助文档',
 }

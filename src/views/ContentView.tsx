@@ -1,44 +1,62 @@
-import React, { useEffect, useState } from 'react'
-import { ConfigProvider, Dropdown, Menu, Tabs, theme } from 'antd'
+import React, { useEffect, useMemo, useState } from 'react'
+import type { MenuProps } from 'antd'
+import { Button, ConfigProvider, Dropdown, Flex, Popover, Tabs, theme } from 'antd'
 import type { IWorkbookData } from '@univerjs/core'
 import { Notice } from 'obsidian'
 import { randomString } from '../utils/uuid'
 import { usePluginContext } from '../context/pluginContext'
 import type { ParsedMarkdown } from '../utils/data'
-import { getData, parseMarkdown, setData, stringifyMarkdown } from '../utils/data'
+import { getData, parseMarkdown, removeData, setData, stringifyMarkdown } from '../utils/data'
 import type { MultiSheet } from '../common/constants'
 import { TabType } from '../common/constants'
 import { t } from '../lang/helpers'
 import { SheetTab } from './tabs/SheetTab'
 import type { ExcelProView } from './excelProView'
+import { KanbanTab } from './tabs/KanbanTab'
+
+const helpContent = (
+  <div>
+    <h3>{t('TAB_HELP_TITLE')}</h3>
+    <a href="https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/User-Guide" target="_blank">{t('TAB_HELP_CONTENT')}</a>
+  </div>
+)
 
 export function ContentView() {
   const pluginContext: ExcelProView = usePluginContext()
   const { data, plugin } = pluginContext
   const [activeKey, setActiveKey] = useState('sheet')
-  const [tabs, setTabs] = useState<MultiSheet>([
-    {
-      key: 'sheet',
-      type: TabType.SHEET,
-      label: t('TAB_TYPE_SHEET'),
-    },
-  ])
-  const [items, setItems] = useState([])
+  const [tabsData, setTabsData] = useState<MultiSheet>({
+    tabs: [
+      {
+        key: 'sheet',
+        type: TabType.SHEET,
+        label: t('TAB_TYPE_SHEET'),
+      },
+    ],
+    defaultActiveKey: 'sheet',
+  })
+  const [items, setItems] = useState([]) // 标签元素
   const [markdownData, setMarkdownData] = useState<ParsedMarkdown | null>(null)
   const [algorithm, setAlgorithm] = useState([])
-
-  useEffect(() => {
-    if (data) {
-      setMarkdownData(parseMarkdown(data))
-    }
-    return () => {
-      setMarkdownData(null)
-    }
-  }, [data])
+  const [triggerSource, setTriggerSource] = useState<string | null>(null) // 记录是点击哪个 tab 触发的下拉菜单
 
   // 保存数据
   const saveData = (data: any, key: string) => {
-    setData(markdownData, key, data)
+    if (!markdownData) {
+      return
+    }
+    const newMarkdownData = setData(markdownData, key, data)
+    setMarkdownData(newMarkdownData)
+    const markdown = stringifyMarkdown(newMarkdownData)
+    if (markdown) {
+      pluginContext.data = markdown
+      pluginContext.requestSave()
+    }
+  }
+
+  // 删除数据
+  const deleteData = (key: string) => {
+    removeData(markdownData, key)
     const markdown = stringifyMarkdown(markdownData)
     if (markdown) {
       pluginContext.data = markdown
@@ -54,27 +72,45 @@ export function ContentView() {
   }
 
   useEffect(() => {
-    if (markdownData) {
-      const tabsData = getData<MultiSheet>(markdownData, 'multiSheet')
-      if (tabsData) {
-        setTabs(tabsData.tabs)
-        setActiveKey(tabsData.defaultActiveKey)
-      }
-      else {
-        saveData({
-          tabs,
-          defaultActiveKey: activeKey,
-        }, 'multiSheet')
+    if (data) {
+      // 初始化数据
+      const markdown = parseMarkdown(data)
+      setMarkdownData(markdown)
+      if (markdown) {
+        const tabs = getData<MultiSheet>(markdown, 'multiSheet')
+        if (tabs) {
+          setTabsData(tabs)
+          if (tabs.defaultActiveKey === 'sheet') {
+            setActiveKey(tabs.defaultActiveKey)
+          }
+          else {
+            setTimeout(() => setActiveKey(tabs.defaultActiveKey), 300)
+          }
+        }
+        else {
+          saveData({
+            tabs: tabsData.tabs,
+            defaultActiveKey: activeKey,
+          }, 'multiSheet')
+        }
       }
     }
-  }, [markdownData])
+    return () => {
+      setMarkdownData(null)
+    }
+  }, [data])
 
   useEffect(() => {
     if (markdownData) {
-      setItems(tabs.map((item) => {
+      setItems(tabsData.tabs.map((item) => {
         let children = <div />
-        if (item.type === TabType.SHEET) {
-          children = <SheetTab id={item.key} data={getData<IWorkbookData>(markdownData, item.key)} saveData={saveData} />
+        switch (item.type) {
+          case TabType.SHEET:
+            children = <SheetTab id={item.key} data={getData<IWorkbookData>(markdownData, item.key)} saveData={saveData} />
+            break
+          case TabType.KANBAN:
+            children = <KanbanTab />
+            break
         }
         return {
           key: item.key,
@@ -83,7 +119,7 @@ export function ContentView() {
         }
       }))
     }
-  }, [tabs, markdownData])
+  }, [tabsData.tabs])
 
   useEffect(() => {
     if (plugin.settings.darkModal === 'dark') {
@@ -94,64 +130,119 @@ export function ContentView() {
     }
   }, [plugin.settings.darkModal])
 
-  // 定义标签类型
-  const tabTypes = [
-    { type: 'group', name: '分组' },
-    { type: 'kanban', name: '看板' },
-    { type: 'bi', name: 'BI分析' },
-    { type: 'pivot', name: '透视表' },
+  const tabMenu: MenuProps['items'] = [
+    {
+      label: t('TAB_MENU_DEFAULT'),
+      key: 'default',
+    },
+    {
+      label: t('TAB_MENU_RENAME'),
+      key: 'rename',
+    },
+    {
+      label: t('TAB_MENU_DELETE'),
+      key: 'delete',
+    },
   ]
 
-  // 处理删除标签
-  const onEdit = (key: string, action: 'delete') => {
-    if (action === 'delete') {
-      setItems(items.filter(item => item.key !== key))
+  const tabDropdownClick: MenuProps['onClick'] = (item) => {
+    const { key } = item
+    if (key === 'delete') {
+      // 删除tab数据并保存
+      setTabsData({
+        ...tabsData,
+        tabs: tabsData.tabs.filter(tab => tab.key !== triggerSource),
+      })
+    }
+    if (key === 'default') {
+      setTabsData({
+        ...tabsData,
+        defaultActiveKey: triggerSource,
+      })
     }
   }
 
-  // 处理添加新标签
-  const handleAddTab = (type: string) => {
-    const typeToName = tabTypes.reduce((acc, curr) => {
-      acc[curr.type] = curr.name
-      return acc
-    }, {} as Record<string, string>)
+  useMemo(() => {
+    if (tabsData) {
+      saveData(tabsData, 'multiSheet')
+    }
+  }, [tabsData])
 
-    setItems([
-      ...items,
+  // 添加标签页
+  const addTabMenu: MenuProps = {
+    items: [
       {
-        key: randomString(6),
-        label: typeToName[type] || '新标签',
-        children: `${typeToName[type] || '新标签'} 内容`,
+        label: t('TAB_TYPE_KANBAN'),
+        key: 'kanban',
       },
-    ])
+      // {
+      //   label: t('TAB_TYPE_GROUP'),
+      //   key: 'group',
+      // },
+      // {
+      //   label: t('TAB_TYPE_BI'),
+      //   key: 'bi',
+      // },
+      // {
+      //   label: t('TAB_TYPE_PIVOT'),
+      //   key: 'pivot',
+      // },
+    ],
+    onClick: (item) => {
+      const { key } = item
+      // 添加tab数据并保存
+      setTabsData({
+        ...tabsData,
+        tabs: [
+          ...tabsData.tabs,
+          {
+            key: randomString(6),
+            type: key as TabType,
+            label: t(`TAB_TYPE_${key.toUpperCase()}` as any),
+          },
+        ],
+      })
+    },
   }
 
-  // 自定义添加按钮
-  const renderAddButton = () => {
-    const menu = (
-      <Menu>
-        {tabTypes.map(item => (
-          <Menu.Item key={item.type} onClick={() => handleAddTab(item.type)}>
-            {item.name}
-          </Menu.Item>
-        ))}
-      </Menu>
-    )
-
+  // 自定义 TabBar 渲染函数
+  const renderTabBar = (props: any, DefaultTabBar: React.ComponentType) => {
     return (
-      <Dropdown overlay={menu} trigger={['click']}>
-        <button
-          type="button"
-          className="ant-tabs-btn ant-tabs-btn-add"
-          aria-label="Add tab"
-        >
-        </button>
-      </Dropdown>
+      <DefaultTabBar
+        {...props}
+        // 添加自定义的 tabBar 样式类名
+        className="my-tab-bar w-full border-t border-l border-r p-2"
+      >
+        { (node) => {
+          return (
+            <Dropdown
+              menu={{
+                items: tabMenu,
+                onClick: tabDropdownClick,
+              }}
+              trigger={['contextMenu']}
+              onOpenChange={
+                (open) => {
+                  setTriggerSource(open ? node.key : null)
+                }
+              }
+            >
+              <Button
+                color="blue"
+                variant={activeKey === node.key ? 'solid' : 'outlined'}
+                className="mr-[10px]"
+                onClick={() => {
+                  setActiveKey(node.key)
+                }}
+              >
+                {tabsData.defaultActiveKey === node.key ? <span>★</span> : null}
+                {tabsData.tabs?.find(tab => tab.key === node.key)?.label || ''}
+              </Button>
+            </Dropdown>
+          )
+        }}
+      </DefaultTabBar>
     )
-  }
-
-  const onChange = (key: string) => {
-    setActiveKey(key)
   }
 
   return (
@@ -170,12 +261,26 @@ export function ContentView() {
         }}
       >
         <Tabs
-          type="editable-card"
           size="small"
+          type="card"
           items={items}
           activeKey={activeKey}
-          onChange={onChange}
-          onEdit={onEdit}
+          renderTabBar={renderTabBar}
+          tabBarExtraContent={{
+            right: (
+              <Flex gap="small">
+                <Dropdown menu={addTabMenu} trigger={['click']}>
+                  <Button color="default" variant="outlined">+</Button>
+                </Dropdown>
+                <Popover content={helpContent} trigger="hover">
+                  <Button>?</Button>
+                </Popover>
+              </Flex>
+            ),
+          }}
+          onChange={(key) => {
+            setActiveKey(key)
+          }}
         />
       </ConfigProvider>
     </div>
