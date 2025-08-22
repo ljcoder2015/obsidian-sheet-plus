@@ -88,4 +88,9 @@ export default {
 
   TAB_HELP_TITLE: '帮助中心',
   TAB_HELP_CONTENT: '查看帮助文档',
+
+  TAB_RENAME_CANCEL: '取消',
+  TAB_RENAME_OK: '确定',
+  TAB_RENAME_TITLE: '重命名',
+  TAB_RENAME_PLACEHOLDER: '请输入重命名',
 }

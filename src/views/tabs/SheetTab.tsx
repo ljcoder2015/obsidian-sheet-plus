@@ -19,9 +19,10 @@ interface Props {
   id: string
   data: IWorkbookData
   saveData: (data: any, key: string) => void
+  onRender: () => void
 }
 
-export function SheetTab({ id, data, saveData }: Props) {
+export function SheetTab({ id, data, saveData, onRender }: Props) {
   const viewContext: ExcelProView = usePluginContext()
   const { plugin } = viewContext
   const app = useApp()
@@ -66,6 +67,10 @@ export function SheetTab({ id, data, saveData }: Props) {
 
       // loading
       univerAPI.addEvent(univerAPI.Event.LifeCycleChanged, (res) => {
+        // console.log('LifeCycleChanged', res.stage)
+        if (res.stage === LifecycleStages.Starting) {
+          onRender()
+        }
         if (res.stage === LifecycleStages.Rendered) {
           setLoading(false)
         }

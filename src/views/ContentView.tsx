@@ -13,6 +13,7 @@ import { t } from '../lang/helpers'
 import { SheetTab } from './tabs/SheetTab'
 import type { ExcelProView } from './excelProView'
 import { KanbanTab } from './tabs/KanbanTab'
+import { RenameModal } from './components/RenameModal'
 
 const helpContent = (
   <div>
@@ -39,6 +40,8 @@ export function ContentView() {
   const [markdownData, setMarkdownData] = useState<ParsedMarkdown | null>(null)
   const [algorithm, setAlgorithm] = useState([])
   const [triggerSource, setTriggerSource] = useState<string | null>(null) // 记录是点击哪个 tab 触发的下拉菜单
+  const [renameModalVisible, setRenameModalVisible] = useState(false)
+  const [renameModalName, setRenameModalName] = useState('')
 
   // 保存数据
   const saveData = (data: any, key: string) => {
@@ -71,6 +74,13 @@ export function ContentView() {
     }
   }
 
+  const onSheetRender = () => {
+    // console.log('onSheetRender', tabsData)
+    if (tabsData && tabsData.defaultActiveKey !== 'sheet') {
+      setActiveKey(tabsData.defaultActiveKey)
+    }
+  }
+
   useEffect(() => {
     if (data) {
       // 初始化数据
@@ -82,9 +92,6 @@ export function ContentView() {
           setTabsData(tabs)
           if (tabs.defaultActiveKey === 'sheet') {
             setActiveKey(tabs.defaultActiveKey)
-          }
-          else {
-            setTimeout(() => setActiveKey(tabs.defaultActiveKey), 300)
           }
         }
         else {
@@ -106,7 +113,7 @@ export function ContentView() {
         let children = <div />
         switch (item.type) {
           case TabType.SHEET:
-            children = <SheetTab id={item.key} data={getData<IWorkbookData>(markdownData, item.key)} saveData={saveData} />
+            children = <SheetTab id={item.key} data={getData<IWorkbookData>(markdownData, item.key)} saveData={saveData} onRender={onSheetRender} />
             break
           case TabType.KANBAN:
             children = <KanbanTab />
@@ -145,6 +152,24 @@ export function ContentView() {
     },
   ]
 
+  useMemo(() => {
+    // console.log('save name', triggerSource)
+    if (triggerSource && renameModalName && !renameModalVisible) {
+      saveData({
+        ...tabsData,
+        tabs: tabsData.tabs.map((tab) => {
+          if (tab.key === triggerSource) {
+            return {
+              ...tab,
+              label: renameModalName,
+            }
+          }
+          return tab
+        }),
+      }, 'multiSheet')
+    }
+  }, [renameModalName, renameModalVisible])
+
   const tabDropdownClick: MenuProps['onClick'] = (item) => {
     const { key } = item
     if (key === 'delete') {
@@ -153,12 +178,23 @@ export function ContentView() {
         ...tabsData,
         tabs: tabsData.tabs.filter(tab => tab.key !== triggerSource),
       })
+      setTriggerSource(null)
     }
     if (key === 'default') {
       setTabsData({
         ...tabsData,
         defaultActiveKey: triggerSource,
       })
+      setTriggerSource(null)
+    }
+    if (key === 'rename') {
+      if (triggerSource) {
+        const tab = tabsData.tabs.find(t => t.key === triggerSource)
+        if (tab) {
+          setRenameModalName(tab.label)
+        }
+      }
+      setRenameModalVisible(true)
     }
   }
 
@@ -223,7 +259,9 @@ export function ContentView() {
               trigger={['contextMenu']}
               onOpenChange={
                 (open) => {
-                  setTriggerSource(open ? node.key : null)
+                  if (open) {
+                    setTriggerSource(node.key)
+                  }
                 }
               }
             >
@@ -280,6 +318,15 @@ export function ContentView() {
           }}
           onChange={(key) => {
             setActiveKey(key)
+          }}
+        />
+        <RenameModal
+          visible={renameModalVisible}
+          name={renameModalName}
+          onCancel={() => setRenameModalVisible(false)}
+          onOk={(name) => {
+            setRenameModalVisible(false)
+            setRenameModalName(name)
           }}
         />
       </ConfigProvider>

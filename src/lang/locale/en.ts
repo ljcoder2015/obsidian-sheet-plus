@@ -88,4 +88,9 @@ export default {
 
   TAB_HELP_TITLE: 'Help Center',
   TAB_HELP_CONTENT: 'View Help Documentation',
+
+  TAB_RENAME_CANCEL: 'Cancel',
+  TAB_RENAME_OK: 'OK',
+  TAB_RENAME_TITLE: 'Rename',
+  TAB_RENAME_PLACEHOLDER: 'Please input rename',
 }
