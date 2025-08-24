@@ -53,7 +53,13 @@ export function ContentView() {
     const markdown = stringifyMarkdown(newMarkdownData)
     if (markdown) {
       pluginContext.data = markdown
-      pluginContext.requestSave()
+      pluginContext.save()
+        .then(() => {
+          // console.log('save data success', pluginContext.file.path)
+        })
+        .catch(() => {
+          new Notice(t('SAVE_DATA_ERROR'))
+        })
     }
   }
 
