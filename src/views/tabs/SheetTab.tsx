@@ -19,7 +19,7 @@ interface Props {
   id: string
   data: IWorkbookData
   saveData: (data: any, key: string) => void
-  onRender: () => void
+  onRender: (isToRange: boolean) => void
 }
 
 export function SheetTab({ id, data, saveData, onRender }: Props) {
@@ -68,8 +68,10 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
       // loading
       univerAPI.addEvent(univerAPI.Event.LifeCycleChanged, (res) => {
         // console.log('LifeCycleChanged', res.stage)
-        if (res.stage === LifecycleStages.Starting) {
-          onRender()
+        if (res.stage === LifecycleStages.Ready && viewContext.subPath == null) {
+          setTimeout(() => {
+            onRender(false)
+          }, 300)
         }
         if (res.stage === LifecycleStages.Rendered) {
           setLoading(false)
@@ -142,6 +144,7 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
 
   useEffect(() => {
     scrollToRange()
+    onRender(true)
   }, [scrollToRange])
 
   return (

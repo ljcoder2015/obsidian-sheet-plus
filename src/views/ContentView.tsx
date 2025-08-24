@@ -74,9 +74,8 @@ export function ContentView() {
     }
   }
 
-  const onSheetRender = () => {
-    // console.log('onSheetRender', tabsData)
-    if (tabsData && tabsData.defaultActiveKey !== 'sheet') {
+  const onSheetRender = (isToRange: boolean) => {
+    if (tabsData && tabsData.defaultActiveKey !== 'sheet' && !isToRange) {
       setActiveKey(tabsData.defaultActiveKey)
     }
   }
