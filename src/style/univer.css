@@ -159,6 +159,7 @@
 
 .my-univer {
 	height: calc(100%);
+  width: 100%;
 	border: 1px solid #ececec;
 }
 
@@ -254,6 +255,11 @@ button.univer-toolbar-btn-active {
 .my-univer input[type="text"]:active,
 .my-univer [type="text"]:focus-visible {
 	box-shadow: none;
+}
+
+.lj-content-view {
+  min-width: 600px;
+  min-height: 400px;
 }
 
 .lj-content-view button:not(.clickable-icon) {

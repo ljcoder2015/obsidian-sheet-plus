@@ -37,3 +37,29 @@ export interface IKeyType<T> {
 export type DeepReadonly<T> = {
   readonly [P in keyof T]: DeepReadonly<T[P]>;
 }
+
+export interface AutoexportConfig {
+  png: boolean // Whether to auto-export to PNG
+  svg: boolean // Whether to auto-export to SVG
+  excalidraw: boolean // Whether to auto-export to Excalidraw format
+  theme: 'light' | 'dark' | 'both' // The theme to use for the export
+}
+
+export interface ViewSemaphores {
+
+  // flag to prevent overwriting the changes the user makes in an embeddable view editing the back side of the drawing
+  embeddableIsEditingSelf: boolean
+  popoutUnload: boolean // the unloaded Excalidraw view was the last leaf in the popout window
+  viewloaded: boolean // onLayoutReady in view.onload has completed.
+  viewunload: boolean
+  // reload() is triggered by modifyEventHandler in main.ts. preventReload is a one time flag to abort reloading
+  // to avoid interrupting the flow of drawing by the user.
+  preventReload: boolean
+
+  // Save is triggered by multiple threads when an Excalidraw pane is terminated
+  // - by the view itself
+  // - by the activeLeafChangeEventHandler change event handler
+  // - by monkeypatches on detach(next)
+  // This semaphore helps avoid collision of saves
+  saving: boolean
+}

@@ -93,4 +93,7 @@ export default {
   TAB_RENAME_OK: 'OK',
   TAB_RENAME_TITLE: 'Rename',
   TAB_RENAME_PLACEHOLDER: 'Please input rename',
+
+  SAVE_IS_TAKING_LONG: 'Saving your previous file took a long time, please wait...',
+  SAVE_IS_TAKING_VERY_LONG: 'For better performance, please consider splitting large files into smaller ones.',
 }

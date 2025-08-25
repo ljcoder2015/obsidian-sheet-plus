@@ -2,14 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react'
 import type { MenuProps } from 'antd'
 import { Button, ConfigProvider, Dropdown, Flex, Popover, Tabs, theme } from 'antd'
 import type { IWorkbookData } from '@univerjs/core'
-import { Notice } from 'obsidian'
 import { randomString } from '../utils/uuid'
 import { usePluginContext } from '../context/pluginContext'
-import type { ParsedMarkdown } from '../utils/data'
-import { getData, parseMarkdown, removeData, setData, stringifyMarkdown } from '../utils/data'
 import type { MultiSheet } from '../common/constants'
 import { TabType } from '../common/constants'
 import { t } from '../lang/helpers'
+import type { DataService } from '../services/data.service'
 import { SheetTab } from './tabs/SheetTab'
 import type { ExcelProView } from './excelProView'
 import { KanbanTab } from './tabs/KanbanTab'
@@ -22,9 +20,14 @@ const helpContent = (
   </div>
 )
 
-export function ContentView() {
+export interface ContentViewProps {
+  dataService: DataService
+}
+
+export function ContentView(props: ContentViewProps) {
+  const { dataService } = props
   const pluginContext: ExcelProView = usePluginContext()
-  const { data, plugin } = pluginContext
+  const { plugin } = pluginContext
   const [activeKey, setActiveKey] = useState('sheet')
   const [tabsData, setTabsData] = useState<MultiSheet>({
     tabs: [
@@ -37,7 +40,6 @@ export function ContentView() {
     defaultActiveKey: 'sheet',
   })
   const [items, setItems] = useState([]) // 标签元素
-  const [markdownData, setMarkdownData] = useState<ParsedMarkdown | null>(null)
   const [algorithm, setAlgorithm] = useState([])
   const [triggerSource, setTriggerSource] = useState<string | null>(null) // 记录是点击哪个 tab 触发的下拉菜单
   const [renameModalVisible, setRenameModalVisible] = useState(false)
@@ -45,39 +47,7 @@ export function ContentView() {
 
   // 保存数据
   const saveData = (data: any, key: string) => {
-    if (!markdownData) {
-      return
-    }
-    const newMarkdownData = setData(markdownData, key, data)
-    setMarkdownData(newMarkdownData)
-    const markdown = stringifyMarkdown(newMarkdownData)
-    if (markdown) {
-      pluginContext.data = markdown
-      pluginContext.save()
-        .then(() => {
-          // console.log('save data success', pluginContext.file.path)
-        })
-        .catch(() => {
-          new Notice(t('SAVE_DATA_ERROR'))
-        })
-    }
-  }
-
-  // 删除数据
-  const deleteData = (key: string) => {
-    removeData(markdownData, key)
-    const markdown = stringifyMarkdown(markdownData)
-    if (markdown) {
-      pluginContext.data = markdown
-      pluginContext.save(false)
-        .then(() => {
-          // console.log('save data success', pluginContext.file.path)
-        })
-        .catch(() => {
-          new Notice(t('SAVE_DATA_ERROR'))
-          // console.log("save data error", e);
-        })
-    }
+    pluginContext.saveData(data, key)
   }
 
   const onSheetRender = (isToRange: boolean) => {
@@ -87,38 +57,30 @@ export function ContentView() {
   }
 
   useEffect(() => {
-    if (data) {
-      // 初始化数据
-      const markdown = parseMarkdown(data)
-      setMarkdownData(markdown)
-      if (markdown) {
-        const tabs = getData<MultiSheet>(markdown, 'multiSheet')
-        if (tabs) {
-          setTabsData(tabs)
-          if (tabs.defaultActiveKey === 'sheet') {
-            setActiveKey(tabs.defaultActiveKey)
-          }
-        }
-        else {
-          saveData({
-            tabs: tabsData.tabs,
-            defaultActiveKey: activeKey,
-          }, 'multiSheet')
+    if (dataService) {
+      const tabs = dataService.getBlock<MultiSheet>('multiSheet')
+      if (tabs) {
+        setTabsData(tabs)
+        if (tabs.defaultActiveKey === 'sheet') {
+          setActiveKey(tabs.defaultActiveKey)
         }
       }
+      else {
+        saveData({
+          tabs: tabsData.tabs,
+          defaultActiveKey: activeKey,
+        }, 'multiSheet')
+      }
     }
-    return () => {
-      setMarkdownData(null)
-    }
-  }, [data])
+  }, [dataService])
 
   useEffect(() => {
-    if (markdownData) {
+    if (dataService) {
       setItems(tabsData.tabs.map((item) => {
         let children = <div />
         switch (item.type) {
           case TabType.SHEET:
-            children = <SheetTab id={item.key} data={getData<IWorkbookData>(markdownData, item.key)} saveData={saveData} onRender={onSheetRender} />
+            children = <SheetTab id={item.key} data={dataService.getBlock<IWorkbookData>(item.key)} saveData={saveData} onRender={onSheetRender} />
             break
           case TabType.KANBAN:
             children = <KanbanTab />

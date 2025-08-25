@@ -93,4 +93,7 @@ export default {
   TAB_RENAME_OK: '确定',
   TAB_RENAME_TITLE: '重命名',
   TAB_RENAME_PLACEHOLDER: '请输入重命名',
+
+  SAVE_IS_TAKING_LONG: '保存您之前的文件花费的时间较长，请稍候…',
+  SAVE_IS_TAKING_VERY_LONG: '为了更好的性能，请考虑将文件拆分成几个较小的文件。',
 }

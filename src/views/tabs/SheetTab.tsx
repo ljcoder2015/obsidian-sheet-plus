@@ -69,9 +69,7 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
       univerAPI.addEvent(univerAPI.Event.LifeCycleChanged, (res) => {
         // console.log('LifeCycleChanged', res.stage)
         if (res.stage === LifecycleStages.Ready && viewContext.subPath == null) {
-          setTimeout(() => {
-            onRender(false)
-          }, 300)
+          onRender(false)
         }
         if (res.stage === LifecycleStages.Rendered) {
           setLoading(false)
