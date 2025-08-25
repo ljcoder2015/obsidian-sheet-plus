@@ -188,6 +188,7 @@ export class ExcelProView extends TextFileView {
 
   saveData(data: any, key: string) {
     this.dataService?.setBlock(key, data)
+    this.save()
   }
 
   renderContent() {
