@@ -170,6 +170,7 @@ export class ExcelProView extends TextFileView {
         return
       }
 
+      this.data = this.dataService.stringifyMarkdown()
       await super.save()
     }
     catch (e) {
