@@ -14,6 +14,7 @@ import type { ExcelProView } from '../excelProView'
 import { randomString } from '../../utils/uuid'
 import { rangeToNumber } from '../../utils/data'
 import { t } from '../../lang/helpers'
+import { log } from '../../utils/log'
 
 interface Props {
   id: string
@@ -33,6 +34,7 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
+    log('[SheetTab]', 'sheetTab 挂载')
     const options = {
       header: true,
       footer: true,
@@ -48,6 +50,7 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
     setUniverAPI(FUniver.newAPI(univer))
 
     return () => {
+      log('[SheetTab]', 'sheetTab 卸载')
       univerAPI?.dispose()
     }
   }, [])
@@ -105,7 +108,6 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
         if (!activeWorkbook) {
           return
         }
-
         const activeWorkbookData = activeWorkbook.save()
 
         throttledSave(activeWorkbookData, id)

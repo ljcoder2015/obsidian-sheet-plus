@@ -95,7 +95,8 @@ export function createUniver(
     theme: defaultTheme,
     darkMode,
     locale: getLanguage(),
-    logLevel: LogLevel.VERBOSE,
+    // eslint-disable-next-line node/prefer-global/process
+    logLevel: process.env.NODE_ENV === 'development' ? LogLevel.VERBOSE : LogLevel.ERROR,
     locales: {
       [LocaleType.ZH_CN]: zhCN,
       [LocaleType.EN_US]: enUS,

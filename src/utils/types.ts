@@ -52,9 +52,6 @@ export interface ViewSemaphores {
   popoutUnload: boolean // the unloaded Excalidraw view was the last leaf in the popout window
   viewloaded: boolean // onLayoutReady in view.onload has completed.
   viewunload: boolean
-  // reload() is triggered by modifyEventHandler in main.ts. preventReload is a one time flag to abort reloading
-  // to avoid interrupting the flow of drawing by the user.
-  preventReload: boolean
 
   // Save is triggered by multiple threads when an Excalidraw pane is terminated
   // - by the view itself

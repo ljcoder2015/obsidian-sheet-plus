@@ -17,7 +17,7 @@
   },
   "scripts": {
     "prepare": "simple-git-hooks",
-    "dev": "vite build",
+    "dev": "vite build --mode development",
     "build": "vite build",
     "release": "release-it",
     "lint": "eslint .",

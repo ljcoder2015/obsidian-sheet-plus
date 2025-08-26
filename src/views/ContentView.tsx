@@ -8,6 +8,7 @@ import type { MultiSheet } from '../common/constants'
 import { TabType } from '../common/constants'
 import { t } from '../lang/helpers'
 import type { DataService } from '../services/data.service'
+import { log } from '../utils/log'
 import { SheetTab } from './tabs/SheetTab'
 import type { ExcelProView } from './excelProView'
 import { KanbanTab } from './tabs/KanbanTab'
@@ -27,7 +28,8 @@ export interface ContentViewProps {
 export function ContentView(props: ContentViewProps) {
   const { dataService } = props
   const pluginContext: ExcelProView = usePluginContext()
-  const { plugin } = pluginContext
+  const { plugin, univerAPI } = pluginContext
+  const [isInit, setIsInit] = useState(false)
   const [activeKey, setActiveKey] = useState('sheet')
   const [tabsData, setTabsData] = useState<MultiSheet>({
     tabs: [
@@ -57,6 +59,7 @@ export function ContentView(props: ContentViewProps) {
   }
 
   useEffect(() => {
+    log('[ContentView]', 'ContentView初始化')
     if (dataService) {
       const tabs = dataService.getBlock<MultiSheet>('multiSheet')
       if (tabs) {
@@ -66,13 +69,21 @@ export function ContentView(props: ContentViewProps) {
         }
       }
       else {
-        saveData({
-          tabs: tabsData.tabs,
-          defaultActiveKey: activeKey,
-        }, 'multiSheet')
+        saveData(tabsData, 'multiSheet')
       }
     }
-  }, [dataService])
+    setIsInit(true)
+    return () => {
+      log('[ContentView]', 'ContentView卸载')
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isInit) {
+      log('[ContentView]', 'save tabsData', tabsData)
+      saveData(tabsData, 'multiSheet')
+    }
+  }, [tabsData, isInit])
 
   useEffect(() => {
     if (dataService) {
@@ -122,7 +133,7 @@ export function ContentView(props: ContentViewProps) {
   useMemo(() => {
     // console.log('save name', triggerSource)
     if (triggerSource && renameModalName && !renameModalVisible) {
-      saveData({
+      setTabsData({
         ...tabsData,
         tabs: tabsData.tabs.map((tab) => {
           if (tab.key === triggerSource) {
@@ -133,7 +144,7 @@ export function ContentView(props: ContentViewProps) {
           }
           return tab
         }),
-      }, 'multiSheet')
+      })
     }
   }, [renameModalName, renameModalVisible])
 
@@ -165,11 +176,18 @@ export function ContentView(props: ContentViewProps) {
     }
   }
 
-  useMemo(() => {
-    if (tabsData) {
-      saveData(tabsData, 'multiSheet')
+  const createKanbanConfig = () => {
+    if (!univerAPI) {
+      return {}
     }
-  }, [tabsData])
+    const sheet = univerAPI.getActiveWorkbook().getActiveSheet()
+    const dataRange = sheet.getDataRange()
+    const value = dataRange.getValues()
+    log('[ContentView]', 'createKanbanConfig', value)
+    return {
+      sheetId: sheet.getSheetId(),
+    }
+  }
 
   // 添加标签页
   const addTabMenu: MenuProps = {
@@ -193,18 +211,23 @@ export function ContentView(props: ContentViewProps) {
     ],
     onClick: (item) => {
       const { key } = item
-      // 添加tab数据并保存
+      const id = randomString(6)
+      // 添加tab数据
       setTabsData({
         ...tabsData,
         tabs: [
           ...tabsData.tabs,
           {
-            key: randomString(6),
+            key: id,
             type: key as TabType,
             label: t(`TAB_TYPE_${key.toUpperCase()}` as any),
           },
         ],
       })
+      if (key === TabType.KANBAN) {
+        createKanbanConfig()
+        // saveData(kanbanData, id)
+      }
     },
   }
 

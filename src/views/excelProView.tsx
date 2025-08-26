@@ -16,6 +16,7 @@ import { AppContext } from '../context/appContext'
 import { PluginContext } from '../context/pluginContext'
 import { DataService } from '../services/data.service'
 import type { ViewSemaphores } from '../utils/types'
+import { log } from '../utils/log'
 import { ContentView } from './ContentView'
 
 export class ExcelProView extends TextFileView {
@@ -35,7 +36,6 @@ export class ExcelProView extends TextFileView {
     popoutUnload: false,
     viewloaded: false,
     viewunload: false,
-    preventReload: false,
     saving: false,
   }
 
@@ -46,6 +46,10 @@ export class ExcelProView extends TextFileView {
 
   setViewData(data: string, _: boolean): void {
     // console.log('setViewData')
+    if (this.lastLoadedFile === this.file) {
+      return
+    }
+    this.lastLoadedFile = this.file
     this.data = data
     this.dataService = new DataService(this.data)
 
@@ -85,52 +89,16 @@ export class ExcelProView extends TextFileView {
   }
 
   dispose() {
-    this.root?.unmount()
+    this.dataService = null
     this.univerAPI?.dispose()
+    this.univerAPI = null
+    this.root?.unmount()
     this.contentEl.empty()
+    log('[ExcelProView]', 'ExcelProView调用dispose')
   }
 
   getViewType(): string {
     return VIEW_TYPE_EXCEL_PRO
-  }
-
-  public setPreventReload() {
-    this.semaphores.preventReload = true
-  }
-
-  public async reload(fullreload: boolean = false, file?: TFile) {
-    const loadOnModifyTrigger = file && file === this.file
-
-    // once you've finished editing the embeddable, the first time the file
-    // reloads will be because of the embeddable changed the file,
-    // there is a 2000 ms time window allowed for this, but typically this will
-    // happen within 100 ms. When this happens the timer is cleared and the
-    // next time reload triggers the file will be reloaded as normal.
-    if (this.semaphores.embeddableIsEditingSelf) {
-      if (loadOnModifyTrigger) {
-        this.data = await this.app.vault.read(this.file)
-        this.dataService = new DataService(this.data)
-      }
-      return
-    }
-    // console.log("reload - embeddable is not editing")
-
-    if (this.semaphores.preventReload) {
-      this.semaphores.preventReload = false
-      return
-    }
-    if (this.semaphores.saving)
-      return
-    this.lastLoadedFile = null
-
-    if (!this.file) {
-      return
-    }
-
-    if (loadOnModifyTrigger) {
-      this.data = await this.app.vault.read(file)
-      this.dataService = new DataService(this.data)
-    }
   }
 
   async save() {
@@ -139,13 +107,8 @@ export class ExcelProView extends TextFileView {
     }
     this.semaphores.saving = true
 
-    // if there were no changes to the file super save will not save
-    // and consequently main.ts modifyEventHandler will not fire
-    // this.reload will not be called
-    // triggerReload is used to flag if there were no changes but file should be reloaded anyway
-    const triggerReload: boolean = false
-
     if (!this.file
+      || this.lastLoadedFile !== this.file
       || !this.app.vault.getAbstractFileByPath(this.file.path) // file was recently deleted
     ) {
       this.semaphores.saving = false
@@ -171,6 +134,7 @@ export class ExcelProView extends TextFileView {
       }
 
       this.data = this.dataService.stringifyMarkdown()
+      log('[ExcelProView]', '保存数据到文件', this.file.name)
       await super.save()
     }
     catch (e) {
@@ -181,13 +145,11 @@ export class ExcelProView extends TextFileView {
       })
     }
     this.semaphores.saving = false
-    if (triggerReload) {
-      this.reload(true, this.file)
-    }
   }
 
   saveData(data: any, key: string) {
     this.dataService?.setBlock(key, data)
+    log('[ExcelProView]', 'saveData', key)
     this.save()
   }
 
@@ -242,7 +204,6 @@ export class ExcelProView extends TextFileView {
     const rangeString = rangeToRangeString(range)
     const html = renderToHtml(workbookData, sheet.getSheetName(), rangeString)
     const htmlString = html.outerHTML
-    // console.log("htmlString", html, htmlString)
     navigator.clipboard.writeText(htmlString)
     new Notice(t('COPY_TO_HTML_SUCCESS'))
   }
