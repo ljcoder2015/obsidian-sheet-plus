@@ -53,6 +53,7 @@ export function ContentView(props: ContentViewProps) {
   }
 
   const onSheetRender = (isToRange: boolean) => {
+    log('[ContentView]', 'onSheetRender', tabsData.defaultActiveKey)
     if (tabsData && tabsData.defaultActiveKey !== 'sheet' && !isToRange) {
       setActiveKey(tabsData.defaultActiveKey)
     }
@@ -151,11 +152,20 @@ export function ContentView(props: ContentViewProps) {
   const tabDropdownClick: MenuProps['onClick'] = (item) => {
     const { key } = item
     if (key === 'delete') {
+      let activeKey = tabsData.defaultActiveKey
+      if (tabsData.defaultActiveKey === triggerSource) {
+        activeKey = 'sheet'
+      }
       // 删除tab数据并保存
       setTabsData({
         ...tabsData,
         tabs: tabsData.tabs.filter(tab => tab.key !== triggerSource),
+        defaultActiveKey: activeKey,
       })
+      if (triggerSource) {
+        dataService.deleteBlock(triggerSource)
+        pluginContext.save()
+      }
       setTriggerSource(null)
     }
     if (key === 'default') {
@@ -181,11 +191,11 @@ export function ContentView(props: ContentViewProps) {
       return {}
     }
     const sheet = univerAPI.getActiveWorkbook().getActiveSheet()
-    const dataRange = sheet.getDataRange()
-    const value = dataRange.getValues()
-    log('[ContentView]', 'createKanbanConfig', value)
     return {
       sheetId: sheet.getSheetId(),
+      groupColumn: 'A',
+      hiddenColumns: [],
+      order: [],
     }
   }
 
@@ -225,8 +235,8 @@ export function ContentView(props: ContentViewProps) {
         ],
       })
       if (key === TabType.KANBAN) {
-        createKanbanConfig()
-        // saveData(kanbanData, id)
+        const kanbanData = createKanbanConfig()
+        saveData(kanbanData, id)
       }
     },
   }

@@ -31,6 +31,10 @@ export class DataService {
     this.markdownData.blocks?.set(key, data)
   }
 
+  deleteBlock(key: string) {
+    this.markdownData.blocks?.delete(key)
+  }
+
   clear() {
     this.markdownData = {
       header: undefined,

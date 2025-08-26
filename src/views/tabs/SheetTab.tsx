@@ -34,7 +34,7 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    log('[SheetTab]', 'sheetTab 挂载')
+    log('[SheetTab]', 'sheetTab 挂载', containerRef.current)
     const options = {
       header: true,
       footer: true,
@@ -72,7 +72,9 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
       univerAPI.addEvent(univerAPI.Event.LifeCycleChanged, (res) => {
         // console.log('LifeCycleChanged', res.stage)
         if (res.stage === LifecycleStages.Ready && viewContext.subPath == null) {
-          onRender(false)
+          setTimeout(() => {
+            onRender(false)
+          }, 200)
         }
         if (res.stage === LifecycleStages.Rendered) {
           setLoading(false)

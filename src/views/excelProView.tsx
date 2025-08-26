@@ -135,7 +135,7 @@ export class ExcelProView extends TextFileView {
 
       this.data = this.dataService.stringifyMarkdown()
       log('[ExcelProView]', '保存数据到文件', this.file.name)
-      await super.save()
+      super.save()
     }
     catch (e) {
       console.error({
