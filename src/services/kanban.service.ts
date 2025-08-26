@@ -3,3 +3,11 @@
 // 更新看板配置
 // 读取表格数据转换成看板数据
 // 操作看板后，更新表格数据
+
+import type { FUniver } from '@univerjs/core/facade'
+
+export class KanbanService {
+  private readonly univerAPI: FUniver
+  constructor() {
+  }
+}
