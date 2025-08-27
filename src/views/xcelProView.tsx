@@ -3,7 +3,6 @@ import { Notice, TextFileView } from 'obsidian'
 import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
 import React from 'react'
-import type { FUniver } from '@univerjs/core/facade'
 import type ExcelProPlugin from '../main'
 import { renderToHtml } from '../post-processor/html'
 
@@ -13,18 +12,17 @@ import {
 import { VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { t } from '../lang/helpers'
 import { AppContext } from '../context/appContext'
-import { PluginContext } from '../context/pluginContext'
+import { EditorContext } from '../context/editorContext'
 import { DataService } from '../services/data.service'
 import type { ViewSemaphores } from '../utils/types'
 import { log } from '../utils/log'
-import { ContentView } from './ContentView'
+import { ContainerView } from './ContainerView'
 
 export class ExcelProView extends TextFileView {
   root: Root | null = null
   public plugin: ExcelProPlugin
   public loadingEle: HTMLElement
   public copyHTMLEle: HTMLElement
-  public univerAPI: FUniver | null = null
 
   public subPath: string | null = null
 
@@ -157,9 +155,9 @@ export class ExcelProView extends TextFileView {
     this.root = createRoot(this.contentEl)
     this.root.render(
       <AppContext.Provider value={this.app}>
-        <PluginContext.Provider value={this}>
-          <ContentView dataService={this.dataService} />
-        </PluginContext.Provider>
+        <EditorContext.Provider value={this}>
+          <ContainerView dataService={this.dataService} />
+        </EditorContext.Provider>
       </AppContext.Provider>,
     )
   }
