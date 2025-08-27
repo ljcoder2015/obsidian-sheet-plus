@@ -85,6 +85,7 @@ export default {
   TAB_MENU_DEFAULT: '默认显示',
   TAB_MENU_DELETE: '删除',
   TAB_MENU_RENAME: '重命名',
+  CANNOT_DELETE_SHEET: '不能删除默认表格',
 
   TAB_HELP_TITLE: '帮助中心',
   TAB_HELP_CONTENT: '查看帮助文档',

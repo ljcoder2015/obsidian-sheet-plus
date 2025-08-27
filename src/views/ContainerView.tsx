@@ -1,16 +1,17 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import type { MenuProps } from 'antd'
 import { Button, ConfigProvider, Dropdown, Flex, Popover, Tabs, theme } from 'antd'
 import type { IWorkbookData } from '@univerjs/core'
+import type { FUniver } from '@univerjs/core/facade'
+import { Notice } from 'obsidian'
 import { randomString } from '../utils/uuid'
-import { usePluginContext } from '../context/pluginContext'
 import type { MultiSheet } from '../common/constants'
 import { TabType } from '../common/constants'
 import { t } from '../lang/helpers'
 import type { DataService } from '../services/data.service'
 import { log } from '../utils/log'
+import { useEditorContext } from '../context/editorContext'
 import { SheetTab } from './tabs/SheetTab'
-import type { ExcelProView } from './excelProView'
 import { KanbanTab } from './tabs/KanbanTab'
 import { RenameModal } from './components/RenameModal'
 
@@ -21,42 +22,51 @@ const helpContent = (
   </div>
 )
 
-export interface ContentViewProps {
+export interface ContainerViewProps {
   dataService: DataService
 }
 
-export function ContentView(props: ContentViewProps) {
+export function ContainerView(props: ContainerViewProps) {
   const { dataService } = props
-  const pluginContext: ExcelProView = usePluginContext()
-  const { plugin, univerAPI } = pluginContext
+  const editor = useEditorContext()
+  const { plugin } = editor
   const [isInit, setIsInit] = useState(false)
   const [activeKey, setActiveKey] = useState('sheet')
   const [tabsData, setTabsData] = useState<MultiSheet>({
-    tabs: [
-      {
-        key: 'sheet',
-        type: TabType.SHEET,
-        label: t('TAB_TYPE_SHEET'),
-      },
-    ],
     defaultActiveKey: 'sheet',
+    tabs: [{
+      key: 'sheet',
+      type: TabType.SHEET,
+      label: t('TAB_TYPE_SHEET'),
+    }],
   })
   const [items, setItems] = useState([]) // 标签元素
   const [algorithm, setAlgorithm] = useState([])
   const [triggerSource, setTriggerSource] = useState<string | null>(null) // 记录是点击哪个 tab 触发的下拉菜单
   const [renameModalVisible, setRenameModalVisible] = useState(false)
   const [renameModalName, setRenameModalName] = useState('')
+  const [univerAPI, setUniverAPI] = useState(null)
 
-  // 保存数据
-  const saveData = (data: any, key: string) => {
-    pluginContext.saveData(data, key)
+  const saveDataToFile = (data: any, key: string) => {
+    editor.saveData(data, key)
   }
+  const deleteFileData = (key: string) => {
+    editor.deleteData(key)
+  }
+  // 保存数据
+  const saveData = useCallback((data: any, key: string) => {
+    saveDataToFile(data, key)
+  }, [editor])
 
   const onSheetRender = (isToRange: boolean) => {
     log('[ContentView]', 'onSheetRender', tabsData.defaultActiveKey)
     if (tabsData && tabsData.defaultActiveKey !== 'sheet' && !isToRange) {
       setActiveKey(tabsData.defaultActiveKey)
     }
+  }
+
+  const initUniverApi = (api: FUniver | null) => {
+    setUniverAPI(api)
   }
 
   useEffect(() => {
@@ -70,19 +80,20 @@ export function ContentView(props: ContentViewProps) {
         }
       }
       else {
-        saveData(tabsData, 'multiSheet')
+        saveDataToFile(tabsData, 'multiSheet')
       }
     }
     setIsInit(true)
     return () => {
       log('[ContentView]', 'ContentView卸载')
+      setUniverAPI(null)
     }
   }, [])
 
   useEffect(() => {
     if (isInit) {
       log('[ContentView]', 'save tabsData', tabsData)
-      saveData(tabsData, 'multiSheet')
+      saveDataToFile(tabsData, 'multiSheet')
     }
   }, [tabsData, isInit])
 
@@ -92,7 +103,15 @@ export function ContentView(props: ContentViewProps) {
         let children = <div />
         switch (item.type) {
           case TabType.SHEET:
-            children = <SheetTab id={item.key} data={dataService.getBlock<IWorkbookData>(item.key)} saveData={saveData} onRender={onSheetRender} />
+            children = (
+              <SheetTab
+                id={item.key}
+                data={dataService.getBlock<IWorkbookData>(item.key)}
+                saveData={saveData}
+                onRender={onSheetRender}
+                initUniverApi={initUniverApi}
+              />
+            )
             break
           case TabType.KANBAN:
             children = <KanbanTab />
@@ -107,14 +126,19 @@ export function ContentView(props: ContentViewProps) {
     }
   }, [tabsData.tabs])
 
-  useEffect(() => {
-    if (plugin.settings.darkModal === 'dark') {
+  useMemo(() => {
+    if (!plugin) {
+      return
+    }
+    log('[ContainerView]', 'darkModal', plugin.settings.darkModal)
+    const darkModal = plugin.settings.darkModal
+    if (darkModal === 'dark') {
       setAlgorithm([theme.darkAlgorithm])
     }
     else {
       setAlgorithm([])
     }
-  }, [plugin.settings.darkModal])
+  }, [plugin])
 
   const tabMenu: MenuProps['items'] = [
     {
@@ -152,6 +176,10 @@ export function ContentView(props: ContentViewProps) {
   const tabDropdownClick: MenuProps['onClick'] = (item) => {
     const { key } = item
     if (key === 'delete') {
+      if (!triggerSource || triggerSource === 'sheet') {
+        new Notice(t('CANNOT_DELETE_SHEET'))
+        return
+      }
       let activeKey = tabsData.defaultActiveKey
       if (tabsData.defaultActiveKey === triggerSource) {
         activeKey = 'sheet'
@@ -163,8 +191,7 @@ export function ContentView(props: ContentViewProps) {
         defaultActiveKey: activeKey,
       })
       if (triggerSource) {
-        dataService.deleteBlock(triggerSource)
-        pluginContext.save()
+        deleteFileData(triggerSource)
       }
       setTriggerSource(null)
     }
@@ -236,7 +263,7 @@ export function ContentView(props: ContentViewProps) {
       })
       if (key === TabType.KANBAN) {
         const kanbanData = createKanbanConfig()
-        saveData(kanbanData, id)
+        saveDataToFile(kanbanData, id)
       }
     },
   }
@@ -251,32 +278,33 @@ export function ContentView(props: ContentViewProps) {
       >
         { (node) => {
           return (
-            <Dropdown
-              menu={{
-                items: tabMenu,
-                onClick: tabDropdownClick,
-              }}
-              trigger={['contextMenu']}
-              onOpenChange={
-                (open) => {
-                  if (open) {
-                    setTriggerSource(node.key)
+            <div className="pr-[10px]">
+              <Dropdown
+                menu={{
+                  items: tabMenu,
+                  onClick: tabDropdownClick,
+                }}
+                trigger={['contextMenu']}
+                onOpenChange={
+                  (open) => {
+                    if (open) {
+                      setTriggerSource(node.key)
+                    }
                   }
                 }
-              }
-            >
-              <Button
-                color="blue"
-                variant={activeKey === node.key ? 'solid' : 'outlined'}
-                className="mr-[10px]"
-                onClick={() => {
-                  setActiveKey(node.key)
-                }}
               >
-                {tabsData.defaultActiveKey === node.key ? <span>★</span> : null}
-                {tabsData.tabs?.find(tab => tab.key === node.key)?.label || ''}
-              </Button>
-            </Dropdown>
+                <Button
+                  color="blue"
+                  variant={activeKey === node.key ? 'solid' : 'outlined'}
+                  onClick={() => {
+                    setActiveKey(node.key)
+                  }}
+                >
+                  {tabsData.defaultActiveKey === node.key ? <span>★</span> : null}
+                  {tabsData.tabs?.find(tab => tab.key === node.key)?.label || ''}
+                </Button>
+              </Dropdown>
+            </div>
           )
         }}
       </DefaultTabBar>

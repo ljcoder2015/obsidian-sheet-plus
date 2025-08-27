@@ -210,8 +210,8 @@ importers:
         specifier: ^15.2.10
         version: 15.5.2
       obsidian:
-        specifier: 1.5.7-1
-        version: 1.5.7-1(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)
+        specifier: 1.8.7
+        version: 1.8.7(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -3654,8 +3654,8 @@ packages:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
 
-  obsidian@1.5.7-1:
-    resolution: {integrity: sha512-T5ZRuQ1FnfXqEoakTTHVDYvzUEEoT8zSPnQCW31PVgYwG4D4tZCQfKHN2hTz1ifnCe8upvwa6mBTAP2WUA5Vng==}
+  obsidian@1.8.7:
+    resolution: {integrity: sha512-h4bWwNFAGRXlMlMAzdEiIM2ppTGlrh7uGOJS6w4gClrsjc+ei/3YAtU2VdFUlCiPuTHpY4aBpFJJW75S1Tl/JA==}
     peerDependencies:
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
@@ -8725,7 +8725,7 @@ snapshots:
 
   object-assign@4.1.1: {}
 
-  obsidian@1.5.7-1(@codemirror/state@6.5.2)(@codemirror/view@6.38.1):
+  obsidian@1.8.7(@codemirror/state@6.5.2)(@codemirror/view@6.38.1):
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.1

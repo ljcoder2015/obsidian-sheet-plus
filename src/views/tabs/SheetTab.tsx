@@ -1,6 +1,6 @@
 import { FUniver } from '@univerjs/core/facade'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import type { INumfmtLocaleTag, IWorkbookData, Univer } from '@univerjs/core'
+import type { INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
 import { CommandType, LifecycleStages, throttle } from '@univerjs/core'
 import { SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
 import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
@@ -8,9 +8,8 @@ import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-u
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import { Spin } from 'antd'
 import { createUniver } from '../univer/setup-univer'
-import { usePluginContext } from '../../context/pluginContext'
+import { useEditorContext } from '../../context/editorContext'
 import { useApp } from '../../context/appContext'
-import type { ExcelProView } from '../excelProView'
 import { randomString } from '../../utils/uuid'
 import { rangeToNumber } from '../../utils/data'
 import { t } from '../../lang/helpers'
@@ -21,15 +20,15 @@ interface Props {
   data: IWorkbookData
   saveData: (data: any, key: string) => void
   onRender: (isToRange: boolean) => void
+  initUniverApi: (univerAPI: FUniver) => void
 }
 
-export function SheetTab({ id, data, saveData, onRender }: Props) {
-  const viewContext: ExcelProView = usePluginContext()
-  const { plugin } = viewContext
+export function SheetTab({ id, data, saveData, onRender, initUniverApi }: Props) {
+  const editor = useEditorContext()
+  const { plugin } = editor
   const app = useApp()
   const containerRef = useRef<HTMLDivElement>(null)
-  const [univer, setUniver] = useState<Univer>()
-  const [univerAPI, setUniverAPI] = useState<FUniver>()
+  const [univerAPI, setUniverAPI] = useState<FUniver>(null)
   const [univerId, setUniverId] = useState<string>(randomString(6))
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -46,12 +45,14 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
     const univerId = randomString(6)
     setUniverId(univerId)
     const univer = createUniver(options, containerRef.current, mobileRenderMode, darkMode)
-    setUniver(univer)
-    setUniverAPI(FUniver.newAPI(univer))
+    const univerAPI = FUniver.newAPI(univer)
+    initUniverApi(univerAPI)
+    setUniverAPI(univerAPI)
 
     return () => {
       log('[SheetTab]', 'sheetTab 卸载')
       univerAPI?.dispose()
+      setUniverAPI(null)
     }
   }, [])
 
@@ -61,7 +62,7 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
 
   useEffect(() => {
     if (univerAPI) {
-      viewContext.univerAPI = univerAPI
+      editor.univerAPI = univerAPI
       univerAPI.createWorkbook(data)
 
       // set number format local
@@ -71,7 +72,7 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
       // loading
       univerAPI.addEvent(univerAPI.Event.LifeCycleChanged, (res) => {
         // console.log('LifeCycleChanged', res.stage)
-        if (res.stage === LifecycleStages.Ready && viewContext.subPath == null) {
+        if (res.stage === LifecycleStages.Ready && editor.subPath == null) {
           setTimeout(() => {
             onRender(false)
           }, 200)
@@ -119,8 +120,8 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
 
   // 滚动到指定区域
   const scrollToRange = useCallback(() => {
-    if (viewContext.subPath && univerAPI) {
-      const array = viewContext.subPath.split('|')
+    if (editor.subPath && univerAPI) {
+      const array = editor.subPath.split('|')
       const sheetName = array[0]
       const rangeString = array[1]
       const rangeNumber = rangeToNumber(rangeString)
@@ -142,7 +143,7 @@ export function SheetTab({ id, data, saveData, onRender }: Props) {
         },
       })
     }
-  }, [viewContext.subPath, univerAPI])
+  }, [editor.subPath, univerAPI])
 
   useEffect(() => {
     scrollToRange()

@@ -22,7 +22,7 @@ import {
   FRONTMATTER_KEY,
   VIEW_TYPE_EXCEL_PRO,
 } from './common/constants'
-import { ExcelProView } from './views/excelProView'
+import { ExcelProView } from './views/ExcelProView'
 import type { ExcelProSettings } from './common/setting'
 import { DEFAULT_SETTINGS } from './common/setting'
 import {
@@ -210,13 +210,14 @@ export default class ExcelProPlugin extends Plugin {
               && state.type === 'markdown'
               && state.state?.file
             ) {
+              const filepath: string = state.state.file as string
               // Then check for the excalidraw frontMatterKey
-              const cache = self.app.metadataCache.getCache(state.state.file)
+              const cache = self.app.metadataCache.getCache(filepath)
 
               // console.log("setViewState cache cccc", cache)
               if (
                 (cache?.frontmatter && cache?.frontmatter[FRONTMATTER_KEY])
-                || state.state.file.contains('.univer.md')
+                || filepath.contains('.univer.md')
               ) {
                 // console.log("setViewState --", cache)
                 // If we have it, force the view type to excalidraw

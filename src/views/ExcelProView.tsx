@@ -4,11 +4,7 @@ import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
 import React from 'react'
 import type ExcelProPlugin from '../main'
-import { renderToHtml } from '../post-processor/html'
 
-import {
-  rangeToRangeString,
-} from '../utils/data'
 import { VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { t } from '../lang/helpers'
 import { AppContext } from '../context/appContext'
@@ -88,8 +84,6 @@ export class ExcelProView extends TextFileView {
 
   dispose() {
     this.dataService = null
-    this.univerAPI?.dispose()
-    this.univerAPI = null
     this.root?.unmount()
     this.contentEl.empty()
     log('[ExcelProView]', 'ExcelProView调用dispose')
@@ -182,27 +176,27 @@ export class ExcelProView extends TextFileView {
   }
 
   copyToHTML() {
-    if (this.univerAPI === null) {
-      return
-    }
-    const workbook = this.univerAPI.getActiveWorkbook()
+    // if (this.univerAPI === null) {
+    //   return
+    // }
+    // const workbook = this.univerAPI.getActiveWorkbook()
 
-    const workbookData = workbook?.getSnapshot()
-    if (workbookData === undefined)
-      return
+    // const workbookData = workbook?.getSnapshot()
+    // if (workbookData === undefined)
+    //   return
 
-    const sheet = workbook?.getActiveSheet()
-    if (sheet === null || sheet === undefined)
-      return
+    // const sheet = workbook?.getActiveSheet()
+    // if (sheet === null || sheet === undefined)
+    //   return
 
-    const range = sheet?.getSelection()?.getActiveRange()
-    if (range === null || range === undefined)
-      return
+    // const range = sheet?.getSelection()?.getActiveRange()
+    // if (range === null || range === undefined)
+    //   return
 
-    const rangeString = rangeToRangeString(range)
-    const html = renderToHtml(workbookData, sheet.getSheetName(), rangeString)
-    const htmlString = html.outerHTML
-    navigator.clipboard.writeText(htmlString)
-    new Notice(t('COPY_TO_HTML_SUCCESS'))
+    // const rangeString = rangeToRangeString(range)
+    // const html = renderToHtml(workbookData, sheet.getSheetName(), rangeString)
+    // const htmlString = html.outerHTML
+    // navigator.clipboard.writeText(htmlString)
+    // new Notice(t('COPY_TO_HTML_SUCCESS'))
   }
 }

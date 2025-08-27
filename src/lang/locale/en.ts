@@ -85,6 +85,7 @@ export default {
   TAB_MENU_DEFAULT: 'Default',
   TAB_MENU_DELETE: 'Delete',
   TAB_MENU_RENAME: 'Rename',
+  CANNOT_DELETE_SHEET: 'Cannot delete default sheet',
 
   TAB_HELP_TITLE: 'Help Center',
   TAB_HELP_CONTENT: 'View Help Documentation',

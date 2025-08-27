@@ -1,6 +1,7 @@
 import type { IWorkbookData } from '@univerjs/core'
 import type { FRange } from '@univerjs/sheets/facade'
 import type { TFile } from 'obsidian'
+import type { ParsedHeader, ParsedMarkdown } from '../services/type'
 
 /**
  * Markdown 拆分yaml部分跟正文部分
@@ -224,4 +225,51 @@ export function numberToColRowString(
   }
 
   return result + row
+}
+
+export function parseMarkdown(md: string): ParsedMarkdown {
+  // 匹配头部（--- 开头到 --- 结束，支持多行）
+  // eslint-disable-next-line regexp/no-super-linear-backtracking
+  const headerMatch = md.match(/^---\s*\n([\s\S]*?)\n---\s*/)
+  let header: ParsedHeader | undefined
+
+  if (headerMatch) {
+    const raw = `---\n${headerMatch[1]}\n---`
+    const props: Record<string, string> = {}
+
+    headerMatch[1].split('\n').forEach((line) => {
+      // eslint-disable-next-line regexp/no-super-linear-backtracking
+      const m = line.match(/^([^:]+):\s*(.*)$/)
+      if (m) {
+        props[m[1].trim()] = m[2].trim()
+      }
+    })
+
+    header = { raw, properties: props }
+  }
+
+  const restMd = headerMatch ? md.slice(headerMatch[0].length) : md
+
+  const blockRegex = /```([^\n]*)\n([\s\S]*?)```/g
+  const blocks = new Map<string, any>()
+  let isFirstBlock = true
+
+  let match
+  // eslint-disable-next-line no-cond-assign
+  while ((match = blockRegex.exec(restMd)) !== null) {
+    let blockType = match[1].trim()
+    if (!blockType)
+      blockType = isFirstBlock ? 'sheet' : 'default'
+    isFirstBlock = false
+
+    const jsonText = match[2].trim().replace(/[“”]/g, '"')
+    try {
+      blocks.set(blockType, JSON.parse(jsonText))
+    }
+    catch {
+      blocks.set(blockType, jsonText)
+    }
+  }
+
+  return { header, blocks }
 }
