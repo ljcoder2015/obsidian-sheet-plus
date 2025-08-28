@@ -1,5 +1,5 @@
 import type { FUniver } from '@univerjs/core/facade'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export interface IKanbanConfig {
   sheetId: string
@@ -21,6 +21,11 @@ export function KanbanTab(props: IKanbanTabProps) {
       return {}
     }
     const sheet = univerApi.getActiveWorkbook().getSheetBySheetId(data.sheetId)
+    const values = sheet.getDataRange().getValues()
+    if (!values) {
+      return {}
+    }
+
     return {
       sheetId: sheet.getSheetId(),
       groupColumn: 'A',
@@ -28,6 +33,11 @@ export function KanbanTab(props: IKanbanTabProps) {
       order: [],
     }
   }
+
+  useEffect(() => {
+    getData()
+  }, [univerApi])
+
   return (
     <div>
       <h1>Kanban Tab</h1>

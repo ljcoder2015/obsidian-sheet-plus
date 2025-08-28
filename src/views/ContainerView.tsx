@@ -12,6 +12,7 @@ import type { DataService } from '../services/data.service'
 import { log } from '../utils/log'
 import { useEditorContext } from '../context/editorContext'
 import { SheetTab } from './tabs/SheetTab'
+import type { IKanbanConfig } from './tabs/KanbanTab'
 import { KanbanTab } from './tabs/KanbanTab'
 import { RenameModal } from './components/RenameModal'
 
@@ -40,11 +41,10 @@ export function ContainerView(props: ContainerViewProps) {
       label: t('TAB_TYPE_SHEET'),
     }],
   })
-  const [items, setItems] = useState([]) // 标签元素
-  const [algorithm, setAlgorithm] = useState([])
+  const [algorithm, setAlgorithm] = useState([]) // 设置主题
   const [triggerSource, setTriggerSource] = useState<string | null>(null) // 记录是点击哪个 tab 触发的下拉菜单
-  const [renameModalVisible, setRenameModalVisible] = useState(false)
-  const [renameModalName, setRenameModalName] = useState('')
+  const [renameModalVisible, setRenameModalVisible] = useState(false) // 重命名
+  const [renameModalName, setRenameModalName] = useState('') // 重命名的名称
   const [univerAPI, setUniverAPI] = useState(null)
 
   const saveDataToFile = (data: any, key: string) => {
@@ -66,6 +66,7 @@ export function ContainerView(props: ContainerViewProps) {
   }
 
   const initUniverApi = (api: FUniver | null) => {
+    log('[ContentView]', 'initUniverApi', univerAPI === api)
     setUniverAPI(api)
   }
 
@@ -96,35 +97,6 @@ export function ContainerView(props: ContainerViewProps) {
       saveDataToFile(tabsData, 'multiSheet')
     }
   }, [tabsData, isInit])
-
-  useEffect(() => {
-    if (dataService) {
-      setItems(tabsData.tabs.map((item) => {
-        let children = <div />
-        switch (item.type) {
-          case TabType.SHEET:
-            children = (
-              <SheetTab
-                id={item.key}
-                data={dataService.getBlock<IWorkbookData>(item.key)}
-                saveData={saveData}
-                onRender={onSheetRender}
-                initUniverApi={initUniverApi}
-              />
-            )
-            break
-          case TabType.KANBAN:
-            children = <KanbanTab />
-            break
-        }
-        return {
-          key: item.key,
-          label: item.label,
-          children,
-        }
-      }))
-    }
-  }, [tabsData.tabs])
 
   useMemo(() => {
     if (!plugin) {
@@ -329,7 +301,36 @@ export function ContainerView(props: ContainerViewProps) {
         <Tabs
           size="small"
           type="card"
-          items={items}
+          items={tabsData.tabs.map((item) => {
+            let children = <div />
+            switch (item.type) {
+              case TabType.SHEET:
+                children = (
+                  <SheetTab
+                    id={item.key}
+                    data={dataService.getBlock<IWorkbookData>(item.key)}
+                    saveData={saveData}
+                    onRender={onSheetRender}
+                    initUniverApi={initUniverApi}
+                  />
+                )
+                break
+              case TabType.KANBAN:
+                children = (
+                  <KanbanTab
+                    data={dataService.getBlock<IKanbanConfig>(item.key)}
+                    univerApi={univerAPI}
+                    saveData={saveData}
+                  />
+                )
+                break
+            }
+            return {
+              key: item.key,
+              label: item.label,
+              children,
+            }
+          })}
           activeKey={activeKey}
           renderTabBar={renderTabBar}
           tabBarExtraContent={{

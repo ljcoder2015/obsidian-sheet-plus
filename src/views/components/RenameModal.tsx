@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import type { InputRef } from 'antd'
 import { Button, Input, Modal, message } from 'antd'
 import { t } from '../../lang/helpers'
 
@@ -11,6 +12,20 @@ interface RenameModalProps {
 
 export function RenameModal(props: RenameModalProps) {
   const [name, setName] = useState(props.name)
+  const inputRef = useRef<InputRef>(null)
+
+  // 🔑 同步 props.name 到本地 state
+  useEffect(() => {
+    if (props.visible) {
+      setName(props.name)
+      // 等 modal 渲染完再聚焦 & 选中
+      setTimeout(() => {
+        inputRef.current?.focus()
+        inputRef.current?.select()
+      }, 0)
+    }
+  }, [props.name, props.visible])
+
   return (
     <Modal
       centered
@@ -36,7 +51,7 @@ export function RenameModal(props: RenameModalProps) {
       ]}
       title={t('TAB_RENAME_TITLE')}
     >
-      <Input value={name} onChange={e => setName(e.target.value)} placeholder={t('TAB_RENAME_PLACEHOLDER')} />
+      <Input ref={inputRef} value={name} onChange={e => setName(e.target.value)} placeholder={t('TAB_RENAME_PLACEHOLDER')} />
     </Modal>
   )
 }
