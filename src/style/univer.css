@@ -132,7 +132,7 @@
 }
 
 #sheet-box {
-	height: calc(100vh - var(--toolbar-height) - 66px);
+	height: calc(100vh - var(--toolbar-height) - 72px);
 	box-sizing: border-box;
 }
 
@@ -172,6 +172,15 @@
 }
 
 .univer-dark .my-tab-bar {
+  border-color: #363636;
+}
+
+.kanban {
+  height: calc(100vh - var(--toolbar-height) - 72px);
+  border-color: #ececec;
+}
+
+.univer-dark .kanban {
   border-color: #363636;
 }
 

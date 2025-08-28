@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react'
 import type { MenuProps } from 'antd'
 import { Button, ConfigProvider, Dropdown, Flex, Popover, Tabs, theme } from 'antd'
 import type { IWorkbookData } from '@univerjs/core'
@@ -11,6 +11,8 @@ import { t } from '../lang/helpers'
 import type { DataService } from '../services/data.service'
 import { log } from '../utils/log'
 import { useEditorContext } from '../context/editorContext'
+import { rangeToRangeString } from '../utils/data'
+import { renderToHtml } from '../post-processor/html'
 import { SheetTab } from './tabs/SheetTab'
 import type { IKanbanConfig } from './tabs/KanbanTab'
 import { KanbanTab } from './tabs/KanbanTab'
@@ -23,12 +25,17 @@ const helpContent = (
   </div>
 )
 
+export interface ContainerViewRef {
+  copyToHTML: () => void
+}
+
 export interface ContainerViewProps {
   dataService: DataService
 }
 
-export function ContainerView(props: ContainerViewProps) {
-  const { dataService } = props
+// eslint-disable-next-line prefer-arrow-callback
+export const ContainerView = forwardRef(function ContainerView(props, ref) {
+  const { dataService } = props as ContainerViewProps
   const editor = useEditorContext()
   const { plugin } = editor
   const [isInit, setIsInit] = useState(false)
@@ -46,6 +53,33 @@ export function ContainerView(props: ContainerViewProps) {
   const [renameModalVisible, setRenameModalVisible] = useState(false) // 重命名
   const [renameModalName, setRenameModalName] = useState('') // 重命名的名称
   const [univerAPI, setUniverAPI] = useState(null)
+
+  useImperativeHandle(ref, () => ({
+    copyToHTML() {
+      if (univerAPI === null) {
+        return
+      }
+      const workbook = univerAPI.getActiveWorkbook()
+
+      const workbookData = workbook?.getSnapshot()
+      if (workbookData === undefined)
+        return
+
+      const sheet = workbook?.getActiveSheet()
+      if (sheet === null || sheet === undefined)
+        return
+
+      const range = sheet?.getSelection()?.getActiveRange()
+      if (range === null || range === undefined)
+        return
+
+      const rangeString = rangeToRangeString(range)
+      const html = renderToHtml(workbookData, sheet.getSheetName(), rangeString)
+      const htmlString = html.outerHTML
+      navigator.clipboard.writeText(htmlString)
+      new Notice(t('COPY_TO_HTML_SUCCESS'))
+    },
+  }))
 
   const saveDataToFile = (data: any, key: string) => {
     editor.saveData(data, key)
@@ -192,7 +226,7 @@ export function ContainerView(props: ContainerViewProps) {
     const sheet = univerAPI.getActiveWorkbook().getActiveSheet()
     return {
       sheetId: sheet.getSheetId(),
-      groupColumn: 'A',
+      groupColumn: '0',
       hiddenColumns: [],
       order: [],
     }
@@ -361,4 +395,4 @@ export function ContainerView(props: ContainerViewProps) {
       </ConfigProvider>
     </div>
   )
-}
+})

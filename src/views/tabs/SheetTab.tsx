@@ -33,7 +33,7 @@ export function SheetTab({ id, data, saveData, onRender, initUniverApi }: Props)
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    log('[SheetTab]', 'sheetTab 挂载', containerRef.current)
+    log('[SheetTab]', 'sheetTab 挂载')
     const options = {
       header: true,
       footer: true,

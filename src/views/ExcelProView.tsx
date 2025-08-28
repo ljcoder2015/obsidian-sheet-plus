@@ -12,10 +12,12 @@ import { EditorContext } from '../context/editorContext'
 import { DataService } from '../services/data.service'
 import type { ViewSemaphores } from '../utils/types'
 import { log } from '../utils/log'
+import type { ContainerViewRef } from './ContainerView'
 import { ContainerView } from './ContainerView'
 
 export class ExcelProView extends TextFileView {
   root: Root | null = null
+  private containerRef = React.createRef<ContainerViewRef>()
   public plugin: ExcelProPlugin
   public loadingEle: HTMLElement
   public copyHTMLEle: HTMLElement
@@ -145,12 +147,18 @@ export class ExcelProView extends TextFileView {
     this.save()
   }
 
+  deleteData(key: string) {
+    this.dataService?.deleteBlock(key)
+    log('[ExcelProView]', 'deleteData', key)
+    this.save()
+  }
+
   renderContent() {
     this.root = createRoot(this.contentEl)
     this.root.render(
       <AppContext.Provider value={this.app}>
         <EditorContext.Provider value={this}>
-          <ContainerView dataService={this.dataService} />
+          <ContainerView ref={this.containerRef} dataService={this.dataService} />
         </EditorContext.Provider>
       </AppContext.Provider>,
     )
@@ -176,27 +184,6 @@ export class ExcelProView extends TextFileView {
   }
 
   copyToHTML() {
-    // if (this.univerAPI === null) {
-    //   return
-    // }
-    // const workbook = this.univerAPI.getActiveWorkbook()
-
-    // const workbookData = workbook?.getSnapshot()
-    // if (workbookData === undefined)
-    //   return
-
-    // const sheet = workbook?.getActiveSheet()
-    // if (sheet === null || sheet === undefined)
-    //   return
-
-    // const range = sheet?.getSelection()?.getActiveRange()
-    // if (range === null || range === undefined)
-    //   return
-
-    // const rangeString = rangeToRangeString(range)
-    // const html = renderToHtml(workbookData, sheet.getSheetName(), rangeString)
-    // const htmlString = html.outerHTML
-    // navigator.clipboard.writeText(htmlString)
-    // new Notice(t('COPY_TO_HTML_SUCCESS'))
+    this.containerRef.current?.copyToHTML()
   }
 }
