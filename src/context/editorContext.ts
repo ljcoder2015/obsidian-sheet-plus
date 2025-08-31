@@ -1,5 +1,12 @@
 import { createContext, useContext } from 'react'
+import type { App } from 'obsidian'
 import type { ExcelProView } from '../views/ExcelProView'
 
-export const EditorContext = createContext<ExcelProView>(null)
-export const useEditorContext = () => useContext<ExcelProView>(EditorContext)
+interface EditorContextProps {
+  app: App
+  editor: ExcelProView
+  saveData: (data: any, key: string) => void
+}
+
+export const EditorContext = createContext<EditorContextProps>(null)
+export const useEditorContext = () => useContext<EditorContextProps>(EditorContext)

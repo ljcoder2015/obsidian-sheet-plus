@@ -9,26 +9,24 @@ import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import { Spin } from 'antd'
 import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
-import { useApp } from '../../context/appContext'
 import { randomString } from '../../utils/uuid'
 import { rangeToNumber } from '../../utils/data'
 import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
+import { useUniver } from '../../context/UniverContext'
 
 interface Props {
   id: string
   data: IWorkbookData
   saveData: (data: any, key: string) => void
   onRender: (isToRange: boolean) => void
-  initUniverApi: (univerAPI: FUniver) => void
 }
 
-export function SheetTab({ id, data, saveData, onRender, initUniverApi }: Props) {
-  const editor = useEditorContext()
+export function SheetTab({ id, data, onRender, saveData }: Props) {
+  const { univerApi, setUniverApi } = useUniver()
+  const { editor, app } = useEditorContext()
   const { plugin } = editor
-  const app = useApp()
   const containerRef = useRef<HTMLDivElement>(null)
-  const [univerAPI, setUniverAPI] = useState<FUniver>(null)
   const [univerId, setUniverId] = useState<string>(randomString(6))
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -46,13 +44,12 @@ export function SheetTab({ id, data, saveData, onRender, initUniverApi }: Props)
     setUniverId(univerId)
     const univer = createUniver(options, containerRef.current, mobileRenderMode, darkMode)
     const univerAPI = FUniver.newAPI(univer)
-    initUniverApi(univerAPI)
-    setUniverAPI(univerAPI)
+    setUniverApi(univerAPI)
 
     return () => {
       log('[SheetTab]', 'sheetTab 卸载')
       univerAPI?.dispose()
-      setUniverAPI(null)
+      setUniverApi(null)
     }
   }, [])
 
@@ -61,16 +58,16 @@ export function SheetTab({ id, data, saveData, onRender, initUniverApi }: Props)
   }, 1000)
 
   useEffect(() => {
-    if (univerAPI) {
-      editor.univerAPI = univerAPI
-      univerAPI.createWorkbook(data)
+    if (univerApi) {
+      log('[SheetTab]', 'createWorkbook')
+      univerApi.createWorkbook(data)
 
       // set number format local
       const localeTag = plugin.settings.numberFormatLocal as INumfmtLocaleTag
-      univerAPI.getActiveWorkbook().setNumfmtLocal(localeTag)
+      univerApi.getActiveWorkbook().setNumfmtLocal(localeTag)
 
       // loading
-      univerAPI.addEvent(univerAPI.Event.LifeCycleChanged, (res) => {
+      univerApi.addEvent(univerApi.Event.LifeCycleChanged, (res) => {
         // console.log('LifeCycleChanged', res.stage)
         if (res.stage === LifecycleStages.Ready && editor.subPath == null) {
           setTimeout(() => {
@@ -82,7 +79,7 @@ export function SheetTab({ id, data, saveData, onRender, initUniverApi }: Props)
         }
       })
 
-      univerAPI.addEvent(univerAPI.Event.CommandExecuted, (res) => {
+      univerApi.addEvent(univerApi.Event.CommandExecuted, (res) => {
         if (res.id === SearchOutgoingLinkCommand.id) {
           const links = app?.vault.getFiles().map((file) => {
             return {
@@ -93,7 +90,7 @@ export function SheetTab({ id, data, saveData, onRender, initUniverApi }: Props)
               type: SheetOutgoingLinkType.FILE,
             }
           })
-          univerAPI?.executeCommand(SearchResultOutgoingLinkCommand.id, { links })
+          univerApi?.executeCommand(SearchResultOutgoingLinkCommand.id, { links })
         }
 
         if (res.id === NavigationOutgoingLinkOperation.id) {
@@ -107,7 +104,7 @@ export function SheetTab({ id, data, saveData, onRender, initUniverApi }: Props)
           return
         }
 
-        const activeWorkbook = univerAPI.getActiveWorkbook()
+        const activeWorkbook = univerApi.getActiveWorkbook()
         if (!activeWorkbook) {
           return
         }
@@ -116,17 +113,17 @@ export function SheetTab({ id, data, saveData, onRender, initUniverApi }: Props)
         throttledSave(activeWorkbookData, id)
       })
     }
-  }, [univerAPI])
+  }, [univerApi])
 
   // 滚动到指定区域
   const scrollToRange = useCallback(() => {
-    if (editor.subPath && univerAPI) {
+    if (editor.subPath && univerApi) {
       const array = editor.subPath.split('|')
       const sheetName = array[0]
       const rangeString = array[1]
       const rangeNumber = rangeToNumber(rangeString)
       // 打开文件后的子路径，用来选中表格范围
-      const activeWorkbook = univerAPI.getActiveWorkbook()
+      const activeWorkbook = univerApi.getActiveWorkbook()
       const sheet = activeWorkbook.getSheetByName(sheetName)
       activeWorkbook.setActiveSheet(sheet)
       // getRange(row: number, column: number, numRows: number, numColumns: number): FRange;
@@ -134,7 +131,7 @@ export function SheetTab({ id, data, saveData, onRender, initUniverApi }: Props)
       sheet.setActiveSelection(selection)
 
       const GAP = 1
-      univerAPI.executeCommand(ScrollToRangeOperation.id, {
+      univerApi.executeCommand(ScrollToRangeOperation.id, {
         range: {
           startRow: Math.max(selection.getRow() - GAP, 0),
           endRow: selection.getRow() + selection.getHeight() + GAP,
@@ -143,7 +140,7 @@ export function SheetTab({ id, data, saveData, onRender, initUniverApi }: Props)
         },
       })
     }
-  }, [editor.subPath, univerAPI])
+  }, [editor.subPath, univerApi])
 
   useEffect(() => {
     scrollToRange()

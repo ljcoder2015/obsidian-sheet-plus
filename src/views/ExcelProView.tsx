@@ -7,11 +7,11 @@ import type ExcelProPlugin from '../main'
 
 import { VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { t } from '../lang/helpers'
-import { AppContext } from '../context/appContext'
 import { EditorContext } from '../context/editorContext'
 import { DataService } from '../services/data.service'
 import type { ViewSemaphores } from '../utils/types'
 import { log } from '../utils/log'
+import { UniverProvider } from '../context/UniverContext'
 import type { ContainerViewRef } from './ContainerView'
 import { ContainerView } from './ContainerView'
 
@@ -156,11 +156,11 @@ export class ExcelProView extends TextFileView {
   renderContent() {
     this.root = createRoot(this.contentEl)
     this.root.render(
-      <AppContext.Provider value={this.app}>
-        <EditorContext.Provider value={this}>
+      <EditorContext.Provider value={{ app: this.app, editor: this }}>
+        <UniverProvider>
           <ContainerView ref={this.containerRef} dataService={this.dataService} />
-        </EditorContext.Provider>
-      </AppContext.Provider>,
+        </UniverProvider>
+      </EditorContext.Provider>,
     )
   }
 

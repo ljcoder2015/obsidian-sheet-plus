@@ -2,7 +2,6 @@ import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo
 import type { MenuProps } from 'antd'
 import { Button, ConfigProvider, Dropdown, Flex, Popover, Tabs, theme } from 'antd'
 import type { IWorkbookData } from '@univerjs/core'
-import type { FUniver } from '@univerjs/core/facade'
 import { Notice } from 'obsidian'
 import { randomString } from '../utils/uuid'
 import type { MultiSheet } from '../common/constants'
@@ -13,6 +12,7 @@ import { log } from '../utils/log'
 import { useEditorContext } from '../context/editorContext'
 import { rangeToRangeString } from '../utils/data'
 import { renderToHtml } from '../post-processor/html'
+import { useUniver } from '../context/UniverContext'
 import { SheetTab } from './tabs/SheetTab'
 import type { IKanbanConfig } from './tabs/KanbanTab'
 import { KanbanTab } from './tabs/KanbanTab'
@@ -35,8 +35,9 @@ export interface ContainerViewProps {
 
 // eslint-disable-next-line prefer-arrow-callback
 export const ContainerView = forwardRef(function ContainerView(props, ref) {
+  const { univerApi } = useUniver()
   const { dataService } = props as ContainerViewProps
-  const editor = useEditorContext()
+  const { editor } = useEditorContext()
   const { plugin } = editor
   const [isInit, setIsInit] = useState(false)
   const [activeKey, setActiveKey] = useState('sheet')
@@ -52,14 +53,13 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
   const [triggerSource, setTriggerSource] = useState<string | null>(null) // 记录是点击哪个 tab 触发的下拉菜单
   const [renameModalVisible, setRenameModalVisible] = useState(false) // 重命名
   const [renameModalName, setRenameModalName] = useState('') // 重命名的名称
-  const [univerAPI, setUniverAPI] = useState(null)
 
   useImperativeHandle(ref, () => ({
     copyToHTML() {
-      if (univerAPI === null) {
+      if (univerApi === null) {
         return
       }
-      const workbook = univerAPI.getActiveWorkbook()
+      const workbook = univerApi.getActiveWorkbook()
 
       const workbookData = workbook?.getSnapshot()
       if (workbookData === undefined)
@@ -99,11 +99,6 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
     }
   }
 
-  const initUniverApi = (api: FUniver | null) => {
-    log('[ContentView]', 'initUniverApi', univerAPI === api)
-    setUniverAPI(api)
-  }
-
   useEffect(() => {
     log('[ContentView]', 'ContentView初始化')
     if (dataService) {
@@ -121,7 +116,6 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
     setIsInit(true)
     return () => {
       log('[ContentView]', 'ContentView卸载')
-      setUniverAPI(null)
     }
   }, [])
 
@@ -220,10 +214,10 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
   }
 
   const createKanbanConfig = () => {
-    if (!univerAPI) {
+    if (!univerApi) {
       return {}
     }
-    const sheet = univerAPI.getActiveWorkbook().getActiveSheet()
+    const sheet = univerApi.getActiveWorkbook().getActiveSheet()
     return {
       sheetId: sheet.getSheetId(),
       groupColumn: '0',
@@ -345,7 +339,6 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
                     data={dataService.getBlock<IWorkbookData>(item.key)}
                     saveData={saveData}
                     onRender={onSheetRender}
-                    initUniverApi={initUniverApi}
                   />
                 )
                 break
@@ -353,8 +346,6 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
                 children = (
                   <KanbanTab
                     data={dataService.getBlock<IKanbanConfig>(item.key)}
-                    univerApi={univerAPI}
-                    saveData={saveData}
                   />
                 )
                 break
@@ -363,6 +354,7 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
               key: item.key,
               label: item.label,
               children,
+              forceRender: true,
             }
           })}
           activeKey={activeKey}

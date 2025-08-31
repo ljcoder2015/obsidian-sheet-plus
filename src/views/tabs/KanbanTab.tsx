@@ -1,12 +1,17 @@
-import type { FUniver } from '@univerjs/core/facade'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import type {
+  DraggableProvided,
+  DraggableRubric,
+  DraggableStateSnapshot,
   DropResult,
+  DroppableProvided,
 } from '@hello-pangea/dnd'
+import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd'
 
 import { DataValidationType } from '@univerjs/core'
 import { log } from '../../utils/log'
 import { t } from '../../lang/helpers'
+import { useUniver } from '../../context/UniverContext'
 
 export interface IKanbanConfig {
   sheetId: string
@@ -17,18 +22,23 @@ export interface IKanbanConfig {
 
 interface IKanbanTabProps {
   data: IKanbanConfig
-  univerApi: FUniver
-  saveData: (data: any, key: string) => void
+}
+
+interface IGroup {
+  id: string
+  name: string
+  data: Record<string, any>[]
 }
 
 interface IGroups {
   groups?: string[]
   header?: string[]
-  grouped?: Record<string, Record<string, any>[]>
+  grouped?: Record<string, IGroup>
 }
 
 export function KanbanTab(props: IKanbanTabProps) {
-  const { data, univerApi, saveData } = props
+  const { univerApi } = useUniver()
+  const { data } = props
   const [columns, setColumns] = useState<IGroups>({})
 
   // 从 sheet 获取数据并分组
@@ -82,84 +92,50 @@ export function KanbanTab(props: IKanbanTabProps) {
     }
   }
 
-  useEffect(() => {
-    const grouped: IGroups = getData()
-    setColumns(grouped)
-  }, [univerApi, data.sheetId, data.groupColumn])
+  // useEffect(() => {
+  //   const grouped: IGroups = getData()
+  //   setColumns(grouped)
+  // }, [univerApi, data.sheetId, data.groupColumn])
 
   // 拖拽逻辑
   const handleDragEnd = (result: DropResult) => {
-    // const { source, destination } = result
-    // if (!destination)
-    //   return
 
-    // const sourceCol = Array.from(columns[source.droppableId])
-    // const destCol = Array.from(columns[destination.droppableId])
-
-    // // 同列
-    // if (source.droppableId === destination.droppableId) {
-    //   const [moved] = sourceCol.splice(source.index, 1)
-    //   sourceCol.splice(destination.index, 0, moved)
-
-    //   setColumns({
-    //     ...columns,
-    //     [source.droppableId]: sourceCol,
-    //   })
-    // }
-    // else {
-    //   // 跨列
-    //   const [moved] = sourceCol.splice(source.index, 1)
-    //   destCol.splice(destination.index, 0, moved)
-
-    //   setColumns({
-    //     ...columns,
-    //     [source.droppableId]: sourceCol,
-    //     [destination.droppableId]: destCol,
-    //   })
-    // }
-
-    // // TODO: 同步更新到 sheet，这里只调用 saveData 占位
-    // saveData(columns, 'kanban')
   }
 
   return (
     <div className="kanban flex flex-col border">
-      {/* { columns.grouped
-        ? (
-            <DragDropContext
-              onDragEnd={handleDragEnd}
-              children={
-                Object.entries<Record<string, Array<Record<string, any>>>>(columns.grouped || {})?.map((colId) => {
-                  return (
-                    <Droppable
-                      droppableId={colId}
-                      children={
-                        columns.grouped[colId]?.map((task, index) => (
-                          <Draggable
-                            draggableId={`${colId}-${index}`}
-                            index={index}
-                            children={
-                              (provided: DraggableProvided, snapshot: DraggableStateSnapshot, rubic: DraggableRubric) => (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  className="bg-white rounded shadow p-2 mb-2"
-                                >
-                                  {JSON.stringify(task)}
-                                </div>
-                              )
-                            }
-                          />
-                        ))
-                      }
-                    />
-                  )
-                })
-              }
-            />
-          )
-        : <div>空数据</div>} */}
+      <DragDropContext
+        onDragEnd={handleDragEnd}
+        children={(
+          <Droppable droppableId="1">
+            {(provided: DroppableProvided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="flex flex-col"
+              >
+                {provided.placeholder}
+                <Draggable
+                  draggableId="1"
+                  index={0}
+                  children={
+                    (provided: DraggableProvided, snapshot: DraggableStateSnapshot, rubic: DraggableRubric) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className="bg-white rounded shadow p-2 mb-2"
+                      >
+                        123
+                      </div>
+                    )
+                  }
+                />
+              </div>
+            )}
+          </Droppable>
+        )}
+      />
     </div>
   )
 }
