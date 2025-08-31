@@ -1,12 +1,14 @@
 import { FUniver } from '@univerjs/core/facade'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
-import { CommandType, LifecycleStages, throttle } from '@univerjs/core'
+import { CommandType, LifecycleStages } from '@univerjs/core'
 import { SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
 import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
 import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import { Spin } from 'antd'
+import { debounce } from 'obsidian'
+import type { FWorkbook } from '@univerjs/sheets/facade'
 import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
@@ -54,11 +56,17 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
     }
   }, [])
 
-  const throttledSave = throttle((data, key) => {
-    saveData(data, key)
-  }, 1000)
+  const debounceSave = debounce((activeWorkbook: FWorkbook) => {
+    log('[SheetTab]', 'debounce save sheet')
+    const activeWorkbookData = activeWorkbook.save()
+    const jsonData = JSON.stringify(activeWorkbookData)
+    if (jsonData !== lastData) {
+      saveData(activeWorkbookData, id)
+      lastData = jsonData
+    }
+  }, 5000)
 
-  useEffect(() => {
+  useMemo(() => {
     if (univerApi) {
       log('[SheetTab]', 'createWorkbook')
       univerApi.createWorkbook(data)
@@ -106,14 +114,8 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
         }
 
         const activeWorkbook = univerApi.getActiveWorkbook()
-        if (!activeWorkbook) {
-          return
-        }
-        const activeWorkbookData = activeWorkbook.save()
-        const jsonData = JSON.stringify(activeWorkbookData)
-        if (jsonData !== lastData) {
-          throttledSave(activeWorkbookData, id)
-          lastData = jsonData
+        if (activeWorkbook) {
+          debounceSave(activeWorkbook)
         }
       })
     }

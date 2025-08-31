@@ -18,7 +18,7 @@ export function UniverProvider({ children }: React.PropsWithChildren<object>) {
   )
 }
 
-export function useUniver() {
+export function useUniver(): UniverContextProps {
   const ctx = useContext(UniverContext)
   if (!ctx)
     throw new Error('useUniver must be used inside UniverProvider')
