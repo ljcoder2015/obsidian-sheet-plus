@@ -29,6 +29,7 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [univerId, setUniverId] = useState<string>(randomString(6))
   const [loading, setLoading] = useState<boolean>(true)
+  let lastData = ''
 
   useEffect(() => {
     log('[SheetTab]', 'sheetTab 挂载')
@@ -109,8 +110,11 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
           return
         }
         const activeWorkbookData = activeWorkbook.save()
-
-        throttledSave(activeWorkbookData, id)
+        const jsonData = JSON.stringify(activeWorkbookData)
+        if (jsonData !== lastData) {
+          throttledSave(activeWorkbookData, id)
+          lastData = jsonData
+        }
       })
     }
   }, [univerApi])

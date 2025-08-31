@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import type {
   DraggableProvided,
   DraggableRubric,
@@ -24,22 +24,25 @@ interface IKanbanTabProps {
   data: IKanbanConfig
 }
 
-interface IGroup {
+interface ITask {
   id: string
-  name: string
-  data: Record<string, any>[]
+  content: string
 }
 
-interface IGroups {
-  groups?: string[]
-  header?: string[]
-  grouped?: Record<string, IGroup>
+interface IColumn {
+  id: string
+  title: string
+  taskIds: string[]
+}
+
+interface IBoard {
+  tasks: Record<string, ITask[]>
+  columns: Record<string, IColumn[]>
 }
 
 export function KanbanTab(props: IKanbanTabProps) {
   const { univerApi } = useUniver()
   const { data } = props
-  const [columns, setColumns] = useState<IGroups>({})
 
   // 从 sheet 获取数据并分组
   const getData = () => {
@@ -92,6 +95,10 @@ export function KanbanTab(props: IKanbanTabProps) {
     }
   }
 
+  useEffect(() => {
+    log('[KanbanTab]', '挂载')
+  }, [])
+
   // useEffect(() => {
   //   const grouped: IGroups = getData()
   //   setColumns(grouped)
@@ -107,14 +114,17 @@ export function KanbanTab(props: IKanbanTabProps) {
       <DragDropContext
         onDragEnd={handleDragEnd}
         children={(
-          <Droppable droppableId="1">
+          <Droppable
+            droppableId="1"
+            type="COLUMN"
+            direction="horizontal"
+          >
             {(provided: DroppableProvided) => (
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 className="flex flex-col"
               >
-                {provided.placeholder}
                 <Draggable
                   draggableId="1"
                   index={0}
@@ -131,6 +141,7 @@ export function KanbanTab(props: IKanbanTabProps) {
                     )
                   }
                 />
+                {provided.placeholder}
               </div>
             )}
           </Droppable>
