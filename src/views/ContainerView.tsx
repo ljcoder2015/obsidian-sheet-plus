@@ -14,8 +14,8 @@ import { rangeToRangeString } from '../utils/data'
 import { renderToHtml } from '../post-processor/html'
 import { useUniver } from '../context/UniverContext'
 import { SheetTab } from './tabs/SheetTab'
-import type { IKanbanConfig } from './tabs/KanbanTab'
-import { KanbanTab } from './tabs/KanbanTab'
+import type { IKanbanConfig } from './tabs/kanban/KanbanTab'
+import { KanbanTab } from './tabs/kanban/KanbanTab'
 import { RenameModal } from './components/RenameModal'
 
 const helpContent = (

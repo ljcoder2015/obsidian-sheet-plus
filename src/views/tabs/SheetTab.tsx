@@ -35,26 +35,30 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
 
   useEffect(() => {
     log('[SheetTab]', 'sheetTab 挂载')
-    const options = {
-      header: true,
-      footer: true,
-    }
-
-    const darkMode = plugin.settings.darkModal === 'dark'
-    const mobileRenderMode = plugin.settings.mobileRenderMode
 
     const univerId = randomString(6)
     setUniverId(univerId)
-    const univer = createUniver(options, containerRef.current, mobileRenderMode, darkMode)
-    const univerAPI = FUniver.newAPI(univer)
-    setUniverApi(univerAPI)
 
     return () => {
       log('[SheetTab]', 'sheetTab 卸载')
-      univerAPI?.dispose()
+      univerApi?.dispose()
       setUniverApi(null)
     }
   }, [])
+
+  useMemo(() => {
+    if (univerId) {
+      const options = {
+        header: true,
+        footer: true,
+      }
+      const darkMode = plugin.settings.darkModal === 'dark'
+      const mobileRenderMode = plugin.settings.mobileRenderMode
+      const univer = createUniver(options, containerRef.current, mobileRenderMode, darkMode)
+      const univerAPI = FUniver.newAPI(univer)
+      setUniverApi(univerAPI)
+    }
+  }, [univerId])
 
   const debounceSave = debounce((activeWorkbook: FWorkbook) => {
     log('[SheetTab]', 'debounce save sheet')
@@ -68,7 +72,7 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
 
   useMemo(() => {
     if (univerApi) {
-      log('[SheetTab]', 'createWorkbook')
+      log('[SheetTab]', 'createWorkbook', univerId)
       univerApi.createWorkbook(data)
 
       // set number format local
@@ -156,7 +160,7 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
   return (
     <Spin spinning={loading} size="large" tip={t('LOADING')}>
       <div id="sheet-box">
-        <div ref={containerRef} id={univerId} className="my-univer" />
+        <div ref={containerRef} className="my-univer" />
       </div>
     </Spin>
   )
