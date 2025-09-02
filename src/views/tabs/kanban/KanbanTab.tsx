@@ -6,9 +6,11 @@ import type {
 import { DragDropContext, Droppable } from '@hello-pangea/dnd'
 
 import { DataValidationType } from '@univerjs/core'
+import { Card, Flex } from 'antd'
 import { log } from '../../../utils/log'
 import { t } from '../../../lang/helpers'
 import { useUniver } from '../../../context/UniverContext'
+import { Task } from './task'
 
 export interface IKanbanConfig {
   sheetId: string
@@ -143,7 +145,7 @@ export function KanbanTab(props: IKanbanTabProps) {
   }
 
   return (
-    <div className="kanban flex flex-col border p-2">
+    <Flex className="kanban" gap="middle" horizontal>
       <DragDropContext
         onDragEnd={handleDragEnd}
         children={
@@ -153,34 +155,28 @@ export function KanbanTab(props: IKanbanTabProps) {
             return (
               <Droppable
                 droppableId={column.id}
-                type="COLUMN"
-                direction="horizontal"
               >
-                <div className="border bg-gray-300 w-[200px]">
-                  <div className="bg-gray-100">
-                    <div>{column.title}</div>
-                  </div>
-                  {
-                    (provided: DroppableProvided) => (
-                      <div
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        className="flex flex-col max-w-[200px]"
-                      >
-                        {/* {column.taskIds.map(taskId => (
-                          <Task task={board.tasks[taskId]} />
-                        ))} */}
-                        <div key={column.id}>{column.title}</div>
-                        {provided.placeholder}
-                      </div>
-                    )
-                  }
-                </div>
+                {
+                  (provided: DroppableProvided) => (
+                    <Card
+                      size="small"
+                      title={column.title}
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      className="w-[300px]"
+                    >
+                      {column.taskIds.map(taskId => (
+                        <Task task={board.tasks[taskId]} />
+                      ))}
+                      {provided.placeholder}
+                    </Card>
+                  )
+                }
               </Droppable>
             )
           })
         }
       />
-    </div>
+    </Flex>
   )
 }

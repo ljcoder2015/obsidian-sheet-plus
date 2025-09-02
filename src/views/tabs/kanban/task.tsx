@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import type { DraggableProvided, DraggableRubric, DraggableStateSnapshot } from '@hello-pangea/dnd'
 import { Draggable } from '@hello-pangea/dnd'
+import { Card } from 'antd'
 import { log } from '../../../utils/log'
 import type { ITask } from './KanbanTab'
 
@@ -19,24 +20,25 @@ export function Task({ task }: { task: ITask }) {
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            className="bg-white rounded shadow p-2 mb-2"
+            className="mb-2"
           >
-            <div
-              {...provided.dragHandleProps}
-              className={snapshot.isDragging ? 'bg-blue-400' : 'bg-gray-300'}
+            <Card
+              size="small"
+              type="inner"
             >
-              {task.content.map(c => (
-                <div key={c.colIndex}>
-                  <div>
-                    <span>
-                      {c.title}
-                      :
-                    </span>
-                    <span>{c.content}</span>
+              <div className="flex flex-col gap-2">
+                {task.content.map(c => (
+                  <div key={c.colIndex}>
+                    <p>
+                      <span className="font-bold">
+                        {`${c.title}: `}
+                      </span>
+                      <span className="text-gray-500">{c.content}</span>
+                    </p>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </Card>
           </div>
         )
       }
