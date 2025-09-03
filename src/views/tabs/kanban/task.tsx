@@ -1,43 +1,39 @@
-import React, { useEffect } from 'react'
-import type { DraggableProvided, DraggableRubric, DraggableStateSnapshot } from '@hello-pangea/dnd'
+import React from 'react'
+import type { DraggableProvided } from '@hello-pangea/dnd'
 import { Draggable } from '@hello-pangea/dnd'
 import { Card } from 'antd'
-import { log } from '../../../utils/log'
 import type { ITask } from './KanbanTab'
 
-export function Task({ task }: { task: ITask }) {
-  useEffect(() => {
-    log('[Task]', 'Task 挂载 props', task)
-  }, [])
+export interface ITaskProps {
+  taskId: string
+  task: ITask
+  index: number
+}
 
+export function Task({ taskId, task, index }: ITaskProps) {
   return (
     <Draggable
-      draggableId={task.rowIndex.toString()}
-      index={task.rowIndex}
+      draggableId={`task-${taskId}`}
+      index={index}
       children={
-        (provided: DraggableProvided, snapshot: DraggableStateSnapshot, rubic: DraggableRubric) => (
+        (provided: DraggableProvided) => (
           <div
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            className="mb-2"
+            className="flex flex-col gap-2"
           >
             <Card
               size="small"
-              type="inner"
             >
-              <div className="flex flex-col gap-2">
-                {task.content.map(c => (
-                  <div key={c.colIndex}>
-                    <p>
-                      <span className="font-bold">
-                        {`${c.title}: `}
-                      </span>
-                      <span className="text-gray-500">{c.content}</span>
-                    </p>
-                  </div>
-                ))}
-              </div>
+              {task.content.map(c => (
+                <p key={`${task.rowIndex}-${c.colIndex}`}>
+                  <span className="font-bold">
+                    {`${c.title}: `}
+                  </span>
+                  <span className="text-gray-500">{c.content}</span>
+                </p>
+              ))}
             </Card>
           </div>
         )

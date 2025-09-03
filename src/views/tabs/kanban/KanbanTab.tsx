@@ -1,15 +1,17 @@
 import React, { useMemo, useState } from 'react'
 import type {
+  DraggableLocation,
   DropResult,
   DroppableProvided,
 } from '@hello-pangea/dnd'
 import { DragDropContext, Droppable } from '@hello-pangea/dnd'
 
 import { DataValidationType } from '@univerjs/core'
-import { Card, Flex } from 'antd'
+import { Flex } from 'antd'
 import { log } from '../../../utils/log'
 import { t } from '../../../lang/helpers'
 import { useUniver } from '../../../context/UniverContext'
+import { randomString } from '../../../utils/uuid'
 import { Task } from './task'
 
 export interface IKanbanConfig {
@@ -38,6 +40,7 @@ export interface ITask {
 export interface IColumn {
   id: string
   title: string
+  color: string
   taskIds: number[]
 }
 
@@ -64,10 +67,12 @@ export function KanbanTab(props: IKanbanTabProps) {
     const groupColumn = sheet.getRange(0, colIndex, range.getLastRow() - range.getRow())
     const validations = groupColumn.getDataValidations()
     let groups: string[] = [] // 分组选项列，读取数据验证的设置
+    let colors: string[] = []
     validations.forEach((item) => {
       const { rule } = item
       if (rule.type === DataValidationType.LIST) {
         groups = rule.formula1.split(',')
+        colors = rule.formula2.split(',')
       }
     })
 
@@ -80,15 +85,17 @@ export function KanbanTab(props: IKanbanTabProps) {
       }
     }
 
-    const columns: IColumn[] = groups.map(group => ({
-      id: group,
+    const columns: IColumn[] = groups.map((group, index) => ({
+      id: randomString(6),
       title: group,
+      color: colors[index],
       taskIds: [],
     }))
     // 添加未分组列
     columns.push({
       id: 'not_group',
       title: t('KANBAN_NOT_GROUP'),
+      color: '#f0f0f0',
       taskIds: [],
     })
     const tasks: Record<number, ITask> = {}
@@ -103,10 +110,10 @@ export function KanbanTab(props: IKanbanTabProps) {
           content: [],
         }
         const content: ITaskContent[] = []
-        row.forEach((item, colIndex) => {
+        row.forEach((item, index) => {
           content.push({
-            colIndex,
-            title: header[colIndex],
+            colIndex: index,
+            title: header[index],
             content: item,
           })
         })
@@ -141,42 +148,106 @@ export function KanbanTab(props: IKanbanTabProps) {
 
   // 拖拽逻辑
   const handleDragEnd = (result: DropResult) => {
+    // dropped nowhere
+    if (!result.destination) {
+      return
+    }
 
+    const source: DraggableLocation = result.source
+    const destination: DraggableLocation = result.destination
+
+    // did not move anywhere - can bail early
+    if (
+      source.droppableId === destination.droppableId
+      && source.index === destination.index
+    ) {
+      return
+    }
+
+    // 移动任务
+    const sourceColumn = board.columns.find(item => item.id === source.droppableId)
+    const destinationColumn = board.columns.find(item => item.id === destination.droppableId)
+    if (!sourceColumn || !destinationColumn) {
+      return
+    }
+    // 移动任务
+    const taskId = sourceColumn.taskIds[source.index]
+    const task = board.tasks[taskId]
+    sourceColumn.taskIds.splice(source.index, 1)
+    destinationColumn.taskIds.splice(destination.index, 0, taskId)
+    // 更新 board
+    const newBoard = {
+      ...board,
+      columns: board.columns.map((item) => {
+        if (item.id === sourceColumn.id) {
+          return {
+            ...item,
+            taskIds: sourceColumn.taskIds,
+          }
+        }
+        if (item.id === destinationColumn.id) {
+          return {
+            ...item,
+            taskIds: destinationColumn.taskIds,
+          }
+        }
+        return item
+      }),
+    }
+    log('[KanbanTab]', 'handleDragEnd', 'result', result, `newBoard`, newBoard)
+    setBoard(newBoard)
+
+    const colIndex = Number.parseInt(data.groupColumn)
+    univerApi.getActiveWorkbook().getSheetBySheetId(data.sheetId).getRange(task.rowIndex, colIndex).setValue(destinationColumn.title)
   }
 
   return (
-    <Flex className="kanban" gap="middle" horizontal>
+    <Flex className="kanban p-2" gap="middle" horizontal>
       <DragDropContext
         onDragEnd={handleDragEnd}
-        children={
+        children={null}
+      >
+        {
           board.columns.map((column) => {
-            log('[KanbanTab]', 'DragDropContext children', column)
-            // return <div key={column.id}>{column.title}</div>
             return (
               <Droppable
                 droppableId={column.id}
+                direction="vertical"
               >
                 {
                   (provided: DroppableProvided) => (
-                    <Card
-                      size="small"
-                      title={column.title}
-                      {...provided.droppableProps}
+                    <div
                       ref={provided.innerRef}
-                      className="w-[300px]"
+                      {...provided.droppableProps}
+                      className="w-[300px] p-2 rounded-md border inline-flex flex-col min-h-screen bg-[colorBgContainer] gap-2"
                     >
-                      {column.taskIds.map(taskId => (
-                        <Task task={board.tasks[taskId]} />
+                      <div className="p-2 mb-2 border-b ml-[-8px] mr-[-8px]">
+                        <div
+                          className="text-lg font-bold"
+                          style={{
+                            color: column.color,
+                          }}
+                        >
+                          {column.title}
+                        </div>
+                      </div>
+                      {log('[KanbanTab]', 'column', column)}
+                      {column.taskIds.map((taskId, index) => (
+                        <Task
+                          taskId={taskId} // 用于 Draggable 的 draggableId
+                          task={board.tasks[taskId]}
+                          index={index} // 用于 Draggable 的 index
+                        />
                       ))}
                       {provided.placeholder}
-                    </Card>
+                    </div>
                   )
                 }
               </Droppable>
             )
           })
         }
-      />
+      </DragDropContext>
     </Flex>
   )
 }
