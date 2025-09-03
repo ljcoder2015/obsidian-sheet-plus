@@ -7,7 +7,7 @@ import type {
 import { DragDropContext, Droppable } from '@hello-pangea/dnd'
 
 import { DataValidationType } from '@univerjs/core'
-import { Flex } from 'antd'
+import { Card, Flex } from 'antd'
 import { log } from '../../../utils/log'
 import { t } from '../../../lang/helpers'
 import { useUniver } from '../../../context/UniverContext'
@@ -210,28 +210,24 @@ export function KanbanTab(props: IKanbanTabProps) {
         {
           board.columns.map((column) => {
             return (
-              <Droppable
-                droppableId={column.id}
-                direction="vertical"
+              <Card
+                key={column.id}
+                size="small"
+                title={column.title}
+                className="w-[300px]"
+                style={{
+                  color: column.color,
+                }}
               >
-                {
-                  (provided: DroppableProvided) => (
+                <Droppable
+                  droppableId={column.id}
+                >
+                  {(provided: DroppableProvided) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className="w-[300px] p-2 rounded-md border inline-flex flex-col min-h-screen bg-[colorBgContainer] gap-2"
+                      className="p-2"
                     >
-                      <div className="p-2 mb-2 border-b ml-[-8px] mr-[-8px]">
-                        <div
-                          className="text-lg font-bold"
-                          style={{
-                            color: column.color,
-                          }}
-                        >
-                          {column.title}
-                        </div>
-                      </div>
-                      {log('[KanbanTab]', 'column', column)}
                       {column.taskIds.map((taskId, index) => (
                         <Task
                           taskId={taskId} // 用于 Draggable 的 draggableId
@@ -241,9 +237,9 @@ export function KanbanTab(props: IKanbanTabProps) {
                       ))}
                       {provided.placeholder}
                     </div>
-                  )
-                }
-              </Droppable>
+                  )}
+                </Droppable>
+              </Card>
             )
           })
         }

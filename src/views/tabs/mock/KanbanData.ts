@@ -61,21 +61,22 @@ export const mockData = {
       ],
     },
   },
-  columns: [
-    {
+  columns: {
+    未开始: {
       id: '未开始',
       title: '未开始',
       taskIds: [2],
     },
-    {
+    进行中: {
       id: '进行中',
       title: '进行中',
       taskIds: [1],
     },
-    {
+    未分组: {
       id: '未分组',
       title: '未分组',
       taskIds: [],
     },
-  ],
+  },
+  columnOrder: ['未开始', '进行中', '未分组'],
 }
