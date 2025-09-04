@@ -141,15 +141,18 @@ export function KanbanTab(props: IKanbanTabProps) {
     }
   }
 
-  useEventBus('sheetChange', () => {
+  const reload = () => {
     const board = getData()
     setBoard(board)
+  }
+
+  useEventBus('sheetChange', () => {
+    reload()
   })
 
   useMemo(() => {
     log('[KanbanTab]', '挂载')
-    const board = getData()
-    setBoard(board)
+    reload()
   }, [univerApi, data.sheetId, data.groupColumn])
 
   // 拖拽逻辑
