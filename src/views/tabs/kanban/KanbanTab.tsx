@@ -12,6 +12,7 @@ import { log } from '../../../utils/log'
 import { t } from '../../../lang/helpers'
 import { useUniver } from '../../../context/UniverContext'
 import { randomString } from '../../../utils/uuid'
+import { useEventBus } from '../../../utils/useEventBus'
 import { Task } from './task'
 
 export interface IKanbanConfig {
@@ -139,6 +140,11 @@ export function KanbanTab(props: IKanbanTabProps) {
       columns,
     }
   }
+
+  useEventBus('sheetChange', () => {
+    const board = getData()
+    setBoard(board)
+  })
 
   useMemo(() => {
     log('[KanbanTab]', '挂载')

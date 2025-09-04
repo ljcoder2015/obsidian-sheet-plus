@@ -16,6 +16,7 @@ import { rangeToNumber } from '../../utils/data'
 import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
+import { emitEvent } from '../../utils/useEventBus'
 
 interface Props {
   id: string
@@ -67,8 +68,9 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
     if (jsonData !== lastData) {
       saveData(activeWorkbookData, id)
       lastData = jsonData
+      emitEvent('sheetChange')
     }
-  }, 5000)
+  }, 2000)
 
   useMemo(() => {
     if (univerApi) {
