@@ -47,7 +47,7 @@ export class ExcelProView extends TextFileView {
     }
     this.lastLoadedFile = this.file
     this.data = data
-    this.dataService = new DataService(this.data)
+    this.dataService = new DataService(this.file.path, this.data)
 
     this.app.workspace.onLayoutReady(async () => {
       let counter = 0
@@ -104,6 +104,7 @@ export class ExcelProView extends TextFileView {
     if (!this.file
       || this.lastLoadedFile !== this.file
       || !this.app.vault.getAbstractFileByPath(this.file.path) // file was recently deleted
+      || this.dataService.fileName !== this.file.path
     ) {
       this.semaphores.saving = false
       return
@@ -142,8 +143,11 @@ export class ExcelProView extends TextFileView {
   }
 
   saveData(data: any, key: string) {
-    this.dataService?.setBlock(key, data)
-    log('[ExcelProView]', 'saveData', key)
+    if (!this.dataService) {
+      return
+    }
+    this.dataService.setBlock(key, data)
+    log('[ExcelProView]', 'saveData', key, this.dataService?.fileName)
     this.save()
   }
 
@@ -162,10 +166,6 @@ export class ExcelProView extends TextFileView {
         </UniverProvider>
       </EditorContext.Provider>,
     )
-  }
-
-  async prepareGetViewData(): Promise<void> {
-    this.dataService = new DataService(this.data)
   }
 
   getViewData(): string {

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import type {
   DraggableLocation,
   DropResult,
@@ -7,13 +7,14 @@ import type {
 import { DragDropContext, Droppable } from '@hello-pangea/dnd'
 
 import { DataValidationType } from '@univerjs/core'
-import { Card, Flex } from 'antd'
+import { Button, Card, Flex } from 'antd'
 import { log } from '../../../utils/log'
 import { t } from '../../../lang/helpers'
 import { useUniver } from '../../../context/UniverContext'
 import { randomString } from '../../../utils/uuid'
 import { useEventBus } from '../../../utils/useEventBus'
 import { Task } from './task'
+import { SettingDrawer } from './setting-drawer'
 
 export interface IKanbanConfig {
   sheetId: string
@@ -63,7 +64,13 @@ export function KanbanTab(props: IKanbanTabProps) {
     if (!univerApi)
       return {}
     const sheet = univerApi.getActiveWorkbook().getSheetBySheetId(data.sheetId)
+    if (!sheet) {
+      return {}
+    }
     const range = sheet.getDataRange()
+    if (!range) {
+      return {}
+    }
     const colIndex = Number.parseInt(data.groupColumn)
     const groupColumn = sheet.getRange(0, colIndex, range.getLastRow() - range.getRow())
     const validations = groupColumn.getDataValidations()
@@ -78,7 +85,6 @@ export function KanbanTab(props: IKanbanTabProps) {
     })
 
     const values = range.getDisplayValues()
-    log('[KanbanTab]', 'getData', values)
     if (!values || values.length === 0) {
       return {
         tasks: [],
@@ -146,12 +152,13 @@ export function KanbanTab(props: IKanbanTabProps) {
     setBoard(board)
   }
 
-  useEventBus('sheetChange', () => {
+  const sheetChangeHandler = useCallback(() => {
     reload()
-  })
+  }, [])
+
+  useEventBus('sheetChange', sheetChangeHandler)
 
   useMemo(() => {
-    log('[KanbanTab]', '挂载')
     reload()
   }, [univerApi, data.sheetId, data.groupColumn])
 
@@ -187,7 +194,7 @@ export function KanbanTab(props: IKanbanTabProps) {
     // 更新 board
     const newBoard = {
       ...board,
-      columns: board.columns.map((item) => {
+      columns: board.columns?.map((item) => {
         if (item.id === sourceColumn.id) {
           return {
             ...item,
@@ -210,14 +217,30 @@ export function KanbanTab(props: IKanbanTabProps) {
     univerApi.getActiveWorkbook().getSheetBySheetId(data.sheetId).getRange(task.rowIndex, colIndex).setValue(destinationColumn.title)
   }
 
+  const [settingDrawerOpen, setSettingDrawerOpen] = useState(false)
+
+  const handleSettingDrawerOpen = () => {
+    setSettingDrawerOpen(true)
+  }
+
+  const handleSettingDrawerClose = () => {
+    setSettingDrawerOpen(false)
+  }
+
   return (
-    <Flex className="kanban p-2" gap="middle" horizontal>
+    <Flex className="kanban p-2" gap="middle" vertical={false}>
+      <Flex vertical>
+        <Button onClick={handleSettingDrawerOpen}>
+          {t('KANBAN_SETTING')}
+        </Button>
+      </Flex>
+      <SettingDrawer open={settingDrawerOpen} onClose={handleSettingDrawerClose} />
       <DragDropContext
         onDragEnd={handleDragEnd}
         children={null}
       >
         {
-          board.columns.map((column) => {
+          board.columns?.map((column) => {
             return (
               <Card
                 key={column.id}
@@ -239,6 +262,7 @@ export function KanbanTab(props: IKanbanTabProps) {
                     >
                       {column.taskIds.map((taskId, index) => (
                         <Task
+                          key={taskId}
                           taskId={taskId} // 用于 Draggable 的 draggableId
                           task={board.tasks[taskId]}
                           index={index} // 用于 Draggable 的 index

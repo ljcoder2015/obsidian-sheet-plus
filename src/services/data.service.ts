@@ -2,8 +2,10 @@ import type { ParsedHeader, ParsedMarkdown } from './type'
 
 export class DataService {
   markdownData: ParsedMarkdown
+  fileName: string
 
-  constructor(fileData: string) {
+  constructor(fileName: string, fileData: string) {
+    this.fileName = fileName
     this.markdownData = this.parseMarkdown(fileData)
   }
 

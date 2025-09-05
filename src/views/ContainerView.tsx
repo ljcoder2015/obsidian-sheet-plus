@@ -93,7 +93,6 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
   }, [editor])
 
   const onSheetRender = (isToRange: boolean) => {
-    log('[ContentView]', 'onSheetRender', tabsData.defaultActiveKey)
     if (tabsData && tabsData.defaultActiveKey !== 'sheet' && !isToRange) {
       setActiveKey(tabsData.defaultActiveKey)
     }

@@ -177,7 +177,9 @@
 
 .kanban {
   height: calc(100vh - var(--toolbar-height) - 72px);
-  border-color: #ececec;
+  border: 1px solid #ececec;
+  border-top-width: 0;
+  padding: 12px;
 }
 
 .univer-dark .kanban {

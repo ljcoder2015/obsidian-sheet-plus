@@ -2,6 +2,7 @@
 import { useEffect } from 'react'
 import type { AppEvents } from './eventBus'
 import emitter from './eventBus'
+import { log } from './log'
 
 /**
  * 监听事件（自动清理）
@@ -13,6 +14,7 @@ export function useEventBus<K extends keyof AppEvents>(
   useEffect(() => {
     emitter.on(event, handler)
     return () => {
+      log('[useEventBus]', 'off')
       emitter.off(event, handler)
     }
   }, [event, handler])

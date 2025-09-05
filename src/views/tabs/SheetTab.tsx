@@ -34,6 +34,17 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
   const [loading, setLoading] = useState<boolean>(true)
   let lastData = ''
 
+  const debounceSave = debounce((activeWorkbook: FWorkbook) => {
+    log('[SheetTab]', 'debounce save sheet')
+    const activeWorkbookData = activeWorkbook.save()
+    const jsonData = JSON.stringify(activeWorkbookData)
+    if (jsonData !== lastData) {
+      saveData(activeWorkbookData, id)
+      lastData = jsonData
+      emitEvent('sheetChange')
+    }
+  }, 2000)
+
   useEffect(() => {
     log('[SheetTab]', 'sheetTab 挂载')
 
@@ -42,6 +53,7 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
 
     return () => {
       log('[SheetTab]', 'sheetTab 卸载')
+      debounceSave.run()
       univerApi?.dispose()
       setUniverApi(null)
     }
@@ -61,18 +73,9 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
     }
   }, [univerId])
 
-  const debounceSave = debounce((activeWorkbook: FWorkbook) => {
-    log('[SheetTab]', 'debounce save sheet')
-    const activeWorkbookData = activeWorkbook.save()
-    const jsonData = JSON.stringify(activeWorkbookData)
-    if (jsonData !== lastData) {
-      saveData(activeWorkbookData, id)
-      lastData = jsonData
-      emitEvent('sheetChange')
-    }
-  }, 2000)
-
   useMemo(() => {
+    let lifeCycleDisposable = null
+    let commandExecutedDisposable = null
     if (univerApi) {
       log('[SheetTab]', 'createWorkbook', univerId)
       univerApi.createWorkbook(data)
@@ -81,9 +84,7 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
       const localeTag = plugin.settings.numberFormatLocal as INumfmtLocaleTag
       univerApi.getActiveWorkbook().setNumfmtLocal(localeTag)
 
-      // loading
-      univerApi.addEvent(univerApi.Event.LifeCycleChanged, (res) => {
-        // console.log('LifeCycleChanged', res.stage)
+      lifeCycleDisposable = univerApi.addEvent(univerApi.Event.LifeCycleChanged, (res) => {
         if (res.stage === LifecycleStages.Ready && editor.subPath == null) {
           setTimeout(() => {
             onRender(false)
@@ -94,7 +95,7 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
         }
       })
 
-      univerApi.addEvent(univerApi.Event.CommandExecuted, (res) => {
+      commandExecutedDisposable = univerApi.addEvent(univerApi.Event.CommandExecuted, (res) => {
         if (res.id === SearchOutgoingLinkCommand.id) {
           const links = app?.vault.getFiles().map((file) => {
             return {
@@ -124,6 +125,12 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
           debounceSave(activeWorkbook)
         }
       })
+    }
+
+    return () => {
+      lifeCycleDisposable?.dispose()
+      commandExecutedDisposable?.dispose()
+      sheetValueChangedDisposable?.dispose()
     }
   }, [univerApi])
 
