@@ -228,55 +228,57 @@ export function KanbanTab(props: IKanbanTabProps) {
   }
 
   return (
-    <Flex className="kanban p-2" gap="middle" vertical={false}>
-      <Flex vertical>
-        <Button onClick={handleSettingDrawerOpen}>
+    <div className="kanban flex flex-col gap-2">
+      <div className="kanban-tool-bar flex flex-row-reverse p-2 bg-secondary">
+        <Button size="small" onClick={handleSettingDrawerOpen}>
           {t('KANBAN_SETTING')}
         </Button>
+      </div>
+      <Flex vertical={false}>
+        <DragDropContext
+          onDragEnd={handleDragEnd}
+          children={null}
+        >
+          {
+            board.columns?.map((column) => {
+              return (
+                <Card
+                  key={column.id}
+                  size="small"
+                  title={column.title}
+                  className="w-[300px]"
+                  style={{
+                    color: column.color,
+                  }}
+                >
+                  <Droppable
+                    droppableId={column.id}
+                  >
+                    {(provided: DroppableProvided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        className="p-2"
+                      >
+                        {column.taskIds.map((taskId, index) => (
+                          <Task
+                            key={taskId}
+                            taskId={taskId} // 用于 Draggable 的 draggableId
+                            task={board.tasks[taskId]}
+                            index={index} // 用于 Draggable 的 index
+                          />
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </Card>
+              )
+            })
+          }
+        </DragDropContext>
       </Flex>
       <SettingDrawer open={settingDrawerOpen} onClose={handleSettingDrawerClose} />
-      <DragDropContext
-        onDragEnd={handleDragEnd}
-        children={null}
-      >
-        {
-          board.columns?.map((column) => {
-            return (
-              <Card
-                key={column.id}
-                size="small"
-                title={column.title}
-                className="w-[300px]"
-                style={{
-                  color: column.color,
-                }}
-              >
-                <Droppable
-                  droppableId={column.id}
-                >
-                  {(provided: DroppableProvided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="p-2"
-                    >
-                      {column.taskIds.map((taskId, index) => (
-                        <Task
-                          key={taskId}
-                          taskId={taskId} // 用于 Draggable 的 draggableId
-                          task={board.tasks[taskId]}
-                          index={index} // 用于 Draggable 的 index
-                        />
-                      ))}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              </Card>
-            )
-          })
-        }
-      </DragDropContext>
-    </Flex>
+    </div>
   )
 }

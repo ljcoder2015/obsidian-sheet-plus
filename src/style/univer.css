@@ -133,7 +133,7 @@
 
 #sheet-box {
   min-width: 100px;
-	height: calc(100vh - var(--toolbar-height) - 72px);
+	height: calc(100vh - var(--toolbar-height) - 60px);
 	box-sizing: border-box;
 }
 
@@ -177,13 +177,20 @@
 }
 
 .kanban {
-  height: calc(100vh - var(--toolbar-height) - 72px);
+  height: calc(100vh - var(--toolbar-height) - 60px);
   border: 1px solid #ececec;
   border-top-width: 0;
-  padding: 12px;
 }
 
 .univer-dark .kanban {
+  border-color: #363636;
+}
+
+.kanban-tool-bar {
+  border-bottom: 1px solid #ececec;
+}
+
+.univer-dark .kanban-tool-bar {
   border-color: #363636;
 }
 
@@ -267,11 +274,6 @@ button.univer-toolbar-btn-active {
 .my-univer input[type="text"]:active,
 .my-univer [type="text"]:focus-visible {
 	box-shadow: none;
-}
-
-.lj-content-view {
-  min-width: 600px;
-  min-height: 400px;
 }
 
 .lj-content-view button:not(.clickable-icon) {

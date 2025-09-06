@@ -165,6 +165,7 @@ export class ExcelProView extends TextFileView {
   }
 
   renderContent() {
+    this.contentEl.style.padding = '0'
     this.root = createRoot(this.contentEl)
     this.root.render(
       <EditorContext.Provider value={{ app: this.app, editor: this }}>
