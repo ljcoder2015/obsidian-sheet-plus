@@ -50,26 +50,24 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
 
     const univerId = randomString(6)
     setUniverId(univerId)
+    const options = {
+      header: true,
+      footer: true,
+    }
+    const darkMode = plugin.settings.darkModal === 'dark'
+    const mobileRenderMode = plugin.settings.mobileRenderMode
+    const univer = createUniver(options, containerRef.current, mobileRenderMode, darkMode)
+    const univerAPI = FUniver.newAPI(univer)
+    setUniverApi(univerAPI)
 
     return () => {
       log('[SheetTab]', 'sheetTab 卸载')
+      univer.dispose()
+      setUniverApi(null)
       debounceSave.run()
+      containerRef.current = null
     }
   }, [])
-
-  useMemo(() => {
-    if (univerId) {
-      const options = {
-        header: true,
-        footer: true,
-      }
-      const darkMode = plugin.settings.darkModal === 'dark'
-      const mobileRenderMode = plugin.settings.mobileRenderMode
-      const univer = createUniver(options, containerRef.current, mobileRenderMode, darkMode)
-      const univerAPI = FUniver.newAPI(univer)
-      setUniverApi(univerAPI)
-    }
-  }, [univerId])
 
   useMemo(() => {
     let lifeCycleDisposable = null
@@ -131,8 +129,11 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
     }
 
     return () => {
+      log('[SheetTab]', 'univerAPi卸载监听', lifeCycleDisposable, commandExecutedDisposable)
       lifeCycleDisposable?.dispose()
       commandExecutedDisposable?.dispose()
+      lifeCycleDisposable = null
+      commandExecutedDisposable = null
     }
   }, [univerApi])
 

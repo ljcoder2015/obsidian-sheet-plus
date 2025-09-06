@@ -19,6 +19,7 @@ export function UniverProvider({ children }: React.PropsWithChildren<object>) {
         try {
           log('[UniverProvider]', 'dispose univerApi')
           univerApi.dispose()
+          setUniverApi(null)
         }
         catch (err) {
           console.error('Error disposing Univer instance:', err)
