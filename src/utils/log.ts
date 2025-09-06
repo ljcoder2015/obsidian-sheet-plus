@@ -6,6 +6,22 @@ export function log(...args: any[]): void {
   _log(console.log, ...args)
 }
 
+export function warn(...args: any[]): void {
+  if (import.meta.env.MODE !== 'development') {
+    return
+  }
+
+  _log(console.warn, ...args)
+}
+
+export function error(...args: any[]): void {
+  if (import.meta.env.MODE !== 'development') {
+    return
+  }
+
+  _log(console.error, ...args)
+}
+
 function _log(method: (...args: any[]) => void, ...args: any[]) {
   const firstArg = args[0]
   // eslint-disable-next-line regexp/no-unused-capturing-group

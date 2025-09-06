@@ -132,6 +132,7 @@
 }
 
 #sheet-box {
+  min-width: 100px;
 	height: calc(100vh - var(--toolbar-height) - 72px);
 	box-sizing: border-box;
 }

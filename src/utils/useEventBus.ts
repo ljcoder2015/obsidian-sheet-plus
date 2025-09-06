@@ -1,7 +1,7 @@
 // useEventBus.ts
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import type { AppEvents } from './eventBus'
-import emitter from './eventBus'
+import emitter, { clearAllEvents } from './eventBus'
 import { log } from './log'
 
 /**
@@ -11,24 +11,37 @@ export function useEventBus<K extends keyof AppEvents>(
   event: K,
   handler: (payload: AppEvents[K]) => void,
 ) {
+  const handlerRef = useRef(handler)
+  handlerRef.current = handler
+
   useEffect(() => {
-    emitter.on(event, handler)
+    const wrapped = (payload: AppEvents[K]) => handlerRef.current(payload)
+    emitter.on(event, wrapped)
+
     return () => {
-      log('[useEventBus]', 'off')
-      emitter.off(event, handler)
+      emitter.off(event, wrapped)
     }
-  }, [event, handler])
+  }, [event])
 }
 
 /**
  * 触发事件
- * - 有参数的事件必须传参
- * - void 类型的事件可以不传参
  */
 export function emitEvent<K extends keyof AppEvents>(
   event: K,
   ...payload: AppEvents[K] extends void ? [] : [AppEvents[K]]
 ) {
-  // 这里要断言一下，因为 TS 不知道 payload 是否为空
   emitter.emit(event, ...(payload as [AppEvents[K]]))
+}
+
+/**
+ * 在组件卸载时清理所有事件
+ */
+export function useClearEvents() {
+  useEffect(() => {
+    return () => {
+      clearAllEvents()
+      log('[useClearEvents]', '清理所有事件')
+    }
+  }, [])
 }

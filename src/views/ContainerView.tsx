@@ -1,7 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react'
 import type { MenuProps } from 'antd'
 import { Button, ConfigProvider, Dropdown, Flex, Popover, Tabs, theme } from 'antd'
-import type { IWorkbookData } from '@univerjs/core'
 import { Notice } from 'obsidian'
 import { randomString } from '../utils/uuid'
 import type { MultiSheet } from '../common/constants'
@@ -13,6 +12,7 @@ import { useEditorContext } from '../context/editorContext'
 import { rangeToRangeString } from '../utils/data'
 import { renderToHtml } from '../post-processor/html'
 import { useUniver } from '../context/UniverContext'
+import { useClearEvents } from '../utils/useEventBus'
 import { SheetTab } from './tabs/SheetTab'
 import type { IKanbanConfig } from './tabs/kanban/KanbanTab'
 import { KanbanTab } from './tabs/kanban/KanbanTab'
@@ -97,6 +97,8 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
       setActiveKey(tabsData.defaultActiveKey)
     }
   }
+
+  useClearEvents()
 
   useEffect(() => {
     log('[ContentView]', 'ContentView初始化')
@@ -334,16 +336,17 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
               case TabType.SHEET:
                 children = (
                   <SheetTab
-                    id={item.key}
-                    data={dataService.getBlock<IWorkbookData>(item.key)}
+                    data={dataService.getSheet()}
                     saveData={saveData}
                     onRender={onSheetRender}
+                    filePath={dataService.file.path}
                   />
                 )
                 break
               case TabType.KANBAN:
                 children = (
                   <KanbanTab
+                    id={item.key}
                     data={dataService.getBlock<IKanbanConfig>(item.key)}
                   />
                 )

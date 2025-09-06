@@ -19,13 +19,13 @@ import { useUniver } from '../../context/UniverContext'
 import { emitEvent } from '../../utils/useEventBus'
 
 interface Props {
-  id: string
+  filePath: string
   data: IWorkbookData
   saveData: (data: any, key: string) => void
   onRender: (isToRange: boolean) => void
 }
 
-export function SheetTab({ id, data, onRender, saveData }: Props) {
+export function SheetTab({ filePath, data, onRender, saveData }: Props) {
   const { univerApi, setUniverApi } = useUniver()
   const { editor, app } = useEditorContext()
   const { plugin } = editor
@@ -39,7 +39,7 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
     const activeWorkbookData = activeWorkbook.save()
     const jsonData = JSON.stringify(activeWorkbookData)
     if (jsonData !== lastData) {
-      saveData(activeWorkbookData, id)
+      saveData(activeWorkbookData, 'sheet')
       lastData = jsonData
       emitEvent('sheetChange')
     }
@@ -54,8 +54,6 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
     return () => {
       log('[SheetTab]', 'sheetTab 卸载')
       debounceSave.run()
-      univerApi?.dispose()
-      setUniverApi(null)
     }
   }, [])
 
@@ -78,7 +76,12 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
     let commandExecutedDisposable = null
     if (univerApi) {
       log('[SheetTab]', 'createWorkbook', univerId)
-      univerApi.createWorkbook(data)
+      if (data) {
+        univerApi.createWorkbook(data)
+      }
+      else {
+        univerApi.createWorkbook({ id: randomString(6), name: filePath })
+      }
 
       // set number format local
       const localeTag = plugin.settings.numberFormatLocal as INumfmtLocaleTag
@@ -130,7 +133,6 @@ export function SheetTab({ id, data, onRender, saveData }: Props) {
     return () => {
       lifeCycleDisposable?.dispose()
       commandExecutedDisposable?.dispose()
-      sheetValueChangedDisposable?.dispose()
     }
   }, [univerApi])
 

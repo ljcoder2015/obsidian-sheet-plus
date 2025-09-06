@@ -1,12 +1,19 @@
 // eventBus.ts
-import type { Emitter } from 'mitt'
-import mitt from 'mitt'
+import EventEmitter from 'eventemitter3'
 
-// eslint-disable-next-line ts/consistent-type-definitions
-export type AppEvents = {
-  sheetChange: void
+// 定义所有事件类型
+export interface AppEvents {
+  login: { userId: string, name: string }
+  logout: void
+  notify: string
 }
 
-const emitter: Emitter<AppEvents> = mitt<AppEvents>()
+// 实例
+const emitter = new EventEmitter<AppEvents>()
+
+// 工具函数
+export function clearAllEvents() {
+  emitter.removeAllListeners()
+}
 
 export default emitter

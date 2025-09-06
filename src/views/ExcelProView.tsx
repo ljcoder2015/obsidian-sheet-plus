@@ -10,7 +10,7 @@ import { t } from '../lang/helpers'
 import { EditorContext } from '../context/editorContext'
 import { DataService } from '../services/data.service'
 import type { ViewSemaphores } from '../utils/types'
-import { log } from '../utils/log'
+import { log, warn } from '../utils/log'
 import { UniverProvider } from '../context/UniverContext'
 import type { ContainerViewRef } from './ContainerView'
 import { ContainerView } from './ContainerView'
@@ -47,7 +47,7 @@ export class ExcelProView extends TextFileView {
     }
     this.lastLoadedFile = this.file
     this.data = data
-    this.dataService = new DataService(this.file.path, this.data)
+    this.dataService = new DataService(this.file, this.data)
 
     this.app.workspace.onLayoutReady(async () => {
       let counter = 0
@@ -85,10 +85,11 @@ export class ExcelProView extends TextFileView {
   }
 
   dispose() {
+    log('[ExcelProView]', 'ExcelProView调用dispose', this.containerRef)
+    this.containerRef.current = null
     this.dataService = null
     this.root?.unmount()
     this.contentEl.empty()
-    log('[ExcelProView]', 'ExcelProView调用dispose')
   }
 
   getViewType(): string {
@@ -103,8 +104,8 @@ export class ExcelProView extends TextFileView {
 
     if (!this.file
       || this.lastLoadedFile !== this.file
-      || !this.app.vault.getAbstractFileByPath(this.file.path) // file was recently deleted
-      || this.dataService.fileName !== this.file.path
+      || !this.app.vault.getAbstractFileByPath(this.file.path)
+      || !this.dataService
     ) {
       this.semaphores.saving = false
       return
@@ -129,7 +130,7 @@ export class ExcelProView extends TextFileView {
       }
 
       this.data = this.dataService.stringifyMarkdown()
-      log('[ExcelProView]', '保存数据到文件', this.file.name)
+      log('[ExcelProView]', '保存数据到文件', this.file.path, this.dataService?.file.path)
       super.save()
     }
     catch (e) {
@@ -146,8 +147,14 @@ export class ExcelProView extends TextFileView {
     if (!this.dataService) {
       return
     }
+    if (key === 'sheet') {
+      if (data.name !== this.file.path) {
+        warn('[ExcelProView]', 'saveData', 'sheet name not match', data.name, this.file.path)
+        return
+      }
+    }
     this.dataService.setBlock(key, data)
-    log('[ExcelProView]', 'saveData', key, this.dataService?.fileName)
+    log('[ExcelProView]', 'saveData', key)
     this.save()
   }
 

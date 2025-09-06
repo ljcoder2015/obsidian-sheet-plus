@@ -1,11 +1,13 @@
+import type { TFile } from 'obsidian'
+import type { IWorkbookData } from '@univerjs/core'
 import type { ParsedHeader, ParsedMarkdown } from './type'
 
 export class DataService {
   markdownData: ParsedMarkdown
-  fileName: string
+  file: TFile
 
-  constructor(fileName: string, fileData: string) {
-    this.fileName = fileName
+  constructor(file: TFile, fileData: string) {
+    this.file = file
     this.markdownData = this.parseMarkdown(fileData)
   }
 
@@ -27,6 +29,10 @@ export class DataService {
 
   getBlock<T>(type: string): T | undefined {
     return this.markdownData.blocks?.get(type) as T ?? undefined
+  }
+
+  getSheet(): IWorkbookData | undefined {
+    return this.getBlock<IWorkbookData>('sheet')
   }
 
   setBlock(key: string, data: any) {
@@ -81,7 +87,11 @@ export class DataService {
 
       const jsonText = match[2].trim().replace(/[“”]/g, '"')
       try {
-        blocks.set(blockType, JSON.parse(jsonText))
+        const data = JSON.parse(jsonText)
+        if (blockType === 'sheet' && data) {
+          data.name = this.file.path
+        }
+        blocks.set(blockType, data)
       }
       catch {
         blocks.set(blockType, jsonText)
