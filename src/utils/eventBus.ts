@@ -1,9 +1,16 @@
 // eventBus.ts
 import EventEmitter from 'eventemitter3'
 
+export interface TabChangeProps {
+  sheetId: string
+  rowIndex: number
+  colIndex: number
+  value: string
+}
 // 定义所有事件类型
 export interface AppEvents {
   sheetChange: void
+  tabChange: TabChangeProps
 }
 
 // 实例

@@ -1,20 +1,17 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import type {
-  DraggableLocation,
   DropResult,
-  DroppableProvided,
 } from '@hello-pangea/dnd'
-import { DragDropContext, Droppable } from '@hello-pangea/dnd'
+import { DragDropContext } from '@hello-pangea/dnd'
 
 import { DataValidationType } from '@univerjs/core'
-import { Button, Card, Flex } from 'antd'
+import { Button } from 'antd'
 import { log } from '../../../utils/log'
 import { t } from '../../../lang/helpers'
 import { useUniver } from '../../../context/UniverContext'
-import { randomString } from '../../../utils/uuid'
-import { useEventBus } from '../../../utils/useEventBus'
-import { Task } from './task'
+import { emitEvent, useEventBus } from '../../../utils/useEventBus'
 import { SettingDrawer } from './setting-drawer'
+import { Column } from './column'
 
 export interface IKanbanConfig {
   sheetId: string
@@ -48,7 +45,8 @@ export interface IColumn {
 
 export interface IBoard {
   tasks: Record<number, ITask[]>
-  columns: IColumn[]
+  columns: Record<string, IColumn>
+  columnOrder: string[]
 }
 
 export function KanbanTab(props: IKanbanTabProps) {
@@ -56,11 +54,13 @@ export function KanbanTab(props: IKanbanTabProps) {
   const { data } = props
   const [board, setBoard] = useState<IBoard>({
     tasks: {},
-    columns: [],
+    columns: {},
+    columnOrder: [],
   })
+  const [homeDroppableId, setHomeDroppableId] = useState<string>('')
 
   // 从 sheet 获取数据并分组
-  const getData = () => {
+  const getData = useCallback(() => {
     if (!univerApi)
       return {}
     const sheet = univerApi.getActiveWorkbook().getSheetBySheetId(data.sheetId)
@@ -92,19 +92,23 @@ export function KanbanTab(props: IKanbanTabProps) {
       }
     }
 
-    const columns: IColumn[] = groups.map((group, index) => ({
-      id: randomString(6),
-      title: group,
-      color: colors[index],
-      taskIds: [],
-    }))
+    const columns: Record<string, IColumn> = {}
+    groups.forEach((group, index) => {
+      const id = group
+      columns[id] = {
+        id,
+        title: group,
+        color: colors[index],
+        taskIds: [],
+      }
+    })
     // 添加未分组列
-    columns.push({
-      id: 'not_group',
+    columns.notGroup = {
+      id: 'notGroup',
       title: t('KANBAN_NOT_GROUP'),
       color: '#f0f0f0',
       taskIds: [],
-    })
+    }
     const tasks: Record<number, ITask> = {}
     let header = [] // 表头
     values.forEach((row, rowIndex) => {
@@ -129,32 +133,36 @@ export function KanbanTab(props: IKanbanTabProps) {
 
         // 分组
         if (groups.includes(row[colIndex])) {
-          columns.find(item => item.title === row[colIndex])?.taskIds.push(rowIndex)
+          Object.values(columns).forEach((item) => {
+            if (item.title === row[colIndex]) {
+              item.taskIds.push(rowIndex)
+            }
+          })
         }
         else {
-          columns.find(item => item.title === t('KANBAN_NOT_GROUP'))?.taskIds.push(rowIndex)
+          columns.notGroup.taskIds.push(rowIndex)
         }
       }
     })
-    log('[KanbanTab]', 'getData result', {
-      tasks,
-      columns,
-    })
 
-    return {
+    const board = {
       tasks,
       columns,
+      columnOrder: Object.keys(columns),
     }
-  }
+    log('[KanbanTab]', 'getData result', board)
+    return board
+  }, [])
 
-  const reload = () => {
-    const board = getData()
-    setBoard(board)
-  }
+  const reload = useCallback(() => {
+    const newBoard = getData()
+    log('[KanbanTab]', 'reload')
+    setBoard(newBoard)
+  }, [getData])
 
   const sheetChangeHandler = useCallback(() => {
     reload()
-  }, [])
+  }, [reload])
 
   useEventBus('sheetChange', sheetChangeHandler)
 
@@ -162,15 +170,19 @@ export function KanbanTab(props: IKanbanTabProps) {
     reload()
   }, [univerApi, data.sheetId, data.groupColumn])
 
+  const handleDragStart = (start) => {
+    log('handleDragStart', start)
+    setHomeDroppableId(start.source.droppableId)
+  }
   // 拖拽逻辑
   const handleDragEnd = (result: DropResult) => {
+    // draggableId 就是 task 的 rowIndex
+    const { source, destination, draggableId } = result
+    log('[KanbanTab]', 'handleDragEnd', source, destination, draggableId)
     // dropped nowhere
-    if (!result.destination) {
+    if (!destination) {
       return
     }
-
-    const source: DraggableLocation = result.source
-    const destination: DraggableLocation = result.destination
 
     // did not move anywhere - can bail early
     if (
@@ -181,40 +193,67 @@ export function KanbanTab(props: IKanbanTabProps) {
     }
 
     // 移动任务
-    const sourceColumn = board.columns.find(item => item.id === source.droppableId)
-    const destinationColumn = board.columns.find(item => item.id === destination.droppableId)
-    if (!sourceColumn || !destinationColumn) {
+    const start = board.columns[source.droppableId]
+    const finish = board.columns[destination.droppableId]
+    if (!start || !finish) {
       return
     }
-    // 移动任务
-    const taskId = sourceColumn.taskIds[source.index]
-    const task = board.tasks[taskId]
-    sourceColumn.taskIds.splice(source.index, 1)
-    destinationColumn.taskIds.splice(destination.index, 0, taskId)
-    // 更新 board
-    const newBoard = {
-      ...board,
-      columns: board.columns?.map((item) => {
-        if (item.id === sourceColumn.id) {
-          return {
-            ...item,
-            taskIds: sourceColumn.taskIds,
-          }
-        }
-        if (item.id === destinationColumn.id) {
-          return {
-            ...item,
-            taskIds: destinationColumn.taskIds,
-          }
-        }
-        return item
-      }),
+    if (start === finish) {
+      // 不能在本列拖动顺序
+      // const newTaskIds = Array.from(start.taskIds)
+      // newTaskIds.splice(source.index, 1)
+      // newTaskIds.splice(destination.index, 0, draggableId)
+
+      // const newColumn = {
+      //   ...start,
+      //   taskIds: newTaskIds,
+      // }
+
+      // const newBoard = {
+      //   ...board,
+      //   columns: {
+      //     ...board.columns,
+      //     [newColumn.id]: newColumn,
+      //   },
+      // }
+
+      // setBoard(newBoard)
+      return
     }
-    log('[KanbanTab]', 'handleDragEnd', 'result', result, `newBoard`, newBoard)
-    setBoard(newBoard)
+
+    const startTaskIds = Array.from(start.taskIds)
+    startTaskIds.splice(source.index, 1)
+    const newStart = {
+      ...start,
+      taskIds: startTaskIds,
+    }
+
+    const finishTaskIds = Array.from(finish.taskIds)
+    finishTaskIds.splice(destination.index, 0, draggableId)
+    const newFinish = {
+      ...finish,
+      taskIds: finishTaskIds,
+    }
+
+    const newMultiBoard = {
+      ...board,
+      columns: {
+        ...board.columns,
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish,
+      },
+    }
+
+    setBoard(newMultiBoard)
 
     const colIndex = Number.parseInt(data.groupColumn)
-    univerApi.getActiveWorkbook().getSheetBySheetId(data.sheetId).getRange(task.rowIndex, colIndex).setValue(destinationColumn.title)
+    const rowIndx = Number.parseInt(draggableId) // draggableId 就是 task 的 rowIndex
+    emitEvent('tabChange', {
+      sheetId: data.sheetId,
+      rowIndex: rowIndx,
+      colIndex,
+      value: finish.title,
+    })
   }
 
   const [settingDrawerOpen, setSettingDrawerOpen] = useState(false)
@@ -234,50 +273,35 @@ export function KanbanTab(props: IKanbanTabProps) {
           {t('KANBAN_SETTING')}
         </Button>
       </div>
-      <Flex vertical={false}>
+      <div className="kanban-columns flex flex-row gap-2 p-2">
         <DragDropContext
+          onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
           children={null}
         >
           {
-            board.columns?.map((column) => {
+            board.columnOrder.map((columnId) => {
+              const column = board.columns[columnId]
+              const tasks = column.taskIds.map((taskId) => {
+                return board.tasks[taskId]
+              })
+              if (columnId == 'notGroup' && tasks.length === 0) {
+                return null
+              }
+              const isDropDisabled = homeDroppableId === columnId
+              log('[KanbanTab]', 'isDropDisabled', isDropDisabled, homeDroppableId, columnId)
               return (
-                <Card
-                  key={column.id}
-                  size="small"
-                  title={column.title}
-                  className="w-[300px]"
-                  style={{
-                    color: column.color,
-                  }}
-                >
-                  <Droppable
-                    droppableId={column.id}
-                  >
-                    {(provided: DroppableProvided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className="p-2"
-                      >
-                        {column.taskIds.map((taskId, index) => (
-                          <Task
-                            key={taskId}
-                            taskId={taskId} // 用于 Draggable 的 draggableId
-                            task={board.tasks[taskId]}
-                            index={index} // 用于 Draggable 的 index
-                          />
-                        ))}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </Card>
+                <Column
+                  key={columnId}
+                  column={column}
+                  tasks={tasks}
+                  isDropDisabled={isDropDisabled}
+                />
               )
             })
           }
         </DragDropContext>
-      </Flex>
+      </div>
       <SettingDrawer open={settingDrawerOpen} onClose={handleSettingDrawerClose} />
     </div>
   )

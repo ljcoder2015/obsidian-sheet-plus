@@ -16,7 +16,8 @@ import { rangeToNumber } from '../../utils/data'
 import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
-import { emitEvent } from '../../utils/useEventBus'
+import { emitEvent, useEventBus } from '../../utils/useEventBus'
+import type { TabChangeProps } from '../../utils/eventBus'
 
 interface Props {
   filePath: string
@@ -32,16 +33,20 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [univerId, setUniverId] = useState<string>(randomString(6))
   const [loading, setLoading] = useState<boolean>(true)
+  const tabChangeRef = useRef(false)
   let lastData = ''
 
   const debounceSave = debounce((activeWorkbook: FWorkbook) => {
-    log('[SheetTab]', 'debounce save sheet')
+    log('[SheetTab]', 'debounce save sheet', tabChangeRef.current)
     const activeWorkbookData = activeWorkbook.save()
     const jsonData = JSON.stringify(activeWorkbookData)
     if (jsonData !== lastData) {
       saveData(activeWorkbookData, 'sheet')
       lastData = jsonData
-      emitEvent('sheetChange')
+      if (!tabChangeRef.current) {
+        emitEvent('sheetChange')
+      }
+      tabChangeRef.current = false
     }
   }, 2000)
 
@@ -136,6 +141,16 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
       commandExecutedDisposable = null
     }
   }, [univerApi])
+
+  const tabChangeHandler = useCallback((props: TabChangeProps) => {
+    tabChangeRef.current = true
+    const { sheetId, rowIndex, colIndex, value } = props
+    if (univerApi) {
+      univerApi.getActiveWorkbook().getSheetBySheetId(sheetId).getRange(rowIndex, colIndex).setValue(value)
+    }
+  }, [univerApi])
+
+  useEventBus('tabChange', tabChangeHandler)
 
   // 滚动到指定区域
   const scrollToRange = useCallback(() => {
