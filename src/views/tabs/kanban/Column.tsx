@@ -12,7 +12,7 @@ export function Column(props: IColumnProps) {
   const { column, tasks, isDropDisabled } = props
   const { id, color, title } = column
   return (
-    <div className="border border-solid border-gray-300 w-[300px] min-h-[100px] rounded-sm">
+    <div className="border border-solid border-gray-300 w-[300px] min-h-[200px] rounded-sm">
       <div className="p-2 border-b font-bold border-gray-300" style={{ color }}>{title}</div>
       <Droppable droppableId={id} isDropDisabled={isDropDisabled}>
         {(provided, snapshot) => (

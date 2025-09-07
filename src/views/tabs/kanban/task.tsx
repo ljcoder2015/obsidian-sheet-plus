@@ -15,7 +15,7 @@ export function Task({ task, index }: ITaskProps) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className={`bg-white flex flex-col gap-2 border border-gray-700 border-inherit p-2 rounded-sm ${
+          className={`bg-white flex flex-col gap-2 border border-gray-200 p-2 rounded-sm ${
             snapshot.isDragging ? 'bg-blue-100' : ''
           }`}
         >

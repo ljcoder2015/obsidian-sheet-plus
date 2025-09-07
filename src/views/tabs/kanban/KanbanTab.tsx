@@ -273,7 +273,7 @@ export function KanbanTab(props: IKanbanTabProps) {
           {t('KANBAN_SETTING')}
         </Button>
       </div>
-      <div className="kanban-columns flex flex-row gap-2 p-2">
+      <div className="kanban-columns flex flex-row items-start gap-2 p-2 overflow-scroll">
         <DragDropContext
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
