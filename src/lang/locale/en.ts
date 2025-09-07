@@ -97,6 +97,11 @@ export default {
 
   KANBAN_NOT_GROUP: 'Not grouped',
   KANBAN_SETTING: 'Kanban Settings',
+  KANBAN_SETTING_SHEET_ID: 'Data source',
+  KANBAN_SETTING_SHEET_ID_DESC: 'Select the data source for the kanban',
+  KANBAN_SETTING_GROUP_BY: 'Grouping field',
+  KANBAN_SETTING_GROUP_BY_DESC: 'Select the grouping field for the kanban',
+  KANBAN_SETTING_SUBMIT: 'OK',
 
   SAVE_IS_TAKING_LONG: 'Saving your previous file took a long time, please wait...',
   SAVE_IS_TAKING_VERY_LONG: 'For better performance, please consider splitting large files into smaller ones.',

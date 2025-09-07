@@ -348,6 +348,7 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
                   <KanbanTab
                     id={item.key}
                     data={dataService.getBlock<IKanbanConfig>(item.key)}
+                    saveData={saveData}
                   />
                 )
                 break

@@ -97,6 +97,11 @@ export default {
 
   KANBAN_NOT_GROUP: '未分组',
   KANBAN_SETTING: '看板设置',
+  KANBAN_SETTING_SHEET_ID: '数据源',
+  KANBAN_SETTING_SHEET_ID_DESC: '选择看板的数据源',
+  KANBAN_SETTING_GROUP_BY: '分组字段',
+  KANBAN_SETTING_GROUP_BY_DESC: '选择看板的分组字段',
+  KANBAN_SETTING_SUBMIT: '确定',
 
   SAVE_IS_TAKING_LONG: '保存您之前的文件花费的时间较长，请稍候…',
   SAVE_IS_TAKING_VERY_LONG: '为了更好的性能，请考虑将文件拆分成几个较小的文件。',

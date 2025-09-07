@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import type {
   DropResult,
 } from '@hello-pangea/dnd'
@@ -23,6 +23,7 @@ export interface IKanbanConfig {
 export interface IKanbanTabProps {
   id: string
   data: IKanbanConfig
+  saveData: (data: any, key: string) => void
 }
 
 export interface ITaskContent {
@@ -51,13 +52,14 @@ export interface IBoard {
 
 export function KanbanTab(props: IKanbanTabProps) {
   const { univerApi } = useUniver()
-  const { data } = props
+  const { id, data, saveData } = props
   const [board, setBoard] = useState<IBoard>({
     tasks: {},
     columns: {},
     columnOrder: [],
   })
   const [homeDroppableId, setHomeDroppableId] = useState<string>('')
+  const headerRef = useRef([])
 
   // 从 sheet 获取数据并分组
   const getData = useCallback(() => {
@@ -114,6 +116,7 @@ export function KanbanTab(props: IKanbanTabProps) {
     values.forEach((row, rowIndex) => {
       if (rowIndex === 0) {
         header = row
+        headerRef.current = header
       }
       else {
         const task: ITask = {
@@ -158,7 +161,7 @@ export function KanbanTab(props: IKanbanTabProps) {
     const newBoard = getData()
     log('[KanbanTab]', 'reload')
     setBoard(newBoard)
-  }, [getData])
+  }, [])
 
   const sheetChangeHandler = useCallback(() => {
     reload()
@@ -167,6 +170,7 @@ export function KanbanTab(props: IKanbanTabProps) {
   useEventBus('sheetChange', sheetChangeHandler)
 
   useMemo(() => {
+    log('[KanbanTab]', '配置变化刷新页面', univerApi, data.sheetId, data.groupColumn)
     reload()
   }, [univerApi, data.sheetId, data.groupColumn])
 
@@ -266,6 +270,15 @@ export function KanbanTab(props: IKanbanTabProps) {
     setSettingDrawerOpen(false)
   }
 
+  const kanbanSettingFinish = useCallback((values) => {
+    setSettingDrawerOpen(false)
+    const newData = {
+      ...data,
+      ...values,
+    }
+    saveData(newData, id)
+  }, [])
+
   return (
     <div className="kanban flex flex-col gap-2">
       <div className="kanban-tool-bar flex flex-row-reverse p-2 bg-secondary">
@@ -273,7 +286,7 @@ export function KanbanTab(props: IKanbanTabProps) {
           {t('KANBAN_SETTING')}
         </Button>
       </div>
-      <div className="kanban-columns flex flex-row items-start gap-2 p-2 overflow-scroll">
+      <div className="flex flex-row flex-1 items-start gap-2 p-2 overflow-auto">
         <DragDropContext
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
@@ -289,7 +302,6 @@ export function KanbanTab(props: IKanbanTabProps) {
                 return null
               }
               const isDropDisabled = homeDroppableId === columnId
-              log('[KanbanTab]', 'isDropDisabled', isDropDisabled, homeDroppableId, columnId)
               return (
                 <Column
                   key={columnId}
@@ -302,7 +314,13 @@ export function KanbanTab(props: IKanbanTabProps) {
           }
         </DragDropContext>
       </div>
-      <SettingDrawer open={settingDrawerOpen} onClose={handleSettingDrawerClose} />
+      <SettingDrawer
+        header={headerRef.current}
+        data={props.data}
+        open={settingDrawerOpen}
+        onClose={handleSettingDrawerClose}
+        onFinish={kanbanSettingFinish}
+      />
     </div>
   )
 }
