@@ -11,7 +11,7 @@ import { t } from '../../../lang/helpers'
 import { useUniver } from '../../../context/UniverContext'
 import { emitEvent, useEventBus } from '../../../utils/useEventBus'
 import { SettingDrawer } from './setting-drawer'
-import { Column } from './column'
+import { Column } from './Column'
 
 export interface IKanbanConfig {
   sheetId: string
@@ -53,6 +53,7 @@ export interface IBoard {
 export function KanbanTab(props: IKanbanTabProps) {
   const { univerApi } = useUniver()
   const { id, data, saveData } = props
+  const settingDataRef = useRef<IKanbanConfig>(data)
   const [board, setBoard] = useState<IBoard>({
     tasks: {},
     columns: {},
@@ -65,7 +66,7 @@ export function KanbanTab(props: IKanbanTabProps) {
   const getData = useCallback(() => {
     if (!univerApi)
       return {}
-    const sheet = univerApi.getActiveWorkbook().getSheetBySheetId(data.sheetId)
+    const sheet = univerApi.getActiveWorkbook().getSheetBySheetId(settingDataRef.current.sheetId)
     if (!sheet) {
       return {}
     }
@@ -73,7 +74,7 @@ export function KanbanTab(props: IKanbanTabProps) {
     if (!range) {
       return {}
     }
-    const colIndex = Number.parseInt(data.groupColumn)
+    const colIndex = Number.parseInt(settingDataRef.current.groupColumn)
     const groupColumn = sheet.getRange(0, colIndex, range.getLastRow() - range.getRow())
     const validations = groupColumn.getDataValidations()
     let groups: string[] = [] // 分组选项列，读取数据验证的设置
@@ -168,11 +169,16 @@ export function KanbanTab(props: IKanbanTabProps) {
   }, [reload])
 
   useEventBus('sheetChange', sheetChangeHandler)
+  useEventBus('saveData', (props) => {
+    log('[KanbanTab]', 'receive saveData notification', props, settingDataRef.current)
+    if (props.key === id) {
+      reload()
+    }
+  })
 
   useMemo(() => {
-    log('[KanbanTab]', '配置变化刷新页面', univerApi, data.sheetId, data.groupColumn)
     reload()
-  }, [univerApi, data.sheetId, data.groupColumn])
+  }, [univerApi, data])
 
   const handleDragStart = (start) => {
     log('handleDragStart', start)
@@ -250,10 +256,10 @@ export function KanbanTab(props: IKanbanTabProps) {
 
     setBoard(newMultiBoard)
 
-    const colIndex = Number.parseInt(data.groupColumn)
+    const colIndex = Number.parseInt(settingDataRef.current.groupColumn)
     const rowIndx = Number.parseInt(draggableId) // draggableId 就是 task 的 rowIndex
     emitEvent('tabChange', {
-      sheetId: data.sheetId,
+      sheetId: settingDataRef.current.sheetId,
       rowIndex: rowIndx,
       colIndex,
       value: finish.title,
@@ -276,6 +282,7 @@ export function KanbanTab(props: IKanbanTabProps) {
       ...data,
       ...values,
     }
+    settingDataRef.current = newData
     saveData(newData, id)
   }, [])
 
@@ -316,7 +323,7 @@ export function KanbanTab(props: IKanbanTabProps) {
       </div>
       <SettingDrawer
         header={headerRef.current}
-        data={props.data}
+        data={settingDataRef.current}
         open={settingDrawerOpen}
         onClose={handleSettingDrawerClose}
         onFinish={kanbanSettingFinish}

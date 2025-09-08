@@ -12,7 +12,7 @@ import { useEditorContext } from '../context/editorContext'
 import { rangeToRangeString } from '../utils/data'
 import { renderToHtml } from '../post-processor/html'
 import { useUniver } from '../context/UniverContext'
-import { useClearEvents } from '../utils/useEventBus'
+import { emitEvent, useClearEvents } from '../utils/useEventBus'
 import { SheetTab } from './tabs/SheetTab'
 import type { IKanbanConfig } from './tabs/kanban/KanbanTab'
 import { KanbanTab } from './tabs/kanban/KanbanTab'
@@ -89,8 +89,12 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
   }
   // 保存数据
   const saveData = useCallback((data: any, key: string) => {
+    log('[ContainerView]', '数据保存通知', key)
+    if (key !== 'multiSheet' && key !== 'sheet') {
+      emitEvent('saveData', { key })
+    }
     saveDataToFile(data, key)
-  }, [editor])
+  }, [])
 
   const onSheetRender = (isToRange: boolean) => {
     if (tabsData && tabsData.defaultActiveKey !== 'sheet' && !isToRange) {

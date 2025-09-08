@@ -7,10 +7,16 @@ export interface TabChangeProps {
   colIndex: number
   value: string
 }
+
+export interface SaveDataProps {
+  key: string
+}
+
 // 定义所有事件类型
 export interface AppEvents {
   sheetChange: void
   tabChange: TabChangeProps
+  saveData: SaveDataProps
 }
 
 // 实例
