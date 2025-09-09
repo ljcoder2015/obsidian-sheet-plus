@@ -75,6 +75,9 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
   }, [])
 
   useMemo(() => {
+    if (!univerApi) {
+      return
+    }
     let lifeCycleDisposable = null
     let commandExecutedDisposable = null
     if (univerApi) {
@@ -140,7 +143,7 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
       lifeCycleDisposable = null
       commandExecutedDisposable = null
     }
-  }, [univerApi])
+  }, [univerId])
 
   const tabChangeHandler = useCallback((props: TabChangeProps) => {
     tabChangeRef.current = true

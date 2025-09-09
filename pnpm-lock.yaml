@@ -37,6 +37,9 @@ importers:
       '@ljcoder/sheets-outgoing-link-ui':
         specifier: git+ssh://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#v1.10.3
         version: git+https://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#8d4af607c1d4535de61a5176963e5b47e80ab70d(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)
+      '@ljcoder/smart-sheet':
+        specifier: file:/Users/admin/smart-sheet/packages/smart-sheet
+        version: file:../../../../../smart-sheet/packages/smart-sheet(@univerjs/core@0.10.3(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(rxjs@7.8.2))(@univerjs/sheets-data-validation@0.10.3(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(rxjs@7.8.2))(@univerjs/sheets@0.10.3(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(rxjs@7.8.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@5.4.19(@types/node@20.19.12)(lightningcss@1.30.1))
       '@tailwindcss/vite':
         specifier: ^4.1.12
         version: 4.1.12(vite@5.4.19(@types/node@20.19.12)(lightningcss@1.30.1))
@@ -168,7 +171,7 @@ importers:
         version: 0.10.3(@grpc/grpc-js@1.13.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)
       antd:
         specifier: ^5.27.0
-        version: 5.27.2(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 5.27.2(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       defu:
         specifier: ^6.1.4
         version: 6.1.4
@@ -343,8 +346,8 @@ packages:
     resolution: {integrity: sha512-D2hP9eA+Sqx1kBZgzxZh0y1trbuU+JoDkiEwqhQ36nodYqJwyEIhPSdMNd7lOm/4io72luTPWH20Yda0xOuUow==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/parser@7.28.3':
-    resolution: {integrity: sha512-7+Ey1mAgYqFAx2h0RuoxcQT5+MlG3GTV0TQrgr7/ZliKsm/MNDxVVutlWaziMq7wJNAz8MTqz55XLpWvva6StA==}
+  '@babel/parser@7.28.4':
+    resolution: {integrity: sha512-yZbBqeM6TkpP9du/I2pUZnJsRMGGvOuIrhjzC1AwHwW+6he4mni6Bp/m8ijn0iOuZuPI2BfkCoSRunpyjnrQKg==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -352,8 +355,8 @@ packages:
     resolution: {integrity: sha512-9uIQ10o0WGdpP6GDhXcdOJPJuDgFtIDtN/9+ArJQ2NAfAmiuhTQdzkaTGR33v43GYS2UrSA0eX2pPPHoFVvpxA==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/types@7.28.2':
-    resolution: {integrity: sha512-ruv7Ae4J5dUYULmeXw1gmb7rYRz57OWCPM57pHojnLq/3Z1CK2lNSLTCVjxVk1F/TZHwOZZrOWi0ur95BbLxNQ==}
+  '@babel/types@7.28.4':
+    resolution: {integrity: sha512-bkFqkLhh3pMBUQQkpVgWDWq/lqzc2678eUyDlTBhRqhCHFguYYGM0Efga7tYk4TogG/3x0EEl66/OQ+WGbWB/Q==}
     engines: {node: '>=6.9.0'}
 
   '@clack/core@0.3.5':
@@ -708,6 +711,15 @@ packages:
       react: ^16.9.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
       rxjs: '>=7.0.0'
+
+  '@ljcoder/smart-sheet@file:../../../../../smart-sheet/packages/smart-sheet':
+    resolution: {directory: ../../../../../smart-sheet/packages/smart-sheet, type: directory}
+    peerDependencies:
+      '@univerjs/core': ^0.10.3
+      '@univerjs/sheets': ^0.10.3
+      '@univerjs/sheets-data-validation': ^0.10.3
+      react: '>=18'
+      react-dom: '>=18'
 
   '@ljcoder/univer-authorization@git+https://git@github.com:ljcoder2015/univer-authorization.git#ed215d7610ceeae75c6d1e7ffa68294260ed0775':
     resolution: {commit: ed215d7610ceeae75c6d1e7ffa68294260ed0775, repo: git@github.com:ljcoder2015/univer-authorization.git, type: git}
@@ -1465,6 +1477,9 @@ packages:
 
   '@types/node@20.19.12':
     resolution: {integrity: sha512-lSOjyS6vdO2G2g2CWrETTV3Jz2zlCXHpu1rcubLKpz9oj+z/1CceHlj+yq53W+9zgb98nSov/wjEKYDNauD+Hw==}
+
+  '@types/node@20.19.13':
+    resolution: {integrity: sha512-yCAeZl7a0DxgNVteXFHt9+uyFbqXGy/ShC4BlcHkoE0AfGXYv/BUiplV72DjMYXHDBXFjhvr6DD1NiRVfB4j8g==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -3508,6 +3523,9 @@ packages:
   magic-string@0.30.18:
     resolution: {integrity: sha512-yi8swmWbO17qHhwIBNeeZxTceJMeBvWJaId6dyvTSOwTipqeHhMhOrz6513r1sOKnpvQ7zkhlG8tPrpilwTxHQ==}
 
+  magic-string@0.30.19:
+    resolution: {integrity: sha512-2N21sPY9Ws53PZvsEpVtNuSW+ScYbQdp4b9qUaL+9QkHUrGFKo56Lg9Emg5s9V/qrtNBmiR01sYhUOwu3H+VOw==}
+
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
@@ -3604,6 +3622,9 @@ packages:
 
   moment@2.29.4:
     resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
+
+  moment@2.30.1:
+    resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
 
   monkey-around@3.0.0:
     resolution: {integrity: sha512-jL6uY2lEAoaHxZep1cNRkCZjoIWY4g5VYCjriEWmcyHU7w8NU1+JH57xE251UVTohK0lCxMjv0ZV4ByDLIXEpw==}
@@ -5047,13 +5068,13 @@ snapshots:
 
   '@babel/helper-validator-identifier@7.27.1': {}
 
-  '@babel/parser@7.28.3':
+  '@babel/parser@7.28.4':
     dependencies:
-      '@babel/types': 7.28.2
+      '@babel/types': 7.28.4
 
   '@babel/runtime@7.28.3': {}
 
-  '@babel/types@7.28.2':
+  '@babel/types@7.28.4':
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
@@ -5437,6 +5458,25 @@ snapshots:
     transitivePeerDependencies:
       - '@grpc/grpc-js'
       - '@wendellhu/redi'
+
+  '@ljcoder/smart-sheet@file:../../../../../smart-sheet/packages/smart-sheet(@univerjs/core@0.10.3(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(rxjs@7.8.2))(@univerjs/sheets-data-validation@0.10.3(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(rxjs@7.8.2))(@univerjs/sheets@0.10.3(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(rxjs@7.8.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@5.4.19(@types/node@20.19.12)(lightningcss@1.30.1))':
+    dependencies:
+      '@hello-pangea/dnd': 18.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tailwindcss/vite': 4.1.12(vite@5.4.19(@types/node@20.19.12)(lightningcss@1.30.1))
+      '@univerjs/core': 0.10.3(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(rxjs@7.8.2)
+      '@univerjs/sheets': 0.10.3(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(rxjs@7.8.2)
+      '@univerjs/sheets-data-validation': 0.10.3(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(rxjs@7.8.2)
+      antd: 5.27.2(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      eventemitter3: 5.0.1
+      moment: 2.30.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      tailwindcss: 4.1.12
+    transitivePeerDependencies:
+      - '@types/react'
+      - date-fns
+      - luxon
+      - vite
 
   '@ljcoder/univer-authorization@git+https://git@github.com:ljcoder2015/univer-authorization.git#ed215d7610ceeae75c6d1e7ffa68294260ed0775(@grpc/grpc-js@1.13.4)(@wendellhu/redi@1.0.0(react@18.3.1))(rxjs@7.8.2)':
     dependencies:
@@ -6088,6 +6128,10 @@ snapshots:
   '@types/node@14.18.63': {}
 
   '@types/node@20.19.12':
+    dependencies:
+      undici-types: 6.21.0
+
+  '@types/node@20.19.13':
     dependencies:
       undici-types: 6.21.0
 
@@ -6951,7 +6995,7 @@ snapshots:
 
   '@vue/compiler-core@3.5.21':
     dependencies:
-      '@babel/parser': 7.28.3
+      '@babel/parser': 7.28.4
       '@vue/shared': 3.5.21
       entities: 4.5.0
       estree-walker: 2.0.2
@@ -6964,13 +7008,13 @@ snapshots:
 
   '@vue/compiler-sfc@3.5.21':
     dependencies:
-      '@babel/parser': 7.28.3
+      '@babel/parser': 7.28.4
       '@vue/compiler-core': 3.5.21
       '@vue/compiler-dom': 3.5.21
       '@vue/compiler-ssr': 3.5.21
       '@vue/shared': 3.5.21
       estree-walker: 2.0.2
-      magic-string: 0.30.18
+      magic-string: 0.30.19
       postcss: 8.5.6
       source-map-js: 1.2.1
 
@@ -7029,7 +7073,7 @@ snapshots:
 
   ansi-styles@6.2.1: {}
 
-  antd@5.27.2(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  antd@5.27.2(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@ant-design/colors': 7.2.1
       '@ant-design/cssinjs': 1.24.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -7061,7 +7105,7 @@ snapshots:
       rc-motion: 2.9.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       rc-notification: 5.6.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       rc-pagination: 5.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      rc-picker: 4.11.3(dayjs@1.11.18)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      rc-picker: 4.11.3(dayjs@1.11.18)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       rc-progress: 4.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       rc-rate: 2.13.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       rc-resize-observer: 1.4.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -8649,6 +8693,10 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
+  magic-string@0.30.19:
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.5.5
+
   math-intrinsics@1.1.0: {}
 
   mdast-util-from-markdown@0.8.5:
@@ -8735,6 +8783,8 @@ snapshots:
       ufo: 1.6.1
 
   moment@2.29.4: {}
+
+  moment@2.30.1: {}
 
   monkey-around@3.0.0: {}
 
@@ -9050,7 +9100,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.19.12
+      '@types/node': 20.19.13
       long: 5.3.2
 
   protocols@2.0.2: {}
@@ -9238,7 +9288,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  rc-picker@4.11.3(dayjs@1.11.18)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  rc-picker@4.11.3(dayjs@1.11.18)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.28.3
       '@rc-component/trigger': 2.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -9250,7 +9300,7 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
     optionalDependencies:
       dayjs: 1.11.18
-      moment: 2.29.4
+      moment: 2.30.1
 
   rc-progress@4.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:

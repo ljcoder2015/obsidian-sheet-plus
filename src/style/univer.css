@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.sheet-plus-dark, .sheet-plus-dark *));
+
 :root {
 	--ctx_menu_x: 0px;
 	--ctx_menu_y: 0px;

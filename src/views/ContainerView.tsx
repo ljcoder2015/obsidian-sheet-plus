@@ -2,6 +2,8 @@ import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo
 import type { MenuProps } from 'antd'
 import { Button, ConfigProvider, Dropdown, Flex, Popover, Tabs, theme } from 'antd'
 import { Notice } from 'obsidian'
+import type { IKanbanConfig } from '@ljcoder/smart-sheet'
+import { KanbanTab } from '@ljcoder/smart-sheet'
 import { randomString } from '../utils/uuid'
 import type { MultiSheet } from '../common/constants'
 import { TabType } from '../common/constants'
@@ -14,8 +16,6 @@ import { renderToHtml } from '../post-processor/html'
 import { useUniver } from '../context/UniverContext'
 import { emitEvent, useClearEvents } from '../utils/useEventBus'
 import { SheetTab } from './tabs/SheetTab'
-import type { IKanbanConfig } from './tabs/kanban/KanbanTab'
-import { KanbanTab } from './tabs/kanban/KanbanTab'
 import { RenameModal } from './components/RenameModal'
 
 const helpContent = (
@@ -317,7 +317,7 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
   }
 
   return (
-    <div className="lj-content-view">
+    <div className="lj-content-view" data-theme={plugin.settings.darkModal === 'dark' ? 'sheet-plus-dark' : ''}>
       <ConfigProvider
         theme={{
           algorithm,
@@ -350,6 +350,7 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
               case TabType.KANBAN:
                 children = (
                   <KanbanTab
+                    univerApi={univerApi}
                     id={item.key}
                     data={dataService.getBlock<IKanbanConfig>(item.key)}
                     saveData={saveData}
