@@ -1,5 +1,5 @@
 import { copyFile, rename, writeFile } from 'node:fs/promises'
-import { join, resolve } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import process from 'node:process'
 import { defineConfig } from 'vite'
 import builtins from 'builtin-modules'
@@ -15,6 +15,10 @@ function generate(isDev?: boolean) {
   if (!isDev)
     buildDir = 'dist'
 
+  const cwd = process.cwd();
+
+  // 去掉末尾两级目录
+  const parentDir = dirname(dirname(cwd));
   return {
     name: 'obsidian',
     async writeBundle() {
@@ -29,14 +33,14 @@ function generate(isDev?: boolean) {
         fundingUrl: 'https://ko-fi.com/ljcoder',
         isDesktopOnly: false,
       }, null, 2)}\n`)
-      await copyFile(resolve(buildDir, 'manifest.json'), join(process.cwd(), 'manifest.json'))
+      await copyFile(resolve(buildDir, 'manifest.json'), join(parentDir, 'manifest.json'))
       rename(resolve(buildDir, 'style.css'), resolve(buildDir, 'styles.css'))
       // eslint-disable-next-line no-console
       console.log('build!')
     },
     async closeBundle() {
-      await copyFile(resolve(buildDir, 'styles.css'), join(process.cwd(), 'styles.css'))
-      await copyFile(resolve(buildDir, 'main.js'), join(process.cwd(), 'main.js'))
+      await copyFile(resolve(buildDir, 'styles.css'), join(parentDir, 'styles.css'))
+      await copyFile(resolve(buildDir, 'main.js'), join(parentDir, 'main.js'))
     },
   }
 }
