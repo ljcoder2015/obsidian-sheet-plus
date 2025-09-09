@@ -32,7 +32,7 @@
     "@ljcoder/obsidian-embed-link": "git+ssh://git@github.com:ljcoder2015/obsidian-embed-link.git#v1.6.0",
     "@ljcoder/sheets-outgoing-link": "git+ssh://git@github.com:ljcoder2015/univer-outgoing-link.git#v1.10.3",
     "@ljcoder/sheets-outgoing-link-ui": "git+ssh://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#v1.10.3",
-    "@ljcoder/smart-sheet": "file:/Users/admin/smart-sheet/packages/smart-sheet",
+    "@ljcoder/smart-sheet": "workspace:*",
     "@tailwindcss/vite": "^4.1.12",
     "@univerjs/core": "0.10.3",
     "@univerjs/data-validation": "0.10.3",
