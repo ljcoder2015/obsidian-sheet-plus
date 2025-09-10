@@ -1,5 +1,55 @@
 
 
+# [2.0.0](/compare/1.12.11...2.0.0) (2025-09-10)
+
+
+### Bug Fixes
+
+* save data 1675984
+
+
+### Features
+
+* @ljcoder/smart-sheet 引入路径 fffc6a9
+* add @hello-pangea/dnd 4af0458
+* add tab, handle tab content 14eca3f
+* add tab, handle tab content 572b310
+* add tab, set default tab 76d265d
+* copyFile path change 07f18b3
+* copyFile path change 53f4ea6
+* kanban be74877
+* kanban data 3a0363d
+* kanban drag handle 2d03a17
+* kanban get data 8ba092f
+* kanban reload c9a2ee5
+* Refactor into React components f5f261a
+* remove release workflow 196b0bc
+* rename ExcelProView f741d64
+* rename tab a3035f6
+* render kanban 8857db4
+* render sheet 0cc922c
+* save data e285cee
+* save data 2595683
+* save data 11445bf
+* save data 860a26b
+* scroll ro range 708f58c
+* sheet debounceSave d195ac7
+* sheet last data 1b8dba4
+* sheet save data d37cbe7
+* sheet更改通知 0e4c200
+* tab render, RenameModal 8d77a16
+* univerContext 681e8f4
+* 引入看板组件 ab1d2d0
+* 数据保存 bug, 待解决 11e0d18
+* 样式修改 2bb03f6
+* 看板更改表格同步不触发重新渲染看板 b7c542b
+* 看板样式修复 de37aef
+* 看板设置 064993e
+* 看板配置 d3a1a20
+* 解决保存数据一致性问题 b7dfb6a
+* 解决内存泄露 fc1d6a5
+* 调整看板 2970571
+
 ## [1.12.11](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/1.12.10...1.12.11) (2025-08-14)
 
 
