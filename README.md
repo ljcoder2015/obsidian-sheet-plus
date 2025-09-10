@@ -12,23 +12,6 @@ Unlock more advanced features after purchasing an authorization code
 - [Purchase Authorization Code](https://ko-fi.com/s/353d33a2dd)
 - [How to Use an Authorization Code](https://ko-fi.com/post/How-to-Use-an-Authorization-Code-S6S318IUM7)
 
-## Comparison of Paid and Free Features
-|Feature|Paid|Free|
-|---|:---:|:--:|
-|Embed Sheet Link|✔︎|✔︎|
-|Embed HTML Link|✔︎|✔︎|
-|**Embed Chart Link**|✔︎|✘|
-|**import**|✔︎|✘|
-|**export**|✔︎|✘|
-|Number formats|✔︎|✔︎|
-|Formulas|✔︎|✔︎|
-|Find and replace|✔︎|✔︎|
-|Data validation|✔︎|✔︎|
-|Image|✔︎|✔︎|
-|Comment|✔︎|✔︎|
-|Chart|✔︎|✔︎|
-|Outgoing Link|✔︎|✔︎|
-
 ## User Guide
 For a detailed tutorial on using the plugin, please refer to the user guide.
 
