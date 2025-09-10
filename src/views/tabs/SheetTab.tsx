@@ -9,6 +9,8 @@ import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import { Spin } from 'antd'
 import { debounce } from 'obsidian'
 import type { FWorkbook } from '@univerjs/sheets/facade'
+import { emitEvent, useEventBus } from '@ljcoder/smart-sheet'
+import type { TabChangeProps } from '@ljcoder/smart-sheet'
 import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
@@ -16,8 +18,6 @@ import { rangeToNumber } from '../../utils/data'
 import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
-import { emitEvent, useEventBus } from '../../utils/useEventBus'
-import type { TabChangeProps } from '../../utils/eventBus'
 
 interface Props {
   filePath: string
@@ -79,7 +79,7 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
   useMemo(() => {
     let lifeCycleDisposable = null
     let commandExecutedDisposable = null
-    if (univerApi) {
+    if (univerApi && univerId) {
       log('[SheetTab]', 'createWorkbook', univerId)
       if (data) {
         univerApi.createWorkbook(data)
