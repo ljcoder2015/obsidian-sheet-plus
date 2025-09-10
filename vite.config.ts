@@ -34,6 +34,7 @@ function generate(isDev?: boolean) {
         isDesktopOnly: false,
       }, null, 2)}\n`)
       await copyFile(resolve(buildDir, 'manifest.json'), join(parentDir, 'manifest.json'))
+      await copyFile(resolve(buildDir, 'manifest.json'), join(process.cwd(), 'manifest.json'))
       rename(resolve(buildDir, 'style.css'), resolve(buildDir, 'styles.css'))
       // eslint-disable-next-line no-console
       console.log('build!')
