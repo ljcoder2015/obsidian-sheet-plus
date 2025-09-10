@@ -88,7 +88,7 @@ export default {
   CANNOT_DELETE_SHEET: '不能删除默认表格',
 
   TAB_HELP_TITLE: '帮助中心',
-  TAB_HELP_CONTENT: '查看帮助文档',
+  TAB_HELP_CONTENT: '使用教程',
 
   TAB_RENAME_CANCEL: '取消',
   TAB_RENAME_OK: '确定',

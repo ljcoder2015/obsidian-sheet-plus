@@ -55,6 +55,7 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
 
     const univerId = randomString(6)
     setUniverId(univerId)
+
     const options = {
       header: true,
       footer: true,
@@ -62,6 +63,7 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
     const darkMode = plugin.settings.darkModal === 'dark'
     const mobileRenderMode = plugin.settings.mobileRenderMode
     const univer = createUniver(options, containerRef.current, mobileRenderMode, darkMode)
+
     const univerAPI = FUniver.newAPI(univer)
     setUniverApi(univerAPI)
 
@@ -75,9 +77,6 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
   }, [])
 
   useMemo(() => {
-    if (!univerApi) {
-      return
-    }
     let lifeCycleDisposable = null
     let commandExecutedDisposable = null
     if (univerApi) {
@@ -143,7 +142,7 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
       lifeCycleDisposable = null
       commandExecutedDisposable = null
     }
-  }, [univerId])
+  }, [univerApi])
 
   const tabChangeHandler = useCallback((props: TabChangeProps) => {
     tabChangeRef.current = true
@@ -151,7 +150,7 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
     if (univerApi) {
       univerApi.getActiveWorkbook().getSheetBySheetId(sheetId).getRange(rowIndex, colIndex).setValue(value)
     }
-  }, [univerApi])
+  }, [univerId])
 
   useEventBus('tabChange', tabChangeHandler)
 

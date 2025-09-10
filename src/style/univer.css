@@ -136,7 +136,6 @@
 #sheet-box {
   min-width: 100px;
 	height: calc(100vh - var(--toolbar-height) - 60px);
-	box-sizing: border-box;
 }
 
 .sheet-html {
@@ -163,7 +162,7 @@
 .my-univer {
 	height: calc(100%);
   width: 100%;
-	border: 1px solid #ececec;
+	border-bottom: 1px solid #ececec;
 }
 
 .univer-dark .my-univer {
@@ -175,24 +174,6 @@
 }
 
 .univer-dark .my-tab-bar {
-  border-color: #363636;
-}
-
-.kanban {
-  height: calc(100vh - var(--toolbar-height) - 60px);
-  border: 1px solid #ececec;
-  border-top-width: 0;
-}
-
-.univer-dark .kanban {
-  border-color: #363636;
-}
-
-.kanban-tool-bar {
-  border-bottom: 1px solid #ececec;
-}
-
-.univer-dark .kanban-tool-bar {
   border-color: #363636;
 }
 

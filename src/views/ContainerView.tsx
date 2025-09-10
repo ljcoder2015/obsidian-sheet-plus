@@ -21,7 +21,11 @@ import { RenameModal } from './components/RenameModal'
 const helpContent = (
   <div>
     <h3>{t('TAB_HELP_TITLE')}</h3>
-    <a href="https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/User-Guide" target="_blank">{t('TAB_HELP_CONTENT')}</a>
+    <ul>
+      <li>
+        <a href="https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/User-Guide" target="_blank">{t('TAB_HELP_CONTENT')}</a>
+      </li>
+    </ul>
   </div>
 )
 
@@ -120,7 +124,7 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
     }
     setIsInit(true)
     return () => {
-      log('[ContentView]', 'ContentView卸载')
+      log('[ContentView]', 'ContentView卸载', univerApi)
     }
   }, [])
 
@@ -135,7 +139,6 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
     if (!plugin) {
       return
     }
-    log('[ContainerView]', 'darkModal', plugin.settings.darkModal)
     const darkModal = plugin.settings.darkModal
     if (darkModal === 'dark') {
       setAlgorithm([theme.darkAlgorithm])

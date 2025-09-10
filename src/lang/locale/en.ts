@@ -88,7 +88,7 @@ export default {
   CANNOT_DELETE_SHEET: 'Cannot delete default sheet',
 
   TAB_HELP_TITLE: 'Help Center',
-  TAB_HELP_CONTENT: 'View Help Documentation',
+  TAB_HELP_CONTENT: 'User Guide',
 
   TAB_RENAME_CANCEL: 'Cancel',
   TAB_RENAME_OK: 'OK',
