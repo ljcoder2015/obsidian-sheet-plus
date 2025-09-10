@@ -35,6 +35,8 @@ For a detailed tutorial on using the plugin, please refer to the user guide.
 - [User Guide](https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/User-Guide)
 
 ## Feature Demonstration
+### Kanban Board (Paid)
+![Kanban Board](/images/kanban-create-handle.gif)
 ### Embed Chart Link (Paid)
 ![Embed Chart Link](/images/embed-link-chart.gif)
 ### Import (Paid)

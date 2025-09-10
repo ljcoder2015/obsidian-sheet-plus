@@ -74,5 +74,35 @@ export default {
   COMMAND_LINK_CHARTS_PIE: '生成 饼图 嵌入链接',
   COMMAND_LINK_CHARTS_RING_PIE: '生成 圆环图 嵌入链接',
 
-  LOADING: '加载中',
+  LOADING: '加载中...',
+
+  TAB_TYPE_SHEET: '表格',
+  TAB_TYPE_KANBAN: '看板',
+  TAB_TYPE_GROUP: '分组',
+  TAB_TYPE_BI: 'BI分析',
+  TAB_TYPE_PIVOT: '透视表',
+
+  TAB_MENU_DEFAULT: '默认显示',
+  TAB_MENU_DELETE: '删除',
+  TAB_MENU_RENAME: '重命名',
+  CANNOT_DELETE_SHEET: '不能删除默认表格',
+
+  TAB_HELP_TITLE: '帮助中心',
+  TAB_HELP_CONTENT: '使用教程',
+
+  TAB_RENAME_CANCEL: '取消',
+  TAB_RENAME_OK: '确定',
+  TAB_RENAME_TITLE: '重命名',
+  TAB_RENAME_PLACEHOLDER: '请输入重命名',
+
+  KANBAN_NOT_GROUP: '未分组',
+  KANBAN_SETTING: '看板设置',
+  KANBAN_SETTING_SHEET_ID: '数据源',
+  KANBAN_SETTING_SHEET_ID_DESC: '选择看板的数据源',
+  KANBAN_SETTING_GROUP_BY: '分组字段',
+  KANBAN_SETTING_GROUP_BY_DESC: '选择看板的分组字段',
+  KANBAN_SETTING_SUBMIT: '确定',
+
+  SAVE_IS_TAKING_LONG: '保存您之前的文件花费的时间较长，请稍候…',
+  SAVE_IS_TAKING_VERY_LONG: '为了更好的性能，请考虑将文件拆分成几个较小的文件。',
 }

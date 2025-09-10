@@ -5,6 +5,7 @@ import { defineConfig } from 'vite'
 import builtins from 'builtin-modules'
 import dotenv from 'dotenv'
 import { univerPlugin } from '@univerjs/vite-plugin'
+import tailwindcss from '@tailwindcss/vite'
 import pkg from './package.json'
 
 dotenv.config()
@@ -14,10 +15,10 @@ function generate(isDev?: boolean) {
   if (!isDev)
     buildDir = 'dist'
 
-  const cwd = process.cwd();
+  const cwd = process.cwd()
 
   // 去掉末尾两级目录
-  const parentDir = dirname(dirname(cwd));
+  const parentDir = dirname(dirname(cwd))
   return {
     name: 'obsidian',
     async writeBundle() {
@@ -38,6 +39,8 @@ function generate(isDev?: boolean) {
       console.log('build!')
     },
     async closeBundle() {
+      // eslint-disable-next-line no-console
+      console.log('[-------------]: closeBundle', parentDir, process.cwd())
       await copyFile(resolve(buildDir, 'styles.css'), join(parentDir, 'styles.css'))
       await copyFile(resolve(buildDir, 'main.js'), join(parentDir, 'main.js'))
     },
@@ -51,6 +54,7 @@ export default defineConfig((_) => {
     plugins: [
       generate(dev),
       univerPlugin(),
+      tailwindcss(),
     ],
     resolve: {
       alias: {

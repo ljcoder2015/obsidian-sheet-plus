@@ -74,5 +74,35 @@ export default {
   COMMAND_LINK_CHARTS_PIE: 'Generate Pie Chart embed links',
   COMMAND_LINK_CHARTS_RING_PIE: 'Generate Ring Pie Chart embed links',
 
-  LOADING: 'Loading',
+  LOADING: 'Loading...',
+
+  TAB_TYPE_SHEET: 'Sheet',
+  TAB_TYPE_KANBAN: 'Kanban',
+  TAB_TYPE_GROUP: 'Group',
+  TAB_TYPE_BI: 'BI',
+  TAB_TYPE_PIVOT: 'Pivot',
+
+  TAB_MENU_DEFAULT: 'Default',
+  TAB_MENU_DELETE: 'Delete',
+  TAB_MENU_RENAME: 'Rename',
+  CANNOT_DELETE_SHEET: 'Cannot delete default sheet',
+
+  TAB_HELP_TITLE: 'Help Center',
+  TAB_HELP_CONTENT: 'User Guide',
+
+  TAB_RENAME_CANCEL: 'Cancel',
+  TAB_RENAME_OK: 'OK',
+  TAB_RENAME_TITLE: 'Rename',
+  TAB_RENAME_PLACEHOLDER: 'Please input rename',
+
+  KANBAN_NOT_GROUP: 'Not grouped',
+  KANBAN_SETTING: 'Kanban Settings',
+  KANBAN_SETTING_SHEET_ID: 'Data source',
+  KANBAN_SETTING_SHEET_ID_DESC: 'Select the data source for the kanban',
+  KANBAN_SETTING_GROUP_BY: 'Grouping field',
+  KANBAN_SETTING_GROUP_BY_DESC: 'Select the grouping field for the kanban',
+  KANBAN_SETTING_SUBMIT: 'OK',
+
+  SAVE_IS_TAKING_LONG: 'Saving your previous file took a long time, please wait...',
+  SAVE_IS_TAKING_VERY_LONG: 'For better performance, please consider splitting large files into smaller ones.',
 }

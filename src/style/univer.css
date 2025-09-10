@@ -1,3 +1,7 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.sheet-plus-dark, .sheet-plus-dark *));
+
 :root {
 	--ctx_menu_x: 0px;
 	--ctx_menu_y: 0px;
@@ -130,8 +134,8 @@
 }
 
 #sheet-box {
-	height: 100%;
-	box-sizing: border-box;
+  min-width: 100px;
+	height: calc(100vh - var(--toolbar-height) - 60px);
 }
 
 .sheet-html {
@@ -157,10 +161,19 @@
 
 .my-univer {
 	height: calc(100%);
-	border: 1px solid #ececec;
+  width: 100%;
+	border-bottom: 1px solid #ececec;
 }
 
 .univer-dark .my-univer {
+  border-color: #363636;
+}
+
+.my-tab-bar {
+  border-color: #ececec;
+}
+
+.univer-dark .my-tab-bar {
   border-color: #363636;
 }
 
@@ -244,6 +257,10 @@ button.univer-toolbar-btn-active {
 .my-univer input[type="text"]:active,
 .my-univer [type="text"]:focus-visible {
 	box-shadow: none;
+}
+
+.lj-content-view button:not(.clickable-icon) {
+  box-shadow: none;
 }
 
 .univer-grid button:not(.clickable-icon),
