@@ -1,5 +1,14 @@
 
 
+## [2.0.2](/compare/2.0.0...2.0.2) (2025-09-11)
+
+
+### Features
+
+* remove vite alias d341e07
+* update readme d1a8f52
+* vite config setting ba681e1
+
 # [2.0.0](/compare/1.12.11...2.0.0) (2025-09-10)
 
 
