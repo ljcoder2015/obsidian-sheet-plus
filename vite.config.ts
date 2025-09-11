@@ -60,7 +60,20 @@ export default defineConfig((_) => {
     resolve: {
       alias: {
         '@': resolve(__dirname, './src'),
+        // 强制 alias 到 node_modules 的单一版本
+        '@univerjs/core': require.resolve('@univerjs/core'),
+        '@univerjs/sheets': require.resolve('@univerjs/sheets'),
+        '@univerjs/sheets-data-validation': require.resolve('@univerjs/sheets-data-validation'),
       },
+    },
+    optimizeDeps: {
+      dedupe: [
+        '@univerjs/core',
+        '@univerjs/sheets',
+        '@univerjs/sheets-data-validation',
+        'react',
+        'react-dom',
+      ],
     },
     build: {
       outDir: buildDir,
