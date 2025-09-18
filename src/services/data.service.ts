@@ -35,6 +35,21 @@ export class DataService {
     return this.getBlock<IWorkbookData>('sheet')
   }
 
+  getOutgoingLinks(): string[] {
+    return this.getBlock<string[]>('outgoingLinks') ?? []
+  }
+
+  setOutgoingLinks(links: string[]) {
+    this.setBlock('outgoingLinks', links)
+  }
+
+  // 获取表格 OutgoingLink 插件的数据
+  updateSheetOutgoingLInks(newLink: string, oldLink: string) {
+    const sheet = this.getSheet()
+    const pluginData = sheet.resources.filter(r => r.id === 'SHEET_OUTGOINGLINKS_PLUGIN').map(r => JSON.parse(r.data))
+    
+  }
+
   setBlock(key: string, data: any) {
     this.markdownData.blocks?.set(key, data)
   }
@@ -85,17 +100,31 @@ export class DataService {
         blockType = isFirstBlock ? 'sheet' : 'default'
       isFirstBlock = false
 
-      const jsonText = match[2].trim().replace(/[“”]/g, '"')
+      const rawText = match[2].trim().replace(/[“”]/g, '"')
+
       try {
-        const data = JSON.parse(jsonText)
+        const data = JSON.parse(rawText)
         if (blockType === 'sheet' && data) {
           data.name = this.file.path
         }
         blocks.set(blockType, data)
       }
       catch {
-        blocks.set(blockType, jsonText)
+        blocks.set(blockType, rawText)
       }
+    }
+
+    /**
+     * 2. 解析 ### outgoingLinks 格式
+     */
+    const outgoingRegex = /^###\s*outgoingLinks\s*\n([\s\S]*?)(?=\n###|\n?$)/m
+    const outgoingMatch = restMd.match(outgoingRegex)
+    if (outgoingMatch) {
+      const rawText = outgoingMatch[1].trim()
+      const links: string[] = rawText.split('\n')
+        .map(l => l.trim())
+        .filter(Boolean)
+      blocks.set('outgoingLinks', links)
     }
 
     return { header, blocks }
@@ -122,7 +151,19 @@ export class DataService {
     let blocksStr = ''
     if (blocks) {
       for (const [type, content] of blocks) {
-        blocksStr += `\`\`\`${type}\n${JSON.stringify(content)}\n\`\`\`\n`
+        if (type === 'outgoingLinks' && Array.isArray(content)) {
+          // heading 格式保存
+          const text = content.join('\n')
+          blocksStr += `### outgoingLinks\n${text}\n`
+        }
+        else if (typeof content === 'string') {
+          // 普通文本 block
+          blocksStr += `\`\`\`${type}\n${content}\n\`\`\`\n`
+        }
+        else {
+          // JSON block
+          blocksStr += `\`\`\`${type}\n${JSON.stringify(content)}\n\`\`\`\n`
+        }
       }
     }
 

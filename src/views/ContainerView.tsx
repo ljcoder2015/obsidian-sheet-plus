@@ -328,7 +328,7 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
               contentHeight: '100%',
             },
             Tabs: {
-              horizontalMargin: 0,
+              horizontalMargin: '0',
             },
           },
         }}
@@ -343,18 +343,19 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
                 children = (
                   <SheetTab
                     data={dataService.getSheet()}
+                    dataService={dataService}
                     saveData={saveData}
                     onRender={onSheetRender}
-                    filePath={dataService.file.path}
+                    file={dataService.file}
                   />
                 )
                 break
               case TabType.KANBAN:
                 children = (
                   <KanbanTab
-                    univerApi={univerApi}
                     id={item.key}
                     data={dataService.getBlock<IKanbanConfig>(item.key)}
+                    univerApi={univerApi}
                     saveData={saveData}
                   />
                 )

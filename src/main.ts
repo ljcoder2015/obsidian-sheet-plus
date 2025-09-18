@@ -1,6 +1,7 @@
 import './style/univer.css'
 import './utils/polyfill'
 import type {
+  CachedMetadata,
   Menu,
   MenuItem,
   ViewState,
@@ -8,6 +9,7 @@ import type {
 import {
   MarkdownView,
   Plugin,
+  TAbstractFile,
   TFile,
   Workspace,
   WorkspaceLeaf,
@@ -37,6 +39,8 @@ import {
   initializeMarkdownPostProcessor,
   markdownPostProcessor,
 } from './post-processor/markdownPostProcessor'
+import { log } from '@ljcoder/smart-sheet/src/utils/log'
+import { DataService } from './services/data.service'
 
 export default class ExcelProPlugin extends Plugin {
   public settings: ExcelProSettings
@@ -111,6 +115,91 @@ export default class ExcelProPlugin extends Plugin {
         }
       }
     })
+
+    // 监听文件改名
+    this.registerEvent(
+      this.app.vault.on('rename', async (file, oldPath) => {
+        if (file instanceof TAbstractFile) {
+          await this.updateBacklinks(file, oldPath)
+        }
+      }),
+    )
+  }
+
+  /**
+   * 找到所有引用 oldPath 的文件并更新
+   * newFile: 链接更新后的文件
+   * oldPath: 链接旧路径
+   */
+  private async updateBacklinks(newFile: TAbstractFile, oldPath: string) {
+    const links = this.app.metadataCache.resolvedLinks
+    console.log('updateBacklinks', links)
+
+    for (const [sourcePath, targets] of Object.entries(links)) {
+      if (targets[oldPath]) {
+        const sourceFile = this.app.vault.getAbstractFileByPath(sourcePath)
+        if (sourceFile instanceof TFile) {
+          await this.updateLinksInFile(sourceFile, newFile, oldPath)
+        }
+      }
+    }
+  }
+
+  /**
+   * 更新单个文件中的链接
+   * file: 需要更新链接的文件
+   * newFile: 链接更新后的文件
+   * oldPath: 链接旧路径
+   */
+  private async updateLinksInFile(file: TFile, newFile: TAbstractFile, oldPath: string) {
+    const cache: CachedMetadata | null = this.app.metadataCache.getFileCache(file)
+    if (!cache?.links && !cache?.embeds)
+      return
+
+    const content = await this.app.vault.read(file)
+    const dataService = new DataService(file, content)
+    log('[main]', 'updateLinksInFile', dataService)
+
+    // let updated = content
+
+    // const processLinks = (links: any[]) => {
+    //   // 倒序遍历，避免替换时位置偏移
+    //   for (let i = links.length - 1; i >= 0; i--) {
+    //     const link = links[i]
+    //     const target = this.app.metadataCache.getFirstLinkpathDest(link.link, file.path)
+
+    //     console.log('updateLinksInFile', target, oldPath)
+
+    //     if (target?.path === oldPath) {
+    //       // 原始链接文本
+    //       const original = content.substring(link.position.start.offset, link.position.end.offset)
+
+    //       // 判断是否有别名
+    //       const hasAlias = original.includes('|')
+
+    //       // 新的链接文本
+    //       const replacement = hasAlias
+    //         ? `[[${newFile.path}|${original.split('|')[1]}`
+    //         : `[[${newFile.path}]]`
+
+    //       // 替换到文本中
+    //       updated
+    //         = updated.substring(0, link.position.start.offset)
+    //           + replacement
+    //           + updated.substring(link.position.end.offset)
+    //     }
+    //   }
+    // }
+
+    // if (cache.links)
+    //   processLinks(cache.links)
+    // if (cache.embeds)
+    //   processLinks(cache.embeds)
+
+    // if (updated !== content) {
+    //   await this.app.vault.modify(file, updated)
+    //   log(`✅ Updated links in: ${file.path}`)
+    // }
   }
 
   async loadSettings() {

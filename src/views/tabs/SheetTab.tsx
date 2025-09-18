@@ -2,11 +2,13 @@ import { FUniver } from '@univerjs/core/facade'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
 import { CommandType, LifecycleStages } from '@univerjs/core'
-import { SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
+import type { IAddOutgoingLinkCommandParams } from '@ljcoder/sheets-outgoing-link'
+import { AddOutgoingLinkCommand, AddOutgoingLinkMutation, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
 import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
 import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import { Spin } from 'antd'
+import type { TFile } from 'obsidian'
 import { debounce } from 'obsidian'
 import type { FWorkbook } from '@univerjs/sheets/facade'
 import { emitEvent, useEventBus } from '@ljcoder/smart-sheet'
@@ -18,15 +20,17 @@ import { rangeToNumber } from '../../utils/data'
 import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
+import type { DataService } from '../../services/data.service'
 
 interface Props {
-  filePath: string
+  file: TFile
   data: IWorkbookData
+  dataService: DataService
   saveData: (data: any, key: string) => void
   onRender: (isToRange: boolean) => void
 }
 
-export function SheetTab({ filePath, data, onRender, saveData }: Props) {
+export function SheetTab({ file, data, dataService, onRender, saveData }: Props) {
   const { univerApi, setUniverApi } = useUniver()
   const { editor, app } = useEditorContext()
   const { plugin } = editor
@@ -85,7 +89,7 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
         univerApi.createWorkbook(data)
       }
       else {
-        univerApi.createWorkbook({ id: randomString(6), name: filePath })
+        univerApi.createWorkbook({ id: randomString(6), name: file.path })
       }
 
       // set number format local
@@ -115,6 +119,21 @@ export function SheetTab({ filePath, data, onRender, saveData }: Props) {
             }
           })
           univerApi?.executeCommand(SearchResultOutgoingLinkCommand.id, { links })
+        }
+
+        if (res.id == AddOutgoingLinkCommand.id) {
+          const params = res.params as IAddOutgoingLinkCommandParams
+          const sourcePath = file.path
+          const targetPath = params.link.payload.slice(2, -2)
+          const targetFile = app?.vault.getAbstractFileByPath(targetPath)
+          const path = app?.metadataCache.fileToLinktext(targetFile, sourcePath, true)
+          log('[SheetTab]', 'AddOutgoingLinkCommand', res.params, path)
+          if (path) {
+            const link = `[[${path}]]`
+            const outgoingLinks = dataService.getOutgoingLinks() || []
+            outgoingLinks.push(link)
+            saveData(outgoingLinks, 'outgoingLinks')
+          }
         }
 
         if (res.id === NavigationOutgoingLinkOperation.id) {
