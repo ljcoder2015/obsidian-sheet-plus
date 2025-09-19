@@ -133,12 +133,10 @@ export default class ExcelProPlugin extends Plugin {
    */
   private async updateBacklinks(newFile: TAbstractFile, oldPath: string) {
     const links = this.app.metadataCache.resolvedLinks
-    console.log('updateBacklinks', links)
-
     for (const [sourcePath, targets] of Object.entries(links)) {
       if (targets[oldPath]) {
         const sourceFile = this.app.vault.getAbstractFileByPath(sourcePath)
-        if (sourceFile instanceof TFile) {
+        if (sourceFile instanceof TFile && this.isExcelFile(sourceFile)) {
           await this.updateLinksInFile(sourceFile, newFile, oldPath)
         }
       }
@@ -157,49 +155,19 @@ export default class ExcelProPlugin extends Plugin {
       return
 
     const content = await this.app.vault.read(file)
+    console.log('updateLinksInFile', file.path, content)
     const dataService = new DataService(file, content)
-    log('[main]', 'updateLinksInFile', dataService)
+    log('[main]', 'updateLinksInFile', dataService, newFile.path, oldPath)
+    dataService.updateSheetOutgoingLinks(newFile.path, oldPath)
+    dataService.updateOutgoingLink(newFile.path, oldPath)
+    log('[main]', 'updateLinksInFile after', dataService)
 
-    // let updated = content
+    const updated = dataService.stringifyMarkdown()
 
-    // const processLinks = (links: any[]) => {
-    //   // 倒序遍历，避免替换时位置偏移
-    //   for (let i = links.length - 1; i >= 0; i--) {
-    //     const link = links[i]
-    //     const target = this.app.metadataCache.getFirstLinkpathDest(link.link, file.path)
-
-    //     console.log('updateLinksInFile', target, oldPath)
-
-    //     if (target?.path === oldPath) {
-    //       // 原始链接文本
-    //       const original = content.substring(link.position.start.offset, link.position.end.offset)
-
-    //       // 判断是否有别名
-    //       const hasAlias = original.includes('|')
-
-    //       // 新的链接文本
-    //       const replacement = hasAlias
-    //         ? `[[${newFile.path}|${original.split('|')[1]}`
-    //         : `[[${newFile.path}]]`
-
-    //       // 替换到文本中
-    //       updated
-    //         = updated.substring(0, link.position.start.offset)
-    //           + replacement
-    //           + updated.substring(link.position.end.offset)
-    //     }
-    //   }
-    // }
-
-    // if (cache.links)
-    //   processLinks(cache.links)
-    // if (cache.embeds)
-    //   processLinks(cache.embeds)
-
-    // if (updated !== content) {
-    //   await this.app.vault.modify(file, updated)
-    //   log(`✅ Updated links in: ${file.path}`)
-    // }
+    if (updated) {
+      await this.app.vault.modify(file, updated)
+      log('[main]', `✅ Updated links in: ${file.path}`)
+    }
   }
 
   async loadSettings() {
