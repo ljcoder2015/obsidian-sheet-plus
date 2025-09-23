@@ -18,6 +18,7 @@ import {
 
 import { around, dedupe } from 'monkey-around'
 import { update } from '@ljcoder/authorization'
+import { log } from '@ljcoder/smart-sheet/src/utils/log'
 import {
   DEFAULT_CONTENT,
   FRONTMATTER,
@@ -39,7 +40,6 @@ import {
   initializeMarkdownPostProcessor,
   markdownPostProcessor,
 } from './post-processor/markdownPostProcessor'
-import { log } from '@ljcoder/smart-sheet/src/utils/log'
 import { DataService } from './services/data.service'
 
 export default class ExcelProPlugin extends Plugin {
@@ -155,12 +155,16 @@ export default class ExcelProPlugin extends Plugin {
       return
 
     const content = await this.app.vault.read(file)
-    console.log('updateLinksInFile', file.path, content)
     const dataService = new DataService(file, content)
     log('[main]', 'updateLinksInFile', dataService, newFile.path, oldPath)
     dataService.updateSheetOutgoingLinks(newFile.path, oldPath)
-    dataService.updateOutgoingLink(newFile.path, oldPath)
-    log('[main]', 'updateLinksInFile after', dataService)
+    const oldLinkText = this.app.metadataCache.fileToLinktext(
+      { path: oldPath } as TFile, // fake TFile object with path
+      '', // sourcePath: empty = vault root
+      true, // true = use shortest path
+    )
+    dataService.updateOutgoingLink(newFile.path, oldLinkText)
+    log('[main]', 'updateLinksInFile after', dataService, oldLinkText)
 
     const updated = dataService.stringifyMarkdown()
 
