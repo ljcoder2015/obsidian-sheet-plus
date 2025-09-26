@@ -2,8 +2,8 @@ import { FUniver } from '@univerjs/core/facade'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
 import { CommandType, LifecycleStages } from '@univerjs/core'
-import type { IAddOutgoingLinkCommandParams } from '@ljcoder/sheets-outgoing-link'
-import { AddOutgoingLinkCommand, AddOutgoingLinkMutation, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
+import type { IAddOutgoingLinkCommandParams, ICancelOutgoingLinkCommandParams } from '@ljcoder/sheets-outgoing-link'
+import { AddOutgoingLinkCommand, AddOutgoingLinkMutation, CancelOutgoingLinkCommand, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
 import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
 import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
@@ -83,6 +83,7 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
   useMemo(() => {
     let lifeCycleDisposable = null
     let commandExecutedDisposable = null
+    let beforeCommandDisposable = null
     if (univerApi && univerId) {
       log('[SheetTab]', 'createWorkbook', univerId)
       if (data) {
@@ -104,6 +105,27 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
         }
         if (res.stage === LifecycleStages.Rendered) {
           setLoading(false)
+        }
+      })
+
+      beforeCommandDisposable = univerApi.addEvent(univerApi.Event.BeforeCommandExecute, (res) => {
+        if (res.id == CancelOutgoingLinkCommand.id) {
+          const params = res.params as ICancelOutgoingLinkCommandParams
+          const { row, column, unitId, subUnitId } = params
+          log('[SheetTab]', 'BeforeCommandExecute CancelOutgoingLinkCommand', params)
+          const worksheet = univerApi.getWorkbook(unitId)?.getSheetBySheetId(subUnitId)?.getSheet()
+          if (!worksheet)
+            return
+
+          const cellData = worksheet.getCell(row, column)
+          if (!cellData)
+            return false
+
+          const doc = worksheet.getCellDocumentModelWithFormula(cellData, row, column)
+          if (!doc?.documentModel)
+            return false
+          const snapshot = doc.documentModel!.getSnapshot()
+          log('[SheetTab]', 'BeforeCommandExecute CancelOutgoingLinkCommand snapshot', snapshot)
         }
       })
 
@@ -158,6 +180,8 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
       log('[SheetTab]', 'univerAPi卸载监听', lifeCycleDisposable, commandExecutedDisposable)
       lifeCycleDisposable?.dispose()
       commandExecutedDisposable?.dispose()
+      beforeCommandDisposable?.dispose()
+      beforeCommandDisposable = null
       lifeCycleDisposable = null
       commandExecutedDisposable = null
     }

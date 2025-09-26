@@ -158,11 +158,7 @@ export default class ExcelProPlugin extends Plugin {
     const dataService = new DataService(file, content)
     log('[main]', 'updateLinksInFile', dataService, newFile.path, oldPath)
     dataService.updateSheetOutgoingLinks(newFile.path, oldPath)
-    const oldLinkText = this.app.metadataCache.fileToLinktext(
-      { path: oldPath } as TFile, // fake TFile object with path
-      '', // sourcePath: empty = vault root
-      true, // true = use shortest path
-    )
+    const oldLinkText = this.oldPathToWikiLink(oldPath)
     dataService.updateOutgoingLink(newFile.path, oldLinkText)
     log('[main]', 'updateLinksInFile after', dataService, oldLinkText)
 
@@ -172,6 +168,14 @@ export default class ExcelProPlugin extends Plugin {
       await this.app.vault.modify(file, updated)
       log('[main]', `✅ Updated links in: ${file.path}`)
     }
+  }
+
+  private oldPathToWikiLink(oldPath: string): string {
+  // 提取最后一个 `/` 后的文件名
+    const fileName = oldPath.split('/').pop() ?? oldPath
+    // 去掉 .md 扩展名
+    const withoutExt = fileName.replace(/\.md$/i, '')
+    return `[[${withoutExt}]]`
   }
 
   async loadSettings() {
