@@ -3,7 +3,7 @@ import type { IWorkbookData } from '@univerjs/core'
 import { log } from '@ljcoder/smart-sheet/src/utils/log'
 import type { ParsedHeader, ParsedMarkdown } from './type'
 
-const outgoingLinksKey = 'outgoingLinks'
+export const outgoingLinksKey = 'outgoingLinks'
 
 export class DataService {
   markdownData: ParsedMarkdown
@@ -230,7 +230,7 @@ export class DataService {
         .split(/\r?\n/)
         .map(l => l.trim())
         .filter(Boolean)
-      blocks.set('outgoingLinks', links)
+      blocks.set(outgoingLinksKey, links)
     }
 
     return { header, blocks }
@@ -266,9 +266,9 @@ export class DataService {
 
     if (blocks && blocks.size > 0) {
       for (const [type, content] of blocks) {
-        if (type === 'outgoingLinks' && Array.isArray(content)) {
+        if (type === outgoingLinksKey && Array.isArray(content)) {
         // 单独保存，最后输出
-          outgoingLinksStr = `### outgoingLinks\n${content.join('\n')}\n\n`
+          outgoingLinksStr = `### ${outgoingLinksKey}\n${content.join('\n')}\n\n`
         }
         else {
           let body: string

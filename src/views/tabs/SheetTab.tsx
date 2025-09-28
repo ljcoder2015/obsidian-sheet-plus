@@ -1,9 +1,9 @@
 import { FUniver } from '@univerjs/core/facade'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
+import type { ICustomRange, INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
 import { CommandType, LifecycleStages } from '@univerjs/core'
 import type { IAddOutgoingLinkCommandParams, ICancelOutgoingLinkCommandParams } from '@ljcoder/sheets-outgoing-link'
-import { AddOutgoingLinkCommand, AddOutgoingLinkMutation, CancelOutgoingLinkCommand, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
+import { AddOutgoingLinkCommand, AddOutgoingLinkMutation, CancelOutgoingLinkCommand, OutgoingLinkCustomRangeType, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
 import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
 import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
@@ -20,7 +20,9 @@ import { rangeToNumber } from '../../utils/data'
 import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
-import type { DataService } from '../../services/data.service'
+import { outgoingLinksKey, type DataService } from '../../services/data.service'
+import { IRichTextEditingMutationParams, RichTextEditingMutation } from '@univerjs/docs'
+import { IReplaceSnapshotCommandParams, ReplaceSnapshotCommand } from '@univerjs/docs-ui'
 
 interface Props {
   file: TFile
@@ -80,6 +82,16 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
     }
   }, [])
 
+  const normalizeWikiLink = (link: string) => {
+  // 去掉 [[ 和 ]]
+    const inner = link.replace(/^\[\[|\]\]$/g, '')
+    // 取最后一个路径片段
+    const fileName = inner.split('/').pop() ?? inner
+    // 去掉 .md
+    const withoutExt = fileName.replace(/\.md$/i, '')
+    return `[[${withoutExt}]]`
+  }
+
   useMemo(() => {
     let lifeCycleDisposable = null
     let commandExecutedDisposable = null
@@ -114,18 +126,59 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
           const { row, column, unitId, subUnitId } = params
           log('[SheetTab]', 'BeforeCommandExecute CancelOutgoingLinkCommand', params)
           const worksheet = univerApi.getWorkbook(unitId)?.getSheetBySheetId(subUnitId)?.getSheet()
-          if (!worksheet)
+          if (!worksheet) {
             return
+          }
 
           const cellData = worksheet.getCell(row, column)
-          if (!cellData)
-            return false
+          if (!cellData) {
+            return
+          }
 
           const doc = worksheet.getCellDocumentModelWithFormula(cellData, row, column)
-          if (!doc?.documentModel)
-            return false
+          if (!doc?.documentModel) {
+            return
+          }
           const snapshot = doc.documentModel!.getSnapshot()
+          const customRanges = snapshot.body.customRanges
+          if (!customRanges) {
+            return
+          }
+
+          customRanges.forEach((range) => {
+            if (range.rangeType === OutgoingLinkCustomRangeType) {
+              const url = range.properties?.url
+              if (url) {
+                const normalizedUrl = normalizeWikiLink(url)
+                const outgoingLinks = dataService.getOutgoingLinks() || []
+                outgoingLinks.remove(normalizedUrl)
+                saveData(outgoingLinks, outgoingLinksKey)
+              }
+            }
+          })
+
           log('[SheetTab]', 'BeforeCommandExecute CancelOutgoingLinkCommand snapshot', snapshot)
+        }
+        if (res.id == ReplaceSnapshotCommand.id) {
+          const params = res.params as IReplaceSnapshotCommandParams
+          log('[SheetTab]', 'BeforeCommandExecute ReplaceSnapshotCommand', params)
+          const { snapshot } = params
+          const customRanges = snapshot.body.customRanges
+          if (!customRanges) {
+            return
+          }
+
+          customRanges.forEach((range) => {
+            if (range.rangeType === OutgoingLinkCustomRangeType) {
+              const url = range.properties?.url
+              if (url) {
+                const normalizedUrl = normalizeWikiLink(url)
+                const outgoingLinks = dataService.getOutgoingLinks() || []
+                outgoingLinks.remove(normalizedUrl)
+                saveData(outgoingLinks, outgoingLinksKey)
+              }
+            }
+          })
         }
       })
 
