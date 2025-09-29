@@ -206,7 +206,8 @@ export class DataService {
       const blockType = match[1].trim() || (isFirstBlock ? 'sheet' : 'default')
       isFirstBlock = false
 
-      const jsonText = match[2].trim().replace(/[“”]/g, '"')
+      // 直接取出代码块内容，不 trim，不替换
+      const jsonText = match[2]
 
       try {
         const data = JSON.parse(jsonText)
@@ -215,7 +216,7 @@ export class DataService {
         }
         blocks.set(blockType, data)
       }
-      catch (e) {
+      catch {
       // 保留原始内容，避免丢失
         blocks.set(blockType, jsonText)
       }
@@ -284,7 +285,8 @@ export class DataService {
               body = String(content)
             }
           }
-          blocksStr += `\`\`\`${type}\n${body}\n\`\`\`\n\n`
+          // 用 String.raw 包装，避免 Obsidian 转义
+          blocksStr += `\`\`\`${type}\n${String.raw`${body}`}\n\`\`\`\n\n`
         }
       }
     }
