@@ -1,13 +1,20 @@
 {
   "compilerOptions": {
-    "jsx": "react",
+    "target": "ESNext",
+    "jsx": "react-jsx", // 推荐：更现代，支持 React 17+
     "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"],
+
     "experimentalDecorators": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowArbitraryExtensions": true,
+    "strict": true,
     "downlevelIteration": true,
-    "outDir": "local"
+    "outDir": "local",
+
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "include": ["src"]
 }

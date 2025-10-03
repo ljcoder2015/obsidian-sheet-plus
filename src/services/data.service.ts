@@ -12,6 +12,17 @@ export class DataService {
   constructor(file: TFile, fileData: string) {
     this.file = file
     this.markdownData = this.parseMarkdown(fileData)
+    this.updateFilePath(file)
+  }
+
+  private updateFilePath(file: TFile) {
+    const sheet = this.getSheet()
+    if (sheet) {
+      sheet.name = file.path
+    }
+    else {
+      log('[dataService]', 'updateFilePath', 'sheet not found')
+    }
   }
 
   getHeaderProperties(): Record<string, string> {
