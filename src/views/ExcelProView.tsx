@@ -1,4 +1,4 @@
-import type { TFile, WorkspaceLeaf } from 'obsidian'
+import { TFile, Vault, WorkspaceLeaf } from 'obsidian'
 import { Notice, TextFileView } from 'obsidian'
 import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
@@ -49,16 +49,16 @@ export class ExcelProView extends TextFileView {
     this.data = data
     this.dataService = new DataService(this.file, this.data)
 
-    this.app.workspace.onLayoutReady(async () => {
+    this.plugin.app.workspace.onLayoutReady(async () => {
       let counter = 0
-      while ((!this.semaphores.viewloaded || !this.file) && counter++ < 50) await sleep(50)
+      while ((!this.semaphores?.viewloaded || !this.file) && counter++ < 50) await sleep(50)
       this.renderContent()
     })
   }
 
   async onUnloadFile(file: TFile): Promise<void> {
     let counter = 0
-    while (this.semaphores.saving && (counter++ < 200)) {
+    while (this.semaphores?.saving && (counter++ < 200)) {
       await sleep(50) // https://github.com/zsviczian/obsidian-excalidraw-plugin/issues/1988
       if (counter++ === 15) {
         new Notice(t('SAVE_IS_TAKING_LONG'))
@@ -148,14 +148,22 @@ export class ExcelProView extends TextFileView {
       return
     }
     if (key === 'sheet') {
-      if (data.name !== this.file.path) {
-        warn('[ExcelProView]', 'saveData', 'sheet name not match', data.name, this.file.path)
+      if (data.name !== this.file?.path) {
+        warn('[ExcelProView]', 'saveData', 'sheet name not match', data.name, this.file?.path)
         return
       }
     }
     this.dataService.setBlock(key, data)
     log('[ExcelProView]', 'saveData', key)
     this.save()
+  }
+
+  getFileByPath(path: string, vault: Vault): TFile | null {
+    const abstractFile = vault.getAbstractFileByPath(path)
+    if (abstractFile instanceof TFile) {
+      return abstractFile
+    }
+    return null
   }
 
   deleteData(key: string) {
