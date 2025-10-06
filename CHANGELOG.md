@@ -1,5 +1,12 @@
 
 
+## [2.1.3](/compare/2.1.2...2.1.3) (2025-10-06)
+
+
+### Bug Fixes
+
+* import xlsx file not save data ab3cee5
+
 ## [2.1.2](/compare/2.1.1...2.1.2) (2025-10-03)
 
 
