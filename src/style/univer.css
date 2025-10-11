@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.sheet-plus-dark, .sheet-plus-dark *));
-
 :root {
 	--ctx_menu_x: 0px;
 	--ctx_menu_y: 0px;
@@ -25,9 +23,9 @@
 }
 
 /* 修复数据验证 */
-.workspace-leaf {
+/* .workspace-leaf {
 	contain: none !important;
-}
+} */
 
 .lj-table-box {
 	overflow-x: scroll;
