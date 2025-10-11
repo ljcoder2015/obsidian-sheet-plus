@@ -12,7 +12,9 @@ import type { TFile } from 'obsidian'
 import { debounce } from 'obsidian'
 import type { FWorkbook } from '@univerjs/sheets/facade'
 import { emitEvent, useEventBus } from '@ljcoder/smart-sheet'
-import type { TabChangeProps } from '@ljcoder/smart-sheet'
+import type { TabChangeProps, UnloadFileProps } from '@ljcoder/smart-sheet'
+import type { IReplaceSnapshotCommandParams } from '@univerjs/docs-ui'
+import { ReplaceSnapshotCommand } from '@univerjs/docs-ui'
 import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
@@ -20,9 +22,7 @@ import { rangeToNumber } from '../../utils/data'
 import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
-import { outgoingLinksKey, type DataService } from '../../services/data.service'
-import { IRichTextEditingMutationParams, RichTextEditingMutation } from '@univerjs/docs'
-import { IReplaceSnapshotCommandParams, ReplaceSnapshotCommand } from '@univerjs/docs-ui'
+import { type DataService, outgoingLinksKey } from '../../services/data.service'
 
 interface Props {
   file: TFile
@@ -42,19 +42,25 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
   const tabChangeRef = useRef(false)
   let lastData = ''
 
-  const debounceSave = debounce((activeWorkbook: FWorkbook) => {
-    log('[SheetTab]', 'debounce save sheet', tabChangeRef.current)
+  const save = (activeWorkbook: FWorkbook) => {
     const activeWorkbookData = activeWorkbook.save()
     const jsonData = JSON.stringify(activeWorkbookData)
     if (jsonData !== lastData) {
-      saveData(activeWorkbookData, 'sheet')
+      if (lastData !== '') {
+        saveData(activeWorkbookData, 'sheet')
+      }
       lastData = jsonData
       if (!tabChangeRef.current) {
         emitEvent('sheetChange')
       }
       tabChangeRef.current = false
     }
-  }, 2000)
+  }
+
+  const debounceSave = debounce((activeWorkbook: FWorkbook) => {
+    log('[SheetTab]', 'debounce save sheet', tabChangeRef.current)
+    save(activeWorkbook)
+  }, 1000)
 
   useEffect(() => {
     log('[SheetTab]', 'sheetTab 挂载')
@@ -249,6 +255,15 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
   }, [univerId])
 
   useEventBus('tabChange', tabChangeHandler)
+
+  useEventBus('unloadFile', (props: UnloadFileProps) => {
+    if (props.filePath === file.path) {
+      const activeWorkbook = univerApi?.getActiveWorkbook()
+      if (activeWorkbook) {
+        save(activeWorkbook)
+      }
+    }
+  })
 
   // 滚动到指定区域
   const scrollToRange = useCallback(() => {

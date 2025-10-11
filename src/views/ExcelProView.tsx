@@ -14,6 +14,7 @@ import { log, warn } from '../utils/log'
 import { UniverProvider } from '../context/UniverContext'
 import type { ContainerViewRef } from './ContainerView'
 import { ContainerView } from './ContainerView'
+import { emitEvent } from '@ljcoder/smart-sheet'
 
 export class ExcelProView extends TextFileView {
   root: Root | null = null
@@ -57,19 +58,21 @@ export class ExcelProView extends TextFileView {
   }
 
   async onUnloadFile(file: TFile): Promise<void> {
-    let counter = 0
-    while (this.semaphores?.saving && (counter++ < 200)) {
-      await sleep(50) // https://github.com/zsviczian/obsidian-excalidraw-plugin/issues/1988
-      if (counter++ === 15) {
-        new Notice(t('SAVE_IS_TAKING_LONG'))
-      }
-      if (counter === 80) {
-        new Notice(t('SAVE_IS_TAKING_VERY_LONG'))
-      }
-    }
-    if (counter >= 200) {
-      new Notice('Unknown error, save is taking too long')
-    }
+    emitEvent('unloadFile', { filePath: file.path })
+    await sleep(1000)
+    // let counter = 0
+    // while (this.semaphores?.saving && (counter++ < 200)) {
+    //   await sleep(50) // https://github.com/zsviczian/obsidian-excalidraw-plugin/issues/1988
+    //   if (counter++ === 15) {
+    //     new Notice(t('SAVE_IS_TAKING_LONG'))
+    //   }
+    //   if (counter === 80) {
+    //     new Notice(t('SAVE_IS_TAKING_VERY_LONG'))
+    //   }
+    // }
+    // if (counter >= 200) {
+    //   new Notice('Unknown error, save is taking too long')
+    // }
     this.dispose()
   }
 

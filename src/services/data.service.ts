@@ -17,7 +17,7 @@ export class DataService {
 
   private updateFilePath(file: TFile) {
     const sheet = this.getSheet()
-    if (sheet) {
+    if (sheet && sheet.name !== file.path) {
       sheet.name = file.path
     }
     else {
