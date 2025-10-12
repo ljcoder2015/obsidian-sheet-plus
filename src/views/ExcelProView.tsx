@@ -1,11 +1,12 @@
-import { TFile, Vault, WorkspaceLeaf } from 'obsidian'
-import { Notice, TextFileView } from 'obsidian'
+import type { Vault, WorkspaceLeaf } from 'obsidian'
+import { Notice, TFile, TextFileView } from 'obsidian'
 import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
 import React from 'react'
+import { AppEvents, emitEvent, emitter, useEventBus } from '@ljcoder/smart-sheet'
 import type ExcelProPlugin from '../main'
 
-import { VIEW_TYPE_EXCEL_PRO } from '../common/constants'
+import { DEFAULT_CONTENT, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { t } from '../lang/helpers'
 import { EditorContext } from '../context/editorContext'
 import { DataService } from '../services/data.service'
@@ -14,13 +15,11 @@ import { log, warn } from '../utils/log'
 import { UniverProvider } from '../context/UniverContext'
 import type { ContainerViewRef } from './ContainerView'
 import { ContainerView } from './ContainerView'
-import { emitEvent } from '@ljcoder/smart-sheet'
 
 export class ExcelProView extends TextFileView {
   root: Root | null = null
   private containerRef = React.createRef<ContainerViewRef>()
   public plugin: ExcelProPlugin
-  public loadingEle: HTMLElement
   public copyHTMLEle: HTMLElement
 
   public subPath: string | null = null
@@ -28,12 +27,13 @@ export class ExcelProView extends TextFileView {
   public dataService: DataService | null = null
   private lastLoadedFile: TFile | null = null
 
-  public semaphores: ViewSemaphores | null = {
+  public semaphores: ViewSemaphores = {
     embeddableIsEditingSelf: false,
     popoutUnload: false,
     viewloaded: false,
     viewunload: false,
     saving: false,
+    unloadFileSaving: false,
   }
 
   constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
@@ -42,8 +42,7 @@ export class ExcelProView extends TextFileView {
   }
 
   setViewData(data: string, _: boolean): void {
-    // console.log('setViewData')
-    if (this.lastLoadedFile === this.file) {
+    if (this.file == null) {
       return
     }
     this.lastLoadedFile = this.file
@@ -57,22 +56,23 @@ export class ExcelProView extends TextFileView {
     })
   }
 
-  async onUnloadFile(file: TFile): Promise<void> {
+  async waitSaveData(file: TFile) {
+    this.semaphores.unloadFileSaving = true
     emitEvent('unloadFile', { filePath: file.path })
-    await sleep(1000)
-    // let counter = 0
-    // while (this.semaphores?.saving && (counter++ < 200)) {
-    //   await sleep(50) // https://github.com/zsviczian/obsidian-excalidraw-plugin/issues/1988
-    //   if (counter++ === 15) {
-    //     new Notice(t('SAVE_IS_TAKING_LONG'))
-    //   }
-    //   if (counter === 80) {
-    //     new Notice(t('SAVE_IS_TAKING_VERY_LONG'))
-    //   }
-    // }
-    // if (counter >= 200) {
-    //   new Notice('Unknown error, save is taking too long')
-    // }
+    let counter = 0
+    while (this.semaphores.unloadFileSaving && (counter < 200)) {
+      await sleep(50) // https://github.com/zsviczian/obsidian-excalidraw-plugin/issues/1988
+      counter++
+      log('[ExcelProView]', new Date().toLocaleString(), '等待文件卸载完成', this.semaphores.unloadFileSaving)
+    }
+  }
+
+  async onUnloadFile(file: TFile): Promise<void> {
+    if (this.semaphores.viewunload) {
+      return
+    }
+    log('[ExcelProView]', new Date().toLocaleString(), 'onUnloadFile', file.path)
+    await this.waitSaveData(file)
     this.dispose()
   }
 
@@ -82,17 +82,20 @@ export class ExcelProView extends TextFileView {
     this.copyHTMLEle = this.addAction('file-code', t('COPY_TO_HTML'), _ => this.copyToHTML())
   }
 
-  onunload(): void {
+  async onunload() {
+    log('[ExcelProView]', new Date().toLocaleString(), 'onunload')
     this.semaphores.viewunload = true
     this.dispose()
   }
 
+  clear(): void {
+    this.dataService = null
+  }
+
   dispose() {
     log('[ExcelProView]', 'ExcelProView调用dispose', this.containerRef)
-    this.containerRef.current = null
     this.dataService = null
     this.root?.unmount()
-    this.contentEl.empty()
   }
 
   getViewType(): string {
@@ -111,13 +114,14 @@ export class ExcelProView extends TextFileView {
       || !this.dataService
     ) {
       this.semaphores.saving = false
+      this.semaphores.unloadFileSaving = false
       return
     }
 
     try {
       // added this to avoid Electron crash when terminating a popout window and saving the drawing, need to check back
       // can likely be removed once this is resolved: https://github.com/electron/electron/issues/40607
-      if (this.semaphores?.viewunload) {
+      if (this.semaphores.viewunload) {
         const d = this.getViewData()
         const plugin = this.plugin
         const file = this.file
@@ -129,12 +133,13 @@ export class ExcelProView extends TextFileView {
           // await imageCache.addBAKToCache(file.path,d);
         }, 200)
         this.semaphores.saving = false
+        this.semaphores.unloadFileSaving = false
         return
       }
 
-      this.data = this.dataService.stringifyMarkdown()
+      this.data = this.dataService.stringifyMarkdown() ?? DEFAULT_CONTENT
       log('[ExcelProView]', '保存数据到文件', this.file.path, this.dataService?.file.path)
-      super.save()
+      await super.save()
     }
     catch (e) {
       console.error({
@@ -143,21 +148,31 @@ export class ExcelProView extends TextFileView {
         error: e,
       })
     }
-    this.semaphores.saving = false
+    finally {
+      this.semaphores.saving = false
+      this.semaphores.unloadFileSaving = false
+    }
   }
 
-  saveData(data: any, key: string) {
+  async saveData(data: any, key: string) {
     if (!this.dataService) {
       return
     }
     if (key === 'sheet') {
       if (data.name !== this.file?.path) {
-        warn('[ExcelProView]', 'saveData', 'sheet name not match', data.name, this.file?.path)
+        warn('[ExcelProView]', '保存数据出错', 'sheet name not match', data.name, this.file?.path)
+        new Notice(`${t('SHEET_NAME_NOT_MATCH')}: ${data.name}.`)
         return
       }
     }
+    const lastData = this.dataService.getBlock(key)
+    log('[ExcelProView]', '开始保存数据到 data service', key)
+    if (JSON.stringify(lastData) === JSON.stringify(data)) {
+      this.semaphores.unloadFileSaving = false
+      log('[ExcelProView]', new Date().toLocaleString(), '数据没改变不保存', this.semaphores.unloadFileSaving)
+      return
+    }
     this.dataService.setBlock(key, data)
-    log('[ExcelProView]', 'saveData', key)
     this.save()
   }
 
@@ -188,11 +203,7 @@ export class ExcelProView extends TextFileView {
   }
 
   getViewData(): string {
-    return this.dataService.stringifyMarkdown() ?? this.data
-  }
-
-  clear(): void {
-    this.dataService?.clear()
+    return this.dataService?.stringifyMarkdown() ?? this.data
   }
 
   setEphemeralState(state: any): void {

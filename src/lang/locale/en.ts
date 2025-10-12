@@ -103,6 +103,8 @@ export default {
   KANBAN_SETTING_GROUP_BY_DESC: 'Select the grouping field for the kanban',
   KANBAN_SETTING_SUBMIT: 'OK',
 
+  SHEET_NAME_NOT_MATCH: 'Auto-save file failed',
+  SAVING_DATA: 'Saving data...',
   SAVE_IS_TAKING_LONG: 'Saving your previous file took a long time, please wait...',
   SAVE_IS_TAKING_VERY_LONG: 'For better performance, please consider splitting large files into smaller ones.',
 }

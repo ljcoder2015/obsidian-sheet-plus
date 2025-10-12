@@ -2,6 +2,7 @@ import type { TFile } from 'obsidian'
 import type { IWorkbookData } from '@univerjs/core'
 import { log } from '@ljcoder/smart-sheet/src/utils/log'
 import type { ParsedHeader, ParsedMarkdown } from './type'
+import { deepClone } from '../utils/data'
 
 export const outgoingLinksKey = 'outgoingLinks'
 
@@ -46,7 +47,12 @@ export class DataService {
   }
 
   getSheet(): IWorkbookData | undefined {
-    return this.getBlock<IWorkbookData>('sheet')
+    const sheet = this.getBlock<IWorkbookData>('sheet')
+    log('[dataService]', 'getSheet', sheet)
+    if (typeof sheet === 'string') {
+      return { name: this.file.path }
+    }
+    return sheet ?? { name: this.file.path }
   }
 
   getOutgoingLinks(): string[] {
@@ -170,18 +176,11 @@ export class DataService {
   }
 
   setBlock(key: string, data: any) {
-    this.markdownData.blocks?.set(key, data)
+    this.markdownData.blocks?.set(key, deepClone(data))
   }
 
   deleteBlock(key: string) {
     this.markdownData.blocks?.delete(key)
-  }
-
-  clear() {
-    this.markdownData = {
-      header: undefined,
-      blocks: undefined,
-    }
   }
 
   parseMarkdown(md: string, filePath?: string): ParsedMarkdown {

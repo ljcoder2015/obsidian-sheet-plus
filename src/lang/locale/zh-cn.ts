@@ -103,6 +103,8 @@ export default {
   KANBAN_SETTING_GROUP_BY_DESC: '选择看板的分组字段',
   KANBAN_SETTING_SUBMIT: '确定',
 
+  SHEET_NAME_NOT_MATCH: '自动保存文件失败',
+  SAVING_DATA: '数据保存中...',
   SAVE_IS_TAKING_LONG: '保存您之前的文件花费的时间较长，请稍候…',
   SAVE_IS_TAKING_VERY_LONG: '为了更好的性能，请考虑将文件拆分成几个较小的文件。',
 }

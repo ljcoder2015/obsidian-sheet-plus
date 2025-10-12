@@ -84,20 +84,21 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
     },
   }))
 
-  const saveDataToFile = (data: any, key: string) => {
+  const saveDataToFile = async (data: any, key: string) => {
+    log('[ContainerView]', '调用 saveDataToFile', key)
     editor.saveData(data, key)
   }
   const deleteFileData = (key: string) => {
     editor.deleteData(key)
   }
   // 保存数据
-  const saveData = useCallback((data: any, key: string) => {
-    log('[ContainerView]', '数据保存通知', key)
+  const saveData = async (data: any, key: string) => {
+    log('[ContainerView]', 'ContainerView 准备保存数据', key)
     if (key !== 'multiSheet' && key !== 'sheet') {
       emitEvent('saveData', { key })
     }
     saveDataToFile(data, key)
-  }, [])
+  }
 
   const onSheetRender = (isToRange: boolean) => {
     if (tabsData && tabsData.defaultActiveKey !== 'sheet' && !isToRange) {

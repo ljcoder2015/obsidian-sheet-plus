@@ -1,6 +1,6 @@
 import { FUniver } from '@univerjs/core/facade'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { ICustomRange, INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
+import type { INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
 import { CommandType, LifecycleStages } from '@univerjs/core'
 import type { IAddOutgoingLinkCommandParams, ICancelOutgoingLinkCommandParams } from '@ljcoder/sheets-outgoing-link'
 import { AddOutgoingLinkCommand, AddOutgoingLinkMutation, CancelOutgoingLinkCommand, OutgoingLinkCustomRangeType, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
@@ -8,7 +8,7 @@ import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-out
 import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import { Spin } from 'antd'
-import type { TFile } from 'obsidian'
+import type { Debouncer, TFile } from 'obsidian'
 import { debounce } from 'obsidian'
 import type { FWorkbook } from '@univerjs/sheets/facade'
 import { emitEvent, useEventBus } from '@ljcoder/smart-sheet'
@@ -18,7 +18,7 @@ import { ReplaceSnapshotCommand } from '@univerjs/docs-ui'
 import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
-import { rangeToNumber } from '../../utils/data'
+import { deepClone, rangeToNumber } from '../../utils/data'
 import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
@@ -40,27 +40,38 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
   const [univerId, setUniverId] = useState<string>(randomString(6))
   const [loading, setLoading] = useState<boolean>(true)
   const tabChangeRef = useRef(false)
-  let lastData = ''
 
-  const save = (activeWorkbook: FWorkbook) => {
-    const activeWorkbookData = activeWorkbook.save()
-    const jsonData = JSON.stringify(activeWorkbookData)
-    if (jsonData !== lastData) {
-      if (lastData !== '') {
-        saveData(activeWorkbookData, 'sheet')
-      }
-      lastData = jsonData
-      if (!tabChangeRef.current) {
-        emitEvent('sheetChange')
-      }
-      tabChangeRef.current = false
+  // ✅ 使用 useRef 管理 debounceSave 实例
+  const debounceSaveRef = useRef<ReturnType<typeof debounce> | null>(null)
+
+  const save = async (workbook: IWorkbookData) => {
+    log('[SheetTab]', '开始保存表格数据', file.path, workbook)
+    saveData(workbook, 'sheet')
+    if (!tabChangeRef.current) {
+      emitEvent('sheetChange')
     }
+    tabChangeRef.current = false
   }
 
-  const debounceSave = debounce((activeWorkbook: FWorkbook) => {
-    log('[SheetTab]', 'debounce save sheet', tabChangeRef.current)
-    save(activeWorkbook)
-  }, 1000)
+  // 初始化 debounceSave，只执行一次
+  if (!debounceSaveRef.current) {
+    debounceSaveRef.current = debounce((workbook: IWorkbookData) => {
+      log('[SheetTab]', 'debounce save sheet', workbook)
+      save(workbook)
+    }, 1000)
+  }
+
+  useEventBus('unloadFile', (props: UnloadFileProps) => {
+    if (props.filePath === file.path) {
+      const activeWorkbook = univerApi?.getActiveWorkbook()
+      if (activeWorkbook) {
+        log('[SheetTab]', 'unloadFile', props.filePath)
+        save(activeWorkbook.save())
+      }
+      // ✅ 取消 debounce
+      debounceSaveRef.current?.cancel()
+    }
+  })
 
   useEffect(() => {
     log('[SheetTab]', 'sheetTab 挂载')
@@ -83,7 +94,8 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
       log('[SheetTab]', 'sheetTab 卸载')
       univer.dispose()
       setUniverApi(null)
-      debounceSave.run()
+      // ✅ 取消 debounce
+      debounceSaveRef.current?.cancel()
       containerRef.current = null
     }
   }, [])
@@ -99,13 +111,13 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
   }
 
   useMemo(() => {
-    let lifeCycleDisposable = null
-    let commandExecutedDisposable = null
-    let beforeCommandDisposable = null
+    let lifeCycleDisposable: { dispose: () => void } | null = null
+    let commandExecutedDisposable: { dispose: () => void } | null = null
+    let beforeCommandDisposable: { dispose: () => void } | null = null
     if (univerApi && univerId) {
       log('[SheetTab]', 'createWorkbook', univerId)
       if (data) {
-        univerApi.createWorkbook(data)
+        univerApi.createWorkbook(deepClone(data))
       }
       else {
         univerApi.createWorkbook({ id: randomString(6), name: file.path })
@@ -230,7 +242,7 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
 
         const activeWorkbook = univerApi.getActiveWorkbook()
         if (activeWorkbook) {
-          debounceSave(activeWorkbook)
+          debounceSaveRef.current(activeWorkbook.save())
         }
       })
     }
@@ -255,15 +267,6 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
   }, [univerId])
 
   useEventBus('tabChange', tabChangeHandler)
-
-  useEventBus('unloadFile', (props: UnloadFileProps) => {
-    if (props.filePath === file.path) {
-      const activeWorkbook = univerApi?.getActiveWorkbook()
-      if (activeWorkbook) {
-        save(activeWorkbook)
-      }
-    }
-  })
 
   // 滚动到指定区域
   const scrollToRange = useCallback(() => {

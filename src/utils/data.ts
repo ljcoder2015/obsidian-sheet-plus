@@ -273,3 +273,64 @@ export function parseMarkdown(md: string): ParsedMarkdown {
 
   return { header, blocks }
 }
+
+/**
+ * 深拷贝函数
+ * 支持类型：Object / Array / Date / RegExp / Map / Set / Symbol / 循环引用
+ */
+export function deepClone<T>(value: T, weakMap = new WeakMap()): T {
+  // 原始类型或函数直接返回
+  if (value === null || typeof value !== 'object')
+    return value
+
+  // 处理循环引用
+  if (weakMap.has(value))
+    return weakMap.get(value)
+
+  let result: any
+
+  // Date
+  if (value instanceof Date) {
+    result = new Date(value)
+  }
+  // RegExp
+  else if (value instanceof RegExp) {
+    result = new RegExp(value.source, value.flags)
+  }
+  // Map
+  else if (value instanceof Map) {
+    result = new Map()
+    weakMap.set(value, result)
+    value.forEach((v, k) => {
+      result.set(deepClone(k, weakMap), deepClone(v, weakMap))
+    })
+  }
+  // Set
+  else if (value instanceof Set) {
+    result = new Set()
+    weakMap.set(value, result)
+    value.forEach((v) => {
+      result.add(deepClone(v, weakMap))
+    })
+  }
+  // Array
+  else if (Array.isArray(value)) {
+    result = []
+    weakMap.set(value, result)
+    value.forEach((item, i) => {
+      result[i] = deepClone(item, weakMap)
+    })
+  }
+  // 普通对象
+  else {
+    result = Object.create(Object.getPrototypeOf(value))
+    weakMap.set(value, result)
+
+    Reflect.ownKeys(value).forEach((key) => {
+      // @ts-ignore
+      result[key] = deepClone((value as any)[key], weakMap)
+    })
+  }
+
+  return result
+}

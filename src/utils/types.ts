@@ -59,4 +59,5 @@ export interface ViewSemaphores {
   // - by monkeypatches on detach(next)
   // This semaphore helps avoid collision of saves
   saving: boolean
+  unloadFileSaving: boolean
 }
