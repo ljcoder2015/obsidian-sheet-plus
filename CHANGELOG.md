@@ -1,5 +1,13 @@
 
 
+# [2.2.0](/compare/2.1.4...2.2.0) (2025-10-12)
+
+
+### Features
+
+* Optimize storage strategy a4cc606
+* save c77dc87
+
 ## [2.1.4](/compare/2.1.3...2.1.4) (2025-10-11)
 
 
