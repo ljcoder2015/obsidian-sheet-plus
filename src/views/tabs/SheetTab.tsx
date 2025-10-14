@@ -56,7 +56,7 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
   // 初始化 debounceSave，只执行一次
   if (!debounceSaveRef.current) {
     debounceSaveRef.current = debounce((workbook: IWorkbookData) => {
-      log('[SheetTab]', 'debounce save sheet', workbook)
+      log('[SheetTab]', '调用节流保存表格数据')
       save(workbook)
     }, 1000)
   }

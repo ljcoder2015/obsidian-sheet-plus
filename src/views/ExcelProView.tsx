@@ -48,6 +48,7 @@ export class ExcelProView extends TextFileView {
     this.lastLoadedFile = this.file
     this.data = data
     this.dataService = new DataService(this.file, this.data)
+    log('[ExcelProView]', 'setViewData', this.dataService)
 
     this.plugin.app.workspace.onLayoutReady(async () => {
       let counter = 0
@@ -82,9 +83,12 @@ export class ExcelProView extends TextFileView {
     this.copyHTMLEle = this.addAction('file-code', t('COPY_TO_HTML'), _ => this.copyToHTML())
   }
 
-  async onunload() {
+  onunload() {
     log('[ExcelProView]', new Date().toLocaleString(), 'onunload')
     this.semaphores.viewunload = true
+    if (this.file) {
+      emitEvent('unloadFile', { filePath: this.file.path })
+    }
     this.dispose()
   }
 
@@ -104,6 +108,7 @@ export class ExcelProView extends TextFileView {
 
   async save() {
     if (this.semaphores.saving) {
+      log('[ExcelProView]', '保存中,取消保存')
       return
     }
     this.semaphores.saving = true
@@ -139,7 +144,7 @@ export class ExcelProView extends TextFileView {
 
       this.data = this.dataService.stringifyMarkdown() ?? DEFAULT_CONTENT
       log('[ExcelProView]', '保存数据到文件', this.file.path, this.dataService?.file.path)
-      await super.save()
+      super.save()
     }
     catch (e) {
       console.error({
@@ -173,7 +178,7 @@ export class ExcelProView extends TextFileView {
       return
     }
     this.dataService.setBlock(key, data)
-    this.save()
+    await this.save()
   }
 
   getFileByPath(path: string, vault: Vault): TFile | null {
@@ -184,10 +189,10 @@ export class ExcelProView extends TextFileView {
     return null
   }
 
-  deleteData(key: string) {
+  async deleteData(key: string) {
     this.dataService?.deleteBlock(key)
     log('[ExcelProView]', 'deleteData', key)
-    this.save()
+    await this.save()
   }
 
   renderContent() {
