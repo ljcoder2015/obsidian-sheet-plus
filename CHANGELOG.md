@@ -1,5 +1,12 @@
 
 
+## [2.2.1](/compare/2.2.0...2.2.1) (2025-10-14)
+
+
+### Bug Fixes
+
+* Fix the issue where data was not saved during unload. c91f108
+
 # [2.2.0](/compare/2.1.4...2.2.0) (2025-10-12)
 
 
