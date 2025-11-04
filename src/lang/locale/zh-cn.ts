@@ -107,4 +107,7 @@ export default {
   SAVING_DATA: '数据保存中...',
   SAVE_IS_TAKING_LONG: '保存您之前的文件花费的时间较长，请稍候…',
   SAVE_IS_TAKING_VERY_LONG: '为了更好的性能，请考虑将文件拆分成几个较小的文件。',
+
+  BIG_SHEET: '大表格',
+  BIG_SHEET_DESC: '开启后，可以解决大文件导致 Obsdian 索引失败的问题，但是会影响搜索功能，自动更新外链功能. <a href="https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/What-is-Big-Sheet%3F">更多说明</a>',
 }

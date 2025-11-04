@@ -3,6 +3,7 @@ import { Notice, PluginSettingTab, Setting } from 'obsidian'
 import { update } from '@ljcoder/authorization'
 import { t } from './lang/helpers'
 import type ExcelProPlugin from './main'
+import { fragWithHTML } from './utils/tools'
 
 export class ExcelProSettingTab extends PluginSettingTab {
   plugin: ExcelProPlugin
@@ -36,6 +37,20 @@ export class ExcelProSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(t('FILE_SETTING'))
       .setHeading()
+
+    new Setting(containerEl)
+      .setName(t('BIG_SHEET'))
+      .setDesc(fragWithHTML(t('BIG_SHEET_DESC')))
+      .addDropdown(dropdown =>
+        dropdown
+          .addOption('true', 'True')
+          .addOption('false', 'False')
+          .setValue(this.plugin.settings.isBigSheet)
+          .onChange(async (value) => {
+            this.plugin.settings.isBigSheet = value
+            this.plugin.saveSettings()
+          }),
+      )
 
     new Setting(containerEl)
       .setName(t('FOLDER'))

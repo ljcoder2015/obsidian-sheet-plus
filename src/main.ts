@@ -56,7 +56,7 @@ export default class ExcelProPlugin extends Plugin {
       VIEW_TYPE_EXCEL_PRO,
       (leaf: WorkspaceLeaf) => new ExcelProView(leaf, this),
     )
-    this.registerExtensions(['univer'], VIEW_TYPE_EXCEL_PRO)
+    this.registerExtensions(['sheet'], VIEW_TYPE_EXCEL_PRO)
 
     // This creates an icon in the left ribbon.
     this.addRibbonIcon('sheet', t('CREATE_EXCEL'), () => {
@@ -381,7 +381,7 @@ export default class ExcelProPlugin extends Plugin {
   public isExcelFile(f: TFile) {
     if (!f)
       return false
-    if (f.extension === 'univer')
+    if (f.extension === 'sheet')
       return true
 
     const fileCache = f ? this.app.metadataCache.getFileCache(f) : null

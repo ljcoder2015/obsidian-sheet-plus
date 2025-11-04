@@ -88,9 +88,9 @@ export class Tools {
     const isWin = navigator.platform === 'Win32' || navigator.platform === 'Windows'
     const isMac
             = navigator.platform === 'Mac68K'
-            || navigator.platform === 'MacPPC'
-            || navigator.platform === 'Macintosh'
-            || navigator.platform === 'MacIntel'
+              || navigator.platform === 'MacPPC'
+              || navigator.platform === 'Macintosh'
+              || navigator.platform === 'MacIntel'
     if (isMac)
       return 'Mac'
     const isUnix = navigator.platform === 'X11' && !isWin && !isMac
@@ -676,4 +676,8 @@ export class Tools {
     }
     return Date.now()
   }
+}
+
+export function fragWithHTML(html: string) {
+  return createFragment(frag => (frag.createDiv().innerHTML = html))
 }

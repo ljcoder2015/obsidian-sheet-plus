@@ -107,4 +107,7 @@ export default {
   SAVING_DATA: 'Saving data...',
   SAVE_IS_TAKING_LONG: 'Saving your previous file took a long time, please wait...',
   SAVE_IS_TAKING_VERY_LONG: 'For better performance, please consider splitting large files into smaller ones.',
+
+  BIG_SHEET: 'Large Sheet',
+  BIG_SHEET_DESC: 'When enabled, it can solve the issue of Obsidian indexing failure caused by large files, but it will affect search functionality and automatic updates of external links. <a href="https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/What-is-Big-Sheet%3F">More Details</a>',
 }

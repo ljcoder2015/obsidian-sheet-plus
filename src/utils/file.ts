@@ -62,6 +62,15 @@ export function getNewUniqueFilepath(
 }
 
 export function getExcelFilename(settings: ExcelProSettings): string {
+  if (settings.isBigSheet === 'true') {
+    return (
+      `${settings.excelFilenamePrefix
+      + (settings.excelFilenameDateTime !== ''
+        ? window.moment().format(settings.excelFilenameDateTime)
+        : '')
+      }.sheet`
+    )
+  }
   return (
     `${settings.excelFilenamePrefix
     + (settings.excelFilenameDateTime !== ''

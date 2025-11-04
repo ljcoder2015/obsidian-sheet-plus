@@ -11,6 +11,7 @@ export interface ExcelProSettings {
   mobileRenderMode: string
   numberFormatLocal: string
   darkModal: string
+  isBigSheet: string
 }
 
 export const DEFAULT_SETTINGS: ExcelProSettings = {
@@ -26,4 +27,5 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   numberFormatLocal: 'en',
   mobileRenderMode: 'mobile',
   darkModal: 'light',
+  isBigSheet: 'false',
 }
