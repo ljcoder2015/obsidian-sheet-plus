@@ -1,5 +1,12 @@
 
 
+## [2.3.1](/compare/2.3.0...2.3.1) (2025-11-04)
+
+
+### Bug Fixes
+
+* **import-export:** fixed import shared formula 12011fd
+
 # [2.3.0](/compare/2.2.1...2.3.0) (2025-10-21)
 
 
