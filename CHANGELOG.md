@@ -1,5 +1,12 @@
 
 
+## [2.3.2](/compare/2.3.1...2.3.2) (2025-11-04)
+
+
+### Bug Fixes
+
+* **import-export:** Fix importing formulas containing line breaks and unnecessary spaces 325bc90
+
 ## [2.3.1](/compare/2.3.0...2.3.1) (2025-11-04)
 
 
