@@ -8,13 +8,13 @@ import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-out
 import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import { Spin } from 'antd'
-import type { Debouncer, TFile } from 'obsidian'
+import type { TFile } from 'obsidian'
 import { debounce } from 'obsidian'
-import type { FWorkbook } from '@univerjs/sheets/facade'
 import { emitEvent, useEventBus } from '@ljcoder/smart-sheet'
 import type { TabChangeProps, UnloadFileProps } from '@ljcoder/smart-sheet'
 import type { IReplaceSnapshotCommandParams } from '@univerjs/docs-ui'
 import { ReplaceSnapshotCommand } from '@univerjs/docs-ui'
+import { ImportFinishCommand, ImportStartCommand } from '@ljcoder/import-export'
 import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
@@ -40,6 +40,7 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
   const [univerId, setUniverId] = useState<string>(randomString(6))
   const [loading, setLoading] = useState<boolean>(true)
   const tabChangeRef = useRef(false)
+  const [spinTip, setSpinTip] = useState<string>(t('LOADING'))
 
   // ✅ 使用 useRef 管理 debounceSave 实例
   const debounceSaveRef = useRef<ReturnType<typeof debounce> | null>(null)
@@ -247,6 +248,17 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
           }
         }
 
+        // 导入添加 loading 提示
+        if (res.id === ImportStartCommand.id) {
+          setSpinTip(t('IMPORTING'))
+          setLoading(true)
+        }
+
+        if (res.id === ImportFinishCommand.id) {
+          setSpinTip(t('LOADING'))
+          setLoading(false)
+        }
+
         if (res.type !== CommandType.MUTATION) {
           return
         }
@@ -312,7 +324,7 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
   }, [scrollToRange])
 
   return (
-    <Spin spinning={loading} size="large" tip={t('LOADING')}>
+    <Spin spinning={loading} size="large" tip={spinTip}>
       <div id="sheet-box">
         <div ref={containerRef} className="my-univer" />
       </div>

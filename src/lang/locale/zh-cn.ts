@@ -110,4 +110,6 @@ export default {
 
   BIG_SHEET: '大表格',
   BIG_SHEET_DESC: '开启后，可以解决大文件导致 Obsdian 索引失败的问题，但是会影响搜索功能，自动更新外链功能. <a href="https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/What-is-Big-Sheet%3F">更多说明</a>',
+
+  IMPORTING: '导入中...',
 }
