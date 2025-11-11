@@ -1,5 +1,12 @@
 
 
+## [2.3.4](/compare/2.3.3...2.3.4) (2025-11-11)
+
+
+### Features
+
+* **import-export:** import loading 149fb31
+
 ## [2.3.3](/compare/2.3.2...2.3.3) (2025-11-11)
 
 
