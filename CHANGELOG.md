@@ -1,5 +1,12 @@
 
 
+## [2.3.3](/compare/2.3.2...2.3.3) (2025-11-11)
+
+
+### Bug Fixes
+
+* can not save when renamed file f16801d
+
 ## [2.3.2](/compare/2.3.1...2.3.2) (2025-11-04)
 
 
