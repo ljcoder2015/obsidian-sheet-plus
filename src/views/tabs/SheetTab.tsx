@@ -61,6 +61,17 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
     }, 1000)
   }
 
+  useEventBus('fileRenamed', (payload) => {
+    if (!payload) {
+      return // 防止 undefined
+    }
+    const { oldPath, newPath } = payload
+    const activeWorkbook = univerApi?.getActiveWorkbook()
+    if (activeWorkbook && activeWorkbook.getName() === oldPath) {
+      activeWorkbook.setName(newPath)
+    }
+  })
+
   useEventBus('unloadFile', (props: UnloadFileProps) => {
     if (props.filePath === file.path) {
       const activeWorkbook = univerApi?.getActiveWorkbook()

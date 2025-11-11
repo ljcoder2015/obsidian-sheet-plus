@@ -3,7 +3,7 @@ import { Notice, TFile, TextFileView } from 'obsidian'
 import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
 import React from 'react'
-import { AppEvents, emitEvent, emitter, useEventBus } from '@ljcoder/smart-sheet'
+import { emitEvent } from '@ljcoder/smart-sheet'
 import type ExcelProPlugin from '../main'
 
 import { DEFAULT_CONTENT, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
@@ -20,7 +20,7 @@ export class ExcelProView extends TextFileView {
   root: Root | null = null
   private containerRef = React.createRef<ContainerViewRef>()
   public plugin: ExcelProPlugin
-  public copyHTMLEle: HTMLElement
+  public copyHTMLEle: HTMLElement | undefined
 
   public subPath: string | null = null
 
@@ -165,7 +165,7 @@ export class ExcelProView extends TextFileView {
     }
     if (key === 'sheet') {
       if (data.name !== this.file?.path) {
-        warn('[ExcelProView]', '保存数据出错', 'sheet name not match', data.name, this.file?.path)
+        warn('[ExcelProView]', '保存数据出错', 'sheet name not match, data name:', data.name, 'file path:', this.file?.path)
         new Notice(`${t('SHEET_NAME_NOT_MATCH')}: ${data.name}.`)
         return
       }

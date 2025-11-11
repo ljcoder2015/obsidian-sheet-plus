@@ -1,8 +1,8 @@
 import type { TFile } from 'obsidian'
 import type { IWorkbookData } from '@univerjs/core'
 import { log } from '@ljcoder/smart-sheet/src/utils/log'
-import type { ParsedHeader, ParsedMarkdown } from './type'
 import { deepClone } from '../utils/data'
+import type { ParsedHeader, ParsedMarkdown } from './type'
 
 export const outgoingLinksKey = 'outgoingLinks'
 
@@ -13,13 +13,20 @@ export class DataService {
   constructor(file: TFile, fileData: string) {
     this.file = file
     this.markdownData = this.parseMarkdown(fileData)
-    this.updateFilePath(file)
+    this.updateFilePath(file.path)
   }
 
-  private updateFilePath(file: TFile) {
+  getFilePath(): string {
     const sheet = this.getSheet()
-    if (sheet && sheet.name !== file.path) {
-      sheet.name = file.path
+    return sheet?.name || ''
+  }
+
+  updateFilePath(path: string) {
+    const sheet = this.getSheet()
+    if (sheet) {
+      if (sheet.name !== path) {
+        sheet.name = path
+      }
     }
     else {
       log('[dataService]', 'updateFilePath', 'sheet not found')
@@ -35,11 +42,11 @@ export class DataService {
   }
 
   getHeader(): string {
-    return this.markdownData.header?.raw
+    return this.markdownData.header?.raw || ''
   }
 
   getBlocks(): Map<string, any> {
-    return this.markdownData.blocks
+    return this.markdownData.blocks ?? new Map()
   }
 
   getBlock<T>(type: string): T | undefined {

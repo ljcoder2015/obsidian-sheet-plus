@@ -19,6 +19,7 @@ import {
 import { around, dedupe } from 'monkey-around'
 import { update } from '@ljcoder/authorization'
 import { log } from '@ljcoder/smart-sheet/src/utils/log'
+import { emitEvent } from '@ljcoder/smart-sheet'
 import {
   DEFAULT_CONTENT,
   FRONTMATTER,
@@ -99,7 +100,20 @@ export default class ExcelProPlugin extends Plugin {
     this.registerMarkdownPostProcessor(markdownPostProcessor)
   }
 
-  private registerEventListeners() { }
+  private registerEventListeners() {
+    // 监听文件改名
+    this.registerEvent(
+      this.app.vault.on('rename', async (file, oldPath) => {
+        if (file instanceof TAbstractFile) {
+          // 更新外链
+          await this.updateBacklinks(file, oldPath)
+          // 更改当前表格的 name 字段
+          emitEvent('fileRenamed', { oldPath, newPath: file.path })
+          log('[ExcelProPlugin]', 'Send fileRenamed', oldPath, file.path)
+        }
+      }),
+    )
+  }
 
   private switchToExcelAfterLoad() {
     this.app.workspace.onLayoutReady(() => {
@@ -115,15 +129,6 @@ export default class ExcelProPlugin extends Plugin {
         }
       }
     })
-
-    // 监听文件改名
-    this.registerEvent(
-      this.app.vault.on('rename', async (file, oldPath) => {
-        if (file instanceof TAbstractFile) {
-          await this.updateBacklinks(file, oldPath)
-        }
-      }),
-    )
   }
 
   /**
