@@ -158,7 +158,7 @@
 }
 
 .my-univer {
-	height: calc(100%);
+	height: calc(100% - var(--safe-area-inset-bottom));
   width: 100%;
 	border-bottom: 1px solid #ececec;
 }

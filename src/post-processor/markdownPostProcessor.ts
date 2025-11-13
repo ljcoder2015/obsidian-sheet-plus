@@ -206,6 +206,9 @@ function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string)
   const parseResult = parseEmbedLinkSyntax(`${src}|${alt}`)
 
   const excelData = getExcelData(data, file)
+  if (!excelData) {
+    return createDiv('No Data')
+  }
 
   const embedLinkDiv = createDiv()
 
@@ -248,7 +251,7 @@ function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string)
     }
   }
   else if (parseResult.displayType?.contains('chart')) {
-    const chartsEl = createEchartsEl(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`, parseResult.displayType, parseResult.height)
+    const chartsEl = createEchartsEl(plugin.settings.darkModal === 'dark', excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`, parseResult.displayType, parseResult.height)
     embedLinkDiv.appendChild(chartsEl)
     return embedLinkDiv
   }

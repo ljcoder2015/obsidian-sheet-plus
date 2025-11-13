@@ -255,8 +255,8 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
         }
 
         if (res.id === ImportFinishCommand.id) {
-          setSpinTip(t('LOADING'))
           setLoading(false)
+          setSpinTip(t('LOADING'))
         }
 
         if (res.type !== CommandType.MUTATION) {
