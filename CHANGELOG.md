@@ -1,5 +1,12 @@
 
 
+# [2.4.0](/compare/2.3.4...2.4.0) (2025-11-13)
+
+
+### Features
+
+* **charts:** update echarts to version 6.0.0 a6bcb66
+
 ## [2.3.4](/compare/2.3.3...2.3.4) (2025-11-11)
 
 
