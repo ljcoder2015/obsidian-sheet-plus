@@ -15,7 +15,7 @@ Unlock more advanced features after purchasing an authorization code
 ## User Guide
 For a detailed tutorial on using the plugin, please refer to the user guide.
 
-- [User Guide](https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/User-Guide)
+- [User Guide](https://docs.ljcoder.com/guide/installation.html)
 
 ## Feature Demonstration
 ### Kanban Board (Paid)

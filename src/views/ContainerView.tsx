@@ -18,11 +18,11 @@ import { SheetTab } from './tabs/SheetTab'
 import { RenameModal } from './components/RenameModal'
 
 const helpContent = (
-  <div>
+  <div style={{ width: '300px' }}>
     <h3>{t('TAB_HELP_TITLE')}</h3>
     <ul>
       <li>
-        <a href="https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/User-Guide" target="_blank">{t('TAB_HELP_CONTENT')}</a>
+        <a href="https://docs.ljcoder.com/guide/installation.html" target="_blank">{t('TAB_HELP_CONTENT')}</a>
       </li>
     </ul>
   </div>
