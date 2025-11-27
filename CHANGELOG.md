@@ -1,5 +1,12 @@
 
 
+## [2.4.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.4.0...2.4.1) (2025-11-27)
+
+
+### Bug Fixes
+
+* Fixed chart editing bugs ([ed3f66b](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/ed3f66b75755df229e12ace8bb193a114973843c))
+
 # [2.4.0](/compare/2.3.4...2.4.0) (2025-11-13)
 
 
