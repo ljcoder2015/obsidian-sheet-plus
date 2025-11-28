@@ -10,7 +10,7 @@ Developed using the Univer framework, Obsidian Sheet Plus features a Canvas-base
 ## Purchase Authorization Code
 Unlock more advanced features after purchasing an authorization code
 - [Purchase Authorization Code](https://ko-fi.com/s/353d33a2dd)
-- [How to Use an Authorization Code](https://ko-fi.com/post/How-to-Use-an-Authorization-Code-S6S318IUM7)
+- [How to Use an Authorization Code](https://docs.ljcoder.com/price/activate/en.html)
 
 ## User Guide
 For a detailed tutorial on using the plugin, please refer to the user guide.

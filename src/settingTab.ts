@@ -227,7 +227,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
     containerEl.createEl('hr')
 
     const linksEl = containerEl.createDiv('authorization-code-container')
-    linksEl.createEl('a', { href: 'https://ko-fi.com/s/353d33a2dd' }, (a) => {
+    linksEl.createEl('a', { href: 'https://docs.ljcoder.com/price/activate/en.html' }, (a) => {
       a.innerHTML = t('AUTHORIZATION_CODE_GET')
     })
   }
