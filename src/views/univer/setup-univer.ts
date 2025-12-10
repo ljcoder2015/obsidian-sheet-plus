@@ -1,7 +1,7 @@
 import '@ljcoder/charts/lib/index.css'
 import '@ljcoder/sheets-outgoing-link-ui/lib/index.css'
 
-import { IAuthzIoService, LocaleType, LogLevel, Univer, UserManagerService } from '@univerjs/core'
+import { IAuthzIoService, INumfmtLocaleTag, LocaleType, LogLevel, Univer, UserManagerService } from '@univerjs/core'
 import { defaultTheme } from '@univerjs/design'
 
 import { UniverDocsPlugin } from '@univerjs/docs'
@@ -80,11 +80,14 @@ import { UniverSheetsCrosshairHighlightPlugin } from '@univerjs/sheets-crosshair
 import { UniverChartPlugin } from '@ljcoder/charts'
 import { UniverSheetsImportExportPlugin } from '@ljcoder/import-export'
 import { UniverSheetsOutgoingLinkUIPlugin } from '@ljcoder/sheets-outgoing-link-ui'
+import { FUniver } from '@univerjs/core/facade'
 import { enUS, faIR, frFR, getLanguage, ruRU, viVN, zhCN, zhTW } from '../../lang/locale'
+import type { FontInfo } from '../../services/fontManager'
 import { LJAuthzService } from './mockUserService'
 import { mockUser } from './customMentionDataService'
 
 export function createUniver(
+  availableFonts: FontInfo[],
   option: IUniverUIConfig,
   container: string | HTMLElement,
   mobileRenderMode: string,
@@ -119,7 +122,17 @@ export function createUniver(
     registerDesktopPlugin(univer, option, container)
     // registerLazyDesktopPlugin(univer)
   }
-  return univer
+
+  const univerAPI = FUniver.newAPI(univer)
+
+  const fonts = availableFonts.map((font: FontInfo) => ({
+    value: font.name,
+    label: font.name,
+    isCustom: true,
+  }))
+  univerAPI.addFonts(fonts)
+
+  return univerAPI
 }
 
 function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, container: string | HTMLElement) {
@@ -133,6 +146,7 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, containe
     toolbar: option.toolbar,
     contextMenu: option.contextMenu,
     ribbonType: 'simple',
+    customFontFamily: option.customFontFamily,
   })
 
   univer.registerPlugin(UniverDocsUIPlugin)
@@ -144,9 +158,6 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, containe
         hidden: true,
       },
       'formula-ui.operation.more-functions': {
-        hidden: true,
-      },
-      [SetRangeFontFamilyCommand.id]: {
         hidden: true,
       },
       [AddRangeProtectionFromToolbarCommand.id]: {
@@ -239,25 +250,6 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, containe
   // 批注
   univer.registerPlugin(UniverSheetsNotePlugin)
   univer.registerPlugin(UniverSheetsNoteUIPlugin)
-}
-
-function registerLazyDesktopPlugin(univer: Univer) {
-  // const LOAD_LAZY_PLUGINS_TIMEOUT = 100
-  // const LOAD_VERY_LAZY_PLUGINS_TIMEOUT = 1_000
-
-  // setTimeout(() => {
-  //   import('./lazy').then((lazy) => {
-  //     const plugins = lazy.default()
-  //     plugins.forEach(p => univer.registerPlugin(p[0], p[1]))
-  //   })
-  // }, LOAD_LAZY_PLUGINS_TIMEOUT)
-
-  // setTimeout(() => {
-  //   import('./very-lazy').then((lazy) => {
-  //     const plugins = lazy.default()
-  //     plugins.forEach(p => univer.registerPlugin(p[0], p[1]))
-  //   })
-  // }, LOAD_VERY_LAZY_PLUGINS_TIMEOUT)
 }
 
 function registerMobilePlugin(univer: Univer, option: IUniverUIConfig, container: string | HTMLElement) {

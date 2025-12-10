@@ -23,6 +23,7 @@ import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
 import { type DataService, outgoingLinksKey } from '../../services/data.service'
+import type { FontInfo } from '../../services/fontManager'
 
 interface Props {
   file: TFile
@@ -97,15 +98,13 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
     }
     const darkMode = plugin.settings.darkModal === 'dark'
     const mobileRenderMode = plugin.settings.mobileRenderMode
-    const univer = createUniver(options, containerRef.current, mobileRenderMode, darkMode)
+    const univerAPI = createUniver(plugin.availableFonts, options, containerRef.current, mobileRenderMode, darkMode)
 
-    const univerAPI = FUniver.newAPI(univer)
     setUniverApi(univerAPI)
 
     return () => {
       log('[SheetTab]', 'sheetTab 卸载')
-      univer.dispose()
-      setUniverApi(null)
+      univerAPI.dispose()
       // ✅ 取消 debounce
       debounceSaveRef.current?.cancel()
       containerRef.current = null
@@ -137,7 +136,7 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
 
       // set number format local
       const localeTag = plugin.settings.numberFormatLocal as INumfmtLocaleTag
-      univerApi.getActiveWorkbook().setNumfmtLocal(localeTag)
+      univerApi?.getActiveWorkbook()?.setNumfmtLocal(localeTag)
 
       lifeCycleDisposable = univerApi.addEvent(univerApi.Event.LifeCycleChanged, (res) => {
         if (res.stage === LifecycleStages.Ready && editor.subPath == null) {
@@ -293,15 +292,22 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
 
   // 滚动到指定区域
   const scrollToRange = useCallback(() => {
+    log('[SheetTab]', 'scrollToRange subPath:', editor.subPath)
     if (editor.subPath && univerApi) {
       const array = editor.subPath.split('|')
+      if (array.length !== 2) {
+        return
+      }
       const sheetName = array[0]
       const rangeString = array[1]
       const rangeNumber = rangeToNumber(rangeString)
       // 打开文件后的子路径，用来选中表格范围
       const activeWorkbook = univerApi.getActiveWorkbook()
-      const sheet = activeWorkbook.getSheetByName(sheetName)
-      activeWorkbook.setActiveSheet(sheet)
+      const sheet = activeWorkbook?.getSheetByName(sheetName)
+      if (!sheet) {
+        return
+      }
+      activeWorkbook?.setActiveSheet(sheet)
       // getRange(row: number, column: number, numRows: number, numColumns: number): FRange;
       const selection = sheet.getRange(rangeNumber.startRow, rangeNumber.startCol, rangeNumber.endRow - rangeNumber.startRow + 1, rangeNumber.endCol - rangeNumber.startCol + 1)
       sheet.setActiveSelection(selection)

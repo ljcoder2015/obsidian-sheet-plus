@@ -257,6 +257,11 @@ button.univer-toolbar-btn-active {
 	box-shadow: none;
 }
 
+.univer-list-none button:hover {
+   box-shadow: none;
+}
+
+.univer-list-none button:not(.clickable-icon),
 .lj-content-view button:not(.clickable-icon) {
   box-shadow: none;
 }

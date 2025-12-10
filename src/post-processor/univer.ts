@@ -1,6 +1,4 @@
 import type { INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
-import { UniverInstanceType } from '@univerjs/core'
-import { FUniver } from '@univerjs/core/facade'
 import { WorkbookEditablePermission } from '@univerjs/sheets'
 import { randomString } from '../utils/uuid'
 import { createUniver } from '../views/univer/setup-univer'
@@ -30,29 +28,28 @@ export function createUniverEl(data: IWorkbookData | null, height = 300, showFoo
       footer: showFooter,
     }
     const darkMode = plugin.settings.darkModal === 'dark'
-    const univer = createUniver(options, id, plugin.settings.mobileRenderMode, darkMode, true)
+    const univerAPI = createUniver(plugin.availableFonts, options, id, plugin.settings.mobileRenderMode, darkMode, true)
 
     if (data) {
       // workbookData 的内容都包含在 workbook 字段中
       const workbookData: IWorkbookData = data
-      univer.createUnit(UniverInstanceType.UNIVER_SHEET, workbookData)
+      univerAPI.createWorkbook(workbookData)
     }
     else {
-      univer.createUnit(UniverInstanceType.UNIVER_SHEET, {})
+      univerAPI.createWorkbook({})
     }
 
-    const univerAPI = FUniver.newAPI(univer)
-    const permission = univerAPI.getPermission()
-    permission.setPermissionDialogVisible(false)
     const activeWorkbook = univerAPI.getActiveWorkbook()
 
     const unitId = activeWorkbook && activeWorkbook.getId()
     if (unitId) {
+      const permission = activeWorkbook.getPermission()
+      permission.setPermissionDialogVisible(false)
       permission.setWorkbookPermissionPoint(unitId, WorkbookEditablePermission, false)
     }
 
     const localeTag = plugin.settings.numberFormatLocal as INumfmtLocaleTag
-    univerAPI.getActiveWorkbook().setNumfmtLocal(localeTag)
+    activeWorkbook?.setNumfmtLocal(localeTag)
   }, 1000)
 
   return univerEl

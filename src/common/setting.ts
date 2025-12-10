@@ -12,6 +12,8 @@ export interface ExcelProSettings {
   numberFormatLocal: string
   darkModal: string
   isBigSheet: string
+  fontFolder: string
+  selectedFontName: string
 }
 
 export const DEFAULT_SETTINGS: ExcelProSettings = {
@@ -28,4 +30,6 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   mobileRenderMode: 'mobile',
   darkModal: 'light',
   isBigSheet: 'false',
+  fontFolder: 'fonts',
+  selectedFontName: '',
 }

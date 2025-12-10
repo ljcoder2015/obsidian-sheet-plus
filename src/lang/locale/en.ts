@@ -112,4 +112,8 @@ export default {
   BIG_SHEET_DESC: 'When enabled, it can solve the issue of Obsidian indexing failure caused by large files, but it will affect search functionality and automatic updates of external links. <a href="https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/What-is-Big-Sheet%3F">More Details</a>',
 
   IMPORTING: 'Importing...',
+
+  FONT_FOLDER_NOT_FOUND: 'Font folder not found',
+  FONT_FOLDER: 'Font folder',
+  FONT_FOLDER_DESC: 'Scan all .woff/.woff2/.ttf fonts in this folder',
 }

@@ -2,6 +2,7 @@ import type { MarkdownPostProcessorContext, MetadataCache, Vault } from 'obsidia
 import { TFile } from 'obsidian'
 
 import { createEchartsEl } from '@ljcoder/obsidian-embed-link'
+import { log } from '@ljcoder/smart-sheet/src/utils/log'
 import type ExcelProPlugin from '../main'
 
 import { getExcelData, getRangeData } from '../utils/data'
@@ -26,11 +27,11 @@ export function initializeMarkdownPostProcessor(p: ExcelProPlugin) {
  * @param ctx 上下文
  */
 export async function markdownPostProcessor(el: HTMLElement, ctx: MarkdownPostProcessorContext) {
-  // console.log("markdownPostProcessor=============");
+  console.log("markdownPostProcessor=============");
   // check to see if we are rendering in editing mode or live preview
   // if yes, then there should be no .internal-embed containers
   const embeddedItems = el.querySelectorAll('.internal-embed')
-  // console.log("markdownPostProcessor", el);
+  log('[markdownPostProcessor]', ctx, embeddedItems)
   if (embeddedItems.length === 0) {
     // 编辑模式
     tmpObsidianWYSIWYG(el, ctx)
@@ -44,7 +45,7 @@ export async function markdownPostProcessor(el: HTMLElement, ctx: MarkdownPostPr
 // 编辑模式
 async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorContext) {
   const file = plugin.app.vault.getAbstractFileByPath(ctx.sourcePath)
-  // console.log('tmpObsidianWYSIWYG', ctx, el)
+  log('[tmpObsidianWYSIWYG]', ctx, el)
   if (!(file instanceof TFile))
     return
   if (!plugin.isExcelFile(file))
@@ -151,7 +152,7 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
 
 // 预览模式解析
 async function processReadingMode(embeddedItems: NodeListOf<Element> | [HTMLElement], ctx: MarkdownPostProcessorContext) {
-  // console.log("processReadingMode")
+  log('[processReadingMode]', ctx, embeddedItems)
   // We are processing a non-univer file in reading mode
   // Embedded files will be displayed in an .internal-embed container
 
@@ -160,7 +161,6 @@ async function processReadingMode(embeddedItems: NodeListOf<Element> | [HTMLElem
   // is awaited, otherwise univer images would not display in the univer plugin
   embeddedItems.forEach(async (maybeUniver, _) => {
     // check to see if the file in the src attribute exists
-    // console.log(maybeDrawing);
     const fname = maybeUniver.getAttribute('src')?.split('#')[0]
     if (!fname)
       return true
@@ -180,6 +180,7 @@ async function processReadingMode(embeddedItems: NodeListOf<Element> | [HTMLElem
 }
 
 function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: string): HTMLDivElement {
+  log('[processInternalEmbed]', internalEmbedEl, file)
   const src = internalEmbedEl.getAttribute('src')
 
   if (!src)
@@ -204,6 +205,7 @@ function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: strin
  */
 function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string): HTMLDivElement {
   const parseResult = parseEmbedLinkSyntax(`${src}|${alt}`)
+  log('[createEmbedLinkDiv]', src, alt, file.path)
 
   const excelData = getExcelData(data, file)
   if (!excelData) {
@@ -272,6 +274,7 @@ function parseEmbedLinkSyntax(input: string): ParsedSyntax {
   const pathParts = input.split('/')
   const filePath = pathParts.slice(0, -1).join('/')
   const fileNameAndRest = pathParts[pathParts.length - 1]
+  log('[parseEmbedLinkSyntax]', fileNameAndRest)
 
   // 正则表达式，支持所有 Unicode 字符（包括特殊字符、中文、俄文、泰文等）
   // eslint-disable-next-line regexp/no-super-linear-backtracking

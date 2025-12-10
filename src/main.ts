@@ -42,9 +42,13 @@ import {
   markdownPostProcessor,
 } from './post-processor/markdownPostProcessor'
 import { DataService } from './services/data.service'
+import type { FontInfo } from './services/fontManager'
+import { FontManager } from './services/fontManager'
 
 export default class ExcelProPlugin extends Plugin {
   public settings: ExcelProSettings
+  public fontManager: FontManager
+  public availableFonts: FontInfo[] = []
   private _loaded = false
 
   async onload() {
@@ -80,6 +84,8 @@ export default class ExcelProPlugin extends Plugin {
     this.registerEventListeners()
 
     this.registerCommands()
+
+    this.loadFonts()
   }
 
   onunload() {
@@ -88,6 +94,12 @@ export default class ExcelProPlugin extends Plugin {
     window.RediContextCreated = false
     // @ts-expect-error
     window.REDI_GLOBAL_LOCK = false
+  }
+
+  private async loadFonts() {
+    this.fontManager = new FontManager(this.app)
+    const fonts = await this.fontManager.loadAllFontsFromFolder(this.settings.fontFolder)
+    this.availableFonts = fonts
   }
 
   private getBlackData() {

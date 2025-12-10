@@ -224,6 +224,20 @@ export class ExcelProSettingTab extends PluginSettingTab {
           })
       })
 
+    // 字体目录
+    new Setting(containerEl)
+      .setName(t('FONT_FOLDER'))
+      .setDesc(t('FONT_FOLDER_DESC'))
+      .addText(text =>
+        text
+          .setPlaceholder('fonts')
+          .setValue(this.plugin.settings.fontFolder)
+          .onChange(async (value) => {
+            this.plugin.settings.fontFolder = value.trim()
+            await this.plugin.saveSettings()
+          }),
+      )
+
     containerEl.createEl('hr')
 
     const linksEl = containerEl.createDiv('authorization-code-container')
