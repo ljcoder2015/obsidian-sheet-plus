@@ -1,5 +1,12 @@
 
 
+# [2.5.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.4.1...2.5.0) (2025-12-10)
+
+
+### Features
+
+* user guide ([51ba316](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/51ba316f1ccf9b50a086884322c7f6080197a57e))
+
 ## [2.4.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.4.0...2.4.1) (2025-11-27)
 
 
