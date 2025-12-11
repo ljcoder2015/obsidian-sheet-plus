@@ -1,9 +1,10 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react'
 import type { MenuProps } from 'antd'
-import { Button, ConfigProvider, Dropdown, Flex, Popover, Tabs, theme } from 'antd'
+import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, theme } from 'antd'
 import { Notice } from 'obsidian'
 import type { IKanbanConfig } from '@ljcoder/smart-sheet'
-import { KanbanTab, emitEvent, useClearEvents } from '@ljcoder/smart-sheet'
+import { AIAssistant, KanbanTab, emitEvent, useClearEvents } from '@ljcoder/smart-sheet'
+import { createStyles } from 'antd-style'
 import { randomString } from '../utils/uuid'
 import type { MultiSheet } from '../common/constants'
 import { TabType } from '../common/constants'
@@ -36,6 +37,31 @@ export interface ContainerViewProps {
   dataService: DataService
 }
 
+const useStyle = createStyles(({ prefixCls, css }) => ({
+  linearGradientButton: css`
+    &.${prefixCls}-btn-primary:not([disabled]):not(.${prefixCls}-btn-dangerous) {
+      > span {
+        position: relative;
+        color: #fff;
+      }
+
+      &::before {
+        content: '';
+        background: linear-gradient(135deg, #6253e1, #04befe);
+        position: absolute;
+        inset: -1px;
+        opacity: 1;
+        transition: all 0.3s;
+        border-radius: inherit;
+      }
+
+      &:hover::before {
+        opacity: 0;
+      }
+    }
+  `,
+}))
+
 // eslint-disable-next-line prefer-arrow-callback
 export const ContainerView = forwardRef(function ContainerView(props, ref) {
   const { univerApi } = useUniver()
@@ -56,6 +82,8 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
   const [triggerSource, setTriggerSource] = useState<string | null>(null) // 记录是点击哪个 tab 触发的下拉菜单
   const [renameModalVisible, setRenameModalVisible] = useState(false) // 重命名
   const [renameModalName, setRenameModalName] = useState('') // 重命名的名称
+  const [AIPanelSize, setAIPanelSize] = useState('0') // AI 面板大小
+  const { styles } = useStyle()
 
   useImperativeHandle(ref, () => ({
     copyToHTML() {
@@ -322,6 +350,9 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
   return (
     <div className="lj-content-view" data-theme={plugin.settings.darkModal === 'dark' ? 'sheet-plus-dark' : ''}>
       <ConfigProvider
+        button={{
+          className: styles.linearGradientButton,
+        }}
         theme={{
           algorithm,
           components: {
@@ -330,63 +361,83 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
             },
             Tabs: {
               horizontalMargin: '0',
-            },
+            }
           },
         }}
       >
-        <Tabs
-          size="small"
-          type="card"
-          items={tabsData.tabs.map((item) => {
-            let children = <div />
-            switch (item.type) {
-              case TabType.SHEET:
-                children = (
-                  <SheetTab
-                    data={dataService.getSheet()}
-                    dataService={dataService}
-                    saveData={saveData}
-                    onRender={onSheetRender}
-                    file={dataService.file}
-                  />
-                )
-                break
-              case TabType.KANBAN:
-                children = (
-                  <KanbanTab
-                    id={item.key}
-                    data={dataService.getBlock<IKanbanConfig>(item.key)}
-                    univerApi={univerApi}
-                    saveData={saveData}
-                  />
-                )
-                break
-            }
-            return {
-              key: item.key,
-              label: item.label,
-              children,
-              forceRender: true,
-            }
-          })}
-          activeKey={activeKey}
-          renderTabBar={renderTabBar}
-          tabBarExtraContent={{
-            right: (
-              <Flex gap="small">
-                <Dropdown menu={addTabMenu} trigger={['click']}>
-                  <Button color="default" variant="outlined">+</Button>
-                </Dropdown>
-                <Popover content={helpContent} trigger="hover">
-                  <Button>?</Button>
-                </Popover>
-              </Flex>
-            ),
-          }}
-          onChange={(key) => {
-            setActiveKey(key)
-          }}
-        />
+        <Splitter>
+          <Splitter.Panel>
+            <Tabs
+              size="small"
+              type="card"
+              items={tabsData.tabs.map((item) => {
+                let children = <div />
+                switch (item.type) {
+                  case TabType.SHEET:
+                    children = (
+                      <SheetTab
+                        data={dataService.getSheet()}
+                        dataService={dataService}
+                        saveData={saveData}
+                        onRender={onSheetRender}
+                        file={dataService.file}
+                      />
+                    )
+                    break
+                  case TabType.KANBAN:
+                    children = (
+                      <KanbanTab
+                        id={item.key}
+                        data={dataService.getBlock<IKanbanConfig>(item.key)}
+                        univerApi={univerApi}
+                        saveData={saveData}
+                      />
+                    )
+                    break
+                }
+                return {
+                  key: item.key,
+                  label: item.label,
+                  children,
+                  forceRender: true,
+                }
+              })}
+              activeKey={activeKey}
+              renderTabBar={renderTabBar}
+              tabBarExtraContent={{
+                right: (
+                  <Flex gap="small">
+                    <Dropdown menu={addTabMenu} trigger={['click']}>
+                      <Button color="default" variant="outlined">+</Button>
+                    </Dropdown>
+                    <Popover content={helpContent} trigger="hover">
+                      <Button>?</Button>
+                    </Popover>
+                    <Button
+                      type="primary"
+                      onClick={
+                        () => {
+                          setAIPanelSize(AIPanelSize === '0' ? '30%' : '0')
+                        }
+                      }
+                    >
+                      AI
+                    </Button>
+                  </Flex>
+                ),
+              }}
+              onChange={(key) => {
+                setActiveKey(key)
+              }}
+            />
+          </Splitter.Panel>
+          <Splitter.Panel defaultSize="0" size={AIPanelSize}>
+            <AIAssistant
+              style={{ height: '100%' }}
+              univerApi={univerApi}
+            />
+          </Splitter.Panel>
+        </Splitter>
         <RenameModal
           visible={renameModalVisible}
           name={renameModalName}
