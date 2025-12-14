@@ -435,6 +435,11 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
             <AIAssistant
               style={{ height: '100%' }}
               univerApi={univerApi}
+              aiConfig={{
+                model: plugin.settings.aiModel,
+                apiKey: plugin.settings.aiApiKey,
+                baseUrl: plugin.settings.aiBaseUrl,
+              }}
             />
           </Splitter.Panel>
         </Splitter>

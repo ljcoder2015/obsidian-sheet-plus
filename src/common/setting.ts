@@ -14,6 +14,10 @@ export interface ExcelProSettings {
   isBigSheet: string
   fontFolder: string
   selectedFontName: string
+  // AI助手配置
+  aiModel: string
+  aiApiKey: string
+  aiBaseUrl: string
 }
 
 export const DEFAULT_SETTINGS: ExcelProSettings = {
@@ -32,4 +36,8 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   isBigSheet: 'false',
   fontFolder: 'fonts',
   selectedFontName: '',
+  // AI助手默认配置
+  aiModel: 'qwen',
+  aiApiKey: '',
+  aiBaseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
 }

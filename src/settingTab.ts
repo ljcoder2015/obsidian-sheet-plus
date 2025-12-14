@@ -238,6 +238,59 @@ export class ExcelProSettingTab extends PluginSettingTab {
           }),
       )
 
+    // AI助手配置
+    new Setting(containerEl)
+      .setName('AI助手设置')
+      .setHeading()
+
+    new Setting(containerEl)
+      .setName('AI模型')
+      .setDesc('选择要使用的AI模型')
+      .addDropdown(dropdown =>
+        dropdown
+          .addOption('qwen', '通义千问')
+          .addOption('openai', 'OpenAI')
+          .setValue(this.plugin.settings.aiModel)
+          .onChange(async (value) => {
+            this.plugin.settings.aiModel = value
+            // 根据模型选择自动设置默认基础URL
+            if (value === 'openai') {
+              this.plugin.settings.aiBaseUrl = 'https://api.openai.com/v1'
+            } else {
+              this.plugin.settings.aiBaseUrl = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
+            }
+            this.plugin.saveSettings()
+            // 重新渲染设置界面，更新基础URL输入框的值
+            this.display()
+          }),
+      )
+
+    new Setting(containerEl)
+      .setName('API Key')
+      .setDesc('输入你的AI模型API Key')
+      .addText(text =>
+        text
+          .setPlaceholder('sk-xxx')
+          .setValue(this.plugin.settings.aiApiKey)
+          .onChange(async (value) => {
+            this.plugin.settings.aiApiKey = value
+            this.plugin.saveSettings()
+          }),
+      )
+
+    new Setting(containerEl)
+      .setName('基础URL')
+      .setDesc('输入AI模型的基础URL')
+      .addText(text =>
+        text
+          .setPlaceholder(this.plugin.settings.aiModel === 'openai' ? 'https://api.openai.com/v1' : 'https://dashscope.aliyuncs.com/compatible-mode/v1')
+          .setValue(this.plugin.settings.aiBaseUrl)
+          .onChange(async (value) => {
+            this.plugin.settings.aiBaseUrl = value
+            this.plugin.saveSettings()
+          }),
+      )
+
     containerEl.createEl('hr')
 
     const linksEl = containerEl.createDiv('authorization-code-container')
