@@ -433,7 +433,7 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
           </Splitter.Panel>
           <Splitter.Panel defaultSize="0" size={AIPanelSize}>
             <AIAssistant
-              style={{ height: '100%' }}
+              style={{ height: '100%', overflowY: 'hidden' }}
               univerApi={univerApi}
               aiConfig={{
                 model: plugin.settings.aiModel,

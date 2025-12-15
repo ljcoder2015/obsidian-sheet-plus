@@ -217,6 +217,10 @@ button.univer-toolbar-btn-active {
 	margin: 0 10px;
 }
 
+.lj-content-view textarea:focus {
+	box-shadow: none;
+}
+
 .lj-content-view input[type="search"],
 .lj-content-view input[type="search"]:active,
 .lj-content-view input[type="search"]:focus,
