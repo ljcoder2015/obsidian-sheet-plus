@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react'
 import type { MenuProps } from 'antd'
-import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, theme } from 'antd'
+import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, Typography, theme } from 'antd'
 import { Notice } from 'obsidian'
 import type { IKanbanConfig } from '@ljcoder/smart-sheet'
 import { AIAssistant, KanbanTab, emitEvent, useClearEvents } from '@ljcoder/smart-sheet'
@@ -361,7 +361,7 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
             },
             Tabs: {
               horizontalMargin: '0',
-            }
+            },
           },
         }}
       >
@@ -432,15 +432,26 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
             />
           </Splitter.Panel>
           <Splitter.Panel defaultSize="0" size={AIPanelSize}>
-            <AIAssistant
-              style={{ height: '100%', overflowY: 'hidden' }}
-              univerApi={univerApi}
-              aiConfig={{
-                model: plugin.settings.aiModel,
-                apiKey: plugin.settings.aiApiKey,
-                baseUrl: plugin.settings.aiBaseUrl,
-              }}
-            />
+            { (plugin.settings.aiApiKey && plugin.settings.aiBaseUrl)
+              ? (
+                  <AIAssistant
+                    v-if={plugin.settings.aiApiKey && plugin.settings.aiBaseUrl}
+                    style={{ height: '100%', overflowY: 'hidden' }}
+                    univerApi={univerApi}
+                    aiConfig={{
+                      model: plugin.settings.aiModel,
+                      apiKey: plugin.settings.aiApiKey,
+                      baseUrl: plugin.settings.aiBaseUrl,
+                    }}
+                  />
+                )
+              : (
+                  <Card>
+                    <Typography>
+                      请先配置 AI 模型
+                    </Typography>
+                  </Card>
+                )}
           </Splitter.Panel>
         </Splitter>
         <RenameModal
