@@ -269,8 +269,9 @@ button.univer-toolbar-btn-active {
    box-shadow: none;
 }
 
-.lj-content-view button:not {
-  box-shadow: none;
+.lj-content-view button:not(.clickable-icon) {
+  color: var(--ant-btn-text-color);
+  background-color: var(--ant-btn-bg-color);
 }
 .univer-list-none button:not(.clickable-icon),
 .lj-content-view button:not(.clickable-icon) {
