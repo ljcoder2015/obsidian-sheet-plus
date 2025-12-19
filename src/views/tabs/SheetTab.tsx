@@ -128,10 +128,11 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
     if (univerApi && univerId) {
       log('[SheetTab]', 'createWorkbook', univerId)
       if (data) {
+        data.locale = plugin.settings.numberFormatLocal
         univerApi.createWorkbook(deepClone(data))
       }
       else {
-        univerApi.createWorkbook({ id: randomString(6), name: file.path })
+        univerApi.createWorkbook({ id: randomString(6), name: file.path, locale: plugin.settings.numberFormatLocal })
       }
 
       // set number format local
