@@ -15,6 +15,7 @@ export interface ExcelProSettings {
   fontFolder: string
   selectedFontName: string
   // AI助手配置
+  aiModePlatform: string
   aiModel: string
   aiApiKey: string
   aiBaseUrl: string
@@ -37,7 +38,8 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   fontFolder: 'fonts',
   selectedFontName: '',
   // AI助手默认配置
-  aiModel: 'qwen',
+  aiModePlatform: 'openai',
+  aiModel: 'gpt-5-mini',
   aiApiKey: '',
-  aiBaseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+  aiBaseUrl: 'https://api.openai.com/v1/responses',
 }

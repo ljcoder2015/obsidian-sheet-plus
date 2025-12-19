@@ -439,6 +439,7 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
                     style={{ height: '100%', overflowY: 'hidden' }}
                     univerApi={univerApi}
                     aiConfig={{
+                      platform: plugin.settings.aiModePlatform,
                       model: plugin.settings.aiModel,
                       apiKey: plugin.settings.aiApiKey,
                       baseUrl: plugin.settings.aiBaseUrl,

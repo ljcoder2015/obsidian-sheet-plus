@@ -240,24 +240,32 @@ export class ExcelProSettingTab extends PluginSettingTab {
 
     // AI助手配置
     new Setting(containerEl)
-      .setName('AI助手设置')
+      .setName(t('AI_ASSISTANT_SETTINGS'))
       .setHeading()
 
     new Setting(containerEl)
-      .setName('AI模型')
-      .setDesc('选择要使用的AI模型')
+      .setName(t('AI_PLATFORM'))
+      .setDesc(t('AI_PLATFORM_DESC'))
       .addDropdown(dropdown =>
         dropdown
-          .addOption('qwen', '通义千问')
-          .addOption('openai', 'OpenAI')
-          .setValue(this.plugin.settings.aiModel)
+          .addOption('openai', t('AI_OPENAI'))
+          .addOption('qwenChina', t('AI_QWEN_CHINA'))
+          .addOption('qwen', t('AI_QWEN'))
+          .setValue(this.plugin.settings.aiModePlatform)
           .onChange(async (value) => {
-            this.plugin.settings.aiModel = value
+            this.plugin.settings.aiModePlatform = value
             // 根据模型选择自动设置默认基础URL
             if (value === 'openai') {
-              this.plugin.settings.aiBaseUrl = 'https://api.openai.com/v1'
-            } else {
+              this.plugin.settings.aiBaseUrl = 'https://api.openai.com/v1/responses'
+              this.plugin.settings.aiModel = 'gpt-3.5-turbo'
+            }
+            else if (value === 'qwenChina') {
               this.plugin.settings.aiBaseUrl = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
+              this.plugin.settings.aiModel = 'qwen-plus'
+            }
+            else {
+              this.plugin.settings.aiBaseUrl = 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1'
+              this.plugin.settings.aiModel = 'qwen-plus'
             }
             this.plugin.saveSettings()
             // 重新渲染设置界面，更新基础URL输入框的值
@@ -266,8 +274,34 @@ export class ExcelProSettingTab extends PluginSettingTab {
       )
 
     new Setting(containerEl)
-      .setName('API Key')
-      .setDesc('输入你的AI模型API Key')
+      .setName(t('AI_MODEL'))
+      .setDesc(t('AI_MODEL_DESC'))
+      .addDropdown(dropdown => {
+        if (this.plugin.settings.aiModePlatform === 'openai') {
+          dropdown
+            .addOption('gpt-5', t('AI_GPT_5'))
+            .addOption('gpt-5-mini', t('AI_GPT_5_MINI'))
+            .addOption('gpt-5-nano', t('AI_GPT_5_NANO'))
+            .onChange(async (value) => {
+              this.plugin.settings.aiModel = value
+              this.plugin.saveSettings()
+            })
+        }
+        else {
+          dropdown
+            .addOption('qwen3-max', t('AI_QWEN3_MAX'))
+            .addOption('qwen-plus', t('AI_QWEN_PLUS'))
+            .addOption('qwen-flash', t('AI_QWEN_FLASH'))
+            .onChange(async (value) => {
+              this.plugin.settings.aiModel = value
+              this.plugin.saveSettings()
+            })
+        }
+      })
+
+    new Setting(containerEl)
+      .setName(t('AI_API_KEY'))
+      .setDesc(t('AI_API_KEY_DESC'))
       .addText(text =>
         text
           .setPlaceholder('sk-xxx')
@@ -279,11 +313,10 @@ export class ExcelProSettingTab extends PluginSettingTab {
       )
 
     new Setting(containerEl)
-      .setName('基础URL')
-      .setDesc('输入AI模型的基础URL')
+      .setName(t('AI_BASE_URL'))
+      .setDesc(t('AI_BASE_URL_DESC'))
       .addText(text =>
         text
-          .setPlaceholder(this.plugin.settings.aiModel === 'openai' ? 'https://api.openai.com/v1' : 'https://dashscope.aliyuncs.com/compatible-mode/v1')
           .setValue(this.plugin.settings.aiBaseUrl)
           .onChange(async (value) => {
             this.plugin.settings.aiBaseUrl = value
