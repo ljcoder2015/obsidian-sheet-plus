@@ -41,5 +41,5 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   aiModePlatform: 'openai',
   aiModel: 'gpt-5-mini',
   aiApiKey: '',
-  aiBaseUrl: 'https://api.openai.com/v1/responses',
+  aiBaseUrl: 'https://api.openai.com/v1',
 }

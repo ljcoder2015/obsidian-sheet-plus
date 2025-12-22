@@ -256,7 +256,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
             this.plugin.settings.aiModePlatform = value
             // 根据模型选择自动设置默认基础URL
             if (value === 'openai') {
-              this.plugin.settings.aiBaseUrl = 'https://api.openai.com/v1/responses'
+              this.plugin.settings.aiBaseUrl = 'https://api.openai.com/v1'
               this.plugin.settings.aiModel = 'gpt-3.5-turbo'
             }
             else if (value === 'qwenChina') {
