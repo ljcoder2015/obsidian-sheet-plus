@@ -18,6 +18,12 @@ For a detailed tutorial on using the plugin, please refer to the user guide.
 - [User Guide](https://docs.ljcoder.com/guide/installation.html)
 
 ## Feature Demonstration
+### AI Assistant (Paid)
+- [AI Assistant Introduction](https://docs.ljcoder.com/guide/ai-assistant/introduction.html)
+> This feature is experimental and still under development; more capabilities will be added in the future.
+
+![AI Assistant](/images/ai-assistant.gif)
+
 ### Kanban Board (Paid)
 ![Kanban Board](/images/kanban-create-handle.gif)
 ### Embed Chart Link (Paid)

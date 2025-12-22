@@ -432,27 +432,16 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
             />
           </Splitter.Panel>
           <Splitter.Panel defaultSize="0" size={AIPanelSize}>
-            { (plugin.settings.aiApiKey && plugin.settings.aiBaseUrl)
-              ? (
-                  <AIAssistant
-                    v-if={plugin.settings.aiApiKey && plugin.settings.aiBaseUrl}
-                    style={{ height: '100%', overflowY: 'hidden' }}
-                    univerApi={univerApi}
-                    aiConfig={{
-                      platform: plugin.settings.aiModePlatform,
-                      model: plugin.settings.aiModel,
-                      apiKey: plugin.settings.aiApiKey,
-                      baseUrl: plugin.settings.aiBaseUrl,
-                    }}
-                  />
-                )
-              : (
-                  <Card>
-                    <Typography>
-                      请先配置 AI 模型
-                    </Typography>
-                  </Card>
-                )}
+            <AIAssistant
+              style={{ height: '100%', overflowY: 'hidden' }}
+              univerApi={univerApi}
+              aiConfig={{
+                platform: plugin.settings.aiModePlatform,
+                model: plugin.settings.aiModel,
+                apiKey: plugin.settings.aiApiKey,
+                baseUrl: plugin.settings.aiBaseUrl,
+              }}
+            />
           </Splitter.Panel>
         </Splitter>
         <RenameModal
