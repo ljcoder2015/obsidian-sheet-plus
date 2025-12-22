@@ -1,5 +1,13 @@
 
 
+# [2.6.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.5.0...2.6.0) (2025-12-22)
+
+
+### Features
+
+* AI 助手接入 ([7e809b2](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/7e809b234fda67fbfce502c55dad9eeb1095403e))
+* 添加ai配置 ([b61f8f4](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/b61f8f4ef28875a1d9eb01aaa00c72562827e807))
+
 # [2.5.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.4.1...2.5.0) (2025-12-10)
 
 
