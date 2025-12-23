@@ -21,6 +21,7 @@ export class ExcelProView extends TextFileView {
   private containerRef = React.createRef<ContainerViewRef>()
   public plugin: ExcelProPlugin
   public copyHTMLEle: HTMLElement | undefined
+  public statusBarItem: HTMLElement | undefined
 
   public subPath: string | null = null
 

@@ -1,4 +1,3 @@
-import { FUniver } from '@univerjs/core/facade'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
 import { CommandType, LifecycleStages } from '@univerjs/core'
@@ -23,7 +22,6 @@ import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
 import { type DataService, outgoingLinksKey } from '../../services/data.service'
-import type { FontInfo } from '../../services/fontManager'
 
 interface Props {
   file: TFile
@@ -60,7 +58,7 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
     debounceSaveRef.current = debounce((workbook: IWorkbookData) => {
       log('[SheetTab]', '调用节流保存表格数据')
       save(workbook)
-    }, 1000)
+    }, 30_000)
   }
 
   useEventBus('fileRenamed', (payload) => {

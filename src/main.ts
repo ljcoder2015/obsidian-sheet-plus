@@ -50,6 +50,7 @@ export default class ExcelProPlugin extends Plugin {
   public fontManager: FontManager
   public availableFonts: FontInfo[] = []
   private _loaded = false
+  public _statusBarItem: HTMLElement
 
   async onload() {
     // 加载设置
