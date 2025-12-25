@@ -2,6 +2,7 @@ import type { IWorkbookData } from '@univerjs/core'
 
 export const OUTGOING_LINKS_KEY = 'outgoingLinks'
 export const TABS_KEY = 'multiSheet'
+export const SHEET_KEY = 'sheet'
 
 export interface ParsedHeader {
   raw: string // 原始头部（包含 ---）

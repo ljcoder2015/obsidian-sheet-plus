@@ -1,5 +1,7 @@
-import type { ParsedHeader, ParsedMarkdown } from './type'
-import { OUTGOING_LINKS_Key } from './type'
+import { IWorkbookData } from '@univerjs/core'
+import { SheetStoreState } from './reduce'
+import type { MultiSheet, ParsedHeader, ParsedMarkdown } from './type'
+import { OUTGOING_LINKS_KEY, SHEET_KEY, TABS_KEY } from './type'
 
 export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
   // --- header ---
@@ -40,7 +42,7 @@ export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
     try {
       const data = JSON.parse(jsonText)
       if (blockType === 'sheet' && data && typeof data === 'object' && filePath) {
-        ;(data as Record<string, unknown>).name = filePath
+        (data as Record<string, unknown>).name = filePath
       }
       blocks.set(blockType, data)
     }
@@ -59,10 +61,27 @@ export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
       .split(/\r?\n/)
       .map(l => l.trim())
       .filter(Boolean)
-    blocks.set(OUTGOING_LINKS_Key, links)
+    blocks.set(OUTGOING_LINKS_KEY, links)
   }
 
   return { header, blocks }
+}
+
+export function toStoreState(md: string, filePath?: string): SheetStoreState | undefined {
+  const { header, blocks } = parseMarkdown(md, filePath)
+  const views = new Map<string, any>()
+  blocks?.forEach((v, k) => {
+    if (k !== SHEET_KEY && k !== TABS_KEY) {
+      views.set(k, v)
+    }
+  })
+  return {
+    header,
+    sheet: blocks?.get(SHEET_KEY) as IWorkbookData,
+    views,
+    tabs: blocks?.get(TABS_KEY) as MultiSheet,
+    outgoingLinks: blocks?.get(OUTGOING_LINKS_KEY) as string[],
+  }
 }
 
 /**
@@ -93,9 +112,9 @@ export function stringifyMarkdown({ header, blocks, compact = true }: { header?:
 
   if (blocks && blocks.size > 0) {
     for (const [type, content] of blocks) {
-      if (type === OUTGOING_LINKS_Key && Array.isArray(content)) {
+      if (type === OUTGOING_LINKS_KEY && Array.isArray(content)) {
         // 单独保存，最后输出
-        outgoingLinksStr = `### ${OUTGOING_LINKS_Key}\n${content.join('\n')}\n\n`
+        outgoingLinksStr = `### ${OUTGOING_LINKS_KEY}\n${content.join('\n')}\n\n`
       }
       else {
         let body: string

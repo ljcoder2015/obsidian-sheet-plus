@@ -6,8 +6,8 @@ import type { IKanbanConfig } from '@ljcoder/smart-sheet'
 import { AIAssistant, KanbanTab, emitEvent, useClearEvents } from '@ljcoder/smart-sheet'
 import { createStyles } from 'antd-style'
 import { randomString } from '../utils/uuid'
-import type { MultiSheet } from '../common/constants'
-import { TabType } from '../common/constants'
+import type { MultiSheet } from '../services/type'
+import { TabType } from '../services/type'
 import { t } from '../lang/helpers'
 import type { DataService } from '../services/data.service'
 import { log } from '../utils/log'
@@ -17,6 +17,7 @@ import { renderToHtml } from '../post-processor/html'
 import { useUniver } from '../context/UniverContext'
 import { SheetTab } from './tabs/SheetTab'
 import { RenameModal } from './components/RenameModal'
+import { useSheetStore } from '../context/SheetStoreProvider'
 
 const helpContent = (
   <div style={{ width: '300px' }}>
@@ -64,6 +65,7 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
 
 // eslint-disable-next-line prefer-arrow-callback
 export const ContainerView = forwardRef(function ContainerView(props, ref) {
+  const { state, dispatch } = useSheetStore()
   const { univerApi } = useUniver()
   const { dataService } = props as ContainerViewProps
   const { editor } = useEditorContext()
@@ -84,6 +86,13 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
   const [renameModalName, setRenameModalName] = useState('') // 重命名的名称
   const [AIPanelSize, setAIPanelSize] = useState('0') // AI 面板大小
   const { styles } = useStyle()
+
+  const items: TabsProps['items'] = [
+    {
+      key: 'sheet',
+      label: t('TAB_TYPE_SHEET'),
+    },
+  ]
 
   useImperativeHandle(ref, () => ({
     copyToHTML() {
@@ -112,21 +121,21 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
     },
   }))
 
-  const saveDataToFile = async (data: any, key: string) => {
-    log('[ContainerView]', '调用 saveDataToFile', key)
-    editor.saveData(data, key)
-  }
-  const deleteFileData = (key: string) => {
-    editor.deleteData(key)
-  }
-  // 保存数据
-  const saveData = async (data: any, key: string) => {
-    log('[ContainerView]', 'ContainerView 准备保存数据', key)
-    if (key !== 'multiSheet' && key !== 'sheet') {
-      emitEvent('saveData', { key })
-    }
-    saveDataToFile(data, key)
-  }
+  // const saveDataToFile = async (data: any, key: string) => {
+  //   log('[ContainerView]', '调用 saveDataToFile', key)
+  //   editor.saveData(data, key)
+  // }
+  // const deleteFileData = (key: string) => {
+  //   editor.deleteData(key)
+  // }
+  // // 保存数据
+  // const saveData = async (data: any, key: string) => {
+  //   log('[ContainerView]', 'ContainerView 准备保存数据', key)
+  //   if (key !== 'multiSheet' && key !== 'sheet') {
+  //     emitEvent('saveData', { key })
+  //   }
+  //   saveDataToFile(data, key)
+  // }
 
   const onSheetRender = (isToRange: boolean) => {
     if (tabsData && tabsData.defaultActiveKey !== 'sheet' && !isToRange) {

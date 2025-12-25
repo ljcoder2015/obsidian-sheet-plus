@@ -22,6 +22,8 @@ import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
 import { type DataService, outgoingLinksKey } from '../../services/data.service'
+import { useSheetStore } from '../../context/SheetStoreProvider'
+import { SHEET_UPDATE_ACTION } from '../../services/reduce'
 
 interface Props {
   file: TFile
@@ -31,7 +33,8 @@ interface Props {
   onRender: (isToRange: boolean) => void
 }
 
-export function SheetTab({ file, data, dataService, onRender, saveData }: Props) {
+export function SheetTab() {
+  const { state, dispatch } = useSheetStore()
   const { univerApi, setUniverApi } = useUniver()
   const { editor, app } = useEditorContext()
   const { plugin } = editor
@@ -42,47 +45,47 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
   const [spinTip, setSpinTip] = useState<string>(t('LOADING'))
 
   // ✅ 使用 useRef 管理 debounceSave 实例
-  const debounceSaveRef = useRef<ReturnType<typeof debounce> | null>(null)
+  // const debounceSaveRef = useRef<ReturnType<typeof debounce> | null>(null)
 
-  const save = async (workbook: IWorkbookData) => {
-    log('[SheetTab]', '开始保存表格数据', file.path, workbook)
-    saveData(workbook, 'sheet')
-    if (!tabChangeRef.current) {
-      emitEvent('sheetChange')
-    }
-    tabChangeRef.current = false
-  }
+  // const save = async (workbook: IWorkbookData) => {
+  //   log('[SheetTab]', '开始保存表格数据', file.path, workbook)
+  //   saveData(workbook, 'sheet')
+  //   if (!tabChangeRef.current) {
+  //     emitEvent('sheetChange')
+  //   }
+  //   tabChangeRef.current = false
+  // }
 
-  // 初始化 debounceSave，只执行一次
-  if (!debounceSaveRef.current) {
-    debounceSaveRef.current = debounce((workbook: IWorkbookData) => {
-      log('[SheetTab]', '调用节流保存表格数据')
-      save(workbook)
-    }, 30_000)
-  }
+  // // 初始化 debounceSave，只执行一次
+  // if (!debounceSaveRef.current) {
+  //   debounceSaveRef.current = debounce((workbook: IWorkbookData) => {
+  //     log('[SheetTab]', '调用节流保存表格数据')
+  //     save(workbook)
+  //   }, 30_000)
+  // }
 
-  useEventBus('fileRenamed', (payload) => {
-    if (!payload) {
-      return // 防止 undefined
-    }
-    const { oldPath, newPath } = payload
-    const activeWorkbook = univerApi?.getActiveWorkbook()
-    if (activeWorkbook && activeWorkbook.getName() === oldPath) {
-      activeWorkbook.setName(newPath)
-    }
-  })
+  // useEventBus('fileRenamed', (payload) => {
+  //   if (!payload) {
+  //     return // 防止 undefined
+  //   }
+  //   const { oldPath, newPath } = payload
+  //   const activeWorkbook = univerApi?.getActiveWorkbook()
+  //   if (activeWorkbook && activeWorkbook.getName() === oldPath) {
+  //     activeWorkbook.setName(newPath)
+  //   }
+  // })
 
-  useEventBus('unloadFile', (props: UnloadFileProps) => {
-    if (props.filePath === file.path) {
-      const activeWorkbook = univerApi?.getActiveWorkbook()
-      if (activeWorkbook) {
-        log('[SheetTab]', 'unloadFile', props.filePath)
-        save(activeWorkbook.save())
-      }
-      // ✅ 取消 debounce
-      debounceSaveRef.current?.cancel()
-    }
-  })
+  // useEventBus('unloadFile', (props: UnloadFileProps) => {
+  //   if (props.filePath === file.path) {
+  //     const activeWorkbook = univerApi?.getActiveWorkbook()
+  //     if (activeWorkbook) {
+  //       log('[SheetTab]', 'unloadFile', props.filePath)
+  //       save(activeWorkbook.save())
+  //     }
+  //     // ✅ 取消 debounce
+  //     debounceSaveRef.current?.cancel()
+  //   }
+  // })
 
   useEffect(() => {
     log('[SheetTab]', 'sheetTab 挂载')
@@ -104,7 +107,7 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
       log('[SheetTab]', 'sheetTab 卸载')
       univerAPI.dispose()
       // ✅ 取消 debounce
-      debounceSaveRef.current?.cancel()
+      // debounceSaveRef.current?.cancel()
       containerRef.current = null
     }
   }, [])
@@ -125,9 +128,9 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
     let beforeCommandDisposable: { dispose: () => void } | null = null
     if (univerApi && univerId) {
       log('[SheetTab]', 'createWorkbook', univerId)
-      if (data) {
-        data.locale = plugin.settings.numberFormatLocal
-        univerApi.createWorkbook(deepClone(data))
+      if (state.sheet) {
+        state.sheet.locale = plugin.settings.numberFormatLocal
+        univerApi.createWorkbook(deepClone(state.sheet))
       }
       else {
         univerApi.createWorkbook({ id: randomString(6), name: file.path, locale: plugin.settings.numberFormatLocal })
@@ -257,13 +260,15 @@ export function SheetTab({ file, data, dataService, onRender, saveData }: Props)
           setSpinTip(t('LOADING'))
         }
 
-        if (res.type !== CommandType.MUTATION) {
+        // 仅同步本地 mutation
+        if (res.type !== CommandType.MUTATION || res.options?.fromCollab || res.options?.onlyLocal || res.id === 'doc.mutation.rich-text-editing') {
           return
         }
 
         const activeWorkbook = univerApi.getActiveWorkbook()
         if (activeWorkbook) {
-          debounceSaveRef.current(activeWorkbook.save())
+          dispatch({ type: SHEET_UPDATE_ACTION, payload: activeWorkbook.save() })
+          // debounceSaveRef.current(activeWorkbook.save())
         }
       })
     }

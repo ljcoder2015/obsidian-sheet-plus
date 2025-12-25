@@ -15,6 +15,9 @@ import { log, warn } from '../utils/log'
 import { UniverProvider } from '../context/UniverContext'
 import type { ContainerViewRef } from './ContainerView'
 import { ContainerView } from './ContainerView'
+import { SheetStoreState } from '../services/reduce'
+import { toStoreState } from '../services/utils'
+import { SheetStoreProvider } from '../context/SheetStoreProvider'
 
 export class ExcelProView extends TextFileView {
   root: Root | null = null
@@ -27,6 +30,8 @@ export class ExcelProView extends TextFileView {
 
   public dataService: DataService | null = null
   private lastLoadedFile: TFile | null = null
+
+  private initData: SheetStoreState | undefined
 
   public semaphores: ViewSemaphores = {
     embeddableIsEditingSelf: false,
@@ -49,6 +54,8 @@ export class ExcelProView extends TextFileView {
     this.lastLoadedFile = this.file
     this.data = data
     this.dataService = new DataService(this.file, this.data)
+    this.initData = toStoreState(this.data, this.file.path)
+
     log('[ExcelProView]', 'setViewData', this.dataService)
 
     this.plugin.app.workspace.onLayoutReady(async () => {
@@ -200,16 +207,25 @@ export class ExcelProView extends TextFileView {
     this.contentEl.style.padding = '0'
     this.root = createRoot(this.contentEl)
     this.root.render(
-      <EditorContext.Provider value={{ app: this.app, editor: this }}>
-        <UniverProvider>
-          <ContainerView ref={this.containerRef} dataService={this.dataService} />
-        </UniverProvider>
-      </EditorContext.Provider>,
+      <SheetStoreProvider
+        initialState={this.initData}
+        onChange={this.onDataChange}
+      >
+        <EditorContext.Provider value={{ app: this.app, editor: this }}>
+          <UniverProvider>
+            <ContainerView ref={this.containerRef} dataService={this.dataService} />
+          </UniverProvider>
+        </EditorContext.Provider>,
+      </SheetStoreProvider>
     )
   }
 
+  onDataChange(state: SheetStoreState) {
+    log('[ExcelProView]', 'onDataChange', state)
+  }
+
   getViewData(): string {
-    return this.dataService?.stringifyMarkdown() ?? this.data
+    return this.data
   }
 
   setEphemeralState(state: any): void {
