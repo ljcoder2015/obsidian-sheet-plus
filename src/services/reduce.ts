@@ -8,7 +8,7 @@ export interface SheetStoreState {
   sheet: IWorkbookData
 
   // 其他视图
-  views: Record<string, any> | undefined
+  views: Map<string, any> | undefined
 
   // Tabs UI 状态（不是业务数据）
   tabs: MultiSheet
@@ -18,6 +18,9 @@ export interface SheetStoreState {
 
 export const SHEET_UPDATE_ACTION = 'SHEET_UPDATE'
 export const VIEW_ADD_ACTION = 'VIEW_ADD'
+export const VIEW_CONFIG_ADD_ACTION = 'VIEW_CONFIG_ADD'
+export const VIEW_CONFIG_UPDATE_ACTION = 'VIEW_CONFIG_UPDATE'
+export const VIEW_CONFIG_REMOVE_ACTION = 'VIEW_CONFIG_REMOVE'
 export const VIEW_REMOVE_ACTION = 'VIEW_REMOVE'
 export const VIEW_UPDATE_ACTION = 'VIEW_UPDATE'
 export const TAB_ACTIVE_ACTION = 'TAB_ACTIVE'
@@ -26,7 +29,10 @@ export type SheetStoreAction =
   | { type: 'SHEET_UPDATE', payload: IWorkbookData }
   | { type: 'VIEW_ADD', key: string, payload: any }
   | { type: 'VIEW_REMOVE', key: string }
-  | { type: 'VIEW_UPDATE', key: string, payload: Partial<any> }
+  | { type: 'VIEW_UPDATE', key: string, payload: any }
+  | { type: 'VIEW_CONFIG_ADD', key: string, payload: any }
+  | { type: 'VIEW_CONFIG_UPDATE', key: string, payload: any }
+  | { type: 'VIEW_CONFIG_REMOVE', key: string }
   | { type: 'TAB_ACTIVE', key: string }
 
 export function sheetStoreReducer(
@@ -40,13 +46,9 @@ export function sheetStoreReducer(
     case 'VIEW_ADD':
       return {
         ...state,
-        views: {
-          ...state.views,
-          [action.key]: action.payload,
-        },
         tabs: {
           ...state.tabs,
-          defaultActiveKey: action.payload.id,
+          tabs: [...(state.tabs.tabs || []), action.payload],
         },
       }
 

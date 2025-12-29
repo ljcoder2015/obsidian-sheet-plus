@@ -143,7 +143,7 @@ export function SheetTab() {
       lifeCycleDisposable = univerApi.addEvent(univerApi.Event.LifeCycleChanged, (res) => {
         if (res.stage === LifecycleStages.Ready && editor.subPath == null) {
           setTimeout(() => {
-            onRender(false)
+            // onRender(false)
           }, 200)
         }
         if (res.stage === LifecycleStages.Rendered) {
@@ -284,15 +284,15 @@ export function SheetTab() {
     }
   }, [univerApi])
 
-  const tabChangeHandler = useCallback((props: TabChangeProps) => {
-    tabChangeRef.current = true
-    const { sheetId, rowIndex, colIndex, value } = props
-    if (univerApi) {
-      univerApi.getActiveWorkbook().getSheetBySheetId(sheetId).getRange(rowIndex, colIndex).setValue(value)
-    }
-  }, [univerId])
+  // const tabChangeHandler = useCallback((props: TabChangeProps) => {
+  //   tabChangeRef.current = true
+  //   const { sheetId, rowIndex, colIndex, value } = props
+  //   if (univerApi) {
+  //     univerApi.getActiveWorkbook().getSheetBySheetId(sheetId).getRange(rowIndex, colIndex).setValue(value)
+  //   }
+  // }, [univerId])
 
-  useEventBus('tabChange', tabChangeHandler)
+  // useEventBus('tabChange', tabChangeHandler)
 
   // 滚动到指定区域
   const scrollToRange = useCallback(() => {
@@ -330,7 +330,7 @@ export function SheetTab() {
 
   useEffect(() => {
     scrollToRange()
-    onRender(true)
+    // onRender(true)
   }, [scrollToRange])
 
   return (

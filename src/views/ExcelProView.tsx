@@ -1,9 +1,10 @@
 import type { Vault, WorkspaceLeaf } from 'obsidian'
-import { Notice, TFile, TextFileView } from 'obsidian'
+import { Notice, TFile, TextFileView, debounce } from 'obsidian'
 import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
 import React from 'react'
 import { emitEvent } from '@ljcoder/smart-sheet'
+import { error } from '@ljcoder/smart-sheet/src/utils/log'
 import type ExcelProPlugin from '../main'
 
 import { DEFAULT_CONTENT, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
@@ -13,11 +14,11 @@ import { DataService } from '../services/data.service'
 import type { ViewSemaphores } from '../utils/types'
 import { log, warn } from '../utils/log'
 import { UniverProvider } from '../context/UniverContext'
-import type { ContainerViewRef } from './ContainerView'
-import { ContainerView } from './ContainerView'
-import { SheetStoreState } from '../services/reduce'
-import { toStoreState } from '../services/utils'
+import type { SheetStoreState } from '../services/reduce'
+import { toMarkdown, toStoreState } from '../services/utils'
 import { SheetStoreProvider } from '../context/SheetStoreProvider'
+import { ContainerView } from './ContainerView'
+import type { ContainerViewRef } from './ContainerView'
 
 export class ExcelProView extends TextFileView {
   root: Root | null = null
@@ -31,7 +32,9 @@ export class ExcelProView extends TextFileView {
   public dataService: DataService | null = null
   private lastLoadedFile: TFile | null = null
 
+  private autoSaveItem: HTMLElement | undefined
   private initData: SheetStoreState | undefined
+  private lastChangeState: SheetStoreState | undefined
 
   public semaphores: ViewSemaphores = {
     embeddableIsEditingSelf: false,
@@ -51,6 +54,7 @@ export class ExcelProView extends TextFileView {
     if (this.file == null) {
       return
     }
+    this.autoSaveItem?.setText('自动保存: 空闲')
     this.lastLoadedFile = this.file
     this.data = data
     this.dataService = new DataService(this.file, this.data)
@@ -81,32 +85,34 @@ export class ExcelProView extends TextFileView {
       return
     }
     log('[ExcelProView]', new Date().toLocaleString(), 'onUnloadFile', file.path)
-    await this.waitSaveData(file)
+    this.debounced.run()
     this.dispose()
   }
 
   onload(): void {
+    log('[ExcelProView]', 'onload')
     super.onload()
     this.semaphores.viewloaded = true
     this.copyHTMLEle = this.addAction('file-code', t('COPY_TO_HTML'), _ => this.copyToHTML())
+    this.autoSaveItem = this.plugin.addStatusBarItem()
   }
 
   onunload() {
     log('[ExcelProView]', new Date().toLocaleString(), 'onunload')
     this.semaphores.viewunload = true
-    if (this.file) {
-      emitEvent('unloadFile', { filePath: this.file.path })
-    }
+    this.debounced.run()
+    this.autoSaveItem?.remove()
+
     this.dispose()
   }
 
   clear(): void {
-    this.dataService = null
+    this.data = DEFAULT_CONTENT
   }
 
   dispose() {
     log('[ExcelProView]', 'ExcelProView调用dispose', this.containerRef)
-    this.dataService = null
+    this.lastChangeState = undefined
     this.root?.unmount()
   }
 
@@ -115,6 +121,7 @@ export class ExcelProView extends TextFileView {
   }
 
   async save() {
+    log('[ExcelProView]', 'save')
     if (this.semaphores.saving) {
       log('[ExcelProView]', '保存中,取消保存')
       return
@@ -139,8 +146,10 @@ export class ExcelProView extends TextFileView {
         const plugin = this.plugin
         const file = this.file
         window.setTimeout(async () => {
-          if (!d)
+          if (!d) {
             return
+          }
+          log('[ExcelProView]', '异步modify文件', file.path, d)
           await plugin.app.vault.modify(file, d)
           // this is a shady edge case, don't scrifice the BAK file in case the drawing is empty
           // await imageCache.addBAKToCache(file.path,d);
@@ -150,7 +159,13 @@ export class ExcelProView extends TextFileView {
         return
       }
 
-      this.data = this.dataService.stringifyMarkdown() ?? DEFAULT_CONTENT
+      if (!this.lastChangeState) {
+        this.semaphores.saving = false
+        this.semaphores.unloadFileSaving = false
+        error('[ExcelProView]', '保存数据出错', 'lastChangeState is undefined')
+        return
+      }
+      this.data = toMarkdown(this.lastChangeState) ?? DEFAULT_CONTENT
       log('[ExcelProView]', '保存数据到文件', this.file.path, this.dataService?.file.path)
       super.save()
     }
@@ -160,6 +175,7 @@ export class ExcelProView extends TextFileView {
         fn: this.save,
         error: e,
       })
+      throw e
     }
     finally {
       this.semaphores.saving = false
@@ -167,40 +183,29 @@ export class ExcelProView extends TextFileView {
     }
   }
 
-  async saveData(data: any, key: string) {
-    if (!this.dataService) {
+  private debounced = debounce(async (state: SheetStoreState) => {
+    this.lastChangeState = state
+    if (JSON.stringify(state) === JSON.stringify(this.initData)) {
+      this.autoSaveItem?.setText('自动保存: 空闲')
+      log('[ExcelProView]', '数据未改变,不保存', state, this.initData)
       return
     }
-    if (key === 'sheet') {
-      if (data.name !== this.file?.path) {
-        warn('[ExcelProView]', '保存数据出错', 'sheet name not match, data name:', data.name, 'file path:', this.file?.path)
-        new Notice(`${t('SHEET_NAME_NOT_MATCH')}: ${data.name}.`)
-        return
-      }
+    log('[ExcelProView]', 'debounceSave', this.lastChangeState === this.initData, this.lastChangeState, this.initData)
+    this.autoSaveItem?.setText('自动保存: 保存中')
+    try {
+      await this.save()
+      this.autoSaveItem?.setText(`自动保存: 已保存 ${new Date().toLocaleString()}`)
     }
-    const lastData = this.dataService.getBlock(key)
-    log('[ExcelProView]', '开始保存数据到 data service', key)
-    if (JSON.stringify(lastData) === JSON.stringify(data)) {
-      this.semaphores.unloadFileSaving = false
-      log('[ExcelProView]', new Date().toLocaleString(), '数据没改变不保存', this.semaphores.unloadFileSaving)
-      return
+    catch (e) {
+      new Notice(`自动保存: 保存失败 ${e}`)
+      this.autoSaveItem?.setText(`自动保存: 保存失败`)
     }
-    this.dataService.setBlock(key, data)
-    await this.save()
-  }
+  }, 5_000)
 
-  getFileByPath(path: string, vault: Vault): TFile | null {
-    const abstractFile = vault.getAbstractFileByPath(path)
-    if (abstractFile instanceof TFile) {
-      return abstractFile
-    }
-    return null
-  }
-
-  async deleteData(key: string) {
-    this.dataService?.deleteBlock(key)
-    log('[ExcelProView]', 'deleteData', key)
-    await this.save()
+  private onDataChange = (state: SheetStoreState) => {
+    this.autoSaveItem?.setText('自动保存: 等待中')
+    log('[ExcelProView]', 'onDataChange', state)
+    this.debounced(state)
   }
 
   renderContent() {
@@ -213,15 +218,12 @@ export class ExcelProView extends TextFileView {
       >
         <EditorContext.Provider value={{ app: this.app, editor: this }}>
           <UniverProvider>
-            <ContainerView ref={this.containerRef} dataService={this.dataService} />
+            <ContainerView dataService={this.dataService} />
           </UniverProvider>
-        </EditorContext.Provider>,
-      </SheetStoreProvider>
+        </EditorContext.Provider>
+        ,
+      </SheetStoreProvider>,
     )
-  }
-
-  onDataChange(state: SheetStoreState) {
-    log('[ExcelProView]', 'onDataChange', state)
   }
 
   getViewData(): string {
@@ -236,6 +238,6 @@ export class ExcelProView extends TextFileView {
   }
 
   copyToHTML() {
-    this.containerRef.current?.copyToHTML()
+    // this.containerRef.current?.copyToHTML()
   }
 }

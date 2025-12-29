@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react'
-import type { MenuProps } from 'antd'
+import type { MenuProps, TabsProps } from 'antd'
 import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, Typography, theme } from 'antd'
 import { Notice } from 'obsidian'
 import type { IKanbanConfig } from '@ljcoder/smart-sheet'
@@ -15,9 +15,10 @@ import { useEditorContext } from '../context/editorContext'
 import { rangeToRangeString } from '../utils/data'
 import { renderToHtml } from '../post-processor/html'
 import { useUniver } from '../context/UniverContext'
+import { useSheetStore } from '../context/SheetStoreProvider'
+import { VIEW_ADD_ACTION, VIEW_CONFIG_ADD_ACTION, VIEW_UPDATE_ACTION } from '../services/reduce'
 import { SheetTab } from './tabs/SheetTab'
 import { RenameModal } from './components/RenameModal'
-import { useSheetStore } from '../context/SheetStoreProvider'
 
 const helpContent = (
   <div style={{ width: '300px' }}>
@@ -30,13 +31,9 @@ const helpContent = (
   </div>
 )
 
-export interface ContainerViewRef {
-  copyToHTML: () => void
-}
-
-export interface ContainerViewProps {
-  dataService: DataService
-}
+// export interface ContainerViewRef {
+//   copyToHTML: () => void
+// }
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
   linearGradientButton: css`
@@ -64,22 +61,20 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
 }))
 
 // eslint-disable-next-line prefer-arrow-callback
-export const ContainerView = forwardRef(function ContainerView(props, ref) {
+export const ContainerView = function ContainerView() {
   const { state, dispatch } = useSheetStore()
   const { univerApi } = useUniver()
-  const { dataService } = props as ContainerViewProps
   const { editor } = useEditorContext()
   const { plugin } = editor
-  const [isInit, setIsInit] = useState(false)
-  const [activeKey, setActiveKey] = useState('sheet')
-  const [tabsData, setTabsData] = useState<MultiSheet>({
-    defaultActiveKey: 'sheet',
-    tabs: [{
-      key: 'sheet',
-      type: TabType.SHEET,
-      label: t('TAB_TYPE_SHEET'),
-    }],
-  })
+  // const [activeKey, setActiveKey] = useState('sheet')
+  // const [tabsData, setTabsData] = useState<MultiSheet>({
+  //   defaultActiveKey: 'sheet',
+  //   tabs: [{
+  //     key: 'sheet',
+  //     type: TabType.SHEET,
+  //     label: t('TAB_TYPE_SHEET'),
+  //   }],
+  // })
   const [algorithm, setAlgorithm] = useState([]) // 设置主题
   const [triggerSource, setTriggerSource] = useState<string | null>(null) // 记录是点击哪个 tab 触发的下拉菜单
   const [renameModalVisible, setRenameModalVisible] = useState(false) // 重命名
@@ -87,90 +82,64 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
   const [AIPanelSize, setAIPanelSize] = useState('0') // AI 面板大小
   const { styles } = useStyle()
 
-  const items: TabsProps['items'] = [
-    {
-      key: 'sheet',
-      label: t('TAB_TYPE_SHEET'),
-    },
-  ]
+  const tabs = state.tabs.tabs || []
+  const activeKey = state.tabs.defaultActiveKey || 'sheet'
 
-  useImperativeHandle(ref, () => ({
-    copyToHTML() {
-      if (univerApi === null) {
-        return
-      }
-      const workbook = univerApi.getActiveWorkbook()
-
-      const workbookData = workbook?.getSnapshot()
-      if (workbookData === undefined)
-        return
-
-      const sheet = workbook?.getActiveSheet()
-      if (sheet === null || sheet === undefined)
-        return
-
-      const range = sheet?.getSelection()?.getActiveRange()
-      if (range === null || range === undefined)
-        return
-
-      const rangeString = rangeToRangeString(range)
-      const html = renderToHtml(workbookData, sheet.getSheetName(), rangeString)
-      const htmlString = html.outerHTML
-      navigator.clipboard.writeText(htmlString)
-      new Notice(t('COPY_TO_HTML_SUCCESS'))
-    },
-  }))
-
-  // const saveDataToFile = async (data: any, key: string) => {
-  //   log('[ContainerView]', '调用 saveDataToFile', key)
-  //   editor.saveData(data, key)
-  // }
-  // const deleteFileData = (key: string) => {
-  //   editor.deleteData(key)
-  // }
-  // // 保存数据
-  // const saveData = async (data: any, key: string) => {
-  //   log('[ContainerView]', 'ContainerView 准备保存数据', key)
-  //   if (key !== 'multiSheet' && key !== 'sheet') {
-  //     emitEvent('saveData', { key })
-  //   }
-  //   saveDataToFile(data, key)
-  // }
-
-  const onSheetRender = (isToRange: boolean) => {
-    if (tabsData && tabsData.defaultActiveKey !== 'sheet' && !isToRange) {
-      setActiveKey(tabsData.defaultActiveKey)
-    }
-  }
-
-  useClearEvents()
-
-  useEffect(() => {
-    log('[ContentView]', 'ContentView初始化')
-    if (dataService) {
-      const tabs = dataService.getBlock<MultiSheet>('multiSheet')
-      if (tabs) {
-        setTabsData(tabs)
-        if (tabs.defaultActiveKey === 'sheet') {
-          setActiveKey(tabs.defaultActiveKey)
-        }
-      }
-      else {
-        saveDataToFile(tabsData, 'multiSheet')
+  const items: TabsProps['items'] = tabs.map((tab) => {
+    if (tab.type === TabType.SHEET) {
+      return {
+        key: tab.key,
+        label: tab.label,
+        children: <SheetTab />,
+        forceRender: true,
       }
     }
-    setIsInit(true)
-    return () => {
-      log('[ContentView]', 'ContentView卸载', univerApi)
+    else if (tab.type === TabType.KANBAN) {
+      return {
+        key: tab.key,
+        label: tab.label,
+        children: <KanbanTab key={tab.key} id={tab.key} />,
+        forceRender: true,
+      }
     }
-  }, [])
+    else {
+      return {
+        key: tab.key,
+        label: tab.label,
+        children: null,
+        forceRender: true,
+      }
+    }
+  })
 
-  useEffect(() => {
-    if (isInit) {
-      log('[ContentView]', 'save tabsData', tabsData)
-      saveDataToFile(tabsData, 'multiSheet')
-    }
-  }, [tabsData, isInit])
+  log('[ContainerView]', 'items', items)
+
+  // useImperativeHandle(ref, () => ({
+  //   copyToHTML() {
+  //     if (univerApi === null) {
+  //       return
+  //     }
+  //     const workbook = univerApi.getActiveWorkbook()
+
+  //     const workbookData = workbook?.getSnapshot()
+  //     if (workbookData === undefined)
+  //       return
+
+  //     const sheet = workbook?.getActiveSheet()
+  //     if (sheet === null || sheet === undefined)
+  //       return
+
+  //     const range = sheet?.getSelection()?.getActiveRange()
+  //     if (range === null || range === undefined)
+  //       return
+
+  //     const rangeString = rangeToRangeString(range)
+  //     const html = renderToHtml(workbookData, sheet.getSheetName(), rangeString)
+  //     const htmlString = html.outerHTML
+  //     navigator.clipboard.writeText(htmlString)
+  //     new Notice(t('COPY_TO_HTML_SUCCESS'))
+  //   },
+  // }))
 
   useMemo(() => {
     if (!plugin) {
@@ -203,17 +172,10 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
   useMemo(() => {
     // console.log('save name', triggerSource)
     if (triggerSource && renameModalName && !renameModalVisible) {
-      setTabsData({
-        ...tabsData,
-        tabs: tabsData.tabs.map((tab) => {
-          if (tab.key === triggerSource) {
-            return {
-              ...tab,
-              label: renameModalName,
-            }
-          }
-          return tab
-        }),
+      dispatch({
+        type: VIEW_UPDATE_ACTION,
+        key: triggerSource,
+        payload: renameModalName,
       })
     }
   }, [renameModalName, renameModalVisible])
@@ -225,36 +187,31 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
         new Notice(t('CANNOT_DELETE_SHEET'))
         return
       }
-      let activeKey = tabsData.defaultActiveKey
-      if (tabsData.defaultActiveKey === triggerSource) {
-        activeKey = 'sheet'
-      }
+      // let activeKey = tabsData.defaultActiveKey
+      // if (tabsData.defaultActiveKey === triggerSource) {
+      //   activeKey = 'sheet'
+      // }
       // 删除tab数据并保存
-      setTabsData({
-        ...tabsData,
-        tabs: tabsData.tabs.filter(tab => tab.key !== triggerSource),
-        defaultActiveKey: activeKey,
-      })
-      if (triggerSource) {
-        deleteFileData(triggerSource)
-      }
+      // dispatch({
+      //   type: VIEW_DELETE_ACTION,
+      //   key: triggerSource,
+      // })
       setTriggerSource(null)
     }
     if (key === 'default') {
-      setTabsData({
-        ...tabsData,
-        defaultActiveKey: triggerSource,
-      })
-      setTriggerSource(null)
+      // setTabsData({
+      //   ...tabsData,
+      //   defaultActiveKey: triggerSource,
+      // })
+      // setTriggerSource(null)
     }
     if (key === 'rename') {
-      if (triggerSource) {
-        const tab = tabsData.tabs.find(t => t.key === triggerSource)
-        if (tab) {
-          setRenameModalName(tab.label)
-        }
-      }
-      setRenameModalVisible(true)
+      // if (triggerSource) {
+      //   if (tab) {
+      //     setRenameModalName(tab.label)
+      //   }
+      // }
+      // setRenameModalVisible(true)
     }
   }
 
@@ -262,7 +219,10 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
     if (!univerApi) {
       return {}
     }
-    const sheet = univerApi.getActiveWorkbook().getActiveSheet()
+    const sheet = univerApi.getActiveWorkbook()?.getActiveSheet()
+    if (sheet === null || sheet === undefined) {
+      return {}
+    }
     return {
       sheetId: sheet.getSheetId(),
       groupColumn: '0',
@@ -295,20 +255,33 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
       const { key } = item
       const id = randomString(6)
       // 添加tab数据
-      setTabsData({
-        ...tabsData,
-        tabs: [
-          ...tabsData.tabs,
-          {
-            key: id,
-            type: key as TabType,
-            label: t(`TAB_TYPE_${key.toUpperCase()}` as any),
-          },
-        ],
+      // setTabsData({
+      //   ...tabsData,
+      //   tabs: [
+      //     ...tabsData.tabs,
+      //     {
+      //       key: id,
+      //       type: key as TabType,
+      //       label: t(`TAB_TYPE_${key.toUpperCase()}` as any),
+      //     },
+      //   ],
+      // })
+      dispatch({
+        type: VIEW_ADD_ACTION,
+        key: id,
+        payload: {
+          key: id,
+          type: key as TabType,
+          label: t(`TAB_TYPE_${key.toUpperCase()}` as any),
+        },
       })
       if (key === TabType.KANBAN) {
         const kanbanData = createKanbanConfig()
-        saveDataToFile(kanbanData, id)
+        dispatch({
+          type: VIEW_CONFIG_ADD_ACTION,
+          key: id,
+          payload: kanbanData,
+        })
       }
     },
   }
@@ -322,6 +295,7 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
         className="my-tab-bar w-full border-t border-l border-r p-2"
       >
         { (node) => {
+          {console.log('node', node)}
           return (
             <div className="pr-[10px]">
               <Dropdown
@@ -345,8 +319,8 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
                     setActiveKey(node.key)
                   }}
                 >
-                  {tabsData.defaultActiveKey === node.key ? <span>★</span> : null}
-                  {tabsData.tabs?.find(tab => tab.key === node.key)?.label || ''}
+                  {state.tabs.defaultActiveKey === node.key ? <span>★</span> : null}
+                  {tabs.find(tab => tab.key === node.key)?.label || ''}
                 </Button>
               </Dropdown>
             </div>
@@ -379,38 +353,7 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
             <Tabs
               size="small"
               type="card"
-              items={tabsData.tabs.map((item) => {
-                let children = <div />
-                switch (item.type) {
-                  case TabType.SHEET:
-                    children = (
-                      <SheetTab
-                        data={dataService.getSheet()}
-                        dataService={dataService}
-                        saveData={saveData}
-                        onRender={onSheetRender}
-                        file={dataService.file}
-                      />
-                    )
-                    break
-                  case TabType.KANBAN:
-                    children = (
-                      <KanbanTab
-                        id={item.key}
-                        data={dataService.getBlock<IKanbanConfig>(item.key)}
-                        univerApi={univerApi}
-                        saveData={saveData}
-                      />
-                    )
-                    break
-                }
-                return {
-                  key: item.key,
-                  label: item.label,
-                  children,
-                  forceRender: true,
-                }
-              })}
+              items={items}
               activeKey={activeKey}
               renderTabBar={renderTabBar}
               tabBarExtraContent={{
@@ -465,4 +408,4 @@ export const ContainerView = forwardRef(function ContainerView(props, ref) {
       </ConfigProvider>
     </div>
   )
-})
+}

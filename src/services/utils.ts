@@ -84,6 +84,25 @@ export function toStoreState(md: string, filePath?: string): SheetStoreState | u
   }
 }
 
+export function toMarkdown(state: SheetStoreState): string | null {
+  const blocks = new Map()
+  blocks.set(SHEET_KEY, state.sheet)
+  blocks.set(TABS_KEY, state.tabs)
+  if (state.views) {
+    for (const [k, v] of state.views) {
+      if (k !== SHEET_KEY && k !== TABS_KEY) {
+        blocks.set(k, v)
+      }
+    }
+  }
+  blocks.set(OUTGOING_LINKS_KEY, state.outgoingLinks)
+  return stringifyMarkdown({
+    header: state.header,
+    blocks,
+    compact: false,
+  })
+}
+
 /**
  * 将 header + blocks 生成文件存储的字符串
  */
