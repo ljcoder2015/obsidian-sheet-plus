@@ -53,7 +53,7 @@ export class ExcelProView extends TextFileView {
     if (this.file == null) {
       return
     }
-    this.autoSaveItem?.setText('自动保存: 空闲')
+    this.autoSaveItem?.setText(t('AUTO_SAVE_IDLE'))
     this.lastLoadedFile = this.file
     this.data = data
     this.dataService = new DataService(this.file, this.data)
@@ -185,24 +185,24 @@ export class ExcelProView extends TextFileView {
   private debounced = debounce(async (state: SheetStoreState) => {
     this.lastChangeState = state
     if (JSON.stringify(state) === JSON.stringify(this.initData)) {
-      this.autoSaveItem?.setText('自动保存: 空闲')
+      this.autoSaveItem?.setText(t('AUTO_SAVE_IDLE'))
       log('[ExcelProView]', '数据未改变,不保存', state, this.initData)
       return
     }
     log('[ExcelProView]', 'debounceSave', this.lastChangeState === this.initData, this.lastChangeState, this.initData)
-    this.autoSaveItem?.setText('自动保存: 保存中')
+    this.autoSaveItem?.setText(t('AUTO_SAVE_SAVING'))
     try {
       await this.save()
-      this.autoSaveItem?.setText(`自动保存: 已保存 ${new Date().toLocaleString()}`)
+      this.autoSaveItem?.setText(t('AUTO_SAVE_SAVED').replace('{{time}}', new Date().toLocaleString()))
     }
     catch (e) {
-      new Notice(`自动保存: 保存失败 ${e}`)
-      this.autoSaveItem?.setText(`自动保存: 保存失败`)
+      new Notice(t('AUTO_SAVE_FAILED_MSG').replace('{{error}}', String(e)))
+      this.autoSaveItem?.setText(t('AUTO_SAVE_FAILED'))
     }
   }, 30_000)
 
   private onDataChange = (state: SheetStoreState) => {
-    this.autoSaveItem?.setText('自动保存: 等待中')
+    this.autoSaveItem?.setText(t('AUTO_SAVE_WAITING'))
     log('[ExcelProView]', 'onDataChange', state)
     this.debounced(state)
   }

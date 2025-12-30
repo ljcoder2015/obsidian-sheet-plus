@@ -1,6 +1,7 @@
+import { t } from '../lang/helpers'
 import type { SheetStoreState } from './reduce'
 import type { MultiSheet, ParsedHeader, ParsedMarkdown } from './type'
-import { OUTGOING_LINKS_KEY, SHEET_KEY, TABS_KEY } from './type'
+import { OUTGOING_LINKS_KEY, SHEET_KEY, TABS_KEY, TabType } from './type'
 
 export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
   // --- header ---
@@ -78,11 +79,22 @@ export function toStoreState(md: string, filePath?: string): SheetStoreState | u
   if (!sheet || sheet === '\n') {
     sheet = {}
   }
+  let tabs = blocks?.get(TABS_KEY) as MultiSheet
+  if (!tabs) {
+    tabs = {
+      tabs: [{
+        key: 'sheet',
+        type: TabType.SHEET,
+        label: t('TAB_TYPE_SHEET'),
+      }],
+      defaultActiveKey: 'sheet',
+    }
+  }
   return {
     header,
     sheet,
     views,
-    tabs: blocks?.get(TABS_KEY) as MultiSheet,
+    tabs,
     outgoingLinks: blocks?.get(OUTGOING_LINKS_KEY) as string[],
   }
 }

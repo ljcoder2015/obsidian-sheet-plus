@@ -117,6 +117,15 @@ export default {
   FONT_FOLDER: 'Font folder',
   FONT_FOLDER_DESC: 'Scan all .woff/.woff2/.ttf fonts in this folder',
 
+  // Auto Save
+  AUTO_SAVE: 'Auto Save',
+  AUTO_SAVE_IDLE: 'Auto Save: Idle',
+  AUTO_SAVE_WAITING: 'Auto Save: Waiting',
+  AUTO_SAVE_SAVING: 'Auto Save: Saving',
+  AUTO_SAVE_SAVED: 'Auto Save: Saved {{time}}',
+  AUTO_SAVE_FAILED: 'Auto Save: Failed',
+  AUTO_SAVE_FAILED_MSG: 'Auto Save: Failed {{error}}',
+
   // AI Assistant settings
   AI_ASSISTANT_SETTINGS: 'AI Assistant Settings',
   AI_PLATFORM: 'AI Platform',

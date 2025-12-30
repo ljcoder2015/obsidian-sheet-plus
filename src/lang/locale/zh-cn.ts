@@ -117,6 +117,15 @@ export default {
   FONT_FOLDER: '字体目录',
   FONT_FOLDER_DESC: '扫描该目录下所有 .woff/.woff2/.ttf 字体',
 
+  // Auto Save
+  AUTO_SAVE: '自动保存',
+  AUTO_SAVE_IDLE: '自动保存: 空闲',
+  AUTO_SAVE_WAITING: '自动保存: 等待中',
+  AUTO_SAVE_SAVING: '自动保存: 保存中',
+  AUTO_SAVE_SAVED: '自动保存: 已保存 {{time}}',
+  AUTO_SAVE_FAILED: '自动保存: 保存失败',
+  AUTO_SAVE_FAILED_MSG: '自动保存: 保存失败 {{error}}',
+
   // AI Assistant settings
   AI_ASSISTANT_SETTINGS: 'AI助手设置',
   AI_PLATFORM: 'AI平台',
