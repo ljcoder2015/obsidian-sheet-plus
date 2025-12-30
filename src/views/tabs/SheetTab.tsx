@@ -24,7 +24,7 @@ import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
 import { type DataService, outgoingLinksKey } from '../../services/data.service'
 import { useSheetStore } from '../../context/SheetStoreProvider'
-import { SHEET_UPDATE_ACTION } from '../../services/reduce'
+import { OUTGOING_LINKS_UPDATE_ACTION, SHEET_UPDATE_ACTION } from '../../services/reduce'
 
 export function SheetTab({ switchTab }: { switchTab: () => void }) {
   const { state, dispatch } = useSheetStore()
@@ -118,7 +118,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
             return
           }
           const snapshot = doc.documentModel!.getSnapshot()
-          const customRanges = snapshot.body.customRanges
+          const customRanges = snapshot.body?.customRanges
           if (!customRanges) {
             return
           }
@@ -130,7 +130,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
                 const normalizedUrl = normalizeWikiLink(url)
                 const outgoingLinks = state.outgoingLinks || []
                 outgoingLinks.remove(normalizedUrl)
-                dispatch({ type: OUTGOING_LINKS_UPDATE_ACTION, payload: { outgoingLinks } })
+                dispatch({ type: OUTGOING_LINKS_UPDATE_ACTION, payload: outgoingLinks })
               }
             }
           })
@@ -141,7 +141,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
           const params = res.params as IReplaceSnapshotCommandParams
           log('[SheetTab]', 'BeforeCommandExecute ReplaceSnapshotCommand', params)
           const { snapshot } = params
-          const customRanges = snapshot.body.customRanges
+          const customRanges = snapshot.body?.customRanges
           if (!customRanges) {
             return
           }
@@ -151,9 +151,9 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
               const url = range.properties?.url
               if (url) {
                 const normalizedUrl = normalizeWikiLink(url)
-                const outgoingLinks = dataService.getOutgoingLinks() || []
+                const outgoingLinks = state.outgoingLinks || []
                 outgoingLinks.remove(normalizedUrl)
-                saveData(outgoingLinks, outgoingLinksKey)
+                dispatch({ type: OUTGOING_LINKS_UPDATE_ACTION, payload: outgoingLinks })
               }
             }
           })
@@ -176,16 +176,16 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
 
         if (res.id == AddOutgoingLinkCommand.id) {
           const params = res.params as IAddOutgoingLinkCommandParams
-          const sourcePath = file.path
+          const sourcePath = editor.file.path
           const targetPath = params.link.payload.slice(2, -2)
           const targetFile = app?.vault.getAbstractFileByPath(targetPath)
           const path = app?.metadataCache.fileToLinktext(targetFile, sourcePath, true)
           log('[SheetTab]', 'AddOutgoingLinkCommand', res.params, path)
           if (path) {
             const link = `[[${path}]]`
-            const outgoingLinks = dataService.getOutgoingLinks() || []
+            const outgoingLinks = state.outgoingLinks || []
             outgoingLinks.push(link)
-            saveData(outgoingLinks, 'outgoingLinks')
+            dispatch({ type: OUTGOING_LINKS_UPDATE_ACTION, payload: outgoingLinks })
           }
         }
 
