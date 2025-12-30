@@ -1,22 +1,17 @@
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import type { MenuProps, TabsProps } from 'antd'
 import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, Typography, theme } from 'antd'
 import { Notice } from 'obsidian'
-import type { IKanbanConfig } from '@ljcoder/smart-sheet'
-import { AIAssistant, KanbanTab, emitEvent, useClearEvents } from '@ljcoder/smart-sheet'
+import { AIAssistant, KanbanTab } from '@ljcoder/smart-sheet'
 import { createStyles } from 'antd-style'
 import { randomString } from '../utils/uuid'
-import type { MultiSheet } from '../services/type'
 import { TabType } from '../services/type'
 import { t } from '../lang/helpers'
-import type { DataService } from '../services/data.service'
 import { log } from '../utils/log'
 import { useEditorContext } from '../context/editorContext'
-import { rangeToRangeString } from '../utils/data'
-import { renderToHtml } from '../post-processor/html'
 import { useUniver } from '../context/UniverContext'
 import { useSheetStore } from '../context/SheetStoreProvider'
-import { VIEW_ADD_ACTION, VIEW_CONFIG_ADD_ACTION, VIEW_UPDATE_ACTION } from '../services/reduce'
+import { TAB_DEFAULT_ACTION, TAB_RENAME_ACTION, VIEW_ADD_ACTION, VIEW_CONFIG_ADD_ACTION, VIEW_REMOVE_ACTION, VIEW_UPDATE_ACTION } from '../services/reduce'
 import { SheetTab } from './tabs/SheetTab'
 import { RenameModal } from './components/RenameModal'
 
@@ -30,10 +25,6 @@ const helpContent = (
     </ul>
   </div>
 )
-
-// export interface ContainerViewRef {
-//   copyToHTML: () => void
-// }
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
   linearGradientButton: css`
@@ -60,21 +51,11 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
   `,
 }))
 
-// eslint-disable-next-line prefer-arrow-callback
 export const ContainerView = function ContainerView() {
   const { state, dispatch } = useSheetStore()
   const { univerApi } = useUniver()
   const { editor } = useEditorContext()
   const { plugin } = editor
-  // const [activeKey, setActiveKey] = useState('sheet')
-  // const [tabsData, setTabsData] = useState<MultiSheet>({
-  //   defaultActiveKey: 'sheet',
-  //   tabs: [{
-  //     key: 'sheet',
-  //     type: TabType.SHEET,
-  //     label: t('TAB_TYPE_SHEET'),
-  //   }],
-  // })
   const [algorithm, setAlgorithm] = useState([]) // 设置主题
   const [triggerSource, setTriggerSource] = useState<string | null>(null) // 记录是点击哪个 tab 触发的下拉菜单
   const [renameModalVisible, setRenameModalVisible] = useState(false) // 重命名
@@ -83,14 +64,19 @@ export const ContainerView = function ContainerView() {
   const { styles } = useStyle()
 
   const tabs = state.tabs.tabs || []
-  const activeKey = state.tabs.defaultActiveKey || 'sheet'
+  const [activeKey, setActiveKey] = useState('sheet')
 
+  const switchTab = () => {
+    if (state.tabs.defaultActiveKey !== 'sheet') {
+      setActiveKey(state.tabs.defaultActiveKey)
+    }
+  }
   const items: TabsProps['items'] = tabs.map((tab) => {
     if (tab.type === TabType.SHEET) {
       return {
         key: tab.key,
         label: tab.label,
-        children: <SheetTab />,
+        children: <SheetTab switchTab={switchTab} />,
         forceRender: true,
       }
     }
@@ -113,33 +99,6 @@ export const ContainerView = function ContainerView() {
   })
 
   log('[ContainerView]', 'items', items)
-
-  // useImperativeHandle(ref, () => ({
-  //   copyToHTML() {
-  //     if (univerApi === null) {
-  //       return
-  //     }
-  //     const workbook = univerApi.getActiveWorkbook()
-
-  //     const workbookData = workbook?.getSnapshot()
-  //     if (workbookData === undefined)
-  //       return
-
-  //     const sheet = workbook?.getActiveSheet()
-  //     if (sheet === null || sheet === undefined)
-  //       return
-
-  //     const range = sheet?.getSelection()?.getActiveRange()
-  //     if (range === null || range === undefined)
-  //       return
-
-  //     const rangeString = rangeToRangeString(range)
-  //     const html = renderToHtml(workbookData, sheet.getSheetName(), rangeString)
-  //     const htmlString = html.outerHTML
-  //     navigator.clipboard.writeText(htmlString)
-  //     new Notice(t('COPY_TO_HTML_SUCCESS'))
-  //   },
-  // }))
 
   useMemo(() => {
     if (!plugin) {
@@ -169,17 +128,6 @@ export const ContainerView = function ContainerView() {
     },
   ]
 
-  useMemo(() => {
-    // console.log('save name', triggerSource)
-    if (triggerSource && renameModalName && !renameModalVisible) {
-      dispatch({
-        type: VIEW_UPDATE_ACTION,
-        key: triggerSource,
-        payload: renameModalName,
-      })
-    }
-  }, [renameModalName, renameModalVisible])
-
   const tabDropdownClick: MenuProps['onClick'] = (item) => {
     const { key } = item
     if (key === 'delete') {
@@ -187,31 +135,21 @@ export const ContainerView = function ContainerView() {
         new Notice(t('CANNOT_DELETE_SHEET'))
         return
       }
-      // let activeKey = tabsData.defaultActiveKey
-      // if (tabsData.defaultActiveKey === triggerSource) {
-      //   activeKey = 'sheet'
-      // }
-      // 删除tab数据并保存
-      // dispatch({
-      //   type: VIEW_DELETE_ACTION,
-      //   key: triggerSource,
-      // })
+      dispatch({ type: VIEW_REMOVE_ACTION, key: triggerSource })
       setTriggerSource(null)
     }
     if (key === 'default') {
-      // setTabsData({
-      //   ...tabsData,
-      //   defaultActiveKey: triggerSource,
-      // })
-      // setTriggerSource(null)
+      dispatch({ type: TAB_DEFAULT_ACTION, key: triggerSource || 'sheet' })
+      setTriggerSource(null)
     }
     if (key === 'rename') {
-      // if (triggerSource) {
-      //   if (tab) {
-      //     setRenameModalName(tab.label)
-      //   }
-      // }
-      // setRenameModalVisible(true)
+      if (triggerSource) {
+        const tab = tabs.find((t) => t.key === triggerSource)
+        if (tab) {
+          setRenameModalName(tab.label)
+        }
+      }
+      setRenameModalVisible(true)
     }
   }
 
@@ -254,18 +192,6 @@ export const ContainerView = function ContainerView() {
     onClick: (item) => {
       const { key } = item
       const id = randomString(6)
-      // 添加tab数据
-      // setTabsData({
-      //   ...tabsData,
-      //   tabs: [
-      //     ...tabsData.tabs,
-      //     {
-      //       key: id,
-      //       type: key as TabType,
-      //       label: t(`TAB_TYPE_${key.toUpperCase()}` as any),
-      //     },
-      //   ],
-      // })
       dispatch({
         type: VIEW_ADD_ACTION,
         key: id,
@@ -295,7 +221,6 @@ export const ContainerView = function ContainerView() {
         className="my-tab-bar w-full border-t border-l border-r p-2"
       >
         { (node) => {
-          {console.log('node', node)}
           return (
             <div className="pr-[10px]">
               <Dropdown
@@ -402,7 +327,11 @@ export const ContainerView = function ContainerView() {
           onCancel={() => setRenameModalVisible(false)}
           onOk={(name) => {
             setRenameModalVisible(false)
-            setRenameModalName(name)
+            dispatch({
+              type: TAB_RENAME_ACTION,
+              key: triggerSource,
+              payload: name,
+            })
           }}
         />
       </ConfigProvider>

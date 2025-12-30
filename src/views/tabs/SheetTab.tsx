@@ -18,6 +18,7 @@ import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
 import { deepClone, rangeToNumber } from '../../utils/data'
+import { Tools } from '../../utils/tools'
 import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
@@ -25,15 +26,7 @@ import { type DataService, outgoingLinksKey } from '../../services/data.service'
 import { useSheetStore } from '../../context/SheetStoreProvider'
 import { SHEET_UPDATE_ACTION } from '../../services/reduce'
 
-interface Props {
-  file: TFile
-  data: IWorkbookData
-  dataService: DataService
-  saveData: (data: any, key: string) => void
-  onRender: (isToRange: boolean) => void
-}
-
-export function SheetTab() {
+export function SheetTab({ switchTab }: { switchTab: () => void }) {
   const { state, dispatch } = useSheetStore()
   const { univerApi, setUniverApi } = useUniver()
   const { editor, app } = useEditorContext()
@@ -41,51 +34,7 @@ export function SheetTab() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [univerId, setUniverId] = useState<string>(randomString(6))
   const [loading, setLoading] = useState<boolean>(true)
-  const tabChangeRef = useRef(false)
   const [spinTip, setSpinTip] = useState<string>(t('LOADING'))
-
-  // ✅ 使用 useRef 管理 debounceSave 实例
-  // const debounceSaveRef = useRef<ReturnType<typeof debounce> | null>(null)
-
-  // const save = async (workbook: IWorkbookData) => {
-  //   log('[SheetTab]', '开始保存表格数据', file.path, workbook)
-  //   saveData(workbook, 'sheet')
-  //   if (!tabChangeRef.current) {
-  //     emitEvent('sheetChange')
-  //   }
-  //   tabChangeRef.current = false
-  // }
-
-  // // 初始化 debounceSave，只执行一次
-  // if (!debounceSaveRef.current) {
-  //   debounceSaveRef.current = debounce((workbook: IWorkbookData) => {
-  //     log('[SheetTab]', '调用节流保存表格数据')
-  //     save(workbook)
-  //   }, 30_000)
-  // }
-
-  // useEventBus('fileRenamed', (payload) => {
-  //   if (!payload) {
-  //     return // 防止 undefined
-  //   }
-  //   const { oldPath, newPath } = payload
-  //   const activeWorkbook = univerApi?.getActiveWorkbook()
-  //   if (activeWorkbook && activeWorkbook.getName() === oldPath) {
-  //     activeWorkbook.setName(newPath)
-  //   }
-  // })
-
-  // useEventBus('unloadFile', (props: UnloadFileProps) => {
-  //   if (props.filePath === file.path) {
-  //     const activeWorkbook = univerApi?.getActiveWorkbook()
-  //     if (activeWorkbook) {
-  //       log('[SheetTab]', 'unloadFile', props.filePath)
-  //       save(activeWorkbook.save())
-  //     }
-  //     // ✅ 取消 debounce
-  //     debounceSaveRef.current?.cancel()
-  //   }
-  // })
 
   useEffect(() => {
     log('[SheetTab]', 'sheetTab 挂载')
@@ -106,8 +55,6 @@ export function SheetTab() {
     return () => {
       log('[SheetTab]', 'sheetTab 卸载')
       univerAPI.dispose()
-      // ✅ 取消 debounce
-      // debounceSaveRef.current?.cancel()
       containerRef.current = null
     }
   }, [])
@@ -127,13 +74,15 @@ export function SheetTab() {
     let commandExecutedDisposable: { dispose: () => void } | null = null
     let beforeCommandDisposable: { dispose: () => void } | null = null
     if (univerApi && univerId) {
-      log('[SheetTab]', 'createWorkbook', univerId)
+      const locale = Tools.convertNumberFormatLocalToLocaleType(plugin.settings.numberFormatLocal)
+      log('[SheetTab]', 'createWorkbook', univerId, state)
       if (state.sheet) {
-        state.sheet.locale = plugin.settings.numberFormatLocal
-        univerApi.createWorkbook(deepClone(state.sheet))
+        const newSheet = deepClone(state.sheet)
+        newSheet.locale = locale
+        univerApi.createWorkbook(newSheet)
       }
       else {
-        univerApi.createWorkbook({ id: randomString(6), name: file.path, locale: plugin.settings.numberFormatLocal })
+        univerApi.createWorkbook({ id: randomString(6), name: editor.file.path, locale })
       }
 
       // set number format local
@@ -141,13 +90,11 @@ export function SheetTab() {
       univerApi?.getActiveWorkbook()?.setNumfmtLocal(localeTag)
 
       lifeCycleDisposable = univerApi.addEvent(univerApi.Event.LifeCycleChanged, (res) => {
-        if (res.stage === LifecycleStages.Ready && editor.subPath == null) {
-          setTimeout(() => {
-            // onRender(false)
-          }, 200)
-        }
         if (res.stage === LifecycleStages.Rendered) {
           setLoading(false)
+        }
+        if (res.stage === LifecycleStages.Steady) {
+          switchTab()
         }
       })
 
@@ -181,9 +128,9 @@ export function SheetTab() {
               const url = range.properties?.url
               if (url) {
                 const normalizedUrl = normalizeWikiLink(url)
-                const outgoingLinks = dataService.getOutgoingLinks() || []
+                const outgoingLinks = state.outgoingLinks || []
                 outgoingLinks.remove(normalizedUrl)
-                saveData(outgoingLinks, outgoingLinksKey)
+                dispatch({ type: OUTGOING_LINKS_UPDATE_ACTION, payload: { outgoingLinks } })
               }
             }
           })
@@ -268,7 +215,6 @@ export function SheetTab() {
         const activeWorkbook = univerApi.getActiveWorkbook()
         if (activeWorkbook) {
           dispatch({ type: SHEET_UPDATE_ACTION, payload: activeWorkbook.save() })
-          // debounceSaveRef.current(activeWorkbook.save())
         }
       })
     }
@@ -283,16 +229,6 @@ export function SheetTab() {
       commandExecutedDisposable = null
     }
   }, [univerApi])
-
-  // const tabChangeHandler = useCallback((props: TabChangeProps) => {
-  //   tabChangeRef.current = true
-  //   const { sheetId, rowIndex, colIndex, value } = props
-  //   if (univerApi) {
-  //     univerApi.getActiveWorkbook().getSheetBySheetId(sheetId).getRange(rowIndex, colIndex).setValue(value)
-  //   }
-  // }, [univerId])
-
-  // useEventBus('tabChange', tabChangeHandler)
 
   // 滚动到指定区域
   const scrollToRange = useCallback(() => {
@@ -330,7 +266,6 @@ export function SheetTab() {
 
   useEffect(() => {
     scrollToRange()
-    // onRender(true)
   }, [scrollToRange])
 
   return (

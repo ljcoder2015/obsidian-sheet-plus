@@ -18,7 +18,6 @@ import type { SheetStoreState } from '../services/reduce'
 import { toMarkdown, toStoreState } from '../services/utils'
 import { SheetStoreProvider } from '../context/SheetStoreProvider'
 import { ContainerView } from './ContainerView'
-import type { ContainerViewRef } from './ContainerView'
 
 export class ExcelProView extends TextFileView {
   root: Root | null = null

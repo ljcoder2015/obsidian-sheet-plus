@@ -75,9 +75,13 @@ export function toStoreState(md: string, filePath?: string): SheetStoreState | u
       views.set(k, v)
     }
   })
+  let sheet = blocks?.get(SHEET_KEY)
+  if (!sheet || sheet === '\n') {
+    sheet = {}
+  }
   return {
     header,
-    sheet: blocks?.get(SHEET_KEY) as IWorkbookData,
+    sheet,
     views,
     tabs: blocks?.get(TABS_KEY) as MultiSheet,
     outgoingLinks: blocks?.get(OUTGOING_LINKS_KEY) as string[],
@@ -95,11 +99,13 @@ export function toMarkdown(state: SheetStoreState): string | null {
       }
     }
   }
-  blocks.set(OUTGOING_LINKS_KEY, state.outgoingLinks)
+  if (state.outgoingLinks) {
+    blocks.set(OUTGOING_LINKS_KEY, state.outgoingLinks)
+  }
   return stringifyMarkdown({
     header: state.header,
     blocks,
-    compact: false,
+    compact: true,
   })
 }
 
@@ -131,7 +137,7 @@ export function stringifyMarkdown({ header, blocks, compact = true }: { header?:
 
   if (blocks && blocks.size > 0) {
     for (const [type, content] of blocks) {
-      if (type === OUTGOING_LINKS_KEY && Array.isArray(content)) {
+      if (type === OUTGOING_LINKS_KEY && Array.isArray(content) && content.length > 0) {
         // 单独保存，最后输出
         outgoingLinksStr = `### ${OUTGOING_LINKS_KEY}\n${content.join('\n')}\n\n`
       }

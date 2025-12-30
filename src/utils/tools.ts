@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { LocaleType } from '@univerjs/core'
 import type { IKeyValue } from './types'
 
 const rmsPrefix = /^-ms-/
@@ -339,6 +340,27 @@ export class Tools {
       return (navigator.languages && navigator.languages[0]) || navigator.language || defaultValue
     }
     return defaultValue
+  }
+
+  static convertNumberFormatLocalToLocaleType(numberFormatLocal: string): LocaleType {
+    switch (numberFormatLocal) {
+      case 'en':
+        return LocaleType.EN_US
+      case 'zh-cn':
+        return LocaleType.ZH_CN
+      case 'ru':
+        return LocaleType.RU_RU
+      case 'fr':
+        return LocaleType.FR_FR
+      case 'zh-tw':
+        return LocaleType.ZH_TW
+      case 'vi':
+        return LocaleType.VI_VN
+      case 'fa':
+        return LocaleType.FA_IR
+      default:
+        return LocaleType.EN_US
+    }
   }
 
   static getValueType(value: any): string {
