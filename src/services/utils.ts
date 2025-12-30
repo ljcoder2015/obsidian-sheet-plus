@@ -1,5 +1,4 @@
-import { IWorkbookData } from '@univerjs/core'
-import { SheetStoreState } from './reduce'
+import type { SheetStoreState } from './reduce'
 import type { MultiSheet, ParsedHeader, ParsedMarkdown } from './type'
 import { OUTGOING_LINKS_KEY, SHEET_KEY, TABS_KEY } from './type'
 

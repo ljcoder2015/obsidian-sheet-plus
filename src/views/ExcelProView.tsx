@@ -199,7 +199,7 @@ export class ExcelProView extends TextFileView {
       new Notice(`自动保存: 保存失败 ${e}`)
       this.autoSaveItem?.setText(`自动保存: 保存失败`)
     }
-  }, 5_000)
+  }, 30_000)
 
   private onDataChange = (state: SheetStoreState) => {
     this.autoSaveItem?.setText('自动保存: 等待中')

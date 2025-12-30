@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react'
 import type { MenuProps, TabsProps } from 'antd'
 import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, Typography, theme } from 'antd'
 import { Notice } from 'obsidian'
-import { AIAssistant, KanbanTab } from '@ljcoder/smart-sheet'
+import { AIAssistant, KanbanTab, useEventBus } from '@ljcoder/smart-sheet'
 import { createStyles } from 'antd-style'
 import { randomString } from '../utils/uuid'
 import { TabType } from '../services/type'
@@ -99,6 +99,16 @@ export const ContainerView = function ContainerView() {
   })
 
   log('[ContainerView]', 'items', items)
+  useEventBus('fileRenamed', (payload) => {
+    if (!payload) {
+      return // 防止 undefined
+    }
+    const { oldPath, newPath } = payload
+    const activeWorkbook = univerApi?.getActiveWorkbook()
+    if (activeWorkbook && activeWorkbook.getName() === oldPath) {
+      activeWorkbook.setName(newPath)
+    }
+  })
 
   useMemo(() => {
     if (!plugin) {
