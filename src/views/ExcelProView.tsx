@@ -7,7 +7,7 @@ import { emitEvent } from '@ljcoder/smart-sheet'
 import { error } from '@ljcoder/smart-sheet/src/utils/log'
 import type ExcelProPlugin from '../main'
 
-import { DEFAULT_CONTENT, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
+import { BLANK_CONTENT, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { t } from '../lang/helpers'
 import { EditorContext } from '../context/editorContext'
 import { DataService } from '../services/data.service'
@@ -106,7 +106,7 @@ export class ExcelProView extends TextFileView {
   }
 
   clear(): void {
-    this.data = DEFAULT_CONTENT
+    this.data = BLANK_CONTENT
   }
 
   dispose() {
@@ -148,7 +148,7 @@ export class ExcelProView extends TextFileView {
           if (!d) {
             return
           }
-          log('[ExcelProView]', '异步modify文件', file.path, d)
+          log('[ExcelProView]', '异步modify文件', file.path)
           await plugin.app.vault.modify(file, d)
           // this is a shady edge case, don't scrifice the BAK file in case the drawing is empty
           // await imageCache.addBAKToCache(file.path,d);
@@ -164,7 +164,7 @@ export class ExcelProView extends TextFileView {
         error('[ExcelProView]', '保存数据出错', 'lastChangeState is undefined')
         return
       }
-      this.data = toMarkdown(this.lastChangeState) ?? DEFAULT_CONTENT
+      this.data = toMarkdown(this.lastChangeState) ?? BLANK_CONTENT
       log('[ExcelProView]', '保存数据到文件', this.file.path, this.dataService?.file.path)
       super.save()
     }
@@ -226,7 +226,7 @@ export class ExcelProView extends TextFileView {
   }
 
   getViewData(): string {
-    return this.data
+    return this.lastChangeState ? toMarkdown(this.lastChangeState) ?? BLANK_CONTENT : this.data
   }
 
   setEphemeralState(state: any): void {
