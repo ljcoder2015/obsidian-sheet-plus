@@ -84,7 +84,16 @@ export const ContainerView = function ContainerView() {
       return {
         key: tab.key,
         label: tab.label,
-        children: <KanbanTab key={tab.key} id={tab.key} />,
+        children: (
+          <KanbanTab
+            key={tab.key}
+            id={tab.key}
+            univerApi={univerApi}
+            config={state.views?.get(tab.key) ?? {}}
+            workbook={state.sheet}
+            dispatch={dispatch}
+          />
+        ),
         forceRender: true,
       }
     }
