@@ -44,13 +44,13 @@ import {
 import { DataService } from './services/data.service'
 import type { FontInfo } from './services/fontManager'
 import { FontManager } from './services/fontManager'
+import { toMarkdown, toStoreState, updateOutgoingLink, updateSheetOutgoingLinks } from './services/utils'
 
 export default class ExcelProPlugin extends Plugin {
   public settings: ExcelProSettings
   public fontManager: FontManager
   public availableFonts: FontInfo[] = []
   private _loaded = false
-  public _statusBarItem: HTMLElement
 
   async onload() {
     // 加载设置
@@ -173,14 +173,17 @@ export default class ExcelProPlugin extends Plugin {
       return
 
     const content = await this.app.vault.read(file)
-    const dataService = new DataService(file, content)
+    let dataService = toStoreState(content, file.path)
+    if (!dataService) {
+      return
+    }
     log('[main]', 'updateLinksInFile', dataService, newFile.path, oldPath)
-    dataService.updateSheetOutgoingLinks(newFile.path, oldPath)
+    dataService = updateSheetOutgoingLinks(dataService, newFile.path, oldPath)
     const oldLinkText = this.oldPathToWikiLink(oldPath)
-    dataService.updateOutgoingLink(newFile.path, oldLinkText)
+    dataService = updateOutgoingLink(dataService, newFile.path, oldLinkText)
     log('[main]', 'updateLinksInFile after', dataService, oldLinkText)
 
-    const updated = dataService.stringifyMarkdown()
+    const updated = toMarkdown(dataService)
 
     if (updated) {
       await this.app.vault.modify(file, updated)

@@ -10,7 +10,6 @@ import type ExcelProPlugin from '../main'
 import { BLANK_CONTENT, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { t } from '../lang/helpers'
 import { EditorContext } from '../context/editorContext'
-import { DataService } from '../services/data.service'
 import type { ViewSemaphores } from '../utils/types'
 import { log, warn } from '../utils/log'
 import { UniverProvider } from '../context/UniverContext'
@@ -28,7 +27,6 @@ export class ExcelProView extends TextFileView {
 
   public subPath: string | null = null
 
-  public dataService: DataService | null = null
   private lastLoadedFile: TFile | null = null
 
   private autoSaveItem: HTMLElement | undefined
@@ -56,10 +54,9 @@ export class ExcelProView extends TextFileView {
     this.autoSaveItem?.setText(t('AUTO_SAVE_IDLE'))
     this.lastLoadedFile = this.file
     this.data = data
-    this.dataService = new DataService(this.file, this.data)
     this.initData = toStoreState(this.data, this.file.path)
 
-    log('[ExcelProView]', 'setViewData', this.dataService)
+    log('[ExcelProView]', 'setViewData', this.initData)
 
     this.plugin.app.workspace.onLayoutReady(async () => {
       let counter = 0
@@ -130,7 +127,6 @@ export class ExcelProView extends TextFileView {
     if (!this.file
       || this.lastLoadedFile !== this.file
       || !this.app.vault.getAbstractFileByPath(this.file.path)
-      || !this.dataService
     ) {
       this.semaphores.saving = false
       this.semaphores.unloadFileSaving = false
@@ -165,7 +161,7 @@ export class ExcelProView extends TextFileView {
         return
       }
       this.data = toMarkdown(this.lastChangeState) ?? BLANK_CONTENT
-      log('[ExcelProView]', '保存数据到文件', this.file.path, this.dataService?.file.path)
+      log('[ExcelProView]', '保存数据到文件', this.file.path, this.lastChangeState.sheet?.name)
       super.save()
     }
     catch (e) {
@@ -217,7 +213,7 @@ export class ExcelProView extends TextFileView {
       >
         <EditorContext.Provider value={{ app: this.app, editor: this }}>
           <UniverProvider>
-            <ContainerView dataService={this.dataService} />
+            <ContainerView />
           </UniverProvider>
         </EditorContext.Provider>
         ,

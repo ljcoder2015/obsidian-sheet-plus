@@ -174,3 +174,65 @@ export function stringifyMarkdown({ header, blocks, compact = true }: { header?:
 
   return `${headerStr}${blocksStr}${outgoingLinksStr}`.trimEnd()
 }
+
+// 更新工作表中的 outgoingLinks
+export function updateSheetOutgoingLinks(state: SheetStoreState, newLink: string, oldLink: string): SheetStoreState {
+  const workbook = state.sheet
+  if (!workbook) {
+    return state
+  }
+
+  if (!workbook.sheets) {
+    return state
+  }
+
+  for (const sheetId of Object.keys(workbook.sheets)) {
+    const sheet = workbook.sheets[sheetId]
+    if (!sheet?.cellData) {
+      continue
+    }
+
+    for (const rowKey of Object.keys(sheet.cellData)) {
+      const row = sheet.cellData[rowKey]
+      if (!row) {
+        continue
+      }
+
+      for (const colKey of Object.keys(row)) {
+        const cell = row[colKey]
+        if (!cell?.p?.body?.customRanges) {
+          continue
+        }
+
+        cell.p.body.customRanges.forEach((range: any) => {
+          if (range.rangeType === 100 && range.properties?.url === `[[${oldLink}]]`) {
+            range.properties.url = `[[${newLink}]]`
+            cell.p.body.dataStream = cell.p.body.dataStream?.replace(oldLink, newLink)
+            cell.p.body.textRuns?.forEach((textRun: any) => {
+              textRun.ed = newLink.length
+            })
+          }
+        })
+      }
+    }
+  }
+
+  return state
+}
+
+// 更新markdown文本 [[xxx]] 这样才能被 Obsidian 解析
+export function updateOutgoingLink(state: SheetStoreState, newLink: string, oldLink: string): SheetStoreState {
+  const links = state.outgoingLinks
+  const newLinks = links.map((link) => {
+    if (link === `[[${oldLink}]]`) {
+      return `[[${newLink}]]`
+    }
+    else {
+      return link
+    }
+  })
+  return {
+    ...state,
+    outgoingLinks: newLinks,
+  }
+}
