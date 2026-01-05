@@ -28,7 +28,7 @@ export function createUniverEl(data: IWorkbookData | null, height = 300, showFoo
       footer: showFooter,
     }
     const darkMode = plugin.settings.darkModal === 'dark'
-    const univerAPI = createUniver(plugin.availableFonts, options, id, plugin.settings.mobileRenderMode, darkMode, true)
+    const { univerAPI } = createUniver(plugin.availableFonts, options, id, plugin.settings.mobileRenderMode, darkMode, true)
 
     if (data) {
       // workbookData 的内容都包含在 workbook 字段中

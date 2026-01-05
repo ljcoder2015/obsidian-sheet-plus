@@ -132,7 +132,7 @@ export function createUniver(
   }))
   univerAPI.addFonts(fonts)
 
-  return univerAPI
+  return { univerAPI, univer }
 }
 
 function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, container: string | HTMLElement) {

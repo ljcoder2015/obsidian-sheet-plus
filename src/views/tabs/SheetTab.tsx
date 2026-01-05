@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { INumfmtLocaleTag } from '@univerjs/core'
+import type { INumfmtLocaleTag, Univer } from '@univerjs/core'
 import { CommandType, LifecycleStages } from '@univerjs/core'
 import type { IAddOutgoingLinkCommandParams, ICancelOutgoingLinkCommandParams } from '@ljcoder/sheets-outgoing-link'
 import { AddOutgoingLinkCommand, AddOutgoingLinkMutation, CancelOutgoingLinkCommand, OutgoingLinkCustomRangeType, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
@@ -27,15 +27,12 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
   const { editor, app } = useEditorContext()
   const { plugin } = editor
   const containerRef = useRef<HTMLDivElement>(null)
-  const [univerId, setUniverId] = useState<string>(randomString(6))
+  const [univer, setUniver] = useState<Univer>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [spinTip, setSpinTip] = useState<string>(t('LOADING'))
 
   useEffect(() => {
     log('[SheetTab]', 'sheetTab 挂载')
-
-    const univerId = randomString(6)
-    setUniverId(univerId)
 
     const options = {
       header: true,
@@ -43,12 +40,16 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
     }
     const darkMode = plugin.settings.darkModal === 'dark'
     const mobileRenderMode = plugin.settings.mobileRenderMode
-    const univerAPI = createUniver(plugin.availableFonts, options, containerRef.current, mobileRenderMode, darkMode)
-
+    const { univerAPI, univer } = createUniver(plugin.availableFonts, options, containerRef.current, mobileRenderMode, darkMode)
     setUniverApi(univerAPI)
+    setUniver(univer)
 
     return () => {
       log('[SheetTab]', 'sheetTab 卸载')
+      if (univer) {
+        log('[SheetTab]', 'disposeUniver', univer)
+        univer.dispose()
+      }
       univerAPI.dispose()
       containerRef.current = null
     }
@@ -68,9 +69,8 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
     let lifeCycleDisposable: { dispose: () => void } | null = null
     let commandExecutedDisposable: { dispose: () => void } | null = null
     let beforeCommandDisposable: { dispose: () => void } | null = null
-    if (univerApi && univerId) {
+    if (univerApi) {
       const locale = Tools.convertNumberFormatLocalToLocaleType(plugin.settings.numberFormatLocal)
-      log('[SheetTab]', 'createWorkbook', univerId, state)
       if (state.sheet) {
         const newSheet = deepClone(state.sheet)
         newSheet.locale = locale
@@ -79,6 +79,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
       else {
         univerApi.createWorkbook({ id: randomString(6), name: editor.file.path, locale })
       }
+      log('[SheetTab]', 'createWorkbook', state)
 
       // set number format local
       const localeTag = plugin.settings.numberFormatLocal as INumfmtLocaleTag

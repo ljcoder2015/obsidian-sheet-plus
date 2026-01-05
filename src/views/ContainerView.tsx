@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import type { MenuProps, TabsProps } from 'antd'
 import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, Typography, theme } from 'antd'
 import { Notice } from 'obsidian'
@@ -14,6 +14,7 @@ import { useSheetStore } from '../context/SheetStoreProvider'
 import { TAB_DEFAULT_ACTION, TAB_RENAME_ACTION, VIEW_ADD_ACTION, VIEW_CONFIG_ADD_ACTION, VIEW_REMOVE_ACTION, VIEW_UPDATE_ACTION } from '../services/reduce'
 import { SheetTab } from './tabs/SheetTab'
 import { RenameModal } from './components/RenameModal'
+import { AppErrorBoundary } from './components/AppErrorBoundary'
 
 const helpContent = (
   <div style={{ width: '300px' }}>
@@ -60,7 +61,7 @@ export const ContainerView = function ContainerView() {
   const [triggerSource, setTriggerSource] = useState<string | null>(null) // 记录是点击哪个 tab 触发的下拉菜单
   const [renameModalVisible, setRenameModalVisible] = useState(false) // 重命名
   const [renameModalName, setRenameModalName] = useState('') // 重命名的名称
-  const [AIPanelSize, setAIPanelSize] = useState('0') // AI 面板大小
+  const [showAI, setShowAI] = useState(false)
   const { styles } = useStyle()
 
   const tabs = state.tabs.tabs || []
@@ -119,7 +120,7 @@ export const ContainerView = function ContainerView() {
     }
   })
 
-  useMemo(() => {
+  useEffect(() => {
     if (!plugin) {
       return
     }
@@ -275,85 +276,89 @@ export const ContainerView = function ContainerView() {
   }
 
   return (
-    <div className="lj-content-view" data-theme={plugin.settings.darkModal === 'dark' ? 'sheet-plus-dark' : ''}>
-      <ConfigProvider
-        button={{
-          className: styles.linearGradientButton,
-        }}
-        theme={{
-          algorithm,
-          components: {
-            Spin: {
-              contentHeight: '100%',
-            },
-            Tabs: {
-              horizontalMargin: '0',
-            },
-          },
-        }}
-      >
-        <Splitter>
-          <Splitter.Panel>
-            <Tabs
-              size="small"
-              type="card"
-              items={items}
-              activeKey={activeKey}
-              renderTabBar={renderTabBar}
-              tabBarExtraContent={{
-                right: (
-                  <Flex gap="small">
-                    <Dropdown menu={addTabMenu} trigger={['click']}>
-                      <Button color="default" variant="outlined">+</Button>
-                    </Dropdown>
-                    <Popover content={helpContent} trigger="hover">
-                      <Button>?</Button>
-                    </Popover>
-                    <Button
-                      type="primary"
-                      onClick={
-                        () => {
-                          setAIPanelSize(AIPanelSize === '0' ? '30%' : '0')
-                        }
-                      }
-                    >
-                      AI
-                    </Button>
-                  </Flex>
-                ),
-              }}
-              onChange={(key) => {
-                setActiveKey(key)
-              }}
-            />
-          </Splitter.Panel>
-          <Splitter.Panel defaultSize="0" size={AIPanelSize}>
-            <AIAssistant
-              style={{ height: '100%', overflowY: 'hidden' }}
-              univerApi={univerApi}
-              aiConfig={{
-                platform: plugin.settings.aiModePlatform,
-                model: plugin.settings.aiModel,
-                apiKey: plugin.settings.aiApiKey,
-                baseUrl: plugin.settings.aiBaseUrl,
-              }}
-            />
-          </Splitter.Panel>
-        </Splitter>
-        <RenameModal
-          visible={renameModalVisible}
-          name={renameModalName}
-          onCancel={() => setRenameModalVisible(false)}
-          onOk={(name) => {
-            setRenameModalVisible(false)
-            dispatch({
-              type: TAB_RENAME_ACTION,
-              key: triggerSource,
-              payload: name,
-            })
+    <AppErrorBoundary>
+      <div className="lj-content-view" data-theme={plugin.settings.darkModal === 'dark' ? 'sheet-plus-dark' : ''}>
+        <ConfigProvider
+          button={{
+            className: styles.linearGradientButton,
           }}
-        />
-      </ConfigProvider>
-    </div>
+          theme={{
+            algorithm,
+            components: {
+              Spin: {
+                contentHeight: '100%',
+              },
+              Tabs: {
+                horizontalMargin: '0',
+              },
+            },
+          }}
+        >
+          <Splitter>
+            <Splitter.Panel>
+              <Tabs
+                size="small"
+                type="card"
+                items={items}
+                activeKey={activeKey}
+                renderTabBar={renderTabBar}
+                tabBarExtraContent={{
+                  right: (
+                    <Flex gap="small">
+                      <Dropdown menu={addTabMenu} trigger={['click']}>
+                        <Button color="default" variant="outlined">+</Button>
+                      </Dropdown>
+                      <Popover content={helpContent} trigger="hover">
+                        <Button>?</Button>
+                      </Popover>
+                      <Button
+                        type="primary"
+                        onClick={
+                          () => {
+                            setShowAI(v => !v)
+                          }
+                        }
+                      >
+                        AI
+                      </Button>
+                    </Flex>
+                  ),
+                }}
+                onChange={(key) => {
+                  setActiveKey(key)
+                }}
+              />
+            </Splitter.Panel>
+            { showAI && (
+              <Splitter.Panel defaultSize="30%">
+                <AIAssistant
+                  style={{ height: '100%', overflowY: 'hidden' }}
+                  univerApi={univerApi}
+                  aiConfig={{
+                    platform: plugin.settings.aiModePlatform,
+                    model: plugin.settings.aiModel,
+                    apiKey: plugin.settings.aiApiKey,
+                    baseUrl: plugin.settings.aiBaseUrl,
+                  }}
+                />
+              </Splitter.Panel>
+            )}
+          </Splitter>
+          <RenameModal
+            visible={renameModalVisible}
+            name={renameModalName}
+            onCancel={() => setRenameModalVisible(false)}
+            onOk={(name) => {
+              setRenameModalVisible(false)
+              dispatch({
+                type: TAB_RENAME_ACTION,
+                key: triggerSource,
+                payload: name,
+              })
+            }}
+          />
+        </ConfigProvider>
+      </div>
+    </AppErrorBoundary>
   )
 }
