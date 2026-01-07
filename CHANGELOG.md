@@ -1,5 +1,12 @@
 
 
+## [2.7.2](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.7.1...2.7.2) (2026-01-07)
+
+
+### Bug Fixes
+
+* Fix the issue of the mobile version being unusable ([191f229](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/191f229bc3736dc299d828a5b7fddc106043b2de))
+
 ## [2.7.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.7.0...2.7.1) (2026-01-05)
 
 # [2.7.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.6.0...2.7.0) (2026-01-04)
