@@ -1,5 +1,12 @@
 
 
+## [2.7.3](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.7.2...2.7.3) (2026-01-07)
+
+
+### Bug Fixes
+
+* Fix the application crash issue caused by the mobile version's lack of support for custom fonts. ([acfba67](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/acfba67151adaebe864836e71fd9e406b8951506))
+
 ## [2.7.2](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.7.1...2.7.2) (2026-01-07)
 
 
