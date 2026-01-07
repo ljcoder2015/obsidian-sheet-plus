@@ -1,5 +1,12 @@
 
 
+## [2.7.5](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/2.7.4...2.7.5) (2026-01-07)
+
+
+### Features
+
+* Fix the application crash issue caused by the mobile version's lack of support for custom fonts. ([507c549](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/507c549f2e14d57ad9ba52ca958a7c8edeceb5bd))
+
 ## [2.7.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/2.7.3...2.7.4) (2026-01-07)
 
 
