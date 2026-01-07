@@ -125,6 +125,11 @@ export function createUniver(
 
   const univerAPI = FUniver.newAPI(univer)
 
+  if (Platform.isMobileApp) {
+    // 手机端不支持自定义字体
+    return { univerAPI, univer }
+  }
+
   const fonts = availableFonts.map((font: FontInfo) => ({
     value: font.name,
     label: font.name,
