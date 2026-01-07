@@ -1,5 +1,12 @@
 
 
+## [2.7.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/2.7.3...2.7.4) (2026-01-07)
+
+
+### Bug Fixes
+
+* custom font ([cdaf57c](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/cdaf57ca372f9b4348adbdae22644e833cee55fb))
+
 ## [2.7.3](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.7.2...2.7.3) (2026-01-07)
 
 
