@@ -65,7 +65,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
     return `[[${withoutExt}]]`
   }
 
-  useMemo(() => {
+  useEffect(() => {
     let lifeCycleDisposable: { dispose: () => void } | null = null
     let commandExecutedDisposable: { dispose: () => void } | null = null
     let beforeCommandDisposable: { dispose: () => void } | null = null
