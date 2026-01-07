@@ -216,8 +216,7 @@ export class ExcelProView extends TextFileView {
             <ContainerView />
           </UniverProvider>
         </EditorContext.Provider>
-        ,
-      </SheetStoreProvider>,
+      </SheetStoreProvider>
     )
   }
 

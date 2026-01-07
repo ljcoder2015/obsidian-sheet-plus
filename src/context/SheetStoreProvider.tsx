@@ -1,7 +1,6 @@
 import { createContext, useEffect, useReducer, useContext } from 'react'
 import type { SheetStoreAction, SheetStoreState } from '../services/reduce'
 import { sheetStoreReducer } from '../services/reduce'
-import { log } from 'console'
 
 interface SheetStoreContextProps {
   state: SheetStoreState
@@ -31,7 +30,6 @@ export function SheetStoreProvider({
 
   // 🔴 关键：监听 state 变化
   useEffect(() => {
-    log('[SheetStoreProvider]', 'onChange', state)
     onChange?.(state)
   }, [state])
 
