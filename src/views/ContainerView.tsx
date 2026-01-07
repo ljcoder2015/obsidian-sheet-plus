@@ -299,6 +299,12 @@ export const ContainerView = function ContainerView() {
               <Tabs
                 size="small"
                 type="card"
+                styles={{
+                  content: {
+                    width: '100%',
+                    minHeight: '200px',
+                  }
+                }}
                 items={items}
                 activeKey={activeKey}
                 renderTabBar={renderTabBar}

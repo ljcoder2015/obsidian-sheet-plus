@@ -10,6 +10,7 @@ import { Spin } from 'antd'
 import type { IReplaceSnapshotCommandParams } from '@univerjs/docs-ui'
 import { ReplaceSnapshotCommand } from '@univerjs/docs-ui'
 import { ImportFinishCommand, ImportStartCommand } from '@ljcoder/import-export'
+import { Platform } from 'obsidian'
 import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
@@ -20,6 +21,7 @@ import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
 import { useSheetStore } from '../../context/SheetStoreProvider'
 import { OUTGOING_LINKS_UPDATE_ACTION, SHEET_UPDATE_ACTION } from '../../services/reduce'
+import type { FontInfo } from '../../services/fontManager'
 
 export function SheetTab({ switchTab }: { switchTab: () => void }) {
   const { state, dispatch } = useSheetStore()
@@ -88,9 +90,17 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
       lifeCycleDisposable = univerApi.addEvent(univerApi.Event.LifeCycleChanged, (res) => {
         if (res.stage === LifecycleStages.Rendered) {
           setLoading(false)
+          switchTab()
         }
         if (res.stage === LifecycleStages.Steady) {
-          switchTab()
+          if (Platform.isMobileApp) {
+            const fonts = plugin.availableFonts.map((font: FontInfo) => ({
+              value: font.name,
+              label: font.name,
+              isCustom: true,
+            }))
+            univerApi.addFonts(fonts)
+          }
         }
       })
 

@@ -27,7 +27,6 @@ export function initializeMarkdownPostProcessor(p: ExcelProPlugin) {
  * @param ctx 上下文
  */
 export async function markdownPostProcessor(el: HTMLElement, ctx: MarkdownPostProcessorContext) {
-  console.log("markdownPostProcessor=============");
   // check to see if we are rendering in editing mode or live preview
   // if yes, then there should be no .internal-embed containers
   const embeddedItems = el.querySelectorAll('.internal-embed')
