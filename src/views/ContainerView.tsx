@@ -302,7 +302,9 @@ export const ContainerView = function ContainerView() {
                 styles={{
                   content: {
                     width: '100%',
+                    minWidth: '200px',
                     minHeight: '200px',
+                    overflow: 'visible',
                   }
                 }}
                 items={items}
