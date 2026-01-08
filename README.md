@@ -15,7 +15,7 @@ Unlock more advanced features after purchasing an authorization code
 ## User Guide
 For a detailed tutorial on using the plugin, please refer to the user guide.
 
-- [User Guide](https://docs.ljcoder.com/guide/installation.html)
+- [User Guide](https://docs.ljcoder.com)
 
 ## Feature Demonstration
 ### AI Assistant (Paid)
