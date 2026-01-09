@@ -78,6 +78,7 @@ export default {
 
   TAB_TYPE_SHEET: 'Sheet',
   TAB_TYPE_KANBAN: 'Kanban',
+  TAB_TYPE_CALENDAR: 'Calendar',
   TAB_TYPE_GROUP: 'Group',
   TAB_TYPE_BI: 'BI',
   TAB_TYPE_PIVOT: 'Pivot',

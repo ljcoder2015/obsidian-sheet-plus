@@ -79,6 +79,7 @@ export default {
 
   TAB_TYPE_SHEET: 'List',
   TAB_TYPE_KANBAN: 'Kanban',
+  TAB_TYPE_CALENDAR: 'Kalendář',
   TAB_TYPE_GROUP: 'Skupina',
   TAB_TYPE_BI: 'BI',
   TAB_TYPE_PIVOT: 'Pivot',

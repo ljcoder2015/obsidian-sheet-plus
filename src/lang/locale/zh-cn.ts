@@ -78,6 +78,7 @@ export default {
 
   TAB_TYPE_SHEET: '表格',
   TAB_TYPE_KANBAN: '看板',
+  TAB_TYPE_CALENDAR: '日历',
   TAB_TYPE_GROUP: '分组',
   TAB_TYPE_BI: 'BI分析',
   TAB_TYPE_PIVOT: '透视表',

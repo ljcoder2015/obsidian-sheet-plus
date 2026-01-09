@@ -77,8 +77,9 @@ export default {
 
   LOADING: 'Indlæser...',
 
-  TAB_TYPE_SHEET: 'Arbejdsark',
+  TAB_TYPE_SHEET: 'Ark',
   TAB_TYPE_KANBAN: 'Kanban',
+  TAB_TYPE_CALENDAR: 'Kalender',
   TAB_TYPE_GROUP: 'Gruppe',
   TAB_TYPE_BI: 'BI',
   TAB_TYPE_PIVOT: 'Pivot',

@@ -79,9 +79,10 @@ export default {
 
   TAB_TYPE_SHEET: '表格',
   TAB_TYPE_KANBAN: '看板',
+  TAB_TYPE_CALENDAR: '日曆',
   TAB_TYPE_GROUP: '分組',
   TAB_TYPE_BI: 'BI分析',
-  TAB_TYPE_PIVOT: '樞紐分析表',
+  TAB_TYPE_PIVOT: '透視表',
 
   TAB_MENU_DEFAULT: '預設顯示',
   TAB_MENU_DELETE: '刪除',

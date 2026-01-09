@@ -77,8 +77,9 @@ export default {
 
   LOADING: 'Laden...',
 
-  TAB_TYPE_SHEET: 'Blatt',
+  TAB_TYPE_SHEET: 'Tabelle',
   TAB_TYPE_KANBAN: 'Kanban',
+  TAB_TYPE_CALENDAR: 'Kalender',
   TAB_TYPE_GROUP: 'Gruppe',
   TAB_TYPE_BI: 'BI',
   TAB_TYPE_PIVOT: 'Pivot',

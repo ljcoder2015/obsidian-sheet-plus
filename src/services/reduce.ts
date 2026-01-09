@@ -63,7 +63,7 @@ export function sheetStoreReducer(
         ...state,
         views: newViews,
         tabs: {
-          ...state.tabs,
+          tabs: state.tabs.tabs?.filter(tab => tab.key !== action.key),
           defaultActiveKey: 'sheet',
         },
       }

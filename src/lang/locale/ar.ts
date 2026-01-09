@@ -79,6 +79,7 @@ export default {
 
   TAB_TYPE_SHEET: 'جدول',
   TAB_TYPE_KANBAN: 'لوحة كانبان',
+  TAB_TYPE_CALENDAR: 'تقويم',
   TAB_TYPE_GROUP: 'مجموعة',
   TAB_TYPE_BI: 'تحليل BI',
   TAB_TYPE_PIVOT: 'جدول محوري',

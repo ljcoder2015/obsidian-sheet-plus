@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import type { MenuProps, TabsProps } from 'antd'
 import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, Typography, theme } from 'antd'
 import { Notice } from 'obsidian'
-import { AIAssistant, KanbanTab, useEventBus } from '@ljcoder/smart-sheet'
+import { AIAssistant, CalendarTab, KanbanTab, useEventBus } from '@ljcoder/smart-sheet'
 import { createStyles } from 'antd-style'
 import { randomString } from '../utils/uuid'
 import { TabType } from '../services/type'
@@ -11,7 +11,7 @@ import { log } from '../utils/log'
 import { useEditorContext } from '../context/editorContext'
 import { useUniver } from '../context/UniverContext'
 import { useSheetStore } from '../context/SheetStoreProvider'
-import { TAB_DEFAULT_ACTION, TAB_RENAME_ACTION, VIEW_ADD_ACTION, VIEW_CONFIG_ADD_ACTION, VIEW_REMOVE_ACTION, VIEW_UPDATE_ACTION } from '../services/reduce'
+import { TAB_DEFAULT_ACTION, TAB_RENAME_ACTION, VIEW_ADD_ACTION, VIEW_CONFIG_ADD_ACTION, VIEW_REMOVE_ACTION } from '../services/reduce'
 import { SheetTab } from './tabs/SheetTab'
 import { RenameModal } from './components/RenameModal'
 import { AppErrorBoundary } from './components/AppErrorBoundary'
@@ -98,6 +98,14 @@ export const ContainerView = function ContainerView() {
         forceRender: true,
       }
     }
+    else if (tab.type === TabType.CALENDAR) {
+      return {
+        key: tab.key,
+        label: tab.label,
+        children: <CalendarTab />,
+        forceRender: true,
+      }
+    }
     else {
       return {
         key: tab.key,
@@ -156,6 +164,9 @@ export const ContainerView = function ContainerView() {
         return
       }
       dispatch({ type: VIEW_REMOVE_ACTION, key: triggerSource })
+      if (triggerSource == activeKey) {
+        setActiveKey('sheet')
+      }
       setTriggerSource(null)
     }
     if (key === 'default') {
@@ -167,6 +178,7 @@ export const ContainerView = function ContainerView() {
         const tab = tabs.find((t) => t.key === triggerSource)
         if (tab) {
           setRenameModalName(tab.label)
+          dispatch({ type: TAB_RENAME_ACTION, key: triggerSource, payload: tab.label })
         }
       }
       setRenameModalVisible(true)
@@ -195,6 +207,10 @@ export const ContainerView = function ContainerView() {
       {
         label: t('TAB_TYPE_KANBAN'),
         key: 'kanban',
+      },
+      {
+        label: t('TAB_TYPE_CALENDAR'),
+        key: 'calendar',
       },
       // {
       //   label: t('TAB_TYPE_GROUP'),
