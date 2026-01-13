@@ -1,84 +1,125 @@
-# obsidian-sheet-plus
-Obsidian Sheet Plus  is here to revolutionize the way you handle spreadsheets within Obsidian。
+# Sheet Plus for Obsidian
 
-Developed using the Univer framework, Obsidian Sheet Plus features a Canvas-based rendering engine and formula engine.
+**A full-featured spreadsheet experience, directly inside your Obsidian vault.**
 
-## Discord
+Create, edit, and embed real spreadsheets in Obsidian — with formulas, charts, filtering, and data validation — without leaving your notes.
 
-[https://discord.gg/fufpbG4tJg](https://discord.gg/fufpbG4tJg)
+---
 
-## Purchase Authorization Code
-Unlock more advanced features after purchasing an authorization code
-- [Purchase Authorization Code](https://ko-fi.com/s/353d33a2dd)
-- [How to Use an Authorization Code](https://docs.ljcoder.com/price/activate/en.html)
-
-## User Guide
-For a detailed tutorial on using the plugin, please refer to the user guide.
-
-- [User Guide](https://docs.ljcoder.com)
-
-## Feature Demonstration
-### AI Assistant (Paid)
-- [AI Assistant Introduction](https://docs.ljcoder.com/guide/ai-assistant/introduction.html)
-> This feature is experimental and still under development; more capabilities will be added in the future.
-
-![AI Assistant](/images/ai-assistant.gif)
-
-### Kanban Board (Paid)
-![Kanban Board](/images/kanban-create-handle.gif)
-### Embed Chart Link (Paid)
-![Embed Chart Link](/images/embed-link-chart.gif)
-### Import (Paid)
-![Import](/images/import.gif)
-### Export (Paid)
-![Import](/images/export.gif)
-
-### Outgoing Link
-![Outgoing-link](/images//outgoing-link.gif)
-
-### Editing
-![create](/images/create.gif)
-
-### Number formats
-![Number formats](/images/Number-formats.gif)
-
-###  Formulas
-![Formulas](/images/Formulas.gif)
-
-### Embed link
-embed link rule:
-```
-![[file-folder/file-name#sheet-name|sri-sci:eri-eci<sheet-height>{html}]]
-```
-
-- `sri`: Start row index
-- `eri`: End row index
-- `sci`: Start column index
-- `eci`: End column index
-- `{html}`: Whether to display as HTML
-- `<sheet-height>`: Sheet height, dispaly HTML not work
-
-eg.
-```
-![[Excel 2024-06-05 13.41.50.univer#Sheet1|D8:G14<1000>{html}]]
-```
+> Tired of Markdown tables breaking as soon as your data grows?  
+> Sheet Plus brings Excel-like spreadsheets into Obsidian, designed for real data workflows.
 
 ![embed link](/images/embed-link.gif)
-
-### Find and replace
-![find](/images/find.gif)
-
-### Data validation
 ![data validation](/images/data-validation.gif)
 
-### Filter
-![filter](/images/filter.gif)
+---
 
-### Float Image
-![float image](/images/image.gif)
+## Why Sheet Plus?
 
-### Comment
-![comment](/images/remark.gif)
+Markdown tables are great for simple text, but they quickly fall apart when you need:
 
-### Charts
-![charts](/images/charts.gif)
+- formulas and calculations  
+- filtering and sorting  
+- structured datasets  
+- frequent edits  
+- charts and validation  
+
+Sheet Plus was built to handle **real spreadsheet use cases inside Obsidian**, so your data can live right next to your notes — not in a separate app.
+
+---
+
+## What can you do with Sheet Plus?
+
+- Create and edit spreadsheets visually inside Obsidian  
+- Use Excel-like formulas for calculations  
+- Filter, sort, and search large datasets  
+- Validate data to avoid input errors  
+- Create charts from spreadsheet data  
+- Embed spreadsheets directly inside Markdown notes  
+- Import and export spreadsheet files when needed  
+
+All changes are saved inside your vault and work seamlessly with your existing notes.
+
+---
+
+## Key Features
+
+- 🧮 Excel-like formula engine  
+- 📊 Charts and data visualization  
+- 🔍 Filtering, sorting, and find & replace  
+- ✅ Data validation support  
+- 🧩 Seamless embedding in Markdown notes  
+- ⚡ High-performance, canvas-based rendering  
+- 📂 Import and export spreadsheet data  
+
+---
+
+## Common Use Cases
+
+Sheet Plus works especially well for:
+
+- Budget and expense tracking  
+- Project planning and task tables  
+- Study schedules and learning trackers  
+- Content calendars  
+- Structured datasets linked to notes  
+
+If you currently switch between Obsidian and Excel/Google Sheets, Sheet Plus helps bring those workflows together.
+
+---
+
+## Getting Started
+
+1. Open **Settings → Community Plugins** in Obsidian  
+2. Browse and search for **Sheet Plus**  
+3. Install and enable the plugin  
+4. Use the command palette to create a new sheet  
+5. Embed the sheet directly inside your Markdown notes  
+
+---
+
+## Documentation
+
+- 📘 User Guide: https://docs.ljcoder.com/ 
+- 🐛 Bug reports & feature requests: GitHub Issues
+
+---
+
+## Feedback & Roadmap
+
+Sheet Plus is actively maintained and continuously evolving.
+
+If you have:
+- feature ideas
+- workflow suggestions
+- bug reports
+- performance feedback
+
+you’re very welcome to reach out through any of the following channels:
+
+- 💬 **Discord**: Join the community to discuss features and workflows  
+  👉 https://discord.gg/your-discord-invite-link
+- 📧 **Email**: ljcoder@163.com  
+- 🐛 **GitHub Issues**: for bugs and feature requests  
+
+Community feedback directly influences future updates and priorities.
+
+---
+
+### Roadmap (Planned & In Progress)
+
+The following features are currently planned or under active exploration:
+
+- 🤖 **AI Assistant**  
+  AI-powered assistance for spreadsheets, such as formula suggestions, data analysis, and smart transformations.
+
+- 🗂 **Kanban View**  
+  Visualize spreadsheet data as a Kanban board for task and project management workflows.
+
+- 📅 **Calendar View**  
+  Turn date-based spreadsheet data into a calendar view for planning and scheduling.
+
+- 📊 **Dashboard**  
+  Configurable dashboards with charts and key metrics generated from spreadsheet data.
+
+The roadmap is flexible and may evolve based on user feedback and real-world usage.
