@@ -80,7 +80,7 @@ If you currently switch between Obsidian and Excel/Google Sheets, Sheet Plus hel
 
 ## Documentation
 
-- 📘 User Guide: https://docs.ljcoder.com/ 
+- 📘 User Guide: https://docs.ljcoder.com/
 - 🐛 Bug reports & feature requests: GitHub Issues
 
 ---
@@ -97,9 +97,9 @@ If you have:
 
 you’re very welcome to reach out through any of the following channels:
 
-- 💬 **Discord**: Join the community to discuss features and workflows  
-  👉 https://discord.gg/your-discord-invite-link
-- 📧 **Email**: ljcoder@163.com  
+- 💬 **Discord**: Join the community to discuss features and workflows
+  👉 https://discord.gg/fufpbG4tJg
+- 📧 **Email**: ljcoder@163.com
 - 🐛 **GitHub Issues**: for bugs and feature requests  
 
 Community feedback directly influences future updates and priorities.
