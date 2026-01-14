@@ -21,7 +21,7 @@ const helpContent = (
     <h3>{t('TAB_HELP_TITLE')}</h3>
     <ul>
       <li>
-        <a href="https://docs.ljcoder.com/guide/installation.html" target="_blank">{t('TAB_HELP_CONTENT')}</a>
+        <a href="https://docs.ljcoder.com" target="_blank">{t('TAB_HELP_CONTENT')}</a>
       </li>
     </ul>
   </div>

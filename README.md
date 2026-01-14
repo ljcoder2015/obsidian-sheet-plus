@@ -100,7 +100,7 @@ you’re very welcome to reach out through any of the following channels:
 - 💬 **Discord**: Join the community to discuss features and workflows
   👉 https://discord.gg/fufpbG4tJg
 - 📧 **Email**: ljcoder@163.com
-- 🐛 **GitHub Issues**: for bugs and feature requests  
+- 🐛 **GitHub Issues**: for bugs and feature requests 👉 https://github.com/ljcoder2015/obsidian-sheet-plus/issues
 
 Community feedback directly influences future updates and priorities.
 
