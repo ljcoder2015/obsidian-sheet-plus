@@ -8,7 +8,7 @@ export interface SheetStoreState {
   sheet?: IWorkbookData
 
   // 其他视图
-  views?: Map<string, any>
+  views?: Record<string, any>
 
   // Tabs UI 状态（不是业务数据）
   tabs: MultiSheet
@@ -57,8 +57,8 @@ export function sheetStoreReducer(
       }
 
     case 'VIEW_REMOVE': {
-      const newViews = new Map(state.views || [])
-      newViews.delete(action.key)
+      const newViews = { ...state.views || {} }
+      delete newViews[action.key]
       return {
         ...state,
         views: newViews,
@@ -76,8 +76,8 @@ export function sheetStoreReducer(
       }
 
     case 'VIEW_CONFIG_ADD': {
-      const newViews = new Map(state.views || [])
-      newViews.set(action.key, action.payload)
+      const newViews = { ...state.views || {} }
+      newViews[action.key] = action.payload
       return {
         ...state,
         views: newViews,
@@ -85,8 +85,8 @@ export function sheetStoreReducer(
     }
 
     case 'VIEW_CONFIG_UPDATE': {
-      const newViews = new Map(state.views || [])
-      newViews.set(action.key, action.payload)
+      const newViews = { ...state.views || {} }
+      newViews[action.key] = action.payload
       return {
         ...state,
         views: newViews,
@@ -94,8 +94,8 @@ export function sheetStoreReducer(
     }
 
     case 'VIEW_CONFIG_REMOVE': {
-      const newViews = new Map(state.views || [])
-      newViews.delete(action.key)
+      const newViews = { ...state.views || {} }
+      delete newViews[action.key]
       return {
         ...state,
         views: newViews,

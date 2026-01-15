@@ -97,6 +97,7 @@ export default {
   TAB_RENAME_PLACEHOLDER: 'Please input rename',
 
   KANBAN_NOT_GROUP: 'Not grouped',
+  KANBAN_GROUP_BY: 'Group by',
   KANBAN_SETTING: 'Kanban Settings',
   KANBAN_SETTING_SHEET_ID: 'Data source',
   KANBAN_SETTING_SHEET_ID_DESC: 'Select the data source for the kanban',

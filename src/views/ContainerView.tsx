@@ -90,7 +90,7 @@ export const ContainerView = function ContainerView() {
             key={tab.key}
             id={tab.key}
             univerApi={univerApi}
-            config={state.views?.get(tab.key) ?? {}}
+            config={state.views?.[tab.key] ?? {}}
             workbook={state.sheet}
             dispatch={dispatch}
           />

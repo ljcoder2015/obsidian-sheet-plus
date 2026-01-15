@@ -69,10 +69,10 @@ export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
 
 export function toStoreState(md: string, filePath?: string): SheetStoreState | undefined {
   const { header, blocks } = parseMarkdown(md, filePath)
-  const views = new Map<string, any>()
+  const views: Record<string, any> = {}
   blocks?.forEach((v, k) => {
     if (k !== SHEET_KEY && k !== TABS_KEY) {
-      views.set(k, v)
+      views[k] = v
     }
   })
   let sheet = blocks?.get(SHEET_KEY)
@@ -104,7 +104,7 @@ export function toMarkdown(state: SheetStoreState): string | null {
   blocks.set(SHEET_KEY, state.sheet)
   blocks.set(TABS_KEY, state.tabs)
   if (state.views) {
-    for (const [k, v] of state.views) {
+    for (const [k, v] of Object.entries(state.views)) {
       if (k !== SHEET_KEY && k !== TABS_KEY) {
         blocks.set(k, v)
       }

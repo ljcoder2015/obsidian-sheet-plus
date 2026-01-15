@@ -97,6 +97,7 @@ export default {
   TAB_RENAME_PLACEHOLDER: '请输入重命名',
 
   KANBAN_NOT_GROUP: '未分组',
+  KANBAN_GROUP_BY: '分组依据',
   KANBAN_SETTING: '看板设置',
   KANBAN_SETTING_SHEET_ID: '数据源',
   KANBAN_SETTING_SHEET_ID_DESC: '选择看板的数据源',
