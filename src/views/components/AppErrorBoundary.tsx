@@ -16,7 +16,15 @@ export class AppErrorBoundary extends React.Component<
 
   render() {
     if (this.state.hasError) {
-      return <div>Something went wrong</div>
+      return (
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+        }}>
+          Something went wrong
+        </div>
+      )
     }
     return this.props.children
   }
