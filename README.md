@@ -42,15 +42,25 @@ All changes are saved inside your vault and work seamlessly with your existing n
 
 ---
 
-## Key Features
+## Basic Features
 
-- 🧮 Excel-like formula engine  
-- 📊 Charts and data visualization  
-- 🔍 Filtering, sorting, and find & replace  
-- ✅ Data validation support  
-- 🧩 Seamless embedding in Markdown notes  
-- ⚡ High-performance, canvas-based rendering  
-- 📂 Import and export spreadsheet data  
+- [Embed Sheet Link](https://docs.ljcoder.com/guide/features/embed-sheet-link.html)
+- [Outgoing Link](https://docs.ljcoder.com/guide/features/outgoing-link.html)
+- [Charts](https://docs.ljcoder.com/guide/features/charts.html)
+- Filtering, Sorting, and Find & Replace
+- [Data Validation](https://docs.ljcoder.com/guide/features/data-validation.html)
+- [Image](https://docs.ljcoder.com/guide/features/image.html)
+- [Custom Font](https://docs.ljcoder.com/guide/features/custom-font.html)
+- [Number Format](https://docs.ljcoder.com/guide/features/number-format-locale.html)
+
+---
+
+## Advanced Features (License Required)
+
+- [AI Assistant](https://docs.ljcoder.com/guide/ai-assistant/introduction.html)
+- [Import & Export](https://docs.ljcoder.com/guide/features/import-export.html)
+- [Embed Chart Link](https://docs.ljcoder.com/guide/features/embed-chart-link.html)
+- [Kanban View](https://docs.ljcoder.com/guide/features/kanban.html)
 
 ---
 
@@ -68,20 +78,9 @@ If you currently switch between Obsidian and Excel/Google Sheets, Sheet Plus hel
 
 ---
 
-## Getting Started
-
-1. Open **Settings → Community Plugins** in Obsidian  
-2. Browse and search for **Sheet Plus**  
-3. Install and enable the plugin  
-4. Use the command palette to create a new sheet  
-5. Embed the sheet directly inside your Markdown notes  
-
----
-
 ## Documentation
 
 - 📘 User Guide: https://docs.ljcoder.com/
-- 🐛 Bug reports & feature requests: GitHub Issues
 
 ---
 
