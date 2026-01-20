@@ -41,7 +41,6 @@ import {
   initializeMarkdownPostProcessor,
   markdownPostProcessor,
 } from './post-processor/markdownPostProcessor'
-import { DataService } from './services/data.service'
 import type { FontInfo } from './services/fontManager'
 import { FontManager } from './services/fontManager'
 import { toMarkdown, toStoreState, updateOutgoingLink, updateSheetOutgoingLinks } from './services/utils'
