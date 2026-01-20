@@ -84,7 +84,7 @@ If you currently switch between Obsidian and Excel/Google Sheets, Sheet Plus hel
 
 ---
 
-## Feedback & Roadmap
+## Feedback
 
 Sheet Plus is actively maintained and continuously evolving.
 
