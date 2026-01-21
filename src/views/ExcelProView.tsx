@@ -90,9 +90,7 @@ export class ExcelProView extends TextFileView {
     this.semaphores.viewloaded = true
     this.autoSaveItem = this.plugin.addStatusBarItem()
 
-    if (Platform.isMobile) {
-      this.renderModeEle = this.addAction('monitor-smartphone', t('CHANGE_RENDER_MODE'), _ => this.changeRenderMode())
-    }
+    this.renderModeEle = this.addAction('monitor-smartphone', t('CHANGE_RENDER_MODE'), _ => this.changeRenderMode())
   }
 
   onunload() {

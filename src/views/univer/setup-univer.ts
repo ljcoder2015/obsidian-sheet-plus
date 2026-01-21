@@ -117,7 +117,7 @@ export function createUniver(
   userManagerService.setCurrentUser(mockUser)
 
   log('[createUniver]', 'mobileRenderMode', mobileRenderMode)
-  const mobileRender = mobileRenderMode === 'mobile' && Platform.isMobile
+  const mobileRender = mobileRenderMode === 'mobile'
   if (mobileRender) {
     registerMobilePlugin(univer, option, container)
   }
