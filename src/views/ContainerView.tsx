@@ -208,10 +208,10 @@ export const ContainerView = function ContainerView() {
         label: t('TAB_TYPE_KANBAN'),
         key: 'kanban',
       },
-      {
-        label: t('TAB_TYPE_CALENDAR'),
-        key: 'calendar',
-      },
+      // {
+      //   label: t('TAB_TYPE_CALENDAR'),
+      //   key: 'calendar',
+      // },
       // {
       //   label: t('TAB_TYPE_GROUP'),
       //   key: 'group',

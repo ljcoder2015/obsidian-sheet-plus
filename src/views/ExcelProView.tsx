@@ -1,5 +1,5 @@
 import type { Vault, WorkspaceLeaf } from 'obsidian'
-import { Notice, TFile, TextFileView, debounce } from 'obsidian'
+import { Notice, Platform, TFile, TextFileView, debounce } from 'obsidian'
 import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
 import React from 'react'
@@ -20,9 +20,8 @@ import { ContainerView } from './ContainerView'
 
 export class ExcelProView extends TextFileView {
   root: Root | null = null
-  private containerRef = React.createRef<ContainerViewRef>()
   public plugin: ExcelProPlugin
-  public copyHTMLEle: HTMLElement | undefined
+  public renderModeEle: HTMLElement | undefined
   public statusBarItem: HTMLElement | undefined
 
   public subPath: string | null = null
@@ -89,8 +88,11 @@ export class ExcelProView extends TextFileView {
     log('[ExcelProView]', 'onload')
     super.onload()
     this.semaphores.viewloaded = true
-    this.copyHTMLEle = this.addAction('file-code', t('COPY_TO_HTML'), _ => this.copyToHTML())
     this.autoSaveItem = this.plugin.addStatusBarItem()
+
+    if (Platform.isMobile) {
+      this.renderModeEle = this.addAction('monitor-smartphone', t('CHANGE_RENDER_MODE'), _ => this.changeRenderMode())
+    }
   }
 
   onunload() {
@@ -102,12 +104,28 @@ export class ExcelProView extends TextFileView {
     this.dispose()
   }
 
+  changeRenderMode() {
+    if (this.plugin.settings.mobileRenderMode === 'mobile') {
+      this.plugin.settings.mobileRenderMode = 'desktop'
+    }
+    else {
+      this.plugin.settings.mobileRenderMode = 'mobile'
+    }
+    this.plugin.saveSettings()
+
+    // 将 unmount 和 renderContent 包装在 setTimeout 中，确保在当前渲染周期完成后执行
+    setTimeout(() => {
+      this.root?.unmount()
+      this.renderContent()
+    }, 0)
+  }
+
   clear(): void {
     this.data = BLANK_CONTENT
   }
 
   dispose() {
-    log('[ExcelProView]', 'ExcelProView调用dispose', this.containerRef)
+    log('[ExcelProView]', 'ExcelProView调用dispose')
     this.lastChangeState = undefined
     this.root?.unmount()
   }
@@ -229,9 +247,5 @@ export class ExcelProView extends TextFileView {
       const path = state.subpath as string
       this.subPath = path
     }
-  }
-
-  copyToHTML() {
-    // this.containerRef.current?.copyToHTML()
   }
 }

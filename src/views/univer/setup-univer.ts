@@ -85,6 +85,7 @@ import { enUS, faIR, frFR, getLanguage, ruRU, viVN, zhCN, zhTW } from '../../lan
 import type { FontInfo } from '../../services/fontManager'
 import { LJAuthzService } from './mockUserService'
 import { mockUser } from './customMentionDataService'
+import { log } from '@ljcoder/smart-sheet/src/utils/log'
 
 export function createUniver(
   availableFonts: FontInfo[],
@@ -115,17 +116,18 @@ export function createUniver(
   const userManagerService = injector.get(UserManagerService)
   userManagerService.setCurrentUser(mockUser)
 
-  if (Platform.isPhone && mobileRenderMode === 'mobile') {
+  log('[createUniver]', 'mobileRenderMode', mobileRenderMode)
+  const mobileRender = mobileRenderMode === 'mobile' && Platform.isMobile
+  if (mobileRender) {
     registerMobilePlugin(univer, option, container)
   }
   else {
     registerDesktopPlugin(univer, option, container)
-    // registerLazyDesktopPlugin(univer)
   }
 
   const univerAPI = FUniver.newAPI(univer)
 
-  if (Platform.isMobileApp) {
+  if (mobileRender) {
     // 手机端需要在渲染完成后注册字体
     return { univerAPI, univer }
   }

@@ -147,4 +147,7 @@ export default {
   AI_QWEN3_MAX: 'qwen3-max',
   AI_QWEN_PLUS: 'qwen-plus',
   AI_QWEN_FLASH: 'qwen-flash',
+  
+  // Render Mode
+  CHANGE_RENDER_MODE: 'Change Render Mode',
 }
