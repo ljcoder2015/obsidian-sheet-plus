@@ -32,7 +32,7 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   authorizationCode: '',
   embedLinkShowFooter: 'false',
   numberFormatLocal: 'en',
-  mobileRenderMode: 'mobile',
+  mobileRenderMode: 'desktop',
   darkModal: 'light',
   isBigSheet: 'false',
   fontFolder: 'fonts',

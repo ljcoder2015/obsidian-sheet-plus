@@ -55,8 +55,8 @@ export default {
   NUMBER_FORMAT_LOCALE: '数字格式区域设置',
   NUMBER_FORMAT_LOCALE_DESC: '设置数字格式的区域',
 
-  MOBILE_RENDER_MODE: '手机端渲染模式',
-  MOBILE_RENDER_MODE_DESC: '手机端渲染模式, 选择 mobile 渲染成手机端样式, desktop 渲染成客户端样式',
+  MOBILE_RENDER_MODE: '渲染模式',
+  MOBILE_RENDER_MODE_DESC: '渲染模式, 选择 mobile 渲染成手机端样式, desktop 渲染成客户端样式',
 
   AUTHORIZATION_CODE: '授权码',
   AUTHORIZATION_CODE_GET: '获取授权码',

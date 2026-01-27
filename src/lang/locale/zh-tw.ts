@@ -56,8 +56,8 @@ export default {
   NUMBER_FORMAT_LOCALE: '數字格式區域設定',
   NUMBER_FORMAT_LOCALE_DESC: '設定數字格式的區域',
 
-  MOBILE_RENDER_MODE: '手機端渲染模式',
-  MOBILE_RENDER_MODE_DESC: '手機端渲染模式, 選擇 mobile 渲染成手機端樣式, desktop 渲染成用戶端樣式',
+  MOBILE_RENDER_MODE: '渲染模式',
+  MOBILE_RENDER_MODE_DESC: '渲染模式, 選擇 mobile 渲染成手機端樣式, desktop 渲染成用戶端樣式',
 
   AUTHORIZATION_CODE: '授權碼',
   AUTHORIZATION_CODE_GET: '取得授權碼',

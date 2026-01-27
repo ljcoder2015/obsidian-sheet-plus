@@ -52,8 +52,8 @@ export default {
 
   UNIVER_SETTING: 'Univer Setting',
 
-  MOBILE_RENDER_MODE: 'Mobile Render Mode',
-  MOBILE_RENDER_MODE_DESC: 'Mobile rendering mode: select mobile to render in mobile style, and desktop to render in desktop client style.',
+  MOBILE_RENDER_MODE: 'Render Mode',
+  MOBILE_RENDER_MODE_DESC: 'Render mode: select mobile to render in mobile style, and desktop to render in desktop client style.',
 
   NUMBER_FORMAT_LOCALE: 'Number format locale settings',
   NUMBER_FORMAT_LOCALE_DESC: 'Set the locale for number formatting',
