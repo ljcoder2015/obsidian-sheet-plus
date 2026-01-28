@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import type { MenuProps, TabsProps } from 'antd'
 import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, Typography, theme } from 'antd'
 import { Notice } from 'obsidian'
-import { AIAssistant, CalendarTab, KanbanTab, useEventBus } from '@ljcoder/smart-sheet'
+import { AIAssistant, CalendarTab, KanbanTab, MCPServer, useEventBus } from '@ljcoder/smart-sheet'
 import { createStyles } from 'antd-style'
 import { randomString } from '../utils/uuid'
 import { TabType } from '../services/type'
@@ -62,6 +62,7 @@ export const ContainerView = function ContainerView() {
   const [renameModalVisible, setRenameModalVisible] = useState(false) // 重命名
   const [renameModalName, setRenameModalName] = useState('') // 重命名的名称
   const [showAI, setShowAI] = useState(false)
+  const [showMCPServer, setShowMCPServer] = useState(false)
   const { styles } = useStyle()
 
   const tabs = state.tabs.tabs || []
@@ -345,6 +346,16 @@ export const ContainerView = function ContainerView() {
                       >
                         AI
                       </Button>
+                      <Button
+                        type="primary"
+                        onClick={
+                          () => {
+                            setShowMCPServer(v => !v)
+                          }
+                        }
+                      >
+                        MCP Server
+                      </Button>
                     </Flex>
                   ),
                 }}
@@ -364,6 +375,15 @@ export const ContainerView = function ContainerView() {
                     apiKey: plugin.settings.aiApiKey,
                     baseUrl: plugin.settings.aiBaseUrl,
                   }}
+                />
+              </Splitter.Panel>
+            )}
+            { showMCPServer && (
+              <Splitter.Panel defaultSize="30%">
+                <MCPServer
+                  style={{ height: '100%', overflowY: 'hidden' }}
+                  univerApi={univerApi}
+                  app={plugin.app}
                 />
               </Splitter.Panel>
             )}
