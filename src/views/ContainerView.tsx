@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import type { MenuProps, TabsProps } from 'antd'
 import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, Typography, theme } from 'antd'
 import { Notice } from 'obsidian'
-import { AIAssistant, CalendarTab, KanbanTab, MCPServer, useEventBus } from '@ljcoder/smart-sheet'
+import { AIAssistant, CalendarTab, KanbanTab, useEventBus, mcpService } from '@ljcoder/smart-sheet'
 import { createStyles } from 'antd-style'
 import { randomString } from '../utils/uuid'
 import { TabType } from '../services/type'
@@ -15,6 +15,7 @@ import { TAB_DEFAULT_ACTION, TAB_RENAME_ACTION, VIEW_ADD_ACTION, VIEW_CONFIG_ADD
 import { SheetTab } from './tabs/SheetTab'
 import { RenameModal } from './components/RenameModal'
 import { AppErrorBoundary } from './components/AppErrorBoundary'
+import { McpServerManager } from '@ljcoder/smart-sheet'
 
 const helpContent = (
   <div style={{ width: '300px' }}>
@@ -62,7 +63,8 @@ export const ContainerView = function ContainerView() {
   const [renameModalVisible, setRenameModalVisible] = useState(false) // 重命名
   const [renameModalName, setRenameModalName] = useState('') // 重命名的名称
   const [showAI, setShowAI] = useState(false)
-  const [showMCPServer, setShowMCPServer] = useState(false)
+  const [showMCP, setShowMCP] = useState(false)
+  const [mcpRunning, setMcpRunning] = useState(false)
   const { styles } = useStyle()
 
   const tabs = state.tabs.tabs || []
@@ -141,6 +143,12 @@ export const ContainerView = function ContainerView() {
       setAlgorithm([])
     }
   }, [plugin])
+
+  useEffect(() => {
+    if (univerApi) {
+      mcpService.setUniverApi(univerApi)
+    }
+  }, [univerApi])
 
   const tabMenu: MenuProps['items'] = [
     {
@@ -350,7 +358,7 @@ export const ContainerView = function ContainerView() {
                         type="primary"
                         onClick={
                           () => {
-                            setShowMCPServer(v => !v)
+                            setShowMCP(v => !v)
                           }
                         }
                       >
@@ -378,12 +386,11 @@ export const ContainerView = function ContainerView() {
                 />
               </Splitter.Panel>
             )}
-            { showMCPServer && (
+            { showMCP && (
               <Splitter.Panel defaultSize="30%">
-                <MCPServer
-                  style={{ height: '100%', overflowY: 'hidden' }}
-                  univerApi={univerApi}
-                  app={plugin.app}
+                <McpServerManager 
+                  onClose={() => setShowMCP(false)}
+                  onStatusChange={(running) => setMcpRunning(running)}
                 />
               </Splitter.Panel>
             )}

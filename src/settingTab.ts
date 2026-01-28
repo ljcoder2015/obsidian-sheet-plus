@@ -324,6 +324,8 @@ export class ExcelProSettingTab extends PluginSettingTab {
           }),
       )
 
+
+
     containerEl.createEl('hr')
 
     const linksEl = containerEl.createDiv('authorization-code-container')
@@ -331,4 +333,6 @@ export class ExcelProSettingTab extends PluginSettingTab {
       a.innerHTML = t('AUTHORIZATION_CODE_GET')
     })
   }
+
+
 }
