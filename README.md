@@ -4,11 +4,6 @@
 
 Create, edit, and embed real spreadsheets in Obsidian — with formulas, charts, filtering, and data validation — without leaving your notes.
 
----
-
-> Tired of Markdown tables breaking as soon as your data grows?  
-> Sheet Plus brings Excel-like spreadsheets into Obsidian, designed for real data workflows.
-
 ![embed link](/images/embed-link.gif)
 ![data validation](/images/data-validation.gif)
 
@@ -61,20 +56,6 @@ All changes are saved inside your vault and work seamlessly with your existing n
 - [Import & Export](https://docs.ljcoder.com/guide/features/import-export.html)
 - [Embed Chart Link](https://docs.ljcoder.com/guide/features/embed-chart-link.html)
 - [Kanban View](https://docs.ljcoder.com/guide/features/kanban.html)
-
----
-
-## Common Use Cases
-
-Sheet Plus works especially well for:
-
-- Budget and expense tracking  
-- Project planning and task tables  
-- Study schedules and learning trackers  
-- Content calendars  
-- Structured datasets linked to notes  
-
-If you currently switch between Obsidian and Excel/Google Sheets, Sheet Plus helps bring those workflows together.
 
 ---
 
