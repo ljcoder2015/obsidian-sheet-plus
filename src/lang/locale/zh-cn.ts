@@ -150,4 +150,8 @@ export default {
   
   // Render Mode
   CHANGE_RENDER_MODE: '切换渲染模式',
+  
+  // Help Menu
+  HELP_MENU_DOCS: '文档',
+  HELP_MENU_TUTORIALS: '视频教程',
 }

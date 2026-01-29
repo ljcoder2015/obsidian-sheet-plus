@@ -150,4 +150,8 @@ export default {
   
   // Render Mode
   CHANGE_RENDER_MODE: 'Change Render Mode',
+  
+  // Help Menu
+  HELP_MENU_DOCS: 'Documentation',
+  HELP_MENU_TUTORIALS: 'Video Tutorials',
 }
