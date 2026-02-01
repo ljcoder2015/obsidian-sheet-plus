@@ -1,6 +1,14 @@
 import { moment } from 'obsidian'
 import { LocaleType, Tools } from '@univerjs/core'
 
+import UniscriptenUS from '@univerjs/uniscript/lib/es/locale/en-US'
+import UniscriptfaIR from '@univerjs/uniscript/lib/es/locale/fa-IR'
+import UniscriptfrFR from '@univerjs/uniscript/lib/es/locale/fr-FR'
+import UniscriptruRU from '@univerjs/uniscript/lib/es/locale/ru-RU'
+import UniscriptviVN from '@univerjs/uniscript/lib/es/locale/vi-VN'
+import UniscriptZhCN from '@univerjs/uniscript/lib/es/locale/zh-CN'
+import UniscriptZhTW from '@univerjs/uniscript/lib/es/locale/zh-TW'
+
 import SheetsTableUIenUS from '@univerjs/sheets-table-ui/lib/es/locale/en-US'
 import SheetsTableUIfaIR from '@univerjs/sheets-table-ui/lib/es/locale/fa-IR'
 import SheetsTableUIfrFR from '@univerjs/sheets-table-ui/lib/es/locale/fr-FR'
@@ -244,6 +252,7 @@ export const enUS = Tools.deepMerge(
   outgoingLinkenUS,
   SheetsTableUIenUS,
   SheetsNoteUIenUS,
+  UniscriptenUS,
 )
 export const frFR = Tools.deepMerge(
   {},
@@ -274,6 +283,7 @@ export const frFR = Tools.deepMerge(
   outgoingLinkfrFR,
   SheetsTableUIfrFR,
   SheetsNoteUIfrFR,
+  UniscriptfrFR,
 )
 export const ruRU = Tools.deepMerge(
   {},
@@ -304,6 +314,7 @@ export const ruRU = Tools.deepMerge(
   outgoingLinkruRU,
   SheetsTableUIruRU,
   SheetsNoteUIruRU,
+  UniscriptruRU,
 )
 export const zhCN = Tools.deepMerge(
   {},
@@ -334,6 +345,7 @@ export const zhCN = Tools.deepMerge(
   outgoingLinkzhCN,
   SheetsTableUIZhCN,
   SheetsNoteUIZhCN,
+  UniscriptZhCN,
 )
 export const zhTW = Tools.deepMerge(
   {},
@@ -364,6 +376,7 @@ export const zhTW = Tools.deepMerge(
   outgoingLinkzhTW,
   SheetsTableUIZhTW,
   SheetsNoteUIZhTW,
+  UniscriptZhTW,
 )
 export const viVN = Tools.deepMerge(
   {},
@@ -394,6 +407,7 @@ export const viVN = Tools.deepMerge(
   outgoingLinkviVN,
   SheetsTableUIviVN,
   SheetsNoteUIviVN,
+  UniscriptviVN,
 )
 export const faIR = Tools.deepMerge(
   {},
@@ -424,4 +438,5 @@ export const faIR = Tools.deepMerge(
   outgoingLinkfaIR,
   SheetsTableUIfaIR,
   SheetsNoteUIfaIR,
+  UniscriptfaIR,
 )

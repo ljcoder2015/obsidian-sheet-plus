@@ -49,7 +49,7 @@ import { UniverSheetsHyperLinkPlugin } from '@univerjs/sheets-hyper-link'
 import { UniverSheetsConditionalFormattingMobileUIPlugin, UniverSheetsConditionalFormattingUIPlugin } from '@univerjs/sheets-conditional-formatting-ui'
 import { UniverSheetsDataValidationMobileUIPlugin, UniverSheetsDataValidationUIPlugin } from '@univerjs/sheets-data-validation-ui'
 import { UniverSheetsFilterMobileUIPlugin, UniverSheetsFilterUIPlugin } from '@univerjs/sheets-filter-ui'
-
+import { UniverUniscriptPlugin } from '@univerjs/uniscript'
 import { Platform } from 'obsidian'
 
 import '@univerjs/sheets/facade'
@@ -81,11 +81,11 @@ import { UniverChartPlugin } from '@ljcoder/charts'
 import { UniverSheetsImportExportPlugin } from '@ljcoder/import-export'
 import { UniverSheetsOutgoingLinkUIPlugin } from '@ljcoder/sheets-outgoing-link-ui'
 import { FUniver } from '@univerjs/core/facade'
+import { log } from '@ljcoder/smart-sheet/src/utils/log'
 import { enUS, faIR, frFR, getLanguage, ruRU, viVN, zhCN, zhTW } from '../../lang/locale'
 import type { FontInfo } from '../../services/fontManager'
 import { LJAuthzService } from './mockUserService'
 import { mockUser } from './customMentionDataService'
-import { log } from '@ljcoder/smart-sheet/src/utils/log'
 
 export function createUniver(
   availableFonts: FontInfo[],
@@ -257,6 +257,8 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, containe
   // 批注
   univer.registerPlugin(UniverSheetsNotePlugin)
   univer.registerPlugin(UniverSheetsNoteUIPlugin)
+
+  univer.registerPlugin(UniverUniscriptPlugin)
 }
 
 function registerMobilePlugin(univer: Univer, option: IUniverUIConfig, container: string | HTMLElement) {
