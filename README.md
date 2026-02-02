@@ -52,6 +52,7 @@ All changes are saved inside your vault and work seamlessly with your existing n
 
 ## Advanced Features (License Required)
 
+- [REST API](https://docs.ljcoder.com/guide/rest-api/quick-start.html)
 - [AI Assistant](https://docs.ljcoder.com/guide/ai-assistant/introduction.html)
 - [Import & Export](https://docs.ljcoder.com/guide/features/import-export.html)
 - [Embed Chart Link](https://docs.ljcoder.com/guide/features/embed-chart-link.html)
