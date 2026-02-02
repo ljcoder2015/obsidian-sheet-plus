@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import type { MenuProps, TabsProps } from 'antd'
 import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, Typography, theme } from 'antd'
 import { Notice } from 'obsidian'
-import { AIAssistant, CalendarTab, KanbanTab, useEventBus } from '@ljcoder/smart-sheet'
+import { AIAssistant, CalendarTab, KanbanTab, McpServerManager, mcpService, useEventBus } from '@ljcoder/smart-sheet'
 import { createStyles } from 'antd-style'
 import { randomString } from '../utils/uuid'
 import { TabType } from '../services/type'
@@ -15,17 +15,6 @@ import { TAB_DEFAULT_ACTION, TAB_RENAME_ACTION, VIEW_ADD_ACTION, VIEW_CONFIG_ADD
 import { SheetTab } from './tabs/SheetTab'
 import { RenameModal } from './components/RenameModal'
 import { AppErrorBoundary } from './components/AppErrorBoundary'
-
-const helpContent = (
-  <div style={{ width: '300px' }}>
-    <h3>{t('TAB_HELP_TITLE')}</h3>
-    <ul>
-      <li>
-        <a href="https://docs.ljcoder.com" target="_blank">{t('TAB_HELP_CONTENT')}</a>
-      </li>
-    </ul>
-  </div>
-)
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
   linearGradientButton: css`
@@ -62,6 +51,8 @@ export const ContainerView = function ContainerView() {
   const [renameModalVisible, setRenameModalVisible] = useState(false) // 重命名
   const [renameModalName, setRenameModalName] = useState('') // 重命名的名称
   const [showAI, setShowAI] = useState(false)
+  const [showMCP, setShowMCP] = useState(false)
+  const [mcpRunning, setMcpRunning] = useState(false)
   const { styles } = useStyle()
 
   const tabs = state.tabs.tabs || []
@@ -141,6 +132,12 @@ export const ContainerView = function ContainerView() {
     }
   }, [plugin])
 
+  useEffect(() => {
+    if (univerApi) {
+      mcpService.setUniverApi(univerApi)
+    }
+  }, [univerApi])
+
   const tabMenu: MenuProps['items'] = [
     {
       label: t('TAB_MENU_DEFAULT'),
@@ -175,7 +172,7 @@ export const ContainerView = function ContainerView() {
     }
     if (key === 'rename') {
       if (triggerSource) {
-        const tab = tabs.find((t) => t.key === triggerSource)
+        const tab = tabs.find(t => t.key === triggerSource)
         if (tab) {
           setRenameModalName(tab.label)
           dispatch({ type: TAB_RENAME_ACTION, key: triggerSource, payload: tab.label })
@@ -246,6 +243,26 @@ export const ContainerView = function ContainerView() {
         })
       }
     },
+  }
+
+  // 帮助菜单
+  const helpTabMenu: MenuProps = {
+    items: [
+      {
+        label: t('HELP_MENU_DOCS'),
+        key: 'docs',
+        onClick: () => {
+          window.open('https://docs.ljcoder.com/', '_blank')
+        },
+      },
+      {
+        label: t('HELP_MENU_TUTORIALS'),
+        key: 'tutorials',
+        onClick: () => {
+          window.open('https://www.youtube.com/@obsidian-sheet-plus/playlists', '_blank')
+        },
+      },
+    ],
   }
 
   // 自定义 TabBar 渲染函数
@@ -321,7 +338,7 @@ export const ContainerView = function ContainerView() {
                     minWidth: '200px',
                     minHeight: '200px',
                     overflow: 'visible',
-                  }
+                  },
                 }}
                 items={items}
                 activeKey={activeKey}
@@ -332,9 +349,9 @@ export const ContainerView = function ContainerView() {
                       <Dropdown menu={addTabMenu} trigger={['click']}>
                         <Button color="default" variant="outlined">+</Button>
                       </Dropdown>
-                      <Popover content={helpContent} trigger="hover">
+                      <Dropdown menu={helpTabMenu} trigger={['hover']}>
                         <Button>?</Button>
-                      </Popover>
+                      </Dropdown>
                       <Button
                         type="primary"
                         onClick={
@@ -344,6 +361,16 @@ export const ContainerView = function ContainerView() {
                         }
                       >
                         AI
+                      </Button>
+                      <Button
+                        type="primary"
+                        onClick={
+                          () => {
+                            setShowMCP(v => !v)
+                          }
+                        }
+                      >
+                        REST API
                       </Button>
                     </Flex>
                   ),
@@ -364,6 +391,14 @@ export const ContainerView = function ContainerView() {
                     apiKey: plugin.settings.aiApiKey,
                     baseUrl: plugin.settings.aiBaseUrl,
                   }}
+                />
+              </Splitter.Panel>
+            )}
+            { showMCP && (
+              <Splitter.Panel defaultSize="30%">
+                <McpServerManager
+                  onClose={() => setShowMCP(false)}
+                  onStatusChange={running => setMcpRunning(running)}
                 />
               </Splitter.Panel>
             )}

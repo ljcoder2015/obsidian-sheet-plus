@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client'
 import React from 'react'
 import { emitEvent } from '@ljcoder/smart-sheet'
 import { error } from '@ljcoder/smart-sheet/src/utils/log'
+import { mcpService } from '@ljcoder/smart-sheet/src/mcp/McpService'
 import type ExcelProPlugin from '../main'
 
 import { BLANK_CONTENT, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
@@ -98,6 +99,14 @@ export class ExcelProView extends TextFileView {
     this.semaphores.viewunload = true
     this.debounced.run()
     this.autoSaveItem?.remove()
+
+    // 关闭 MCP 服务
+    try {
+      mcpService.stop()
+      log('[ExcelProView]', 'MCP service stopped')
+    } catch (e) {
+      log('[ExcelProView]', 'Error stopping MCP service', e)
+    }
 
     this.dispose()
   }
