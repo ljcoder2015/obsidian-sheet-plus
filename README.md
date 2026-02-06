@@ -4,8 +4,9 @@
 
 Create, edit, and embed real spreadsheets in Obsidian — with formulas, charts, filtering, and data validation — without leaving your notes.
 
-![embed link](/images/embed-link.gif)
-![data validation](/images/data-validation.gif)
+Supports AI-powered automated table processing, such as with Claude.
+
+![mcp](/images/mcp.gif)
 
 ---
 
@@ -39,30 +40,31 @@ All changes are saved inside your vault and work seamlessly with your existing n
 
 ## Basic Features
 
-- [Embed Sheet Link](https://docs.ljcoder.com/guide/features/embed-sheet-link.html)
-- [Outgoing Link](https://docs.ljcoder.com/guide/features/outgoing-link.html)
-- [Charts](https://docs.ljcoder.com/guide/features/charts.html)
-- Filtering, Sorting, and Find & Replace
-- [Data Validation](https://docs.ljcoder.com/guide/features/data-validation.html)
-- [Image](https://docs.ljcoder.com/guide/features/image.html)
-- [Custom Font](https://docs.ljcoder.com/guide/features/custom-font.html)
-- [Number Format](https://docs.ljcoder.com/guide/features/number-format-locale.html)
+- [Embed Sheet Link](https://docs.ljcoder.com/guide/features/embed-sheet-link.html): Embed a spreadsheet inside your notes.
+- [Outgoing Link](https://docs.ljcoder.com/guide/features/outgoing-link.html): Embed a link in a cell that jumps to another file in your vault; clicking it opens that file directly.
+- [Charts](https://docs.ljcoder.com/guide/features/charts.html): Create charts from spreadsheet data.
+- Filtering, Sorting, and Find & Replace: Filter, sort, and find/replace in spreadsheet data.
+- [Data Validation](https://docs.ljcoder.com/guide/features/data-validation.html): Validate spreadsheet data, supporting checkboxes, dropdowns, dates, and more.
+- [Image](https://docs.ljcoder.com/guide/features/image.html): Insert images into spreadsheets.
+- [Custom Font](https://docs.ljcoder.com/guide/features/custom-font.html): Customize spreadsheet fonts.
+- [Number Format](https://docs.ljcoder.com/guide/features/number-format-locale.html): Customize number formats, supporting different regional decimal displays.
 
 ---
 
 ## Advanced Features (License Required)
 
-- [REST API](https://docs.ljcoder.com/guide/rest-api/quick-start.html)
-- [AI Assistant](https://docs.ljcoder.com/guide/ai-assistant/introduction.html)
-- [Import & Export](https://docs.ljcoder.com/guide/features/import-export.html)
-- [Embed Chart Link](https://docs.ljcoder.com/guide/features/embed-chart-link.html)
-- [Kanban View](https://docs.ljcoder.com/guide/features/kanban.html)
+- [REST API](https://docs.ljcoder.com/guide/rest-api/quick-start.html): Provides RESTful API endpoints, supporting automated processing through external AI clients like Claude Desktop. The advantage is no token purchase required.
+- [AI Assistant](https://docs.ljcoder.com/guide/ai-assistant/introduction.html): Automate spreadsheet processing by entering a task description in the chat box—no need for external AI clients; it directly calls AI API endpoints. The downside is that tokens must be purchased.
+- [Import & Export](https://docs.ljcoder.com/guide/features/import-export.html): Supports importing and exporting `xlsx` format files.
+- [Embed Chart Link](https://docs.ljcoder.com/guide/features/embed-chart-link.html): Embed a chart link in your notes, directly rendering spreadsheet data as charts
+- [Kanban View](https://docs.ljcoder.com/guide/features/kanban.html): Display spreadsheet data as a Kanban board for easy task management.
 
 ---
 
 ## Documentation
 
 - 📘 User Guide: https://docs.ljcoder.com/
+- 📺 YouTube Channel: https://www.youtube.com/@obsidian-sheet-plus
 
 ---
 

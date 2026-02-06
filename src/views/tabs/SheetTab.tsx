@@ -48,12 +48,18 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
 
     return () => {
       log('[SheetTab]', 'sheetTab 卸载')
-      if (univer) {
-        log('[SheetTab]', 'disposeUniver', univer)
-        univer.dispose()
-      }
-      univerAPI.dispose()
-      containerRef.current = null
+      // 使用 setTimeout 避免与 React 渲染周期冲突
+      setTimeout(() => {
+        if (univerAPI) {
+          log('[SheetTab]', 'disposeUniverAPI', univerAPI)
+          univerAPI.dispose()
+        }
+        if (univer) {
+          log('[SheetTab]', 'disposeUniver', univer)
+          univer.dispose()
+        }
+        containerRef.current = null
+      }, 0)
     }
   }, [])
 
