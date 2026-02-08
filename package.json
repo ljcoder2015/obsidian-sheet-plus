@@ -77,6 +77,7 @@
     "@univerjs/thread-comment": "0.15.3",
     "@univerjs/thread-comment-ui": "0.15.3",
     "@univerjs/ui": "0.15.3",
+    "@univerjs/uniscript": "^0.15.3",
     "antd": "^6.1.0",
     "antd-style": "^3.7.1",
     "defu": "^6.1.4",

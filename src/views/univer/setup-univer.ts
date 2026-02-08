@@ -1,5 +1,6 @@
 import '@ljcoder/charts/lib/index.css'
 import '@ljcoder/sheets-outgoing-link-ui/lib/index.css'
+import '@univerjs/uniscript/lib/index.css'
 
 import { IAuthzIoService, INumfmtLocaleTag, LocaleType, LogLevel, Univer, UserManagerService } from '@univerjs/core'
 import { defaultTheme } from '@univerjs/design'
@@ -70,6 +71,7 @@ import { UniverSheetsTablePlugin } from '@univerjs/sheets-table'
 import { UniverSheetsTableUIPlugin } from '@univerjs/sheets-table-ui'
 import { UniverSheetsNotePlugin } from '@univerjs/sheets-note'
 import { UniverSheetsNoteUIPlugin } from '@univerjs/sheets-note-ui'
+import { UniverUniscriptPlugin } from '@univerjs/uniscript'
 
 import { UniverSheetsFindReplacePlugin } from '@univerjs/sheets-find-replace'
 import { UniverSheetsDrawingUIPlugin } from '@univerjs/sheets-drawing-ui'
@@ -81,11 +83,11 @@ import { UniverChartPlugin } from '@ljcoder/charts'
 import { UniverSheetsImportExportPlugin } from '@ljcoder/import-export'
 import { UniverSheetsOutgoingLinkUIPlugin } from '@ljcoder/sheets-outgoing-link-ui'
 import { FUniver } from '@univerjs/core/facade'
+import { log } from '@ljcoder/smart-sheet/src/utils/log'
 import { enUS, faIR, frFR, getLanguage, ruRU, viVN, zhCN, zhTW } from '../../lang/locale'
 import type { FontInfo } from '../../services/fontManager'
 import { LJAuthzService } from './mockUserService'
 import { mockUser } from './customMentionDataService'
-import { log } from '@ljcoder/smart-sheet/src/utils/log'
 
 export function createUniver(
   availableFonts: FontInfo[],
@@ -257,6 +259,9 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, containe
   // 批注
   univer.registerPlugin(UniverSheetsNotePlugin)
   univer.registerPlugin(UniverSheetsNoteUIPlugin)
+
+  // Uniscript
+  univer.registerPlugin(UniverUniscriptPlugin)
 }
 
 function registerMobilePlugin(univer: Univer, option: IUniverUIConfig, container: string | HTMLElement) {
