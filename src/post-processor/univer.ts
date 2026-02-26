@@ -14,7 +14,7 @@ export function createUniverEl(data: IWorkbookData | null, height = 300, showFoo
   // console.log('createUniverEl', data)
   const id = `univer-embed-${randomString(6)}`
   const univerEl = createDiv({
-    cls: 'sheet-iframe',
+    cls: 'lj-sheet-iframe',
     attr: {
       id,
       style: `height: ${height}px`,

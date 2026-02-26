@@ -1,4 +1,4 @@
-import type { IWorkbookData } from '@univerjs/core'
+import type { ICellData, IWorkbookData } from '@univerjs/core'
 import { rangeToNumber } from '../utils/data'
 /**
  * 获取指定 sheet 中指定 cells 的数据转换成 HTML
@@ -63,7 +63,7 @@ export function renderToHtml(data: IWorkbookData, sheet: string, range: string):
             }
 
             const td = createEl('td', {
-              text: `${cell.v || ''}`,
+              text: `${getDisplayValue(cell) || ''}`,
               attr: {
                 style: `width: ${width}px`,
                 rowspan: mergeRow,
@@ -74,7 +74,7 @@ export function renderToHtml(data: IWorkbookData, sheet: string, range: string):
           }
           else {
             const td = createEl('td', {
-              text: `${cell.v || ''}`,
+              text: `${getDisplayValue(cell) || ''}`,
               attr: {
                 style: `width: ${width}px`,
               },
@@ -98,4 +98,12 @@ export function renderToHtml(data: IWorkbookData, sheet: string, range: string):
     table.setAttr('style', `width: ${tableWidth}px`)
 
   return table
+}
+
+function getDisplayValue(cell: ICellData) {
+  if (cell?.p && cell.p.body?.dataStream) {
+    return cell.p.body.dataStream
+  }
+
+  return cell?.v?.toString() ?? ''
 }

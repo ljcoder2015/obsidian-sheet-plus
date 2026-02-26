@@ -284,7 +284,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
   return (
     <Spin spinning={loading} size="large" tip={spinTip}>
       <div id="sheet-box">
-        <div ref={containerRef} className="my-univer" />
+        <div ref={containerRef} className="lj-univer" />
       </div>
     </Spin>
   )

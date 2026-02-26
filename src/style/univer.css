@@ -3,7 +3,7 @@
 :root {
 	--ctx_menu_x: 0px;
 	--ctx_menu_y: 0px;
-	--toolbar-height: 100px;
+	--lj-toolbar-height: 100px;
 	--sheet-iframe-border-color: #f5f6f7;
 	--sheet-iframe-background-color: #fff;
 	--sheet-toolbar-background-color: #f5f6f7;
@@ -22,11 +22,6 @@
 	font-size: 20px;
 }
 
-/* 修复数据验证 */
-/* .workspace-leaf {
-	contain: none !important;
-} */
-
 .lj-table-box {
 	overflow-x: scroll;
 }
@@ -41,7 +36,7 @@
 }
 
 /* Markdown 文档引入样式设置*/
-.sheet-iframe {
+.lj-sheet-iframe {
 	text-align: center;
 	width: 100%;
 	background-color: var(--sheet-iframe-background-color);
@@ -55,123 +50,30 @@
   background-color: white;
 }
 
-.univer-dark .sheet-iframe {
+.univer-dark .lj-sheet-iframe {
   background-color: #282828;
-}
-
-.sheet-loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: white; /* 设置为白色背景 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 3000;
-  visibility: visible; /* 初始隐藏 */
-	border: 1px solid #ececec;
-}
-
-.univer-dark .sheet-loading-overlay {
-  background-color: #1e1e1e;
-  border-color: #363636;
-}
-
-/* 逐个字上下跳动动画 */
-.loading-text {
-  font-size: 16px;
-  color: #333; /* 文字颜色 */
-  display: flex;
-  justify-content: center; /* 文字水平居中 */
-	align-items: center;
-}
-
-.univer-dark .loading-text {
-  color: #dadada;
-}
-
-/* 每个字的动画 */
-.loading-text span {
-	font-size: 24px;
-	font-weight: bold;
-  display: inline-block;
-  animation: bounce 1s ease-in-out infinite; /* 设置上下跳动动画 */
-  margin: 0 3px; /* 字符之间的间距 */
-}
-
-/* 上下跳动动画效果 */
-@keyframes bounce {
-  0% {
-    transform: translateY(0); /* 起始位置 */
-  }
-  50% {
-    transform: translateY(-12px); /* 上移10px */
-  }
-  100% {
-    transform: translateY(0); /* 还原回起始位置 */
-  }
-}
-
-/* 为每个字添加不同的动画延迟，创建逐个字跳动的效果 */
-.loading-text span:nth-child(1) {
-  animation-delay: 0s;
-}
-
-.loading-text span:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.loading-text span:nth-child(3) {
-  animation-delay: 0.4s;
-}
-
-.loading-text span:nth-child(4) {
-  animation-delay: 0.6s;
 }
 
 #sheet-box {
   min-width: 100px;
-	height: calc(100vh - var(--toolbar-height) - 60px);
+	height: calc(100vh - var(--lj-toolbar-height) - 60px);
 }
 
-.sheet-html {
-	overflow-x: auto;
-}
-
-.sheet-html table {
-	border-collapse: collapse;
-	line-height: var(--table-line-height);
-}
-
-.sheet-html td,
-.sheet-html th {
-	padding: var(--size-2-2) var(--size-4-2);
-	border: var(--table-border-width) solid var(--table-border-color);
-	max-width: var(--table-column-max-width);
-}
-
-.sheet-html td {
-	font-size: var(--table-text-size);
-	color: var(--table-text-color);
-}
-
-.my-univer {
+.lj-univer {
 	height: calc(100% - var(--safe-area-inset-bottom));
   width: 100%;
 	border-bottom: 1px solid #ececec;
 }
 
-.univer-dark .my-univer {
+.univer-dark .lj-univer {
   border-color: #363636;
 }
 
-.my-tab-bar {
+.lj-tab-bar {
   border-color: #ececec;
 }
 
-.univer-dark .my-tab-bar {
+.univer-dark .lj-tab-bar {
   border-color: #363636;
 }
 

@@ -271,7 +271,7 @@ export const ContainerView = function ContainerView() {
       <DefaultTabBar
         {...props}
         // 添加自定义的 tabBar 样式类名
-        className="my-tab-bar w-full border-t border-l border-r p-2"
+        className="lj-tab-bar w-full border-t border-l border-r p-2"
       >
         { (node) => {
           return (
