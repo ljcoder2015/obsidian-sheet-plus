@@ -1,6 +1,6 @@
 # Sheet Plus for Obsidian
 
-**A full-featured spreadsheet experience, directly inside your Obsidian vault.**
+**A full-featured spreadsheet experience, built on [Univer](https://github.com/dream-num/univer), directly inside your Obsidian vault.**
 
 Create, edit, and embed real spreadsheets in Obsidian — with formulas, charts, filtering, and data validation — without leaving your notes.
 
