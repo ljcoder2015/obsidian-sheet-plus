@@ -99,8 +99,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
           switchTab()
         }
         if (res.stage === LifecycleStages.Steady) {
-          const mobileRender = plugin.settings.mobileRenderMode === 'mobile'
-          if (mobileRender) {
+          if (Platform.isMobileApp) {
             const fonts = plugin.availableFonts.map((font: FontInfo) => ({
               value: font.name,
               label: font.name,

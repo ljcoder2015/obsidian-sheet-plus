@@ -66,6 +66,7 @@ import '@univerjs/sheets-hyper-link-ui/facade'
 import '@univerjs/sheets-thread-comment/facade'
 import '@univerjs/sheets-table/facade'
 import '@univerjs/sheets-note/facade'
+import '@univerjs/sheets-conditional-formatting/facade'
 
 import { UniverSheetsTablePlugin } from '@univerjs/sheets-table'
 import { UniverSheetsTableUIPlugin } from '@univerjs/sheets-table-ui'
@@ -129,17 +130,15 @@ export function createUniver(
 
   const univerAPI = FUniver.newAPI(univer)
 
-  if (mobileRender) {
+  if (Platform.isDesktopApp) {
     // 手机端需要在渲染完成后注册字体
-    return { univerAPI, univer }
+    const fonts = availableFonts.map((font: FontInfo) => ({
+      value: font.name,
+      label: font.name,
+      isCustom: true,
+    }))
+    univerAPI.addFonts(fonts)
   }
-
-  const fonts = availableFonts.map((font: FontInfo) => ({
-    value: font.name,
-    label: font.name,
-    isCustom: true,
-  }))
-  univerAPI.addFonts(fonts)
 
   return { univerAPI, univer }
 }

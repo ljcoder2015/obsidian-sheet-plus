@@ -35,7 +35,7 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   mobileRenderMode: 'desktop',
   darkModal: 'light',
   isBigSheet: 'false',
-  fontFolder: 'fonts',
+  fontFolder: '',
   selectedFontName: '',
   // AI助手默认配置
   aiModePlatform: 'openai',
