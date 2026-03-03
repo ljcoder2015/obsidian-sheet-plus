@@ -1,5 +1,17 @@
 
 
+## [2.8.2](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.1...2.8.2) (2026-03-03)
+
+
+### Bug Fixes
+
+* Crash caused by iPad font loading bug ([b6a532d](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/b6a532dd08e358382adc1b8f24d2a8117c6c998a))
+
+
+### Features
+
+* update readme ([9f6b957](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/9f6b957f504d707d5fd8a5b1a7bc76db003e4b57))
+
 ## [2.8.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.0...2.8.1) (2026-02-02)
 
 # [2.8.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.7.9...2.8.0) (2026-02-02)
