@@ -1,5 +1,12 @@
 
 
+## [2.8.3](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.2...2.8.3) (2026-03-09)
+
+
+### Bug Fixes
+
+* mobile render fonts bug ([1a8edf0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/1a8edf00bee73eccd3dceb64830df3a2a3317556))
+
 ## [2.8.2](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.1...2.8.2) (2026-03-03)
 
 
