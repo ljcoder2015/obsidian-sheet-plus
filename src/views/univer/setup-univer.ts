@@ -130,7 +130,7 @@ export function createUniver(
 
   const univerAPI = FUniver.newAPI(univer)
 
-  if (Platform.isDesktopApp) {
+  if (Platform.isDesktopApp && !mobileRender) {
     // 手机端需要在渲染完成后注册字体
     const fonts = availableFonts.map((font: FontInfo) => ({
       value: font.name,
