@@ -4,7 +4,7 @@
 
 Create, edit, and embed real spreadsheets in Obsidian — with formulas, charts, filtering, and data validation — without leaving your notes.
 
-Supports AI-powered automated table processing, such as with Claude.
+Supports automated table processing via REST API. Enable the REST API, add MCP Server config in Claude, and you're ready to go.
 
 ![mcp](/images/mcp.gif)
 
