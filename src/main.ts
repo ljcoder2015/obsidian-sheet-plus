@@ -87,19 +87,27 @@ export default class ExcelProPlugin extends Plugin {
 
     this.loadFonts()
 
-  
+    this.registerEvent(
+      this.app.workspace.on('css-change', () => {
+        const isDark = this.app.isDarkMode()
+        this.settings.darkModal = isDark ? 'dark' : 'light'
+        this.saveSettings()
+        this.app.workspace.getLeavesOfType(VIEW_TYPE_EXCEL_PRO).forEach((leaf) => {
+          const view = leaf.view as ExcelProView
+          view.refresh()
+        })
+      }),
+    )
   }
 
   onunload() {
     // 解决 Redi 重复注入报错
     // @ts-expect-error
-    window.RediContextCreated = false
+    // window.RediContextCreated = false
     // @ts-expect-error
-    window.REDI_GLOBAL_LOCK = false
+    // window.REDI_GLOBAL_LOCK = false
   }
-
-
-
+  
   private async loadFonts() {
     this.fontManager = new FontManager(this.app)
     const fonts = await this.fontManager.loadAllFontsFromFolder(this.settings.fontFolder)

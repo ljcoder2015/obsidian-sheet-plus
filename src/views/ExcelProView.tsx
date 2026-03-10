@@ -91,7 +91,9 @@ export class ExcelProView extends TextFileView {
     this.semaphores.viewloaded = true
     this.autoSaveItem = this.plugin.addStatusBarItem()
 
-    this.renderModeEle = this.addAction('monitor-smartphone', t('CHANGE_RENDER_MODE'), _ => this.changeRenderMode())
+    if (!Platform.isDesktopApp) {
+      this.renderModeEle = this.addAction('monitor-smartphone', t('CHANGE_RENDER_MODE'), _ => this.changeRenderMode())
+    }
   }
 
   onunload() {
@@ -120,6 +122,10 @@ export class ExcelProView extends TextFileView {
     }
     this.plugin.saveSettings()
 
+    this.refresh()
+  }
+
+  refresh() {
     // 将 unmount 和 renderContent 包装在 setTimeout 中，确保在当前渲染周期完成后执行
     setTimeout(() => {
       this.root?.unmount()

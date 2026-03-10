@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import type { MenuProps, TabsProps } from 'antd'
 import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, Typography, theme } from 'antd'
-import { Notice } from 'obsidian'
+import { Notice, Platform } from 'obsidian'
 import { AIAssistant, CalendarTab, KanbanTab, McpServerManager, mcpService, useEventBus } from '@ljcoder/smart-sheet'
 import { createStyles } from 'antd-style'
 import { randomString } from '../utils/uuid'
@@ -352,26 +352,30 @@ export const ContainerView = function ContainerView() {
                       <Dropdown menu={helpTabMenu} trigger={['hover']}>
                         <Button>?</Button>
                       </Dropdown>
-                      <Button
-                        type="primary"
-                        onClick={
-                          () => {
-                            setShowAI(v => !v)
+                      {!Platform.isMobileApp && (
+                        <Button
+                          type="primary"
+                          onClick={
+                            () => {
+                              setShowAI(v => !v)
+                            }
                           }
-                        }
-                      >
-                        AI
-                      </Button>
-                      <Button
-                        type="primary"
-                        onClick={
-                          () => {
-                            setShowMCP(v => !v)
+                        >
+                          AI
+                        </Button>
+                      )}
+                      {!Platform.isMobileApp && (
+                        <Button
+                          type="primary"
+                          onClick={
+                            () => {
+                              setShowMCP(v => !v)
+                            }
                           }
-                        }
-                      >
-                        REST API
-                      </Button>
+                        >
+                          REST API
+                        </Button>
+                      )}
                     </Flex>
                   ),
                 }}

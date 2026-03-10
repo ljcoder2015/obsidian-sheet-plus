@@ -121,7 +121,7 @@ export function createUniver(
 
   log('[createUniver]', 'mobileRenderMode', mobileRenderMode)
   const mobileRender = mobileRenderMode === 'mobile'
-  if (mobileRender) {
+  if (mobileRender && !Platform.isDesktopApp) {
     registerMobilePlugin(univer, option, container)
   }
   else {
