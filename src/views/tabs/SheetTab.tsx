@@ -281,7 +281,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
   }, [scrollToRange])
 
   return (
-    <Spin spinning={loading} size="large" tip={spinTip}>
+    <Spin spinning={loading} size="large" description={spinTip}>
       <div id="sheet-box">
         <div ref={containerRef} className="lj-univer" />
       </div>
