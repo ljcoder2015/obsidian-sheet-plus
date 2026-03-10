@@ -1,5 +1,12 @@
 
 
+## [2.8.4](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.3...2.8.4) (2026-03-10)
+
+
+### Bug Fixes
+
+* sheet table cannot be edited ([4637c56](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/4637c56c71e33803e6b3651e1e076a05f9bf185e))
+
 ## [2.8.3](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.2...2.8.3) (2026-03-09)
 
 
