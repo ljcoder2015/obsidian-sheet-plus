@@ -139,7 +139,7 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
   const src = internalEmbedDiv.getAttribute('src') ?? file.path.slice(0, -(file.extension.length + 1))
   const alt = internalEmbedDiv.getAttribute('alt') ?? ''
 
-  const sheetDiv = createEmbedLinkDiv(src, alt, file, data)
+  const sheetDiv = await createEmbedLinkDiv(src, alt, file, data)
   internalEmbedDiv.appendChild(sheetDiv)
 
   if (markdownEmbed) {
@@ -172,13 +172,13 @@ async function processReadingMode(embeddedItems: NodeListOf<Element> | [HTMLElem
     if (file && file instanceof TFile && plugin.isExcelFile(file)) {
       const parent = maybeUniver.parentElement
       const data = await vault.read(file)
-      const sheetDiv = processInternalEmbed(maybeUniver, file, data)
+      const sheetDiv = await processInternalEmbed(maybeUniver, file, data)
       parent?.replaceChild(sheetDiv, maybeUniver)
     }
   })
 }
 
-function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: string): HTMLDivElement {
+async function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: string): Promise<HTMLDivElement> {
   log('[processInternalEmbed]', internalEmbedEl, file)
   const src = internalEmbedEl.getAttribute('src')
 
@@ -190,7 +190,7 @@ function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: strin
   internalEmbedEl.removeClass('inline-embed')
 
   const alt = internalEmbedEl.getAttribute('alt') ?? ''
-  const div = createEmbedLinkDiv(src, alt, file, data)
+  const div = await createEmbedLinkDiv(src, alt, file, data)
   return div
 }
 
@@ -254,6 +254,9 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
   else if (parseResult.displayType?.contains('chart')) {
     const chartsEl = createEchartsEl(plugin.settings.darkModal === 'dark', excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`, parseResult.displayType, parseResult.height)
     embedLinkDiv.appendChild(chartsEl)
+    return embedLinkDiv
+  }
+  else {
     return embedLinkDiv
   }
 }
