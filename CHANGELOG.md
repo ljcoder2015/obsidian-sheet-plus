@@ -1,5 +1,12 @@
 
 
+## [2.8.5](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.4...2.8.5) (2026-03-11)
+
+
+### Bug Fixes
+
+* Spin  is deprecated ([d2fe316](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/d2fe3166f64de8dd909adb894c1e8d447ef78b58))
+
 ## [2.8.4](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.3...2.8.4) (2026-03-10)
 
 
