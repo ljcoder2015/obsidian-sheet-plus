@@ -1,5 +1,7 @@
-import type { ICellData, IWorkbookData } from '@univerjs/core'
-import { rangeToNumber } from '../utils/data'
+import type { IWorkbookData } from '@univerjs/core'
+import { log } from '@ljcoder/smart-sheet/src/utils/log'
+import { createUniver } from '../views/univer/setup-univer'
+import { randomString } from '../utils/uuid'
 /**
  * 获取指定 sheet 中指定 cells 的数据转换成 HTML
  * @param data markdown 文件原始data
@@ -7,103 +9,91 @@ import { rangeToNumber } from '../utils/data'
  * @param cells 选中的cells 格式为: sri-sci:eri-eci 例如 6-6:7-8
  * @returns
  */
-export function renderToHtml(data: IWorkbookData, sheet: string, range: string): HTMLElement {
-  const table = createEl('table', { cls: 'lj-table' })
-  let tableWidth = 0
-
-  const sheetData = Object.values(data.sheets).find((item) => {
-    return item.name === sheet
+export async function renderToHtml(data: IWorkbookData, sheet: string, range: string): Promise<HTMLElement> {
+  const id = `univer-embed-${randomString(6)}`
+  const containerEl = createDiv({
+    cls: 'lj-html-iframe',
   })
+  const univerEl = createDiv({
+    attr: {
+      id,
+      style: `display: none;`,
+    },
+  })
+  containerEl.appendChild(univerEl)
 
-  if (sheetData) {
-    const rangeNumber = rangeToNumber(range)
+  // 使用 Promise 和异步函数来延迟执行 HTML 生成
+  const generateHtmlAsync = async () => {
+    try {
+      // 等待 DOM 更新和 Univer 实例初始化
+      await new Promise(resolve => setTimeout(resolve, 100))
 
-    // 记录合并单元格数量
-    const mergeMap: Map<string, boolean> = new Map()
+      const options = {
+        header: false,
+        contextMenu: false,
+        footer: false,
+      }
+      const { univerAPI } = createUniver([], options, id, 'desktop', false, true)
 
-    for (let row = rangeNumber.startRow; row <= rangeNumber.endRow; row++) {
-      let height = sheetData.defaultRowHeight || 24
-      if (sheetData.rowData && sheetData.rowData[row]) {
-        height = sheetData.rowData[row].h || height
+      // 等待工作簿创建完成
+      await new Promise(resolve => setTimeout(resolve, 100))
+
+      const fWorkbook = univerAPI.createWorkbook(data || {})
+      const fSheet = fWorkbook.getSheetByName(sheet)
+
+      // 检查工作表是否存在
+      if (!fSheet) {
+        log('[renderToHtml]', 'Sheet not found:', sheet)
+        const emptyContainer = createEl('div', { text: `Sheet "${sheet}" not found` })
+        containerEl.appendChild(emptyContainer)
+        return
       }
 
-      const tr = createEl('tr', {
-        attr: {
-          style: `height: ${height}px`,
-        },
-      })
-      table.appendChild(tr)
+      const fRange = fSheet.getRange(range)
 
-      for (let col = rangeNumber.startCol; col <= rangeNumber.endCol; col++) {
-        let width = sheetData.defaultColumnWidth || 88
-        if (sheetData.columnData && sheetData.columnData[col]) {
-          width = sheetData.columnData[col].w || width
-        }
-
-        if (row === rangeNumber.startRow) {
-          tableWidth += width
-        }
-
-        const cell = sheetData.cellData?.[row]?.[col]
-        const isMerged = mergeMap.get(`${row}-${col}`)
-
-        if (cell && !isMerged) {
-          const mergeData = sheetData.mergeData?.find(
-            item => item.startRow === row && item.startColumn === col,
-          )
-
-          if (mergeData) {
-            const mergeRow = mergeData.endRow - mergeData.startRow + 1
-            const mergeCol = mergeData.endColumn - mergeData.startColumn + 1
-
-            for (let r = 0; r < mergeRow; r++) {
-              for (let c = 0; c < mergeCol; c++) {
-                mergeMap.set(`${row + r}-${col + c}`, true)
-              }
-            }
-
-            const td = createEl('td', {
-              text: `${getDisplayValue(cell) || ''}`,
-              attr: {
-                style: `width: ${width}px`,
-                rowspan: mergeRow,
-                colspan: mergeCol,
-              },
-            })
-            tr.appendChild(td)
-          }
-          else {
-            const td = createEl('td', {
-              text: `${getDisplayValue(cell) || ''}`,
-              attr: {
-                style: `width: ${width}px`,
-              },
-            })
-            tr.appendChild(td)
-          }
-        }
-        else if (!isMerged) {
-          const td = createEl('td', {
-            attr: {
-              style: `width: ${width}px`,
-            },
-          })
-          tr.appendChild(td)
-        }
+      // 检查范围是否有效
+      if (!fRange) {
+        log('[renderToHtml]', 'Invalid range:', range)
+        const emptyContainer = createEl('div', { text: `Invalid range: ${range}` })
+        containerEl.appendChild(emptyContainer)
+        return
       }
+
+      // 等待渲染引擎准备好
+      await new Promise(resolve => setTimeout(resolve, 1000))
+
+      const htmlString = fRange.generateHTML()
+      log('[renderToHtml]', 'htmlString', htmlString)
+
+      // 将 HTML 字符串转换为 HTMLElement
+      if (htmlString && typeof htmlString === 'string') {
+        // 处理生成的 HTML 字符串
+        let processedHtml = htmlString
+
+        // 移除 <google-sheets-html-origin> 标签
+        processedHtml = processedHtml.replace(/<google-sheets-html-origin>|<\/google-sheets-html-origin>/g, '')
+
+        // 修复表格宽度，移除 width:0px 样式
+        processedHtml = processedHtml.replace(/width:\s*0px/g, 'width:100%')
+
+        const htmlContainer = createEl('div')
+        htmlContainer.innerHTML = processedHtml
+        containerEl.appendChild(htmlContainer)
+      }
+      else {
+        const emptyContainer = createEl('div', { text: 'No data available' })
+        containerEl.appendChild(emptyContainer)
+      }
+    }
+    catch (error) {
+      log('[renderToHtml]', 'Error generating HTML:', error)
+      const errorContainer = createEl('div', { text: `Error: ${error}` })
+      containerEl.appendChild(errorContainer)
     }
   }
 
-  if (tableWidth > 0)
-    table.setAttr('style', `width: ${tableWidth}px`)
+  // 启动异步生成过程
+  generateHtmlAsync()
 
-  return table
-}
-
-function getDisplayValue(cell: ICellData) {
-  if (cell?.p && cell.p.body?.dataStream) {
-    return cell.p.body.dataStream
-  }
-
-  return cell?.v?.toString() ?? ''
+  return containerEl
 }

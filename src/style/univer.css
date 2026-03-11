@@ -274,3 +274,50 @@ button.univer-button-default {
         background: #31363f;
     }
 }
+
+.lj-html-iframe {
+  width: 100%;
+  overflow: auto;
+}
+
+.lj-html-iframe table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  color: #31363f;
+}
+
+.lj-html-iframe table th,
+.lj-html-iframe table td {
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.lj-html-iframe table th {
+  background-color: #f9fafb;
+  font-weight: 600 ;
+}
+
+.lj-html-iframe table td:hover {
+  background-color: #f3f4f6;
+}
+
+.univer-dark .lj-html-iframe table {
+  border-color: #363636;
+  color: #e5e5e5;
+}
+
+.univer-dark .lj-html-iframe table th,
+.univer-dark .lj-html-iframe table td {
+  border-color: #363636;
+}
+
+.univer-dark .lj-html-iframe table th {
+  background-color: #2d2d2d;
+}
+
+.univer-dark .lj-html-iframe table td:hover {
+  background-color: #383838;
+}

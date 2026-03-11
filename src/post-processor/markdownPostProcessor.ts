@@ -33,7 +33,7 @@ export async function markdownPostProcessor(el: HTMLElement, ctx: MarkdownPostPr
   log('[markdownPostProcessor]', ctx, embeddedItems)
   if (embeddedItems.length === 0) {
     // 编辑模式
-    tmpObsidianWYSIWYG(el, ctx)
+    await tmpObsidianWYSIWYG(el, ctx)
     return
   }
 
@@ -115,7 +115,7 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
     const data = await vault.read(file)
     const src = internalEmbedDiv.getAttribute('src') ?? file.path.slice(0, -(file.extension.length + 1))
     const alt = internalEmbedDiv.getAttribute('alt') ?? ''
-    const sheetDiv = createEmbedLinkDiv(src, alt, file, data)
+    const sheetDiv = await createEmbedLinkDiv(src, alt, file, data)
     internalEmbedDiv.appendChild(sheetDiv)
 
     if (markdownEmbed) {
@@ -202,7 +202,7 @@ function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: strin
  * @param data 文件转换后的 json 字符串
  * @returns HTMLDivElement
  */
-function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string): HTMLDivElement {
+async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string): Promise<HTMLDivElement> {
   const parseResult = parseEmbedLinkSyntax(`${src}|${alt}`)
   log('[createEmbedLinkDiv]', src, alt, file.path)
 
@@ -232,7 +232,7 @@ function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string)
 
   // 生成内容
   if (parseResult.displayType === 'html') {
-    const tableEl = renderToHtml(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
+    const tableEl = await renderToHtml(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
     const tableBox = createDiv({ cls: 'lj-table-box' })
     tableBox.appendChild(tableEl)
     embedLinkDiv.appendChild(tableBox)

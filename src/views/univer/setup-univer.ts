@@ -308,3 +308,61 @@ function registerMobilePlugin(univer: Univer, option: IUniverUIConfig, container
   // univer.registerPlugin(UniverSheetsThreadCommentPlugin)
   // univer.registerPlugin(UniverSheetsThreadCommentUIPlugin)
 }
+
+export function createHandlessUniver() {
+  const univer = new Univer({
+    locale: getLanguage(),
+    locales: {
+      [LocaleType.ZH_CN]: zhCN,
+      [LocaleType.EN_US]: enUS,
+      [LocaleType.FR_FR]: frFR,
+      [LocaleType.RU_RU]: ruRU,
+      [LocaleType.ZH_TW]: zhTW,
+      [LocaleType.VI_VN]: viVN,
+      [LocaleType.FA_IR]: faIR,
+    },
+  })
+
+  // 注册必要的插件（排除 UI 插件）
+  univer.registerPlugin(UniverDocsPlugin)
+  univer.registerPlugin(UniverDocsUIPlugin)
+
+  univer.registerPlugin(UniverSheetsPlugin)
+  univer.registerPlugin(UniverSheetsUIPlugin, {
+    menu: {
+      'formula-ui.operation.insert-function': {
+        hidden: true,
+      },
+      'formula-ui.operation.more-functions': {
+        hidden: true,
+      },
+      [AddRangeProtectionFromToolbarCommand.id]: {
+        hidden: true,
+      },
+      [ViewSheetPermissionFromContextMenuCommand.id]: {
+        hidden: true,
+      },
+      [ChangeSheetProtectionFromSheetBarCommand.id]: {
+        hidden: true,
+      },
+      [ViewSheetPermissionFromSheetBarCommand.id]: {
+        hidden: true,
+      },
+    },
+  })
+
+  // 数字格式
+  univer.registerPlugin(UniverSheetsNumfmtPlugin)
+  univer.registerPlugin(UniverSheetsNumfmtUIPlugin)
+
+  // 公式
+  univer.registerPlugin(UniverFormulaEnginePlugin)
+  univer.registerPlugin(UniverSheetsFormulaPlugin, {
+    initialFormulaComputing: CalculationMode.FORCED,
+  })
+  univer.registerPlugin(UniverSheetsFormulaUIPlugin)
+  univer.registerPlugin(UniverRenderEnginePlugin)
+
+  const univerAPI = FUniver.newAPI(univer)
+  return { univerAPI, univer }
+}
