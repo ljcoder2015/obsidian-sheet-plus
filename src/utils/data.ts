@@ -1,7 +1,7 @@
 import type { IWorkbookData } from '@univerjs/core'
 import type { FRange } from '@univerjs/sheets/facade'
 import type { TFile } from 'obsidian'
-import type { ParsedHeader, ParsedMarkdown } from '../services/type'
+import { OUTGOING_LINKS_KEY, type ParsedHeader, type ParsedMarkdown } from '../services/type'
 
 /**
  * Markdown 拆分yaml部分跟正文部分
@@ -36,9 +36,9 @@ export function extractYAML(str: string): string | null {
  * @returns
  */
 export function getExcelData(str: string, file: TFile): IWorkbookData | null {
-  const sheet = parseMarkdown(str).blocks.get('sheet')
+  const sheet = parseMarkdown(str)?.blocks?.get('sheet')
   if (sheet) {
-    let data: IWorkbookData
+    let data: IWorkbookData | null = null
     if (typeof sheet == 'string') {
       data = JSON.parse(sheet) as IWorkbookData
     }
@@ -227,48 +227,65 @@ export function numberToColRowString(
   return result + row
 }
 
-export function parseMarkdown(md: string): ParsedMarkdown {
-  // 匹配头部（--- 开头到 --- 结束，支持多行）
-  // eslint-disable-next-line regexp/no-super-linear-backtracking
-  const headerMatch = md.match(/^---\s*\n([\s\S]*?)\n---\s*/)
+export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
+  // --- header ---
+  const headerRegex = /^---\r?\n([\s\S]*?)\r?\n---\s*/
+  const headerMatch = md.match(headerRegex)
   let header: ParsedHeader | undefined
 
   if (headerMatch) {
     const raw = `---\n${headerMatch[1]}\n---`
     const props: Record<string, string> = {}
 
-    headerMatch[1].split('\n').forEach((line) => {
-      // eslint-disable-next-line regexp/no-super-linear-backtracking
+    for (const line of headerMatch[1].split(/\r?\n/)) {
       const m = line.match(/^([^:]+):\s*(.*)$/)
-      if (m) {
+      if (m)
         props[m[1].trim()] = m[2].trim()
-      }
-    })
+    }
 
     header = { raw, properties: props }
   }
 
   const restMd = headerMatch ? md.slice(headerMatch[0].length) : md
 
-  const blockRegex = /```([^\n]*)\n([\s\S]*?)```/g
-  const blocks = new Map<string, any>()
-  let isFirstBlock = true
+  // --- blocks ---
+  const blocks = new Map<string, unknown>()
 
-  let match
-  // eslint-disable-next-line no-cond-assign
+  // --- code blocks ---
+  const blockRegex = /```([^\n]*)\n([\s\S]*?)```/g
+  let isFirstBlock = true
+  let match: RegExpExecArray | null
+
   while ((match = blockRegex.exec(restMd)) !== null) {
-    let blockType = match[1].trim()
-    if (!blockType)
-      blockType = isFirstBlock ? 'sheet' : 'default'
+    const blockType = match[1].trim() || (isFirstBlock ? 'sheet' : 'default')
     isFirstBlock = false
 
-    const jsonText = match[2].trim().replace(/[“”]/g, '"')
+    // 直接取出代码块内容，不 trim，不替换
+    const jsonText = match[2]
+
     try {
-      blocks.set(blockType, JSON.parse(jsonText))
+      const data = JSON.parse(jsonText)
+      if (blockType === 'sheet' && data && typeof data === 'object' && filePath) {
+        (data as Record<string, unknown>).name = filePath
+      }
+      blocks.set(blockType, data)
     }
     catch {
+      // 保留原始内容，避免丢失
       blocks.set(blockType, jsonText)
     }
+  }
+
+  // --- outgoingLinks ---
+  const outgoingRegex = /###\s*outgoingLinks\s*\n([\s\S]*?)(?:\n%%|\n###|$)/
+  const outgoingMatch = restMd.match(outgoingRegex)
+
+  if (outgoingMatch) {
+    const links = outgoingMatch[1]
+      .split(/\r?\n/)
+      .map(l => l.trim())
+      .filter(Boolean)
+    blocks.set(OUTGOING_LINKS_KEY, links)
   }
 
   return { header, blocks }

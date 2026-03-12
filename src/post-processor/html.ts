@@ -1,4 +1,4 @@
-import type { IWorkbookData } from '@univerjs/core'
+import { LifecycleStages, type IWorkbookData } from '@univerjs/core'
 import { log } from '@ljcoder/smart-sheet/src/utils/log'
 import { createUniver } from '../views/univer/setup-univer'
 import { randomString } from '../utils/uuid'
@@ -10,6 +10,7 @@ import { randomString } from '../utils/uuid'
  * @returns
  */
 export async function renderToHtml(data: IWorkbookData, sheet: string, range: string): Promise<HTMLElement> {
+  log('[renderToHtml]', data, sheet, range)
   const id = `univer-embed-${randomString(6)}`
   const containerEl = createDiv({
     cls: 'lj-html-iframe',
@@ -33,9 +34,12 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
     }
     const { univerAPI } = createUniver([], options, id, 'desktop', false, true)
 
-    // 等待工作簿创建完成
-    await new Promise(resolve => setTimeout(resolve, 100))
-
+    const lifeCycleDisposable = univerAPI.addEvent(univerAPI.Event.LifeCycleChanged, (event) => {
+      if (event.stage === LifecycleStages.Steady) {
+        lifeCycleDisposable.dispose()
+        univerEl.remove()
+      }
+    })
     const fWorkbook = univerAPI.createWorkbook(data || {})
     const fSheet = fWorkbook.getSheetByName(sheet)
 
@@ -82,7 +86,6 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
       const emptyContainer = createEl('div', { text: 'No data available' })
       containerEl.appendChild(emptyContainer)
     }
-    univerEl.remove()
   }
   catch (error) {
     log('[renderToHtml]', 'Error generating HTML:', error)
