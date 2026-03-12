@@ -1,5 +1,12 @@
 
 
+## [2.8.6](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.5...2.8.6) (2026-03-12)
+
+
+### Bug Fixes
+
+* Fixed an issue with parsing embedded links. ([84e976d](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/84e976d35694c79e76ca3db5630c38016da17e33))
+
 ## [2.8.5](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.4...2.8.5) (2026-03-11)
 
 
