@@ -1,5 +1,12 @@
 
 
+## [2.8.7](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.6...2.8.7) (2026-03-13)
+
+
+### Features
+
+* remove tailwindcss ([dd3c482](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/dd3c482cb51c5b1696448a15d65f8b8f5587f248))
+
 ## [2.8.6](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.5...2.8.6) (2026-03-12)
 
 
