@@ -6,7 +6,7 @@ Sheet Plus was built to handle **real spreadsheet use cases inside Obsidian**
 
 Supports automated table processing via REST API. Enable the REST API, add MCP Server config in Claude, and you're ready to go.
 
-!\[mcp]\(/images/mcp.gif null)
+![mcp](/images/mcp.gif)
 
 ***
 
@@ -57,4 +57,3 @@ you’re very welcome to reach out through any of the following channels:
 - 🐛 **GitHub Issues**: for bugs and feature requests 👉 <https://github.com/ljcoder2015/obsidian-sheet-plus/issues>
 
 Community feedback directly influences future updates and priorities.
-
