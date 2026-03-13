@@ -5,7 +5,7 @@ import { defineConfig } from 'vite'
 import builtins from 'builtin-modules'
 import dotenv from 'dotenv'
 import { univerPlugin } from '@univerjs/vite-plugin'
-import tailwindcss from '@tailwindcss/vite'
+
 import pkg from './package.json'
 
 dotenv.config()
@@ -32,18 +32,45 @@ function generate(isDev?: boolean) {
         authorUrl: 'https://github.com/ljcoder2015',
         fundingUrl: 'https://ko-fi.com/ljcoder',
         isDesktopOnly: false,
-      }, null, 2)}\n`)
+      }, null, 2)}
+`)
       await copyFile(resolve(buildDir, 'manifest.json'), join(parentDir, 'manifest.json'))
       await copyFile(resolve(buildDir, 'manifest.json'), join(process.cwd(), 'manifest.json'))
-      rename(resolve(buildDir, 'style.css'), resolve(buildDir, 'styles.css'))
+      // 检查style.css文件是否存在
+      const styleCssPath = resolve(buildDir, 'style.css')
+      const stylesCssPath = resolve(buildDir, 'styles.css')
+      try {
+        await rename(styleCssPath, stylesCssPath)
+        // eslint-disable-next-line no-console
+        console.log('Renamed style.css to styles.css')
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Error renaming style.css:', error)
+      }
       // eslint-disable-next-line no-console
       console.log('build!')
     },
     async closeBundle() {
       // eslint-disable-next-line no-console
       console.log('[-------------]: closeBundle', parentDir, process.cwd())
-      await copyFile(resolve(buildDir, 'styles.css'), join(parentDir, 'styles.css'))
-      await copyFile(resolve(buildDir, 'main.js'), join(parentDir, 'main.js'))
+      const stylesCssPath = resolve(buildDir, 'styles.css')
+      const mainJsPath = resolve(buildDir, 'main.js')
+      try {
+        await copyFile(stylesCssPath, join(parentDir, 'styles.css'))
+        // eslint-disable-next-line no-console
+        console.log('Copied styles.css to parent directory')
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Error copying styles.css:', error)
+      }
+      try {
+        await copyFile(mainJsPath, join(parentDir, 'main.js'))
+        // eslint-disable-next-line no-console
+        console.log('Copied main.js to parent directory')
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Error copying main.js:', error)
+      }
     },
   }
 }
@@ -55,7 +82,6 @@ export default defineConfig((_) => {
     plugins: [
       generate(dev),
       univerPlugin(),
-      tailwindcss(),
     ],
     resolve: {
       alias: {

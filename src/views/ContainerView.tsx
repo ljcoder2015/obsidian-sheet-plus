@@ -270,11 +270,11 @@ export const ContainerView = function ContainerView() {
       <DefaultTabBar
         {...props}
         // 添加自定义的 tabBar 样式类名
-        className="lj-tab-bar w-full border-t border-l border-r p-2"
+        className="lj-tab-bar"
       >
         { (node) => {
           return (
-            <div className="pr-[10px]">
+            <div className="lj-tab-bar-item">
               <Dropdown
                 menu={{
                   items: tabMenu,

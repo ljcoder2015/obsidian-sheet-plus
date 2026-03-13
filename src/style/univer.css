@@ -71,10 +71,16 @@
 
 .lj-tab-bar {
   border-color: #ececec;
+  width: 100%;
+  padding: 8px;
 }
 
 .univer-dark .lj-tab-bar {
   border-color: #363636;
+}
+
+.lj-tab-bar-item {
+  padding-right: 10px;
 }
 
 .univer-menu-item,
