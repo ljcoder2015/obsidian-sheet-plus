@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import type { MenuProps, TabsProps } from 'antd'
 import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, Typography, theme } from 'antd'
 import { Notice, Platform } from 'obsidian'
-import { AIAssistant, CalendarTab, KanbanTab, McpServerManager, mcpService, useEventBus } from '@ljcoder/smart-sheet'
+import { CalendarTab, KanbanTab, McpServerManager, mcpService, useEventBus } from '@ljcoder/smart-sheet'
 import { createStyles } from 'antd-style'
 import { randomString } from '../utils/uuid'
 import { TabType } from '../services/type'
@@ -50,7 +50,6 @@ export const ContainerView = function ContainerView() {
   const [triggerSource, setTriggerSource] = useState<string | null>(null) // 记录是点击哪个 tab 触发的下拉菜单
   const [renameModalVisible, setRenameModalVisible] = useState(false) // 重命名
   const [renameModalName, setRenameModalName] = useState('') // 重命名的名称
-  const [showAI, setShowAI] = useState(false)
   const [showMCP, setShowMCP] = useState(false)
   const [mcpRunning, setMcpRunning] = useState(false)
   const { styles } = useStyle()
@@ -271,11 +270,11 @@ export const ContainerView = function ContainerView() {
       <DefaultTabBar
         {...props}
         // 添加自定义的 tabBar 样式类名
-        className="lj-tab-bar w-full border-t border-l border-r p-2"
+        className="lj-tab-bar"
       >
         { (node) => {
           return (
-            <div className="pr-[10px]">
+            <div className="lj-tab-bar-item">
               <Dropdown
                 menu={{
                   items: tabMenu,
@@ -352,18 +351,7 @@ export const ContainerView = function ContainerView() {
                       <Dropdown menu={helpTabMenu} trigger={['hover']}>
                         <Button>?</Button>
                       </Dropdown>
-                      {!Platform.isMobileApp && (
-                        <Button
-                          type="primary"
-                          onClick={
-                            () => {
-                              setShowAI(v => !v)
-                            }
-                          }
-                        >
-                          AI
-                        </Button>
-                      )}
+
                       {!Platform.isMobileApp && (
                         <Button
                           type="primary"
@@ -384,20 +372,7 @@ export const ContainerView = function ContainerView() {
                 }}
               />
             </Splitter.Panel>
-            { showAI && (
-              <Splitter.Panel defaultSize="30%">
-                <AIAssistant
-                  style={{ height: '100%', overflowY: 'hidden' }}
-                  univerApi={univerApi}
-                  aiConfig={{
-                    platform: plugin.settings.aiModePlatform,
-                    model: plugin.settings.aiModel,
-                    apiKey: plugin.settings.aiApiKey,
-                    baseUrl: plugin.settings.aiBaseUrl,
-                  }}
-                />
-              </Splitter.Panel>
-            )}
+
             { showMCP && (
               <Splitter.Panel defaultSize="30%">
                 <McpServerManager
