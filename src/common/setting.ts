@@ -14,11 +14,6 @@ export interface ExcelProSettings {
   isBigSheet: string
   fontFolder: string
   selectedFontName: string
-  // AI助手配置
-  aiModePlatform: string
-  aiModel: string
-  aiApiKey: string
-  aiBaseUrl: string
 }
 
 export const DEFAULT_SETTINGS: ExcelProSettings = {
@@ -37,9 +32,4 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   isBigSheet: 'false',
   fontFolder: '',
   selectedFontName: '',
-  // AI助手默认配置
-  aiModePlatform: 'openai',
-  aiModel: 'gpt-5-mini',
-  aiApiKey: '',
-  aiBaseUrl: 'https://api.openai.com/v1',
 }
