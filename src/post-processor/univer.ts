@@ -12,14 +12,18 @@ import { FUniver } from '@univerjs/core/facade'
  * @param height 渲染高度
  * @returns HTMLDivElement
  */
-export function createUniverEl(data: IWorkbookData | null, height = 300, showFooter = false, plugin: ExcelProPlugin): HTMLDivElement {
-  // console.log('createUniverEl', data)
+export function createUniverEl(
+  data: IWorkbookData | null,
+  height = 300,
+  showFooter = false,
+  plugin: ExcelProPlugin,
+): HTMLDivElement {
   const id = `univer-embed-${randomString(6)}`
   const univerEl = createDiv({
     cls: 'lj-sheet-iframe',
     attr: {
       id,
-      style: `height: ${height}px`,
+      style: `height: ${height}px; width: 100%;`,
     },
   })
 
@@ -32,16 +36,8 @@ export function createUniverEl(data: IWorkbookData | null, height = 300, showFoo
       const isExalidraw = document.querySelector('.excalidraw__embeddable-container')
       if (isExalidraw) {
         log('[createUniverEl]', 'Univer container is exalidraw')
-        // 用 ResizeObserver 等待容器有实际宽度
-        const resizeObserver = new ResizeObserver((entries) => {
-          const { width, height } = entries[0].contentRect
-          log('[createUniverEl]', 'resize', width, height)
-          if (width > 0 && height > 0) {
-            resizeObserver.disconnect()
-            initUniver(univerEl, id, data, plugin, showFooter)
-          }
-        })
-        resizeObserver.observe(univerEl)
+        // TODO
+        initUniver(univerEl, id, data, plugin, showFooter)
       }
       else {
         initUniver(univerEl, id, data, plugin, showFooter)
@@ -55,7 +51,7 @@ export function createUniverEl(data: IWorkbookData | null, height = 300, showFoo
 }
 
 function initUniver(el: HTMLDivElement, id: string, data: IWorkbookData | null, plugin: ExcelProPlugin, showFooter: boolean): FUniver {
-  log('[createUniverEl]', `Univer container initialized: ${id}`)
+  log('[createUniverEl]', `Univer container initialized: ${id}`, data)
   // 确认容器尺寸正常再初始化
   if (el.offsetWidth === 0 || el.offsetHeight === 0) {
     warn('[createUniverEl]', 'Univer container has zero size, check CSS')
