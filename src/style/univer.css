@@ -37,6 +37,7 @@
 .lj-sheet-iframe {
 	text-align: center;
 	width: 100%;
+  display: block;
 	background-color: var(--sheet-iframe-background-color);
 	border: 1px solid rgb(var(--bg-color));
 }
@@ -294,7 +295,7 @@ button.univer-button-default {
 
 .lj-html-iframe table th,
 .lj-html-iframe table td {
-  padding: 8px 12px;
+  padding: 4px;
   border: 1px solid #e5e7eb;
   text-align: left;
 }
