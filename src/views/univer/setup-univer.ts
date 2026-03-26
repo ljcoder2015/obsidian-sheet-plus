@@ -2,8 +2,8 @@ import '@ljcoder/charts/lib/index.css'
 import '@ljcoder/sheets-outgoing-link-ui/lib/index.css'
 import '@univerjs/uniscript/lib/index.css'
 
-import { IAuthzIoService, INumfmtLocaleTag, LocaleType, LogLevel, Univer, UserManagerService } from '@univerjs/core'
-import { defaultTheme } from '@univerjs/design'
+import { IAuthzIoService, LocaleType, LogLevel, Univer, UserManagerService } from '@univerjs/core'
+import { defaultTheme } from '@univerjs/themes'
 
 import { UniverDocsPlugin } from '@univerjs/docs'
 import { UniverDocsUIPlugin } from '@univerjs/docs-ui'
