@@ -1,5 +1,12 @@
 
 
+## [2.8.8](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.7...2.8.8) (2026-03-26)
+
+
+### Features
+
+* update readme ([4035704](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/403570448c213269eb1b475e1b9ff5a2155dd630))
+
 ## [2.8.7](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.6...2.8.7) (2026-03-13)
 
 
