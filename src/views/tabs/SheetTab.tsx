@@ -15,7 +15,7 @@ import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
 import { deepClone, rangeToNumber } from '../../utils/data'
-import { Tools } from '../../utils/tools'
+import { getTheme, Tools } from '../../utils/tools'
 import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
@@ -40,7 +40,14 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
       header: true,
       footer: true,
     }
-    const darkMode = plugin.settings.darkModal === 'dark'
+    let darkMode = plugin.settings.darkModal === 'dark'
+    // 检查是否在 Excalidraw 中
+    const isExalidraw = document.querySelector('.excalidraw__embeddable-container') !== null
+    if (isExalidraw) {
+      const theme = getTheme(containerRef.current)
+      darkMode = theme === 'dark'
+    }
+
     const mobileRenderMode = plugin.settings.mobileRenderMode
     const { univerAPI, univer } = createUniver(plugin.availableFonts, options, containerRef.current, mobileRenderMode, darkMode)
     setUniverApi(univerAPI)

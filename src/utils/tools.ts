@@ -703,3 +703,16 @@ export class Tools {
 export function fragWithHTML(html: string) {
   return createFragment(frag => (frag.createDiv().innerHTML = html))
 }
+
+export function getTheme(el: HTMLElement): 'dark' | 'light' {
+  const themedAncestor = el.closest('.theme-dark, .theme-light')
+  if (themedAncestor?.classList.contains('theme-dark'))
+    return 'dark'
+  if (themedAncestor?.classList.contains('theme-light'))
+    return 'light'
+
+  // fallback if no themed ancestor
+  if (document.body.classList.contains('theme-dark'))
+    return 'dark'
+  return 'light'
+}
