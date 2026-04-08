@@ -92,7 +92,16 @@ export const ContainerView = function ContainerView() {
       return {
         key: tab.key,
         label: tab.label,
-        children: <CalendarTab />,
+        children: (
+          <CalendarTab
+            key={tab.key}
+            id={tab.key}
+            univerApi={univerApi}
+            config={state.views?.[tab.key] ?? {}}
+            workbook={state.sheet}
+            dispatch={dispatch}
+          />
+        ),
         forceRender: true,
       }
     }
@@ -197,6 +206,23 @@ export const ContainerView = function ContainerView() {
     }
   }
 
+  const createCalendarConfig = () => {
+    if (!univerApi) {
+      return {}
+    }
+    const sheet = univerApi.getActiveWorkbook()?.getActiveSheet()
+    if (sheet === null || sheet === undefined) {
+      return {}
+    }
+    return {
+      sheetId: sheet.getSheetId(),
+      rangStart: 'A',
+      rangEnd: 'T',
+      dateStart: 'B',
+      dateEnd: 'C',
+    }
+  }
+
   // 添加标签页
   const addTabMenu: MenuProps = {
     items: [
@@ -204,10 +230,10 @@ export const ContainerView = function ContainerView() {
         label: t('TAB_TYPE_KANBAN'),
         key: 'kanban',
       },
-      // {
-      //   label: t('TAB_TYPE_CALENDAR'),
-      //   key: 'calendar',
-      // },
+      {
+        label: t('TAB_TYPE_CALENDAR'),
+        key: 'calendar',
+      },
       // {
       //   label: t('TAB_TYPE_GROUP'),
       //   key: 'group',
@@ -239,6 +265,14 @@ export const ContainerView = function ContainerView() {
           type: VIEW_CONFIG_ADD_ACTION,
           key: id,
           payload: kanbanData,
+        })
+      }
+      if (key === TabType.CALENDAR) {
+        const calendarData = createCalendarConfig()
+        dispatch({
+          type: VIEW_CONFIG_ADD_ACTION,
+          key: id,
+          payload: calendarData,
         })
       }
     },
