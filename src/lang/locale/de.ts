@@ -76,6 +76,9 @@ export default {
   COMMAND_LINK_CHARTS_RING_PIE: 'Ring-Kreisdiagramm-Einbettungslinks generieren',
 
   LOADING: 'Laden...',
+  IMPORTING: 'Importieren...',
+  EXPORTING: 'Exportieren...',
+  EXPORTED: 'Exportiert',
 
   TAB_TYPE_SHEET: 'Tabelle',
   TAB_TYPE_KANBAN: 'Kanban',

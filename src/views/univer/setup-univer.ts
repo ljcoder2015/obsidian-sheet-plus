@@ -42,7 +42,7 @@ import { UniverSheetsConditionalFormattingPlugin } from '@univerjs/sheets-condit
 
 import { UniverMobileUIPlugin, UniverUIPlugin } from '@univerjs/ui'
 
-import { AddRangeProtectionFromToolbarCommand, ChangeSheetProtectionFromSheetBarCommand, SetRangeFontFamilyCommand, UniverSheetsMobileUIPlugin, UniverSheetsUIPlugin, ViewSheetPermissionFromContextMenuCommand, ViewSheetPermissionFromSheetBarCommand } from '@univerjs/sheets-ui'
+import { AddRangeProtectionFromToolbarCommand, ChangeSheetProtectionFromSheetBarCommand, UniverSheetsMobileUIPlugin, UniverSheetsUIPlugin, ViewSheetPermissionFromContextMenuCommand, ViewSheetPermissionFromSheetBarCommand } from '@univerjs/sheets-ui'
 
 import { UniverSheetsZenEditorPlugin } from '@univerjs/sheets-zen-editor'
 import { UniverSheetsHyperLinkPlugin } from '@univerjs/sheets-hyper-link'
@@ -153,7 +153,7 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, containe
     footer: option.footer,
     toolbar: option.toolbar,
     contextMenu: option.contextMenu,
-    ribbonType: 'simple',
+    ribbonType: 'collapsed', // toolbar 样式
     customFontFamily: option.customFontFamily,
   })
 

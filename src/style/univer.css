@@ -177,6 +177,16 @@ button.univer-toolbar-btn-active {
    box-shadow: none;
 }
 
+.univer-relative button:not(.clickable-icon) {
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+
+.univer-relative button:not(.clickable-icon):hover {
+  background: var(--univer-gray-100);;
+}
+
 .lj-content-view button:not(.clickable-icon) {
   color: var(--ant-btn-text-color);
   background-color: var(--ant-btn-bg-color);

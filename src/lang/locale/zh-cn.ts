@@ -114,6 +114,8 @@ export default {
   BIG_SHEET_DESC: '开启后，可以解决大文件导致 Obsdian 索引失败的问题，但是会影响搜索功能，自动更新外链功能. <a href="https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/What-is-Big-Sheet%3F">更多说明</a>',
 
   IMPORTING: '导入中...',
+  EXPORTING: '导出中...',
+  EXPORTED: '已导出',
 
   FONT_FOLDER_NOT_FOUND: '字体目录不存在',
   FONT_FOLDER: '字体目录',
@@ -147,10 +149,10 @@ export default {
   AI_QWEN3_MAX: 'qwen3-max',
   AI_QWEN_PLUS: 'qwen-plus',
   AI_QWEN_FLASH: 'qwen-flash',
-  
+
   // Render Mode
   CHANGE_RENDER_MODE: '切换渲染模式',
-  
+
   // Help Menu
   HELP_MENU_DOCS: '文档',
   HELP_MENU_TUTORIALS: '视频教程',

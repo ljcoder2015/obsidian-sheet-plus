@@ -1,21 +1,21 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import type { INumfmtLocaleTag, Univer } from '@univerjs/core'
 import { CommandType, LifecycleStages } from '@univerjs/core'
 import type { IAddOutgoingLinkCommandParams, ICancelOutgoingLinkCommandParams } from '@ljcoder/sheets-outgoing-link'
-import { AddOutgoingLinkCommand, AddOutgoingLinkMutation, CancelOutgoingLinkCommand, OutgoingLinkCustomRangeType, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
+import { AddOutgoingLinkCommand, CancelOutgoingLinkCommand, OutgoingLinkCustomRangeType, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
 import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
 import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import { Spin } from 'antd'
 import type { IReplaceSnapshotCommandParams } from '@univerjs/docs-ui'
 import { ReplaceSnapshotCommand } from '@univerjs/docs-ui'
-import { ImportFinishCommand, ImportStartCommand } from '@ljcoder/import-export'
+import { ExportFinishCommand, ExportStartCommand, ImportFinishCommand, ImportStartCommand } from '@ljcoder/import-export'
 import { Platform } from 'obsidian'
 import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
 import { deepClone, rangeToNumber } from '../../utils/data'
-import { getTheme, Tools } from '../../utils/tools'
+import { Tools, getTheme } from '../../utils/tools'
 import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
@@ -224,6 +224,18 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
         if (res.id === ImportFinishCommand.id) {
           setLoading(false)
           setSpinTip(t('LOADING'))
+        }
+
+        if (res.id === ExportStartCommand.id) {
+          log('[SheetTab]', 'ExportStartCommand')
+          setLoading(true)
+          setSpinTip(t('EXPORTING'))
+        }
+
+        if (res.id === ExportFinishCommand.id) {
+          log('[SheetTab]', 'ExportFinishCommand')
+          setLoading(false)
+          setSpinTip(t('EXPORTED'))
         }
 
         // 仅同步本地 mutation

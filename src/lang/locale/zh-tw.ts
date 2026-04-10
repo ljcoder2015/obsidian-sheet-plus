@@ -76,6 +76,9 @@ export default {
   COMMAND_LINK_CHARTS_RING_PIE: '產生 圓環圖 內嵌連結',
 
   LOADING: '載入中...',
+  IMPORTING: '匯入中...',
+  EXPORTING: '匯出中...',
+  EXPORTED: '已匯出',
 
   TAB_TYPE_SHEET: '表格',
   TAB_TYPE_KANBAN: '看板',

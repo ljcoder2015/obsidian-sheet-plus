@@ -107,7 +107,7 @@ export default class ExcelProPlugin extends Plugin {
     // @ts-expect-error
     // window.REDI_GLOBAL_LOCK = false
   }
-  
+
   private async loadFonts() {
     this.fontManager = new FontManager(this.app)
     const fonts = await this.fontManager.loadAllFontsFromFolder(this.settings.fontFolder)

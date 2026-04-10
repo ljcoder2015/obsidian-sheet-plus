@@ -114,6 +114,8 @@ export default {
   BIG_SHEET_DESC: 'When enabled, it can solve the issue of Obsidian indexing failure caused by large files, but it will affect search functionality and automatic updates of external links. <a href="https://github.com/ljcoder2015/obsidian-sheet-plus/wiki/What-is-Big-Sheet%3F">More Details</a>',
 
   IMPORTING: 'Importing...',
+  EXPORTING: 'Exporting...',
+  EXPORTED: 'Exported',
 
   FONT_FOLDER_NOT_FOUND: 'Font folder not found',
   FONT_FOLDER: 'Font folder',
@@ -147,10 +149,10 @@ export default {
   AI_QWEN3_MAX: 'qwen3-max',
   AI_QWEN_PLUS: 'qwen-plus',
   AI_QWEN_FLASH: 'qwen-flash',
-  
+
   // Render Mode
   CHANGE_RENDER_MODE: 'Change Render Mode',
-  
+
   // Help Menu
   HELP_MENU_DOCS: 'Documentation',
   HELP_MENU_TUTORIALS: 'Video Tutorials',
