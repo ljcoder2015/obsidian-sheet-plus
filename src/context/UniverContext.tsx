@@ -18,6 +18,14 @@ export function UniverProvider({ children }: React.PropsWithChildren<object>) {
       if (univerApi) {
         try {
           log('[UniverProvider]', 'dispose univerApi')
+
+          const fWorkbook = univerApi.getActiveWorkbook()
+          const unitId = fWorkbook?.getId()
+          if (unitId) {
+            univerApi.disposeUnit(unitId)
+            log('[UniverProvider]', 'dispose unit', unitId)
+          }
+
           univerApi.dispose()
           setUniverApi(null)
         }

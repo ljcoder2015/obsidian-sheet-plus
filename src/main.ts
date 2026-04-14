@@ -103,9 +103,9 @@ export default class ExcelProPlugin extends Plugin {
   onunload() {
     // 解决 Redi 重复注入报错
     // @ts-expect-error
-    // window.RediContextCreated = false
+    // window.global.REDI_CONTEXT_LOCK = false
     // @ts-expect-error
-    // window.REDI_GLOBAL_LOCK = false
+    // window.global.REDI_GLOBAL_LOCK = false
   }
 
   private async loadFonts() {
