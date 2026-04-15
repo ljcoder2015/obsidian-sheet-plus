@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import type { MenuProps, TabsProps } from 'antd'
-import { Button, Card, ConfigProvider, Dropdown, Flex, Popover, Splitter, Tabs, Typography, theme } from 'antd'
+import { Button, ConfigProvider, Dropdown, Flex, Splitter, Tabs, theme } from 'antd'
 import { Notice, Platform } from 'obsidian'
 import { CalendarTab, KanbanTab, McpServerManager, mcpService, useEventBus } from '@ljcoder/smart-sheet'
 import { createStyles } from 'antd-style'
@@ -216,10 +216,18 @@ export const ContainerView = function ContainerView() {
     }
     return {
       sheetId: sheet.getSheetId(),
-      rangStart: 'A',
-      rangEnd: 'T',
-      dateStart: 'B',
-      dateEnd: 'C',
+      title: {
+        colIndex: 0,
+        title: 'A',
+      },
+      dateStart: {
+        colIndex: 1,
+        title: 'B',
+      },
+      dateEnd: {
+        colIndex: 2,
+        title: 'C',
+      },
     }
   }
 
@@ -361,8 +369,9 @@ export const ContainerView = function ContainerView() {
           }}
         >
           <Splitter>
-            <Splitter.Panel>
+            <Splitter.Panel style={{ overflow: 'visible' }}>
               <Tabs
+                className="full-height-tabs"
                 size="small"
                 type="card"
                 styles={{
