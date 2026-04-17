@@ -1,5 +1,5 @@
-import type { Vault, WorkspaceLeaf } from 'obsidian'
-import { Notice, Platform, TFile, TextFileView, debounce } from 'obsidian'
+import type { TFile, WorkspaceLeaf } from 'obsidian'
+import { Notice, Platform, TextFileView, debounce } from 'obsidian'
 import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
 import React from 'react'
@@ -12,7 +12,7 @@ import { BLANK_CONTENT, VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { t } from '../lang/helpers'
 import { EditorContext } from '../context/editorContext'
 import type { ViewSemaphores } from '../utils/types'
-import { log, warn } from '../utils/log'
+import { log } from '../utils/log'
 import { UniverProvider } from '../context/UniverContext'
 import type { SheetStoreState } from '../services/reduce'
 import { toMarkdown, toStoreState } from '../services/utils'
@@ -94,6 +94,24 @@ export class ExcelProView extends TextFileView {
     if (!Platform.isDesktopApp) {
       this.renderModeEle = this.addAction('monitor-smartphone', t('CHANGE_RENDER_MODE'), _ => this.changeRenderMode())
     }
+
+    // Register keyboard shortcut for save
+    // this.registerDomEvent(document, 'keydown', (e) => {
+    //   const event = e as KeyboardEvent
+    //   log('[ExcelProView]', 'keydown', {
+    //     key: event.key,
+    //     code: event.code,
+    //     metaKey: event.metaKey,
+    //     ctrlKey: event.ctrlKey,
+    //     altKey: event.altKey,
+    //     shiftKey: event.shiftKey
+    //   });
+    //   // 使用 code 属性来判断按键，这样更可靠
+    //   if ((event.metaKey || event.ctrlKey) && (event.key.toLowerCase() === 's' || event.code === 'KeyS')) {
+    //     event.preventDefault()
+    //     this.debounced.run()
+    //   }
+    // })
   }
 
   onunload() {
@@ -106,7 +124,8 @@ export class ExcelProView extends TextFileView {
     try {
       mcpService.stop()
       log('[ExcelProView]', 'MCP service stopped')
-    } catch (e) {
+    }
+    catch (e) {
       log('[ExcelProView]', 'Error stopping MCP service', e)
     }
 
@@ -247,7 +266,7 @@ export class ExcelProView extends TextFileView {
             <ContainerView />
           </UniverProvider>
         </EditorContext.Provider>
-      </SheetStoreProvider>
+      </SheetStoreProvider>,
     )
   }
 

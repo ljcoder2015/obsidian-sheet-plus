@@ -181,6 +181,8 @@ button.univer-toolbar-btn-active {
   color: var(--ant-btn-text-color);
   background-color: var(--ant-btn-bg-color);
 }
+
+.ant-picker-header button:not(.clickable-icon),
 .univer-list-none button:not(.clickable-icon),
 .lj-content-view button:not(.clickable-icon) {
   box-shadow: none;
