@@ -67,8 +67,13 @@ export const ContainerView = function ContainerView() {
       return {
         key: tab.key,
         label: tab.label,
-        children: <SheetTab switchTab={switchTab} />,
-        forceRender: true,
+        children: (
+          <SheetTab
+            key={tab.key}
+            switchTab={switchTab}
+          />
+        ),
+        forceRender: false,
       }
     }
     else if (tab.type === TabType.KANBAN) {
@@ -85,7 +90,7 @@ export const ContainerView = function ContainerView() {
             dispatch={dispatch}
           />
         ),
-        forceRender: true,
+        forceRender: false,
       }
     }
     else if (tab.type === TabType.CALENDAR) {
@@ -102,7 +107,7 @@ export const ContainerView = function ContainerView() {
             dispatch={dispatch}
           />
         ),
-        forceRender: true,
+        forceRender: false,
       }
     }
     else {
@@ -369,19 +374,12 @@ export const ContainerView = function ContainerView() {
           }}
         >
           <Splitter>
-            <Splitter.Panel style={{ overflow: 'visible' }}>
+            <Splitter.Panel defaultSize="70%">
               <Tabs
+                destroyOnHidden={false}
                 className="full-height-tabs"
                 size="small"
                 type="card"
-                styles={{
-                  content: {
-                    width: '100%',
-                    minWidth: '200px',
-                    minHeight: '200px',
-                    overflow: 'visible',
-                  },
-                }}
                 items={items}
                 activeKey={activeKey}
                 renderTabBar={renderTabBar}
@@ -409,9 +407,6 @@ export const ContainerView = function ContainerView() {
                       )}
                     </Flex>
                   ),
-                }}
-                onChange={(key) => {
-                  setActiveKey(key)
                 }}
               />
             </Splitter.Panel>
