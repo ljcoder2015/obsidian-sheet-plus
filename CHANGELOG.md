@@ -1,5 +1,14 @@
 
 
+# [2.10.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.9.0...2.10.0) (2026-04-23)
+
+
+### Features
+
+* calendar 默认值 ([0dbd884](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/0dbd884acd21b78c15f6ad737611130243c7bafa))
+* style ([61fb11a](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/61fb11a62f4e399dbb3e4057bdb683f0b1e93fdd))
+* univer dispose ([024b4d7](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/024b4d774a9de804f7523daa4d47df656ee81502))
+
 # [2.9.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.8.9...2.9.0) (2026-04-10)
 
 
