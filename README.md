@@ -28,6 +28,7 @@ Supports automated table processing via REST API. Enable the REST API, add MCP S
 - [Import & Export](https://docs.ljcoder.com/guide/features/import-export.html): Supports importing and exporting `xlsx` format files.
 - [Embed Chart Link](https://docs.ljcoder.com/guide/features/embed-chart-link.html): Embed a chart link in your notes, directly rendering spreadsheet data as charts
 - [Kanban View](https://docs.ljcoder.com/guide/features/kanban.html): Display spreadsheet data as a Kanban board for easy task management.
+- [Calendar View](https://docs.ljcoder.com/guide/features/calendar.html): Display spreadsheet data as a calendar for easy date management.
 
 ***
 
