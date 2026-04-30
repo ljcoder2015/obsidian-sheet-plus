@@ -82,6 +82,7 @@ export default {
   TAB_TYPE_GROUP: '分组',
   TAB_TYPE_BI: 'BI分析',
   TAB_TYPE_PIVOT: '透视表',
+  TAB_TYPE_DASHBOARD: '仪表盘',
 
   TAB_MENU_DEFAULT: '默认显示',
   TAB_MENU_DELETE: '删除',

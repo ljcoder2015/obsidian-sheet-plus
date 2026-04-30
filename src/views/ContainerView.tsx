@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import type { MenuProps, TabsProps } from 'antd'
 import { Button, ConfigProvider, Dropdown, Flex, Splitter, Tabs, theme } from 'antd'
 import { Notice, Platform } from 'obsidian'
-import { CalendarTab, KanbanTab, McpServerManager, mcpService, useEventBus } from '@ljcoder/smart-sheet'
+import { CalendarTab, DashboardTab, KanbanTab, McpServerManager, mcpService, useEventBus } from '@ljcoder/smart-sheet'
 import { createStyles } from 'antd-style'
 import { randomString } from '../utils/uuid'
 import { TabType } from '../services/type'
@@ -99,6 +99,23 @@ export const ContainerView = function ContainerView() {
         label: tab.label,
         children: (
           <CalendarTab
+            key={tab.key}
+            id={tab.key}
+            univerApi={univerApi}
+            config={state.views?.[tab.key] ?? {}}
+            workbook={state.sheet}
+            dispatch={dispatch}
+          />
+        ),
+        forceRender: false,
+      }
+    }
+    else if (tab.type === TabType.DASHBOARD) {
+      return {
+        key: tab.key,
+        label: tab.label,
+        children: (
+          <DashboardTab
             key={tab.key}
             id={tab.key}
             univerApi={univerApi}
@@ -247,6 +264,10 @@ export const ContainerView = function ContainerView() {
         label: t('TAB_TYPE_CALENDAR'),
         key: 'calendar',
       },
+      {
+        label: t('TAB_TYPE_DASHBOARD'),
+        key: 'dashboard',
+      },
       // {
       //   label: t('TAB_TYPE_GROUP'),
       //   key: 'group',
@@ -286,6 +307,13 @@ export const ContainerView = function ContainerView() {
           type: VIEW_CONFIG_ADD_ACTION,
           key: id,
           payload: calendarData,
+        })
+      }
+      if (key === TabType.DASHBOARD) {
+        dispatch({
+          type: VIEW_CONFIG_ADD_ACTION,
+          key: id,
+          payload: { widgets: [], layoutVersion: 0 },
         })
       }
     },
@@ -374,7 +402,7 @@ export const ContainerView = function ContainerView() {
           }}
         >
           <Splitter>
-            <Splitter.Panel defaultSize="70%">
+            <Splitter.Panel>
               <Tabs
                 destroyOnHidden={false}
                 className="full-height-tabs"

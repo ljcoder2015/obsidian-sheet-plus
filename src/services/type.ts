@@ -32,6 +32,7 @@ export enum TabType {
   SHEET = 'sheet',
   KANBAN = 'kanban',
   CALENDAR = 'calendar',
+  DASHBOARD = 'dashboard',
   GROUP = 'group',
   BI = 'bi',
   PIVOT = 'pivot',
