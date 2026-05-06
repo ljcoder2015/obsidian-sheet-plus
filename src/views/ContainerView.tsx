@@ -386,9 +386,6 @@ export const ContainerView = function ContainerView() {
     <AppErrorBoundary>
       <div className="lj-content-view" data-theme={plugin.settings.darkModal === 'dark' ? 'sheet-plus-dark' : ''}>
         <ConfigProvider
-          button={{
-            className: styles.linearGradientButton,
-          }}
           theme={{
             algorithm,
             components: {
@@ -424,6 +421,7 @@ export const ContainerView = function ContainerView() {
                       {!Platform.isMobileApp && (
                         <Button
                           type="primary"
+                          className={styles.linearGradientButton}
                           onClick={
                             () => {
                               setShowMCP(v => !v)

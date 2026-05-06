@@ -216,6 +216,22 @@ button.univer-toolbar-btn-active {
   box-shadow: none;
 }
 
+button.ant-drawer-close {
+  box-shadow: var(--ant-btn-shadow);
+}
+
+button.ant-btn {
+  color: var(--ant-button-color, rgba(0, 0, 0, 0.88));
+  background-color: var(--ant-button-bg, #ffffff);
+  box-shadow: var(--ant-btn-shadow);
+}
+
+button.ant-btn-primary {
+  color: #fff;
+  background-color: var(--ant-primary-color, #1677ff);
+  box-shadow: var(--ant-btn-primary-shadow);
+}
+
 .univer-grid button:not(.clickable-icon),
 .my-univer button:not(.clickable-icon) {
   box-shadow: none;
