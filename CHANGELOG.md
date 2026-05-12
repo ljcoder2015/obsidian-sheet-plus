@@ -1,5 +1,14 @@
 
 
+# [2.11.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.10.0...2.11.0) (2026-05-12)
+
+
+### Features
+
+* dashboard ([ad78c08](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/ad78c08b04008d187251ecdd2f4e7b5bf42cdd3a))
+* update readme ([6631b3e](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/6631b3e0e47aa9cdfda3adfb71401cdb24d0a268))
+* update readme ([d94e573](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/d94e57324193fcbc22a2949b316c6a4d9238219f))
+
 # [2.10.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.9.0...2.10.0) (2026-04-23)
 
 
