@@ -8,6 +8,10 @@ Supports automated table processing via REST API. Enable the REST API, add MCP S
 
 ![mcp](/images/mcp.gif)
 
+Create interactive dashboards to visualize data
+
+![dashboard](/images/dashboard.gif)
+
 ***
 
 ## Basic Features&#x20;
@@ -27,6 +31,7 @@ Supports automated table processing via REST API. Enable the REST API, add MCP S
 - [REST API](https://docs.ljcoder.com/guide/rest-api/quick-start.html): Provides RESTful API endpoints, supporting automated processing through external AI clients like Claude Desktop.
 - [Import & Export](https://docs.ljcoder.com/guide/features/import-export.html): Supports importing and exporting `xlsx` format files.
 - [Embed Chart Link](https://docs.ljcoder.com/guide/features/embed-chart-link.html): Embed a chart link in your notes, directly rendering spreadsheet data as charts
+- [Dashboard](https://docs.ljcoder.com/guide/Advanced%20Features/Dashboard/Introduction.html): Create interactive dashboards to visualize data.
 - [Kanban View](https://docs.ljcoder.com/guide/features/kanban.html): Display spreadsheet data as a Kanban board for easy task management.
 - [Calendar View](https://docs.ljcoder.com/guide/features/calendar.html): Display spreadsheet data as a calendar for easy date management.
 
