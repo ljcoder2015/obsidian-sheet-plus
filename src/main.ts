@@ -40,6 +40,7 @@ import { ExcelProSettingTab } from './settingTab'
 import {
   initializeMarkdownPostProcessor,
   markdownPostProcessor,
+  refreshEmbeddedSheet,
 } from './post-processor/markdownPostProcessor'
 import type { FontInfo } from './services/fontManager'
 import { FontManager } from './services/fontManager'
@@ -134,6 +135,13 @@ export default class ExcelProPlugin extends Plugin {
           // 更改当前表格的 name 字段
           emitEvent('fileRenamed', { oldPath, newPath: file.path })
           log('[ExcelProPlugin]', 'Send fileRenamed', oldPath, file.path)
+        }
+      }),
+    )
+    this.registerEvent(
+      this.app.vault.on('modify', async (file) => {
+        if (file instanceof TFile && this.isExcelFile(file)) {
+          await refreshEmbeddedSheet(file)
         }
       }),
     )
@@ -387,10 +395,11 @@ export default class ExcelProPlugin extends Plugin {
     if (location === 'new-tab')
       leaf = this.app.workspace.getLeaf('tab')
 
+    if (location === 'new-pane')
+      leaf = this.app.workspace.getLeaf('split')
+
     if (!leaf) {
       leaf = this.app.workspace.getLeaf(false)
-      if (leaf.view.getViewType() !== 'empty' && location === 'new-pane')
-        leaf = this.app.workspace.getMostRecentLeaf()
     }
 
     leaf

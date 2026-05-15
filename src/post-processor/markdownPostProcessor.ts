@@ -14,10 +14,49 @@ let plugin: ExcelProPlugin
 let vault: Vault
 let metadataCache: MetadataCache
 
+interface RenderedEmbed {
+  el: HTMLDivElement
+  src: string
+  alt: string
+  file: TFile
+}
+
+const renderedEmbeds = new Map<string, Set<RenderedEmbed>>()
+
 export function initializeMarkdownPostProcessor(p: ExcelProPlugin) {
   plugin = p
   vault = p.app.vault
   metadataCache = p.app.metadataCache
+}
+
+export async function refreshEmbeddedSheet(file: TFile) {
+  const renders = renderedEmbeds.get(file.path)
+  if (!renders?.size)
+    return
+
+  const data = await vault.read(file)
+  const existing = Array.from(renders)
+  for (const render of existing) {
+    renders.delete(render)
+    if (!render.el.isConnected)
+      continue
+
+    const next = await createEmbedLinkDiv(render.src, render.alt, file, data)
+    render.el.replaceWith(next)
+  }
+
+  if (renders.size === 0)
+    renderedEmbeds.delete(file.path)
+}
+
+function trackRenderedEmbed(file: TFile, el: HTMLDivElement, src: string, alt: string) {
+  let renders = renderedEmbeds.get(file.path)
+  if (!renders) {
+    renders = new Set<RenderedEmbed>()
+    renderedEmbeds.set(file.path, renders)
+  }
+
+  renders.add({ el, src, alt, file })
 }
 
 /**
@@ -212,6 +251,7 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
   }
 
   const embedLinkDiv = createDiv()
+  trackRenderedEmbed(file, embedLinkDiv, src, alt)
 
   if (plugin.settings.showSheetButton === 'true') {
     const fileEmbed = embedLinkDiv.createDiv({
