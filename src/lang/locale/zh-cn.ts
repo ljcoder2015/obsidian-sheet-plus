@@ -49,6 +49,10 @@ export default {
   SHOW_SHEET_BUTTON_DESC: '此选项控制是否显示一个按钮，用于通过嵌入链接跳转到原文内容',
   SHOW_SHEET_FOOTER: '显示表格底部内容',
   SHOW_SHEET_FOOTER_DESC: '启用该选项后，嵌入的表格链接会自动显示表格底部内容',
+  EMBED_LINK_OPEN_MODE: '嵌入链接打开方式',
+  EMBED_LINK_OPEN_MODE_DESC: '选择点击嵌入链接跳转按钮时的打开方式',
+  OPEN_MODE_SPLIT_RIGHT: '右侧打开',
+  OPEN_MODE_CURRENT_TAB: '当前页打开',
 
   UNIVER_SETTING: 'Univer 配置',
 

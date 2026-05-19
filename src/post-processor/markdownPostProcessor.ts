@@ -1,10 +1,10 @@
 import type { MarkdownPostProcessorContext, MetadataCache, Vault } from 'obsidian'
 import { TFile } from 'obsidian'
 
-import { createEchartsEl } from '@ljcoder/obsidian-embed-link'
-import { log } from '@ljcoder/smart-sheet/src/utils/log'
+import { createEchartsEl, log } from '@ljcoder/smart-sheet'
 import type ExcelProPlugin from '../main'
 
+import { VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { getExcelData, getRangeData } from '../utils/data'
 
 import { renderToHtml } from './html'
@@ -18,6 +18,63 @@ export function initializeMarkdownPostProcessor(p: ExcelProPlugin) {
   plugin = p
   vault = p.app.vault
   metadataCache = p.app.metadataCache
+
+  p.registerEvent(
+    vault.on('modify', (file) => {
+      if (file instanceof TFile && plugin.isExcelFile(file)) {
+        reRenderEmbeddedContent(file)
+      }
+    }),
+  )
+}
+
+async function reRenderEmbeddedContent(file: TFile) {
+  const selector = [
+    `.lj-table-box[data-file-path="${file.path}"]`,
+    `.lj-embed-content[data-file-path="${file.path}"]`,
+  ].join(',')
+  const elements = document.querySelectorAll(selector)
+  if (elements.length === 0) {
+    return
+  }
+
+  log('[reRenderEmbeddedContent]', file.path, elements)
+
+  const data = await vault.read(file)
+  const excelData = getExcelData(data, file)
+  if (!excelData) {
+    return
+  }
+
+  for (const el of elements) {
+    const sheetName = el.getAttribute('data-sheet-name') || ''
+    const range = el.getAttribute('data-range') || ''
+    const displayType = el.getAttribute('data-display-type') || 'univer'
+    const parsesRange = range && range !== ':'
+
+    log('[reRenderEmbeddedContent]', file.path, sheetName, range, displayType, parsesRange)
+    el.empty()
+
+    if (displayType === 'html') {
+      const tableEl = await renderToHtml(excelData, sheetName, range)
+      el.appendChild(tableEl)
+    }
+    else if (displayType === 'univer') {
+      if (parsesRange) {
+        const rangeData = getRangeData(excelData, sheetName, range)
+        const univerEl = createUniverEl(rangeData, undefined, plugin.settings.embedLinkShowFooter === 'true', plugin)
+        el.appendChild(univerEl)
+      }
+      else {
+        const univerEl = createUniverEl(excelData, undefined, plugin.settings.embedLinkShowFooter === 'true', plugin)
+        el.appendChild(univerEl)
+      }
+    }
+    else if (displayType.contains('chart')) {
+      const chartsEl = createEchartsEl(plugin.settings.darkModal === 'dark', excelData, sheetName, range, displayType, undefined)
+      el.appendChild(chartsEl)
+    }
+  }
 }
 
 /**
@@ -226,7 +283,21 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
     // 点击按钮打开 sheet
     fileEmbed.onClickEvent((e) => {
       e.stopPropagation()
-      plugin.openExcel(file, 'new-pane', true, `${parseResult.sheetName}|${parseResult.startCell}:${parseResult.endCell}`)
+      const openMode = plugin.settings.embedLinkOpenMode || 'split-right'
+      const subpath = `${parseResult.sheetName}|${parseResult.startCell}:${parseResult.endCell}`
+      if (openMode === 'current-tab') {
+        const leaf = plugin.app.workspace.getLeaf(false)
+        leaf.openFile(file, {
+          active: true,
+          eState: { subpath },
+          state: { type: VIEW_TYPE_EXCEL_PRO },
+        }).then(() => {
+          plugin.setExcelView(leaf)
+        })
+      }
+      else {
+        plugin.openExcel(file, 'split-right', true, subpath)
+      }
     })
   }
 
@@ -234,26 +305,41 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
   if (parseResult.displayType === 'html') {
     const tableEl = await renderToHtml(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
     const tableBox = createDiv({ cls: 'lj-table-box' })
+    tableBox.setAttr('data-file-path', file.path)
+    tableBox.setAttr('data-sheet-name', parseResult.sheetName)
+    tableBox.setAttr('data-range', `${parseResult.startCell}:${parseResult.endCell}`)
+    tableBox.setAttr('data-display-type', 'html')
     tableBox.appendChild(tableEl)
     embedLinkDiv.appendChild(tableBox)
     return embedLinkDiv
   }
   else if (parseResult.displayType === undefined) {
+    const contentWrapper = createDiv({ cls: 'lj-embed-content' })
+    contentWrapper.setAttr('data-file-path', file.path)
+    contentWrapper.setAttr('data-sheet-name', parseResult.sheetName)
+    contentWrapper.setAttr('data-range', `${parseResult.startCell}:${parseResult.endCell}`)
+    contentWrapper.setAttr('data-display-type', 'univer')
     if (parseResult.startCell && parseResult.endCell) {
       const rangeData = getRangeData(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
       const univerEl = createUniverEl(rangeData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true', plugin)
-      embedLinkDiv.appendChild(univerEl)
-      return embedLinkDiv
+      contentWrapper.appendChild(univerEl)
     }
     else {
       const univerEl = createUniverEl(excelData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true', plugin)
-      embedLinkDiv.appendChild(univerEl)
-      return embedLinkDiv
+      contentWrapper.appendChild(univerEl)
     }
+    embedLinkDiv.appendChild(contentWrapper)
+    return embedLinkDiv
   }
   else if (parseResult.displayType?.contains('chart')) {
+    const contentWrapper = createDiv({ cls: 'lj-embed-content' })
+    contentWrapper.setAttr('data-file-path', file.path)
+    contentWrapper.setAttr('data-sheet-name', parseResult.sheetName)
+    contentWrapper.setAttr('data-range', `${parseResult.startCell}:${parseResult.endCell}`)
+    contentWrapper.setAttr('data-display-type', parseResult.displayType)
     const chartsEl = createEchartsEl(plugin.settings.darkModal === 'dark', excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`, parseResult.displayType, parseResult.height)
-    embedLinkDiv.appendChild(chartsEl)
+    contentWrapper.appendChild(chartsEl)
+    embedLinkDiv.appendChild(contentWrapper)
     return embedLinkDiv
   }
   else {

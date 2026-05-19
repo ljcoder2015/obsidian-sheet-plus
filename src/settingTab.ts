@@ -137,6 +137,20 @@ export class ExcelProSettingTab extends PluginSettingTab {
       )
 
     new Setting(containerEl)
+      .setName(t('EMBED_LINK_OPEN_MODE'))
+      .setDesc(t('EMBED_LINK_OPEN_MODE_DESC'))
+      .addDropdown(dropdown =>
+        dropdown
+          .addOption('split-right', t('OPEN_MODE_SPLIT_RIGHT'))
+          .addOption('current-tab', t('OPEN_MODE_CURRENT_TAB'))
+          .setValue(this.plugin.settings.embedLinkOpenMode || 'split-right')
+          .onChange(async (value) => {
+            this.plugin.settings.embedLinkOpenMode = value
+            this.plugin.saveSettings()
+          }),
+      )
+
+    new Setting(containerEl)
       .setName(t('UNIVER_SETTING'))
       .setHeading()
 

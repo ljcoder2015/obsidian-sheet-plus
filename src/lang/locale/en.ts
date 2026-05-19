@@ -49,6 +49,10 @@ export default {
   SHOW_SHEET_BUTTON_DESC: 'This option determines whether to display a button for jumping to the original content via an embedded link.',
   SHOW_SHEET_FOOTER: 'Enable Sheet Footer Display',
   SHOW_SHEET_FOOTER_DESC: 'When this option is enabled, the embedded table link will automatically display content at the bottom of the Sheet.',
+  EMBED_LINK_OPEN_MODE: 'Embed link open mode',
+  EMBED_LINK_OPEN_MODE_DESC: 'Choose how to open the file when clicking the embed link button',
+  OPEN_MODE_SPLIT_RIGHT: 'Open in split right',
+  OPEN_MODE_CURRENT_TAB: 'Open in current tab',
 
   UNIVER_SETTING: 'Univer Setting',
 

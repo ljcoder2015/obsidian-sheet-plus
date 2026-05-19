@@ -386,6 +386,10 @@ export default class ExcelProPlugin extends Plugin {
 
     if (location === 'new-tab')
       leaf = this.app.workspace.getLeaf('tab')
+    if (location === 'split-right')
+      leaf = this.app.workspace.getLeaf('split', 'vertical')
+    if (location === 'split-bottom')
+      leaf = this.app.workspace.getLeaf('split', 'horizontal')
 
     if (!leaf) {
       leaf = this.app.workspace.getLeaf(false)

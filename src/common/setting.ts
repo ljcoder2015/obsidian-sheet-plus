@@ -8,6 +8,7 @@ export interface ExcelProSettings {
   colWidth: string
   authorizationCode: string
   embedLinkShowFooter: string
+  embedLinkOpenMode: string
   mobileRenderMode: string
   numberFormatLocal: string
   darkModal: string
@@ -26,6 +27,7 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   colWidth: '100',
   authorizationCode: '',
   embedLinkShowFooter: 'false',
+  embedLinkOpenMode: 'split-right',
   numberFormatLocal: 'en',
   mobileRenderMode: 'desktop',
   darkModal: 'light',
