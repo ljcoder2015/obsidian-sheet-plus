@@ -358,7 +358,7 @@ button.univer-button-default {
   background: var(--background-primary-alt);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
   font-size: 14px;
-  color: rgb(var(--text-color));
+  color: var(--text-normal);
 }
 
 .lj-html-cell {
@@ -378,23 +378,21 @@ button.univer-button-default {
 .lj-html-table thead .lj-html-cell {
   background-color: var(--background-primary);
   font-weight: 600;
-  color: rgb(var(--text-color));
+  color: var(--text-normal);
   border-bottom: 2px solid var(--divider-color);
 }
 
-.lj-html-empty,
-.lj-html-error {
+.lj-html-empty {
   padding: 24px;
   text-align: center;
   border-radius: 8px;
-  background-color: rgba(var(--text-color), 0.05);
-  color: rgb(var(--text-muted));
+  color: var(--text-muted);
   font-size: 14px;
 }
 
 .lj-html-error {
   background-color: rgba(255, 100, 100, 0.1);
-  color: rgb(var(--color-red));
+  color: var(--color-red);
   border: 1px solid rgba(255, 100, 100, 0.3);
 }
 
