@@ -39,6 +39,15 @@ import importExportruRU from '@ljcoder/import-export/lib/es/locale/ru-RU'
 import importExportviVN from '@ljcoder/import-export/lib/es/locale/vi-VN'
 import importExportzhCN from '@ljcoder/import-export/lib/es/locale/zh-CN'
 import importExportzhTW from '@ljcoder/import-export/lib/es/locale/zh-TW'
+
+import saveenUS from '@ljcoder/save/locale/en-US'
+import savefaIR from '@ljcoder/save/locale/fa-IR'
+import savefrFR from '@ljcoder/save/locale/fr-FR'
+import saveruRU from '@ljcoder/save/locale/ru-RU'
+import saveviVN from '@ljcoder/save/locale/vi-VN'
+import savezhCN from '@ljcoder/save/locale/zh-CN'
+import savezhTW from '@ljcoder/save/locale/zh-TW'
+
 import designenUS from '@univerjs/design/lib/es/locale/en-US'
 import designfaIR from '@univerjs/design/lib/es/locale/fa-IR'
 import designfrFR from '@univerjs/design/lib/es/locale/fr-FR'
@@ -144,13 +153,6 @@ import sheetssortuiruRU from '@univerjs/sheets-sort-ui/lib/es/locale/ru-RU'
 import sheetssortuiviVN from '@univerjs/sheets-sort-ui/lib/es/locale/vi-VN'
 import sheetssortuizhCN from '@univerjs/sheets-sort-ui/lib/es/locale/zh-CN'
 import sheetssortuizhTW from '@univerjs/sheets-sort-ui/lib/es/locale/zh-TW'
-import sheetssortenUS from '@univerjs/sheets-sort/lib/es/locale/en-US'
-import sheetssortfaIR from '@univerjs/sheets-sort/lib/es/locale/fa-IR'
-import sheetssortfrFR from '@univerjs/sheets-sort/lib/es/locale/fr-FR'
-import sheetssortruRU from '@univerjs/sheets-sort/lib/es/locale/ru-RU'
-import sheetssortviVN from '@univerjs/sheets-sort/lib/es/locale/vi-VN'
-import sheetssortzhCN from '@univerjs/sheets-sort/lib/es/locale/zh-CN'
-import sheetssortzhTW from '@univerjs/sheets-sort/lib/es/locale/zh-TW'
 import sheetsthreadcommentuienUS from '@univerjs/sheets-thread-comment-ui/lib/es/locale/en-US'
 import sheetsthreadcommentuifaIR from '@univerjs/sheets-thread-comment-ui/lib/es/locale/fa-IR'
 import sheetsthreadcommentuifrFR from '@univerjs/sheets-thread-comment-ui/lib/es/locale/fr-FR'
@@ -240,7 +242,6 @@ export const enUS = Tools.deepMerge(
   sheetsformulauienUS,
   sheetshyperlinkuienUS,
   sheetsnumfmtuienUS,
-  sheetssortenUS,
   sheetssortuienUS,
   sheetsthreadcommentuienUS,
   sheetsuienUS,
@@ -253,6 +254,7 @@ export const enUS = Tools.deepMerge(
   SheetsTableUIenUS,
   SheetsNoteUIenUS,
   uniscriptenUS,
+  saveenUS,
 )
 export const frFR = Tools.deepMerge(
   {},
@@ -271,7 +273,6 @@ export const frFR = Tools.deepMerge(
   sheetsformulauifrFR,
   sheetshyperlinkuifrFR,
   sheetsnumfmtuifrFR,
-  sheetssortfrFR,
   sheetssortuifrFR,
   sheetsthreadcommentuifrFR,
   sheetsuifrFR,
@@ -284,6 +285,7 @@ export const frFR = Tools.deepMerge(
   SheetsTableUIfrFR,
   SheetsNoteUIfrFR,
   uniscriptfrFR,
+  savefrFR,
 )
 export const ruRU = Tools.deepMerge(
   {},
@@ -302,7 +304,6 @@ export const ruRU = Tools.deepMerge(
   sheetsformulauiruRU,
   sheetshyperlinkuiruRU,
   sheetsnumfmtuiruRU,
-  sheetssortruRU,
   sheetssortuiruRU,
   sheetsthreadcommentuiruRU,
   sheetsuiruRU,
@@ -315,6 +316,7 @@ export const ruRU = Tools.deepMerge(
   SheetsTableUIruRU,
   SheetsNoteUIruRU,
   uniscriptruRU,
+  saveruRU,
 )
 export const zhCN = Tools.deepMerge(
   {},
@@ -333,7 +335,6 @@ export const zhCN = Tools.deepMerge(
   sheetsformulauizhCN,
   sheetshyperlinkuizhCN,
   sheetsnumfmtuizhCN,
-  sheetssortzhCN,
   sheetssortuizhCN,
   sheetsthreadcommentuizhCN,
   sheetsuizhCN,
@@ -346,6 +347,7 @@ export const zhCN = Tools.deepMerge(
   SheetsTableUIZhCN,
   SheetsNoteUIZhCN,
   uniscriptzhCN,
+  savezhCN,
 )
 export const zhTW = Tools.deepMerge(
   {},
@@ -364,7 +366,6 @@ export const zhTW = Tools.deepMerge(
   sheetsformulauizhTW,
   sheetshyperlinkuizhTW,
   sheetsnumfmtuizhTW,
-  sheetssortzhTW,
   sheetssortuizhTW,
   sheetsthreadcommentuizhTW,
   sheetsuizhTW,
@@ -377,6 +378,7 @@ export const zhTW = Tools.deepMerge(
   SheetsTableUIZhTW,
   SheetsNoteUIZhTW,
   uniscriptzhTW,
+  savezhTW,
 )
 export const viVN = Tools.deepMerge(
   {},
@@ -395,7 +397,6 @@ export const viVN = Tools.deepMerge(
   sheetsformulauiviVN,
   sheetshyperlinkuiviVN,
   sheetsnumfmtuiviVN,
-  sheetssortviVN,
   sheetssortuiviVN,
   sheetsthreadcommentuiviVN,
   sheetsuiviVN,
@@ -408,6 +409,7 @@ export const viVN = Tools.deepMerge(
   SheetsTableUIviVN,
   SheetsNoteUIviVN,
   uniscriptviVN,
+  saveviVN,
 )
 export const faIR = Tools.deepMerge(
   {},
@@ -426,7 +428,6 @@ export const faIR = Tools.deepMerge(
   sheetsformulauifaIR,
   sheetshyperlinkuifaIR,
   sheetsnumfmtuifaIR,
-  sheetssortfaIR,
   sheetssortuifaIR,
   sheetsthreadcommentuifaIR,
   sheetsuifaIR,
@@ -439,4 +440,5 @@ export const faIR = Tools.deepMerge(
   SheetsTableUIfaIR,
   SheetsNoteUIfaIR,
   uniscriptfaIR,
+  savefaIR,
 )

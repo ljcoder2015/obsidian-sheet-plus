@@ -10,6 +10,7 @@ import { Spin } from 'antd'
 import type { IReplaceSnapshotCommandParams } from '@univerjs/docs-ui'
 import { ReplaceSnapshotCommand } from '@univerjs/docs-ui'
 import { ExportFinishCommand, ExportStartCommand, ImportFinishCommand, ImportStartCommand } from '@ljcoder/import-export'
+import { SaveCommand } from '@ljcoder/save'
 import { Platform } from 'obsidian'
 import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
@@ -180,6 +181,10 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
       })
 
       commandExecutedDisposable = univerApi.addEvent(univerApi.Event.CommandExecuted, (res) => {
+        if (res.id === SaveCommand.id) {
+          log('[SheetTab]', 'SaveCommandExecuted')
+          editor.debounced.run()
+        }
         if (res.id === SearchOutgoingLinkCommand.id) {
           const links = app?.vault.getFiles().map((file) => {
             return {

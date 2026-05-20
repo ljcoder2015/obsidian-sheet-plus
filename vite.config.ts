@@ -43,8 +43,8 @@ function generate(isDev?: boolean) {
         await rename(styleCssPath, stylesCssPath)
         // eslint-disable-next-line no-console
         console.log('Renamed style.css to styles.css')
-      } catch (error) {
-        // eslint-disable-next-line no-console
+      }
+      catch (error) {
         console.error('Error renaming style.css:', error)
       }
       // eslint-disable-next-line no-console
@@ -59,16 +59,16 @@ function generate(isDev?: boolean) {
         await copyFile(stylesCssPath, join(parentDir, 'styles.css'))
         // eslint-disable-next-line no-console
         console.log('Copied styles.css to parent directory')
-      } catch (error) {
-        // eslint-disable-next-line no-console
+      }
+      catch (error) {
         console.error('Error copying styles.css:', error)
       }
       try {
         await copyFile(mainJsPath, join(parentDir, 'main.js'))
         // eslint-disable-next-line no-console
         console.log('Copied main.js to parent directory')
-      } catch (error) {
-        // eslint-disable-next-line no-console
+      }
+      catch (error) {
         console.error('Error copying main.js:', error)
       }
     },
@@ -89,6 +89,9 @@ export default defineConfig((_) => {
       },
     },
     optimizeDeps: {
+      esbuildOptions: {
+        tsconfigRaw: '{"compilerOptions": {"experimentalDecorators": true}}',
+      },
       dedupe: [
         '@univerjs/core',
         '@univerjs/sheets',
@@ -98,6 +101,9 @@ export default defineConfig((_) => {
       ],
     },
     build: {
+      esbuild: {
+        tsconfigRaw: '{"compilerOptions": {"experimentalDecorators": true}}',
+      },
       outDir: buildDir,
       lib: {
         entry: './src/main.ts',
@@ -141,7 +147,6 @@ export default defineConfig((_) => {
       //     `monaco-editor/esm/vs/language/css/css.worker`,
       //     `monaco-editor/esm/vs/language/html/html.worker`,
       //     `monaco-editor/esm/vs/language/typescript/ts.worker`,
-      //     `monaco-editor/esm/vs/editor/editor.worker`,
       //   ],
       // },
     },

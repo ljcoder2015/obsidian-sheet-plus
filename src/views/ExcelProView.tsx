@@ -42,6 +42,10 @@ export class ExcelProView extends TextFileView {
     unloadFileSaving: false,
   }
 
+  // 定时器引用，用于清理
+  private refreshTimer: ReturnType<typeof setTimeout> | null = null
+  private asyncSaveTimer: ReturnType<typeof setTimeout> | null = null
+
   constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
     super(leaf)
     this.plugin = plugin
@@ -59,9 +63,16 @@ export class ExcelProView extends TextFileView {
     log('[ExcelProView]', 'setViewData', this.initData)
 
     this.plugin.app.workspace.onLayoutReady(async () => {
+      // 检查视图是否已卸载
+      if (this.semaphores.viewunload) {
+        return
+      }
       let counter = 0
       while ((!this.semaphores?.viewloaded || !this.file) && counter++ < 50) await sleep(50)
-      this.renderContent()
+      // 再次检查视图状态
+      if (!this.semaphores.viewunload) {
+        this.renderContent()
+      }
     })
   }
 
@@ -70,7 +81,7 @@ export class ExcelProView extends TextFileView {
     emitEvent('unloadFile', { filePath: file.path })
     let counter = 0
     while (this.semaphores.unloadFileSaving && (counter < 200)) {
-      await sleep(50) // https://github.com/zsviczian/obsidian-excalidraw-plugin/issues/1988
+      await sleep(50)
       counter++
       log('[ExcelProView]', new Date().toLocaleString(), '等待文件卸载完成', this.semaphores.unloadFileSaving)
     }
@@ -81,7 +92,6 @@ export class ExcelProView extends TextFileView {
       return
     }
     log('[ExcelProView]', new Date().toLocaleString(), 'onUnloadFile', file.path)
-    this.debounced.run()
     this.dispose()
   }
 
@@ -94,30 +104,21 @@ export class ExcelProView extends TextFileView {
     if (!Platform.isDesktopApp) {
       this.renderModeEle = this.addAction('monitor-smartphone', t('CHANGE_RENDER_MODE'), _ => this.changeRenderMode())
     }
-
-    // Register keyboard shortcut for save
-    // this.registerDomEvent(document, 'keydown', (e) => {
-    //   const event = e as KeyboardEvent
-    //   log('[ExcelProView]', 'keydown', {
-    //     key: event.key,
-    //     code: event.code,
-    //     metaKey: event.metaKey,
-    //     ctrlKey: event.ctrlKey,
-    //     altKey: event.altKey,
-    //     shiftKey: event.shiftKey
-    //   });
-    //   // 使用 code 属性来判断按键，这样更可靠
-    //   if ((event.metaKey || event.ctrlKey) && (event.key.toLowerCase() === 's' || event.code === 'KeyS')) {
-    //     event.preventDefault()
-    //     this.debounced.run()
-    //   }
-    // })
   }
 
   onunload() {
     log('[ExcelProView]', new Date().toLocaleString(), 'onunload')
     this.semaphores.viewunload = true
-    this.debounced.run()
+
+    // 取消所有待执行的 debounce 任务
+    if (typeof this.debounced.run === 'function') {
+      this.debounced.run()
+    }
+
+    // 清理定时器
+    this.clearTimers()
+
+    // 清理状态栏项
     this.autoSaveItem?.remove()
 
     // 关闭 MCP 服务
@@ -130,6 +131,20 @@ export class ExcelProView extends TextFileView {
     }
 
     this.dispose()
+  }
+
+  /**
+   * 清理所有定时器
+   */
+  private clearTimers() {
+    if (this.refreshTimer) {
+      clearTimeout(this.refreshTimer)
+      this.refreshTimer = null
+    }
+    if (this.asyncSaveTimer) {
+      clearTimeout(this.asyncSaveTimer)
+      this.asyncSaveTimer = null
+    }
   }
 
   changeRenderMode() {
@@ -145,9 +160,16 @@ export class ExcelProView extends TextFileView {
   }
 
   refresh() {
+    // 清理之前的定时器
+    this.clearTimers()
+
     // 将 unmount 和 renderContent 包装在 setTimeout 中，确保在当前渲染周期完成后执行
-    setTimeout(() => {
+    this.refreshTimer = setTimeout(() => {
+      if (this.semaphores.viewunload) {
+        return
+      }
       this.root?.unmount()
+      this.root = null
       this.renderContent()
     }, 0)
   }
@@ -158,8 +180,24 @@ export class ExcelProView extends TextFileView {
 
   dispose() {
     log('[ExcelProView]', 'ExcelProView调用dispose')
+
+    // 取消 debounce
+    if (typeof this.debounced.cancel === 'function') {
+      this.debounced.cancel()
+    }
+
+    // 清理定时器
+    this.clearTimers()
+
+    // 清理 React root
+    if (this.root) {
+      this.root.unmount()
+      this.root = null
+    }
+
+    // 清理状态
     this.lastChangeState = undefined
-    this.root?.unmount()
+    this.initData = undefined
   }
 
   getViewType(): string {
@@ -184,20 +222,20 @@ export class ExcelProView extends TextFileView {
     }
 
     try {
-      // added this to avoid Electron crash when terminating a popout window and saving the drawing, need to check back
-      // can likely be removed once this is resolved: https://github.com/electron/electron/issues/40607
       if (this.semaphores.viewunload) {
         const d = this.getViewData()
         const plugin = this.plugin
         const file = this.file
-        window.setTimeout(async () => {
-          if (!d) {
+        // 清理之前的异步保存定时器
+        if (this.asyncSaveTimer) {
+          clearTimeout(this.asyncSaveTimer)
+        }
+        this.asyncSaveTimer = window.setTimeout(async () => {
+          if (!d || this.semaphores.viewunload) {
             return
           }
           log('[ExcelProView]', '异步modify文件', file.path)
           await plugin.app.vault.modify(file, d)
-          // this is a shady edge case, don't scrifice the BAK file in case the drawing is empty
-          // await imageCache.addBAKToCache(file.path,d);
         }, 200)
         this.semaphores.saving = false
         this.semaphores.unloadFileSaving = false
@@ -228,7 +266,7 @@ export class ExcelProView extends TextFileView {
     }
   }
 
-  private debounced = debounce(async (state: SheetStoreState) => {
+  public debounced = debounce(async (state: SheetStoreState) => {
     this.lastChangeState = state
     if (JSON.stringify(state) === JSON.stringify(this.initData)) {
       this.autoSaveItem?.setText(t('AUTO_SAVE_IDLE'))
@@ -254,7 +292,18 @@ export class ExcelProView extends TextFileView {
   }
 
   renderContent() {
+    // 如果视图已卸载，不进行渲染
+    if (this.semaphores.viewunload) {
+      return
+    }
+
     this.contentEl.style.padding = '0'
+
+    // 如果已有 root，先卸载
+    if (this.root) {
+      this.root.unmount()
+    }
+
     this.root = createRoot(this.contentEl)
     this.root.render(
       <SheetStoreProvider
@@ -280,4 +329,8 @@ export class ExcelProView extends TextFileView {
       this.subPath = path
     }
   }
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }

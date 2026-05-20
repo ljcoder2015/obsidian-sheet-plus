@@ -85,6 +85,7 @@ import { UniverSheetsImportExportPlugin } from '@ljcoder/import-export'
 import { UniverSheetsOutgoingLinkUIPlugin } from '@ljcoder/sheets-outgoing-link-ui'
 import { FUniver } from '@univerjs/core/facade'
 import { log } from '@ljcoder/smart-sheet/src/utils/log'
+import { SavePlugin } from '@ljcoder/save'
 import { enUS, faIR, frFR, getLanguage, ruRU, viVN, zhCN, zhTW } from '../../lang/locale'
 import type { FontInfo } from '../../services/fontManager'
 import { LJAuthzService } from './mockUserService'
@@ -261,6 +262,9 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, containe
 
   // Uniscript
   univer.registerPlugin(UniverUniscriptPlugin)
+
+  // 自动保存
+  univer.registerPlugin(SavePlugin)
 }
 
 function registerMobilePlugin(univer: Univer, option: IUniverUIConfig, container: string | HTMLElement) {
