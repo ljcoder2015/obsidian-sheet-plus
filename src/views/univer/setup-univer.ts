@@ -1,4 +1,3 @@
-import '@ljcoder/charts/lib/index.css'
 import '@ljcoder/sheets-outgoing-link-ui/lib/index.css'
 import '@univerjs/uniscript/lib/index.css'
 
