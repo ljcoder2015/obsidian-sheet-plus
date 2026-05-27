@@ -196,14 +196,6 @@ import uiviVN from '@univerjs/ui/lib/es/locale/vi-VN'
 import uizhCN from '@univerjs/ui/lib/es/locale/zh-CN'
 import uizhTW from '@univerjs/ui/lib/es/locale/zh-TW'
 
-import uniscriptenUS from '@univerjs/uniscript/lib/es/locale/en-US'
-import uniscriptfaIR from '@univerjs/uniscript/lib/es/locale/fa-IR'
-import uniscriptfrFR from '@univerjs/uniscript/lib/es/locale/fr-FR'
-import uniscriptruRU from '@univerjs/uniscript/lib/es/locale/ru-RU'
-import uniscriptviVN from '@univerjs/uniscript/lib/es/locale/vi-VN'
-import uniscriptzhCN from '@univerjs/uniscript/lib/es/locale/zh-CN'
-import uniscriptzhTW from '@univerjs/uniscript/lib/es/locale/zh-TW'
-
 export function getLanguage() {
   switch (moment.locale()) {
     case 'en':
@@ -253,7 +245,6 @@ export const enUS = Tools.deepMerge(
   outgoingLinkenUS,
   SheetsTableUIenUS,
   SheetsNoteUIenUS,
-  uniscriptenUS,
   saveenUS,
 )
 export const frFR = Tools.deepMerge(
@@ -284,7 +275,6 @@ export const frFR = Tools.deepMerge(
   outgoingLinkfrFR,
   SheetsTableUIfrFR,
   SheetsNoteUIfrFR,
-  uniscriptfrFR,
   savefrFR,
 )
 export const ruRU = Tools.deepMerge(
@@ -315,7 +305,6 @@ export const ruRU = Tools.deepMerge(
   outgoingLinkruRU,
   SheetsTableUIruRU,
   SheetsNoteUIruRU,
-  uniscriptruRU,
   saveruRU,
 )
 export const zhCN = Tools.deepMerge(
@@ -346,7 +335,6 @@ export const zhCN = Tools.deepMerge(
   outgoingLinkzhCN,
   SheetsTableUIZhCN,
   SheetsNoteUIZhCN,
-  uniscriptzhCN,
   savezhCN,
 )
 export const zhTW = Tools.deepMerge(
@@ -377,7 +365,6 @@ export const zhTW = Tools.deepMerge(
   outgoingLinkzhTW,
   SheetsTableUIZhTW,
   SheetsNoteUIZhTW,
-  uniscriptzhTW,
   savezhTW,
 )
 export const viVN = Tools.deepMerge(
@@ -408,7 +395,6 @@ export const viVN = Tools.deepMerge(
   outgoingLinkviVN,
   SheetsTableUIviVN,
   SheetsNoteUIviVN,
-  uniscriptviVN,
   saveviVN,
 )
 export const faIR = Tools.deepMerge(
@@ -439,6 +425,5 @@ export const faIR = Tools.deepMerge(
   outgoingLinkfaIR,
   SheetsTableUIfaIR,
   SheetsNoteUIfaIR,
-  uniscriptfaIR,
   savefaIR,
 )

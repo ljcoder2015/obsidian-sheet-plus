@@ -76,7 +76,6 @@
     "@univerjs/thread-comment": "catalog:",
     "@univerjs/thread-comment-ui": "catalog:",
     "@univerjs/ui": "catalog:",
-    "@univerjs/uniscript": "catalog:",
     "antd": "catalog:",
     "antd-style": "3.7.1",
     "monkey-around": "3.0.0",

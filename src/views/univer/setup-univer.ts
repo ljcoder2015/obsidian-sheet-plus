@@ -1,5 +1,4 @@
 import '@ljcoder/sheets-outgoing-link-ui/lib/index.css'
-import '@univerjs/uniscript/lib/index.css'
 
 import { IAuthzIoService, LocaleType, LogLevel, Univer, UserManagerService } from '@univerjs/core'
 import { defaultTheme } from '@univerjs/themes'
@@ -71,7 +70,6 @@ import { UniverSheetsTablePlugin } from '@univerjs/sheets-table'
 import { UniverSheetsTableUIPlugin } from '@univerjs/sheets-table-ui'
 import { UniverSheetsNotePlugin } from '@univerjs/sheets-note'
 import { UniverSheetsNoteUIPlugin } from '@univerjs/sheets-note-ui'
-import { UniverUniscriptPlugin } from '@univerjs/uniscript'
 
 import { UniverSheetsFindReplacePlugin } from '@univerjs/sheets-find-replace'
 import { UniverSheetsDrawingUIPlugin } from '@univerjs/sheets-drawing-ui'
@@ -260,7 +258,7 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, containe
   univer.registerPlugin(UniverSheetsNoteUIPlugin)
 
   // Uniscript
-  univer.registerPlugin(UniverUniscriptPlugin)
+  // univer.registerPlugin(UniverUniscriptPlugin)
 
   // 自动保存
   univer.registerPlugin(SavePlugin)
