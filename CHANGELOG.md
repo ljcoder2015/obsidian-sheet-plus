@@ -1,5 +1,12 @@
 
 
+## [2.11.2](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.1...2.11.2) (2026-05-27)
+
+
+### Features
+
+* remove uniscript ([b45bd58](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/b45bd589ba547797885034a9a4b2c7824a8c816e))
+
 ## [2.11.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.0...2.11.1) (2026-05-20)
 
 # [2.11.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.10.0...2.11.0) (2026-05-12)
