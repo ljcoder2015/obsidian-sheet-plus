@@ -92,6 +92,7 @@ export class ExcelProView extends TextFileView {
       return
     }
     log('[ExcelProView]', new Date().toLocaleString(), 'onUnloadFile', file.path)
+    this.debounced.run()
     this.dispose()
   }
 
@@ -110,7 +111,7 @@ export class ExcelProView extends TextFileView {
     log('[ExcelProView]', new Date().toLocaleString(), 'onunload')
     this.semaphores.viewunload = true
 
-    // 取消所有待执行的 debounce 任务
+    // 立即执行待执行的 debounce 任务
     if (typeof this.debounced.run === 'function') {
       this.debounced.run()
     }
@@ -181,11 +182,6 @@ export class ExcelProView extends TextFileView {
   dispose() {
     log('[ExcelProView]', 'ExcelProView调用dispose')
 
-    // 取消 debounce
-    if (typeof this.debounced.cancel === 'function') {
-      this.debounced.cancel()
-    }
-
     // 清理定时器
     this.clearTimers()
 
@@ -226,12 +222,8 @@ export class ExcelProView extends TextFileView {
         const d = this.getViewData()
         const plugin = this.plugin
         const file = this.file
-        // 清理之前的异步保存定时器
-        if (this.asyncSaveTimer) {
-          clearTimeout(this.asyncSaveTimer)
-        }
-        this.asyncSaveTimer = window.setTimeout(async () => {
-          if (!d || this.semaphores.viewunload) {
+        window.setTimeout(async () => {
+          if (!d) {
             return
           }
           log('[ExcelProView]', '异步modify文件', file.path)

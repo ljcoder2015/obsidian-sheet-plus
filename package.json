@@ -25,13 +25,13 @@
     "patch-local": "node scripts/patch-local.js"
   },
   "dependencies": {
-    "@ljcoder/authorization": "git+ssh://git@github.com:ljcoder2015/authorization.git#v1.4.0",
+    "@ljcoder/authorization": "workspace:*",
     "@ljcoder/charts": "workspace:*",
     "@ljcoder/embed-link-ui": "workspace:*",
-    "@ljcoder/import-export": "git+ssh://git@github.com:ljcoder2015/univer-import-export.git#v1.13.4",
+    "@ljcoder/import-export": "workspace:*",
     "@ljcoder/save": "workspace:*",
-    "@ljcoder/sheets-outgoing-link": "git+ssh://git@github.com:ljcoder2015/univer-outgoing-link.git#v1.10.3",
-    "@ljcoder/sheets-outgoing-link-ui": "git+ssh://git@github.com:ljcoder2015/univer-outgoing-link-ui.git#v1.10.5",
+    "@ljcoder/sheets-outgoing-link": "workspace:*",
+    "@ljcoder/sheets-outgoing-link-ui": "workspace:*",
     "@ljcoder/smart-sheet": "workspace:*",
     "@univerjs/core": "catalog:",
     "@univerjs/data-validation": "catalog:",
