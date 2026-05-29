@@ -1,5 +1,12 @@
 
 
+## [2.11.3](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.2...2.11.3) (2026-05-29)
+
+
+### Bug Fixes
+
+* save bug ([48b4e96](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/48b4e966891953b7036e27bd1f209f4426de857f))
+
 ## [2.11.2](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.1...2.11.2) (2026-05-27)
 
 
