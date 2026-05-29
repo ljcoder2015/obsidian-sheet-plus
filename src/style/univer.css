@@ -107,8 +107,8 @@ button.univer-range-selector-modal-add-button {
 }
 
 .my-univer .univer-input {
-	box-shadow: none !important;
-	color: rgb(var(--text-color)) !important;
+	box-shadow: none;
+	color: rgb(var(--text-color));
 }
 
 button.univer-toolbar-btn-active {
@@ -137,10 +137,6 @@ button.univer-toolbar-btn-active {
   left: 0;
   width: 100%;
   height: 100%;
-}
-
-.ant-tabs-tabpane:not(.ant-tabs-tabpane-active) * {
-  visibility: hidden !important;
 }
 
 .lj-content-view textarea:focus {
@@ -189,7 +185,6 @@ button.univer-toolbar-btn-active {
     margin: 0;
     margin-inline-end: 6px;
     width: var(--checkbox-size);
-    height: var(--checkbox-size);
     height: auto;
     transition: box-shadow 0.15s ease-in-out;
 }

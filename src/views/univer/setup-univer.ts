@@ -3,6 +3,8 @@ import '@ljcoder/sheets-outgoing-link-ui/lib/style.css'
 import { IAuthzIoService, LocaleType, LogLevel, Univer, UserManagerService } from '@univerjs/core'
 import { defaultTheme } from '@univerjs/themes'
 
+import localforage from 'localforage'
+
 import { UniverDocsPlugin } from '@univerjs/docs'
 import { UniverDocsUIPlugin } from '@univerjs/docs-ui'
 
@@ -96,6 +98,9 @@ export function createUniver(
   darkMode: boolean,
   isEmbed: boolean = false,
 ) {
+  // 在 Univer 初始化前限制 localforage 只使用 IndexedDB，避免 WebSQL 驱动动态创建 <script> 元素
+  localforage.setDriver([localforage.INDEXEDDB, localforage.LOCALSTORAGE])
+
   const univer = new Univer({
     theme: defaultTheme,
     darkMode,

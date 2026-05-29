@@ -78,6 +78,7 @@
     "@univerjs/ui": "catalog:",
     "antd": "catalog:",
     "antd-style": "3.7.1",
+    "localforage": "1.10.0",
     "monkey-around": "3.0.0",
     "process": "0.11.10"
   },
@@ -85,9 +86,7 @@
     "@antfu/eslint-config": "2.27.3",
     "@release-it/conventional-changelog": "8.0.2",
     "@univerjs/vite-plugin": "catalog:",
-    "builtin-modules": "3.3.0",
     "eslint": "8.57.1",
-    "lint-staged": "15.2.10",
     "obsidian": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
@@ -102,9 +101,6 @@
     ]
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
-  },
-  "lint-staged": {
-    "*": "eslint --fix"
+    "pre-commit": "eslint --fix --cache && git add -u"
   }
 }

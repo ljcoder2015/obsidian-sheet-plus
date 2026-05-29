@@ -5,7 +5,7 @@ import { createEchartsEl, log } from '@ljcoder/smart-sheet'
 import type ExcelProPlugin from '../main'
 
 import { VIEW_TYPE_EXCEL_PRO } from '../common/constants'
-import { getExcelData, getRangeData } from '../utils/data'
+import { getExcelData, getRangeData, getSheetData } from '../utils/data'
 
 import { renderToHtml } from './html'
 import { createUniverEl } from './univer'
@@ -56,7 +56,8 @@ async function reRenderEmbeddedContent(file: TFile) {
     el.empty()
 
     if (displayType === 'html') {
-      const tableEl = await renderToHtml(excelData, sheetName, range)
+      const validRange = parsesRange && !range.includes('undefined') ? range : ''
+      const tableEl = await renderToHtml(excelData, sheetName, validRange)
       el.appendChild(tableEl)
     }
     else if (displayType === 'univer') {
@@ -66,7 +67,8 @@ async function reRenderEmbeddedContent(file: TFile) {
         el.appendChild(univerEl)
       }
       else {
-        const univerEl = createUniverEl(excelData, undefined, plugin.settings.embedLinkShowFooter === 'true', plugin)
+        const sheetData = getSheetData(excelData, sheetName)
+        const univerEl = createUniverEl(sheetData, undefined, plugin.settings.embedLinkShowFooter === 'true', plugin)
         el.appendChild(univerEl)
       }
     }
@@ -303,11 +305,14 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
 
   // 生成内容
   if (parseResult.displayType === 'html') {
-    const tableEl = await renderToHtml(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
+    const rangeStr = parseResult.startCell && parseResult.endCell
+      ? `${parseResult.startCell}:${parseResult.endCell}`
+      : ''
+    const tableEl = await renderToHtml(excelData, parseResult.sheetName || '', rangeStr)
     const tableBox = createDiv({ cls: 'lj-table-box' })
     tableBox.setAttr('data-file-path', file.path)
-    tableBox.setAttr('data-sheet-name', parseResult.sheetName)
-    tableBox.setAttr('data-range', `${parseResult.startCell}:${parseResult.endCell}`)
+    tableBox.setAttr('data-sheet-name', parseResult.sheetName || '')
+    tableBox.setAttr('data-range', rangeStr)
     tableBox.setAttr('data-display-type', 'html')
     tableBox.appendChild(tableEl)
     embedLinkDiv.appendChild(tableBox)
@@ -325,7 +330,8 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
       contentWrapper.appendChild(univerEl)
     }
     else {
-      const univerEl = createUniverEl(excelData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true', plugin)
+      const sheetData = getSheetData(excelData, parseResult.sheetName)
+      const univerEl = createUniverEl(sheetData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true', plugin)
       contentWrapper.appendChild(univerEl)
     }
     embedLinkDiv.appendChild(contentWrapper)

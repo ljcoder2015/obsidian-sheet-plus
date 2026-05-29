@@ -39,10 +39,11 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
       }
     })
     const fWorkbook = univerAPI.createWorkbook(data || {})
-    const fSheet = fWorkbook.getSheetByName(sheet)
+    const sheetName = sheet || fWorkbook.getActiveSheet()?.getSheetName() || ''
+    const fSheet = fWorkbook.getSheetByName(sheetName)
 
     if (!fSheet) {
-      log('[renderToHtml]', 'Sheet not found:', sheet)
+      log('[renderToHtml]', 'Sheet not found:', sheetName)
       const emptyContainer = createEl('div', {
         cls: 'lj-html-error',
         text: `Sheet "${sheet}" not found`,
@@ -51,10 +52,11 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
       return containerEl
     }
 
-    const fRange = fSheet.getRange(range)
+    const rangeStr = range || fSheet.getDataRange()?.getA1Notation() || ''
+    const fRange = fSheet.getRange(rangeStr)
 
     if (!fRange) {
-      log('[renderToHtml]', 'Invalid range:', range)
+      log('[renderToHtml]', 'Invalid range:', rangeStr)
       const emptyContainer = createEl('div', {
         cls: 'lj-html-error',
         text: `Invalid range: ${range}`,
@@ -75,7 +77,8 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
       processedHtml = processedHtml.replace(/width:\s*0px/g, 'width:100%')
 
       const htmlContainer = createEl('div', { cls: 'lj-html-table-container' })
-      htmlContainer.innerHTML = processedHtml
+      const sanitizedHtml = processedHtml.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
+      htmlContainer.innerHTML = sanitizedHtml
 
       const table = htmlContainer.querySelector('table')
       if (table) {

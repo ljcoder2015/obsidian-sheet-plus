@@ -2,7 +2,6 @@ import { copyFile, rename, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import process from 'node:process'
 import { defineConfig } from 'vite'
-import builtins from 'builtin-modules'
 import dotenv from 'dotenv'
 import { univerPlugin } from '@univerjs/vite-plugin'
 
@@ -137,18 +136,9 @@ export default defineConfig((_) => {
           '@lezer/common',
           '@lezer/highlight',
           '@lezer/lr',
-          ...builtins,
         ],
       },
       minify: true,
-      // optimizeDeps: {
-      //   include: [
-      //     `monaco-editor/esm/vs/language/json/json.worker`,
-      //     `monaco-editor/esm/vs/language/css/css.worker`,
-      //     `monaco-editor/esm/vs/language/html/html.worker`,
-      //     `monaco-editor/esm/vs/language/typescript/ts.worker`,
-      //   ],
-      // },
     },
   }
 })

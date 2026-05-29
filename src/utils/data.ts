@@ -116,6 +116,24 @@ export function getRangeData(
   return data
 }
 
+export function getSheetData(
+  data: IWorkbookData | null,
+  sheetName: string,
+): IWorkbookData | null {
+  if (data == null)
+    return data
+
+  const sheet = Object.values(data.sheets).find(s => s.name === sheetName)
+  if (!sheet)
+    return data
+
+  const sheetId = sheet.id || ''
+  data.sheets = { [sheetId]: sheet }
+  data.sheetOrder = [sheetId]
+
+  return data
+}
+
 export interface RangeIndex {
   startCol: number
   startRow: number
