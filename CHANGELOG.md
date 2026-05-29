@@ -1,5 +1,12 @@
 
 
+## [2.11.4](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.3...2.11.4) (2026-05-29)
+
+
+### Bug Fixes
+
+* Fix the bug where embedding the second table in the embedded table settings still displays the first table. Also fix several issues found during the plugin review. ([93168a0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/93168a0a3a1e33f09884a768cb144749e94a921a))
+
 ## [2.11.3](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.2...2.11.3) (2026-05-29)
 
 
