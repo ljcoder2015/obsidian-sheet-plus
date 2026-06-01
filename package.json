@@ -78,7 +78,6 @@
     "@univerjs/ui": "catalog:",
     "antd": "catalog:",
     "antd-style": "3.7.1",
-    "localforage": "1.10.0",
     "monkey-around": "3.0.0",
     "process": "0.11.10"
   },
