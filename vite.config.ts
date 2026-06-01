@@ -125,6 +125,7 @@ export default defineConfig((_) => {
         external: [
           'obsidian',
           'electron',
+          'http',
           '@codemirror/autocomplete',
           '@codemirror/collab',
           '@codemirror/commands',
