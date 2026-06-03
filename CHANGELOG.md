@@ -1,5 +1,12 @@
 
 
+## [2.11.6](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.5...2.11.6) (2026-06-03)
+
+
+### Bug Fixes
+
+* fix dynamic <script> element creations ([b9eb579](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/b9eb579cda7131a9c4f7f6f7b19e087be282da8f))
+
 ## [2.11.5](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.4...2.11.5) (2026-06-01)
 
 ## [2.11.4](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.3...2.11.4) (2026-05-29)
