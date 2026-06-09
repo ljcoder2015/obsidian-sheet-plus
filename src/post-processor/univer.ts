@@ -1,9 +1,31 @@
 import type { INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
+import type { Univer } from '@univerjs/core'
 import { log, warn } from '@ljcoder/smart-sheet/src/utils/log'
 import type { FUniver } from '@univerjs/core/facade'
 import { randomString } from '../utils/uuid'
 import { createUniver } from '../views/univer/setup-univer'
 import type ExcelProPlugin from '../main'
+
+const embedUniverMap = new Map<string, { univerAPI: FUniver, univer: Univer }>()
+
+function disposeEmbedUniver(id: string) {
+  const instance = embedUniverMap.get(id)
+  if (instance) {
+    try {
+      const fWorkbook = instance.univerAPI.getActiveWorkbook()
+      const unitId = fWorkbook?.getId()
+      if (unitId) {
+        instance.univerAPI.disposeUnit(unitId)
+      }
+      instance.univerAPI.dispose()
+      instance.univer.dispose()
+    }
+    catch (e) {
+      warn('[disposeEmbedUniver]', 'Error disposing embed univer:', e)
+    }
+    embedUniverMap.delete(id)
+  }
+}
 
 /**
  * 创建表格元素
@@ -27,15 +49,26 @@ export function createUniverEl(
   })
 
   // 等待元素真正挂载到 DOM 后再初始化
-  const observer = new MutationObserver(async () => {
+  const mountObserver = new MutationObserver(async () => {
     if (document.getElementById(id)) {
       log('[createUniverEl]', 'Univer container mounted')
-      observer.disconnect()
+      mountObserver.disconnect()
       await initUniver(univerEl, id, data, plugin, showFooter)
     }
   })
 
-  observer.observe(document.body, { childList: true, subtree: true })
+  mountObserver.observe(document.body, { childList: true, subtree: true })
+
+  // 监听元素从 DOM 移除时销毁 Univer 实例
+  const unmountObserver = new MutationObserver(() => {
+    if (!document.getElementById(id)) {
+      log('[createUniverEl]', 'Univer container removed from DOM, disposing')
+      unmountObserver.disconnect()
+      disposeEmbedUniver(id)
+    }
+  })
+
+  unmountObserver.observe(document.body, { childList: true, subtree: true })
 
   return univerEl
 }
@@ -47,13 +80,18 @@ async function initUniver(el: HTMLDivElement, id: string, data: IWorkbookData | 
     warn('[createUniverEl]', 'Univer container has zero size, check CSS')
   }
 
+  // 如果已有旧实例，先销毁
+  disposeEmbedUniver(id)
+
   const options = {
     header: false,
     contextMenu: false,
     footer: showFooter,
   }
   const darkMode = plugin.settings.darkModal === 'dark'
-  const { univerAPI } = createUniver(plugin.availableFonts, options, id, plugin.settings.mobileRenderMode, darkMode, true)
+  const { univerAPI, univer } = createUniver(plugin.availableFonts, options, id, plugin.settings.mobileRenderMode, darkMode, true)
+
+  embedUniverMap.set(id, { univerAPI, univer })
 
   if (data) {
     // workbookData 的内容都包含在 workbook 字段中
@@ -66,15 +104,22 @@ async function initUniver(el: HTMLDivElement, id: string, data: IWorkbookData | 
 
   const activeWorkbook = univerAPI.getActiveWorkbook()
 
-  if (activeWorkbook) {
-    const permission = activeWorkbook.getWorkbookPermission()
-    await permission.setReadOnly()
-    univerAPI.setPermissionDialogVisible(false)
-    log('[createUniverEl]', 'Univer permission edit false')
-  }
-
   const localeTag = plugin.settings.numberFormatLocal as INumfmtLocaleTag
   activeWorkbook?.setNumfmtLocal(localeTag)
+
+  univerAPI.addEvent(univerAPI.Event.LifeCycleChanged, ({ stage }) => {
+    if (stage === univerAPI.Enum.LifecycleStages.Rendered) {
+      const fWorkbook = univerAPI.getActiveWorkbook()!
+
+      // disable selection
+      fWorkbook.disableSelection()
+
+      // set read only
+      const permission = fWorkbook.getWorkbookPermission()
+      permission.setReadOnly()
+      permission.setPermissionDialogVisible(false)
+    }
+  })
 
   return univerAPI
 }

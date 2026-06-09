@@ -98,6 +98,8 @@ export default class ExcelProPlugin extends Plugin {
         })
       }),
     )
+
+    this._loaded = true
   }
 
   onunload() {
@@ -314,7 +316,7 @@ export default class ExcelProPlugin extends Plugin {
               // console.log("setViewState cache cccc", cache)
               if (
                 (cache?.frontmatter && cache?.frontmatter[FRONTMATTER_KEY])
-                || filepath.contains('.univer.md')
+                || filepath.includes('.univer.md')
               ) {
                 // console.log("setViewState --", cache)
                 // If we have it, force the view type to excalidraw
