@@ -1,5 +1,12 @@
 
 
+## [2.11.8](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.7...2.11.8) (2026-06-23)
+
+
+### Bug Fixes
+
+* Fix occasional styling issues with elements visible within inactive Ant Tab panels. ([450e868](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/450e868e9037fd1f06f5be20eb0fd52eebd45190))
+
 ## [2.11.7](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.6...2.11.7) (2026-06-23)
 
 
