@@ -1,5 +1,12 @@
 
 
+## [2.11.7](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.6...2.11.7) (2026-06-23)
+
+
+### Bug Fixes
+
+* Optimize font loading logic and fix inactive tab styling issues ([fcc7d1c](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/fcc7d1c2fd9f64f798bdf16602026fcd1bebb9fe))
+
 ## [2.11.6](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.5...2.11.6) (2026-06-03)
 
 
