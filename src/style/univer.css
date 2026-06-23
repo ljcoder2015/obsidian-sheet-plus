@@ -140,7 +140,7 @@ button.univer-toolbar-btn-active {
 }
 
 .ant-tabs-tabpane:not(.ant-tabs-tabpane-active) * {
-  visibility: hidden;
+  visibility: hidden !important;
 }
 
 
