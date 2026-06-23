@@ -1,7 +1,5 @@
 import { error } from '@ljcoder/smart-sheet/src/utils/log'
 import type { App } from 'obsidian'
-import { Notice } from 'obsidian'
-import { t } from '../lang/helpers'
 
 export interface FontInfo {
   name: string
@@ -65,6 +63,10 @@ export class FontManager {
    * 扫描字体目录（支持 woff/woff2/ttf）
    */
   async scanFontFolder(folder: string): Promise<string[]> {
+    // 文件夹路径为空或不存在则静默返回
+    if (!folder || !(await this.app.vault.adapter.exists(folder))) {
+      return []
+    }
     try {
       const list = await this.app.vault.adapter.list(folder)
       return list.files.filter(f =>
@@ -74,8 +76,7 @@ export class FontManager {
       )
     }
     catch (err) {
-      error('Font folder not found', folder, err)
-      new Notice(t('FONT_FOLDER_NOT_FOUND'))
+      error('Failed to scan font folder', folder, err)
       return []
     }
   }

@@ -112,6 +112,11 @@ export default class ExcelProPlugin extends Plugin {
 
   private async loadFonts() {
     this.fontManager = new FontManager(this.app)
+    // 未配置字体文件夹则跳过
+    if (!this.settings.fontFolder) {
+      this.availableFonts = []
+      return
+    }
     const fonts = await this.fontManager.loadAllFontsFromFolder(this.settings.fontFolder)
     this.availableFonts = fonts
   }

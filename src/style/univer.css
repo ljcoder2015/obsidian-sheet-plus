@@ -139,6 +139,11 @@ button.univer-toolbar-btn-active {
   height: 100%;
 }
 
+.ant-tabs-tabpane:not(.ant-tabs-tabpane-active) * {
+  visibility: hidden;
+}
+
+
 .lj-content-view textarea:focus {
 	box-shadow: none;
 }
