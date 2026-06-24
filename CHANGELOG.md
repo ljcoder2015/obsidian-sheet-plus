@@ -1,5 +1,12 @@
 
 
+# [2.12.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.8...2.12.0) (2026-06-24)
+
+
+### Features
+
+* Insert images from within the Obsidian vault, supporting batch insertion of multiple images ([8bd6ef3](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/8bd6ef37ba208557f175b685d7ffaba9db6269b4))
+
 ## [2.11.8](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.7...2.11.8) (2026-06-23)
 
 
