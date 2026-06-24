@@ -161,4 +161,10 @@ export default {
   // Help Menu
   HELP_MENU_DOCS: 'Documentation',
   HELP_MENU_TUTORIALS: 'Video Tutorials',
+
+  // Image Picker
+  IMAGE_PICKER_TITLE: 'Select images from vault',
+  IMAGE_PICKER_EMPTY: 'No image files found in vault.',
+  IMAGE_PICKER_CONFIRM: 'Confirm',
+  IMAGE_PICKER_CANCEL: 'Cancel',
 }

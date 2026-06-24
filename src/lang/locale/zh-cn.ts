@@ -161,4 +161,10 @@ export default {
   // Help Menu
   HELP_MENU_DOCS: '文档',
   HELP_MENU_TUTORIALS: '视频教程',
+
+  // Image Picker
+  IMAGE_PICKER_TITLE: '选择 vault 中的图片',
+  IMAGE_PICKER_EMPTY: 'vault 中没有图片文件。',
+  IMAGE_PICKER_CONFIRM: '确定',
+  IMAGE_PICKER_CANCEL: '取消',
 }

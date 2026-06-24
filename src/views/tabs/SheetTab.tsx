@@ -11,7 +11,8 @@ import type { IReplaceSnapshotCommandParams } from '@univerjs/docs-ui'
 import { ReplaceSnapshotCommand } from '@univerjs/docs-ui'
 import { ExportFinishCommand, ExportStartCommand, ImportFinishCommand, ImportStartCommand } from '@ljcoder/import-export'
 import { SaveCommand } from '@ljcoder/save'
-import { Platform } from 'obsidian'
+import { InsertLocalCellImageOperation, InsertLocalFloatImageOperation } from '@ljcoder/local-image'
+import { Modal, Platform, Setting, type TFile } from 'obsidian'
 import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
@@ -23,6 +24,185 @@ import { useUniver } from '../../context/UniverContext'
 import { useSheetStore } from '../../context/SheetStoreProvider'
 import { OUTGOING_LINKS_UPDATE_ACTION, SHEET_UPDATE_ACTION } from '../../services/reduce'
 import type { FontInfo } from '../../services/fontManager'
+
+const IMAGE_EXTENSIONS = new Set(['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'bmp', 'ico']);
+
+function getMimeType(ext: string): string {
+    const mimeMap: Record<string, string> = {
+        png: 'image/png',
+        jpg: 'image/jpeg',
+        jpeg: 'image/jpeg',
+        gif: 'image/gif',
+        svg: 'image/svg+xml',
+        webp: 'image/webp',
+        bmp: 'image/bmp',
+        ico: 'image/x-icon',
+    };
+    return mimeMap[ext.toLowerCase()] || 'image/png';
+}
+
+function blobToDataUrl(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+}
+
+function getImageSize(dataUrl: string): Promise<{ width: number; height: number }> {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
+        img.onerror = () => resolve({ width: 400, height: 300 });
+        img.src = dataUrl;
+    });
+}
+
+function scaleToFit(w: number, h: number, maxW: number, maxH: number): { width: number; height: number } {
+    const scale = Math.min(maxW / w, maxH / h, 1);
+    return { width: Math.round(w * scale), height: Math.round(h * scale) };
+}
+
+class VaultImageMultiPickerModal extends Modal {
+    private _resolve: ((value: TFile[]) => void) | null = null;
+    private _checkboxes: Map<string, boolean> = new Map();
+
+    open(): Promise<TFile[]> {
+        return new Promise((resolve) => {
+            this._resolve = resolve;
+            this._checkboxes.clear();
+            super.open();
+        });
+    }
+
+    onOpen(): void {
+        const { contentEl } = this;
+        contentEl.empty();
+        contentEl.addClass('vault-image-picker-modal');
+
+        contentEl.createEl('style', { text: `
+            .vault-image-picker-modal {
+                padding: 8px 0;
+            }
+            .vault-image-picker-modal h3 {
+                margin: 0 0 12px 0;
+                padding: 0 20px;
+                font-size: 16px;
+            }
+            .vault-image-picker-list {
+                max-height: 360px;
+                overflow-y: auto;
+                margin: 0 0 16px 0;
+                padding: 0 20px;
+            }
+            .vault-image-picker-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 6px 8px;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.15s;
+            }
+            .vault-image-picker-item:hover {
+                background-color: var(--background-modifier-hover);
+            }
+            .vault-image-picker-item input[type="checkbox"] {
+                flex-shrink: 0;
+                margin: 0;
+                width: 16px;
+                height: 16px;
+                cursor: pointer;
+            }
+            .vault-image-picker-item label {
+                flex: 1;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 13px;
+                cursor: pointer;
+                color: var(--text-normal);
+            }
+            .vault-image-picker-buttons {
+                display: flex;
+                justify-content: flex-end;
+                gap: 8px;
+                padding: 12px 20px 8px;
+                border-top: 1px solid var(--background-modifier-border);
+            }
+            .vault-image-picker-buttons button {
+                padding: 6px 16px;
+                font-size: 13px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        ` });
+
+        contentEl.createEl('h3', { text: t('IMAGE_PICKER_TITLE') });
+
+        const imageFiles = this.app.vault.getFiles()
+            .filter(f => IMAGE_EXTENSIONS.has(f.extension.toLowerCase()));
+
+        if (imageFiles.length === 0) {
+            contentEl.createEl('p', { text: t('IMAGE_PICKER_EMPTY'), cls: 'vault-image-picker-empty' });
+            return;
+        }
+
+        const listEl = contentEl.createDiv({ cls: 'vault-image-picker-list' });
+
+        for (const file of imageFiles) {
+            const itemEl = listEl.createDiv({ cls: 'vault-image-picker-item' });
+            const checkbox = itemEl.createEl('input', { type: 'checkbox', id: `img-${file.path.replace(/[^a-zA-Z0-9]/g, '-')}` });
+            this._checkboxes.set(file.path, false);
+            checkbox.addEventListener('change', () => {
+                this._checkboxes.set(file.path, checkbox.checked);
+            });
+
+            const label = itemEl.createEl('label', { text: file.path, attr: { for: checkbox.id } });
+            itemEl.addEventListener('click', (e) => {
+                if (e.target === checkbox) return;
+                checkbox.checked = !checkbox.checked;
+                this._checkboxes.set(file.path, checkbox.checked);
+            });
+        }
+
+        const buttonEl = contentEl.createDiv({ cls: 'vault-image-picker-buttons' });
+        const cancelBtn = buttonEl.createEl('button', { text: t('IMAGE_PICKER_CANCEL') });
+        const confirmBtn = buttonEl.createEl('button', { text: t('IMAGE_PICKER_CONFIRM'), cls: 'mod-cta' });
+
+        confirmBtn.addEventListener('click', () => {
+            const selected = imageFiles.filter(f => this._checkboxes.get(f.path));
+            this.close();
+            this._resolve?.(selected);
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            this.close();
+            this._resolve?.([]);
+        });
+    }
+
+    onClose(): void {
+        const { contentEl } = this;
+        contentEl.empty();
+    }
+}
+
+async function pickVaultImages(app: App): Promise<File[]> {
+    const modal = new VaultImageMultiPickerModal(app);
+    const vaultFiles = await modal.open();
+    if (vaultFiles.length === 0) return [];
+
+    const result: File[] = [];
+    for (const vaultFile of vaultFiles) {
+        const arrayBuffer = await app.vault.readBinary(vaultFile);
+        const mimeType = getMimeType(vaultFile.extension);
+        const file = new File([arrayBuffer], vaultFile.name, { type: mimeType });
+        result.push(file);
+    }
+    return result;
+}
 
 export function SheetTab({ switchTab }: { switchTab: () => void }) {
   const { state, dispatch } = useSheetStore()
@@ -241,6 +421,56 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
           log('[SheetTab]', 'ExportFinishCommand')
           setLoading(false)
           setSpinTip(t('EXPORTED'))
+        }
+
+        if (res.id === InsertLocalFloatImageOperation.id) {
+          if (!app) return;
+          pickVaultImages(app).then(async (files) => {
+            if (files.length === 0) return;
+            const sheet = univerApi?.getActiveWorkbook()?.getActiveSheet();
+            if (!sheet) return;
+            const activeRange = sheet.getActiveRange();
+            if (!activeRange) return;
+            let row = activeRange.getRow();
+            const col = activeRange.getColumn();
+
+            for (const file of files) {
+              const dataUrl = await blobToDataUrl(file);
+              const naturalSize = await getImageSize(dataUrl);
+              const scaled = scaleToFit(naturalSize.width, naturalSize.height, 400, 300);
+              const image = await sheet.newOverGridImage()
+                .setSource(dataUrl, univerApi.Enum.ImageSourceType.BASE64)
+                .setColumn(col)
+                .setRow(row)
+                .setWidth(scaled.width)
+                .setHeight(scaled.height)
+                .buildAsync();
+              sheet.insertImages([image]);
+              row++;
+            }
+          }).catch((err) => {
+            console.error('[SheetTab] InsertLocalFloatImageOperation error:', err);
+          });
+        }
+
+        if (res.id === InsertLocalCellImageOperation.id) {
+          if (!app) return;
+          pickVaultImages(app).then(async (files) => {
+            if (files.length === 0) return;
+            const sheet = univerApi?.getActiveWorkbook()?.getActiveSheet();
+            if (!sheet) return;
+            const activeRange = sheet.getActiveRange();
+            if (!activeRange) return;
+            let row = activeRange.getRow();
+            const col = activeRange.getColumn();
+            for (const file of files) {
+              const range = sheet.getRange(row, col);
+              await range.insertCellImageAsync(file);
+              row++;
+            }
+          }).catch((err) => {
+            console.error('[SheetTab] InsertLocalCellImageOperation error:', err);
+          });
         }
 
         // 仅同步本地 mutation

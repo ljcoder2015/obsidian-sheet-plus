@@ -65,6 +65,8 @@ import '@univerjs/sheets-thread-comment/facade'
 import '@univerjs/sheets-table/facade'
 import '@univerjs/sheets-note/facade'
 import '@univerjs/sheets-conditional-formatting/facade'
+import '@univerjs/sheets-drawing/facade'
+import '@univerjs/sheets-drawing-ui/facade'
 
 import { UniverSheetsTablePlugin } from '@univerjs/sheets-table'
 import { UniverSheetsTableUIPlugin } from '@univerjs/sheets-table-ui'
@@ -83,6 +85,7 @@ import { UniverSheetsOutgoingLinkUIPlugin } from '@ljcoder/sheets-outgoing-link-
 import { FUniver } from '@univerjs/core/facade'
 import { log } from '@ljcoder/smart-sheet/src/utils/log'
 import { SavePlugin } from '@ljcoder/save'
+import { UniverLocalImagePlugin } from '@ljcoder/local-image'
 import { enUS, faIR, frFR, getLanguage, ruRU, viVN, zhCN, zhTW } from '../../lang/locale'
 import type { FontInfo } from '../../services/fontManager'
 import { LJAuthzService } from './mockUserService'
@@ -260,6 +263,9 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, containe
   // Uniscript
   // univer.registerPlugin(UniverUniscriptPlugin)
 
+  // 本地图片
+  univer.registerPlugin(UniverLocalImagePlugin)
+
   // 自动保存
   univer.registerPlugin(SavePlugin)
 }
@@ -363,6 +369,8 @@ export function createHandlessUniver() {
   })
   univer.registerPlugin(UniverSheetsFormulaUIPlugin)
   univer.registerPlugin(UniverRenderEnginePlugin)
+
+  univer.registerPlugin(UniverLocalImagePlugin)
 
   const univerAPI = FUniver.newAPI(univer)
   return { univerAPI, univer }

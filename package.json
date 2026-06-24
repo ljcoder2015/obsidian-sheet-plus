@@ -29,6 +29,7 @@
     "@ljcoder/charts": "workspace:*",
     "@ljcoder/embed-link-ui": "workspace:*",
     "@ljcoder/import-export": "workspace:*",
+    "@ljcoder/local-image": "workspace:*",
     "@ljcoder/save": "workspace:*",
     "@ljcoder/sheets-outgoing-link": "workspace:*",
     "@ljcoder/sheets-outgoing-link-ui": "workspace:*",

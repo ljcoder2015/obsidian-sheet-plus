@@ -118,4 +118,10 @@ export default {
   AI_QWEN3_MAX: 'qwen3-max',
   AI_QWEN_PLUS: 'qwen-plus',
   AI_QWEN_FLASH: 'qwen-flash',
+
+  // Image Picker
+  IMAGE_PICKER_TITLE: '選擇 vault 中的圖片',
+  IMAGE_PICKER_EMPTY: 'vault 中沒有圖片文件。',
+  IMAGE_PICKER_CONFIRM: '確定',
+  IMAGE_PICKER_CANCEL: '取消',
 }

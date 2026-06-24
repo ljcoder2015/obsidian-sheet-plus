@@ -48,6 +48,14 @@ import saveviVN from '@ljcoder/save/locale/vi-VN'
 import savezhCN from '@ljcoder/save/locale/zh-CN'
 import savezhTW from '@ljcoder/save/locale/zh-TW'
 
+import localImageenUS from '@ljcoder/local-image/locale/en-US'
+import localImagezhCN from '@ljcoder/local-image/locale/zh-CN'
+import localImagezhTW from '@ljcoder/local-image/locale/zh-TW'
+import localImagefrFR from '@ljcoder/local-image/locale/fr-FR'
+import localImageruRU from '@ljcoder/local-image/locale/ru-RU'
+import localImageviVN from '@ljcoder/local-image/locale/vi-VN'
+import localImagefaIR from '@ljcoder/local-image/locale/fa-IR'
+
 import designenUS from '@univerjs/design/lib/es/locale/en-US'
 import designfaIR from '@univerjs/design/lib/es/locale/fa-IR'
 import designfrFR from '@univerjs/design/lib/es/locale/fr-FR'
@@ -246,6 +254,7 @@ export const enUS = Tools.deepMerge(
   SheetsTableUIenUS,
   SheetsNoteUIenUS,
   saveenUS,
+  localImageenUS,
 )
 export const frFR = Tools.deepMerge(
   {},
@@ -276,6 +285,7 @@ export const frFR = Tools.deepMerge(
   SheetsTableUIfrFR,
   SheetsNoteUIfrFR,
   savefrFR,
+  localImagefrFR,
 )
 export const ruRU = Tools.deepMerge(
   {},
@@ -306,6 +316,7 @@ export const ruRU = Tools.deepMerge(
   SheetsTableUIruRU,
   SheetsNoteUIruRU,
   saveruRU,
+  localImageruRU,
 )
 export const zhCN = Tools.deepMerge(
   {},
@@ -336,6 +347,7 @@ export const zhCN = Tools.deepMerge(
   SheetsTableUIZhCN,
   SheetsNoteUIZhCN,
   savezhCN,
+  localImagezhCN,
 )
 export const zhTW = Tools.deepMerge(
   {},
@@ -366,6 +378,7 @@ export const zhTW = Tools.deepMerge(
   SheetsTableUIZhTW,
   SheetsNoteUIZhTW,
   savezhTW,
+  localImagezhTW,
 )
 export const viVN = Tools.deepMerge(
   {},
@@ -396,6 +409,7 @@ export const viVN = Tools.deepMerge(
   SheetsTableUIviVN,
   SheetsNoteUIviVN,
   saveviVN,
+  localImageviVN,
 )
 export const faIR = Tools.deepMerge(
   {},
@@ -426,4 +440,5 @@ export const faIR = Tools.deepMerge(
   SheetsTableUIfaIR,
   SheetsNoteUIfaIR,
   savefaIR,
+  localImagefaIR,
 )
