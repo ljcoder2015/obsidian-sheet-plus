@@ -33,6 +33,7 @@ import {
   checkAndCreateFolder,
   getExcelFilename,
   getNewUniqueFilepath,
+  resolveFolderPath,
 } from './utils/file'
 import type { PaneTarget } from './common/modifierkey-helper'
 import { t } from './lang/helpers'
@@ -65,10 +66,11 @@ export default class ExcelProPlugin extends Plugin {
 
     // This creates an icon in the left ribbon.
     this.addRibbonIcon('sheet', t('CREATE_EXCEL'), () => {
-      // Called when the user clicks the icon.
+      const activeFile = this.app.workspace.getActiveFile()
+      const folderPath = activeFile ? activeFile.parent.path : undefined
       this.createAndOpenExcel(
         getExcelFilename(this.settings),
-        undefined,
+        folderPath,
         this.getBlackData(),
       )
     })
@@ -253,9 +255,11 @@ export default class ExcelProPlugin extends Plugin {
       icon: 'sheet',
       name: t('CREATE_EXCEL'),
       callback: () => {
+        const activeFile = this.app.workspace.getActiveFile()
+        const folderPath = activeFile ? activeFile.parent.path : undefined
         this.createAndOpenExcel(
           getExcelFilename(this.settings),
-          undefined,
+          folderPath,
           this.getBlackData(),
         )
       },
@@ -354,8 +358,11 @@ export default class ExcelProPlugin extends Plugin {
     foldername?: string,
     initData?: string,
   ): Promise<TFile> {
-    const folderpath = normalizePath(
-      foldername || this.settings.folder,
+    const folderpath = resolveFolderPath(
+      this.settings.fileLocationMode,
+      this.settings.fileSubFolder,
+      this.settings.folder,
+      foldername,
     )
     await checkAndCreateFolder(this.app.vault, folderpath)
 

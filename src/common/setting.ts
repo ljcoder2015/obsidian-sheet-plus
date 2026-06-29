@@ -1,6 +1,8 @@
 export interface ExcelProSettings {
   showSheetButton: string
   folder: string
+  fileLocationMode: string
+  fileSubFolder: string
   excelFilenamePrefix: string
   excelFilenameDateTime: string
   sheetHeight: string
@@ -20,6 +22,8 @@ export interface ExcelProSettings {
 export const DEFAULT_SETTINGS: ExcelProSettings = {
   showSheetButton: 'true',
   folder: '/',
+  fileLocationMode: 'specified',
+  fileSubFolder: '',
   excelFilenamePrefix: 'Excel ',
   excelFilenameDateTime: 'YYYY-MM-DD HH.mm.ss',
   sheetHeight: '300',

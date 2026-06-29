@@ -81,6 +81,37 @@ export function getExcelFilename(settings: ExcelProSettings): string {
 }
 
 /**
+ * 根据文件存放模式解析目标目录
+ * @param mode - 存放模式 'root'|'current'|'current-sub'|'specified'
+ * @param subFolder - current-sub 模式下的子文件夹名
+ * @param specifiedFolder - specified 模式下的目标路径
+ * @param contextFolder - 当前文件的父文件夹路径（右键菜单触发时有值）
+ */
+export function resolveFolderPath(
+  mode: string,
+  subFolder: string,
+  specifiedFolder: string,
+  contextFolder?: string,
+): string {
+  if (contextFolder) {
+    switch (mode) {
+      case 'root':
+        return '/'
+      case 'current':
+        return contextFolder
+      case 'current-sub':
+        return subFolder
+          ? normalizePath(`${contextFolder}/${subFolder}`)
+          : contextFolder
+      default:
+        break
+    }
+  }
+  // 无上下文时，root 返回 /，其余回退到指定文件夹
+  return mode === 'root' ? '/' : (specifiedFolder || '/')
+}
+
+/**
  * Open or create a folderpath if it does not exist
  * @param folderpath
  */

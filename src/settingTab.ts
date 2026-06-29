@@ -53,17 +53,52 @@ export class ExcelProSettingTab extends PluginSettingTab {
       )
 
     new Setting(containerEl)
-      .setName(t('FOLDER'))
-      .setDesc(t('FOLDER_DESC'))
-      .addText(text =>
-        text
-          .setPlaceholder('/')
-          .setValue(this.plugin.settings.folder)
+      .setName(t('FILE_LOCATION_MODE'))
+      .setDesc(t('FILE_LOCATION_MODE_DESC'))
+      .addDropdown(dropdown =>
+        dropdown
+          .addOption('root', t('FILE_LOCATION_MODE_ROOT'))
+          .addOption('current', t('FILE_LOCATION_MODE_CURRENT'))
+          .addOption('current-sub', t('FILE_LOCATION_MODE_CURRENT_SUB'))
+          .addOption('specified', t('FILE_LOCATION_MODE_SPECIFIED'))
+          .setValue(this.plugin.settings.fileLocationMode)
           .onChange(async (value) => {
-            this.plugin.settings.folder = value
+            this.plugin.settings.fileLocationMode = value
             this.plugin.saveSettings()
+            // 刷新设置页以显示/隐藏子文件夹和指定文件夹输入框
+            this.display()
           }),
       )
+
+    if (this.plugin.settings.fileLocationMode === 'current-sub') {
+      new Setting(containerEl)
+        .setName(t('FILE_SUB_FOLDER'))
+        .setDesc(t('FILE_SUB_FOLDER_DESC'))
+        .addText(text =>
+          text
+            .setPlaceholder('sheets')
+            .setValue(this.plugin.settings.fileSubFolder)
+            .onChange(async (value) => {
+              this.plugin.settings.fileSubFolder = value
+              this.plugin.saveSettings()
+            }),
+        )
+    }
+
+    if (this.plugin.settings.fileLocationMode === 'specified') {
+      new Setting(containerEl)
+        .setName(t('FOLDER'))
+        .setDesc(t('FOLDER_DESC'))
+        .addText(text =>
+          text
+            .setPlaceholder('/')
+            .setValue(this.plugin.settings.folder)
+            .onChange(async (value) => {
+              this.plugin.settings.folder = value
+              this.plugin.saveSettings()
+            }),
+        )
+    }
 
     new Setting(containerEl)
       .setName(t('FILENAME_PREFIX'))
