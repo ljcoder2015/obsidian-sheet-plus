@@ -1,5 +1,12 @@
 
 
+## [2.12.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.0...2.12.1) (2026-06-29)
+
+
+### Features
+
+* add file location mode setting and optimize file path resolution ([1ba4dc1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/1ba4dc1031e5e842660a8cc8442102954aa3534a))
+
 # [2.12.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.11.8...2.12.0) (2026-06-24)
 
 
