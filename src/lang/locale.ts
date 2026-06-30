@@ -119,13 +119,48 @@ import sheetsfilteruiruRU from '@univerjs/sheets-filter-ui/lib/es/locale/ru-RU'
 import sheetsfilteruiviVN from '@univerjs/sheets-filter-ui/lib/es/locale/vi-VN'
 import sheetsfilteruizhCN from '@univerjs/sheets-filter-ui/lib/es/locale/zh-CN'
 import sheetsfilteruizhTW from '@univerjs/sheets-filter-ui/lib/es/locale/zh-TW'
-import sheetsfindreplaceenUS from '@univerjs/sheets-find-replace/lib/es/locale/en-US'
-import sheetsfindreplacefaIR from '@univerjs/sheets-find-replace/lib/es/locale/fa-IR'
-import sheetsfindreplacefrFR from '@univerjs/sheets-find-replace/lib/es/locale/fr-FR'
-import sheetsfindreplaceruRU from '@univerjs/sheets-find-replace/lib/es/locale/ru-RU'
-import sheetsfindreplaceviVN from '@univerjs/sheets-find-replace/lib/es/locale/vi-VN'
-import sheetsfindreplacezhCN from '@univerjs/sheets-find-replace/lib/es/locale/zh-CN'
-import sheetsfindreplacezhTW from '@univerjs/sheets-find-replace/lib/es/locale/zh-TW'
+
+// v0.25.0: 新增 locale 导出包
+import datavalidationenUS from '@univerjs/data-validation/lib/es/locale/en-US'
+import datavalidationfaIR from '@univerjs/data-validation/lib/es/locale/fa-IR'
+import datavalidationfrFR from '@univerjs/data-validation/lib/es/locale/fr-FR'
+import datavalidationruRU from '@univerjs/data-validation/lib/es/locale/ru-RU'
+import datavalidationviVN from '@univerjs/data-validation/lib/es/locale/vi-VN'
+import datavalidationzhCN from '@univerjs/data-validation/lib/es/locale/zh-CN'
+import datavalidationzhTW from '@univerjs/data-validation/lib/es/locale/zh-TW'
+
+import shtdatavalidationenUS from '@univerjs/sheets-data-validation/lib/es/locale/en-US'
+import shtdatavalidationfaIR from '@univerjs/sheets-data-validation/lib/es/locale/fa-IR'
+import shtdatavalidationfrFR from '@univerjs/sheets-data-validation/lib/es/locale/fr-FR'
+import shtdatavalidationruRU from '@univerjs/sheets-data-validation/lib/es/locale/ru-RU'
+import shtdatavalidationviVN from '@univerjs/sheets-data-validation/lib/es/locale/vi-VN'
+import shtdatavalidationzhCN from '@univerjs/sheets-data-validation/lib/es/locale/zh-CN'
+import shtdatavalidationzhTW from '@univerjs/sheets-data-validation/lib/es/locale/zh-TW'
+
+import shtfilterenUS from '@univerjs/sheets-filter/lib/es/locale/en-US'
+import shtfilterfaIR from '@univerjs/sheets-filter/lib/es/locale/fa-IR'
+import shtfilterfrFR from '@univerjs/sheets-filter/lib/es/locale/fr-FR'
+import shtfilterruRU from '@univerjs/sheets-filter/lib/es/locale/ru-RU'
+import shtfilterviVN from '@univerjs/sheets-filter/lib/es/locale/vi-VN'
+import shtfilterzhCN from '@univerjs/sheets-filter/lib/es/locale/zh-CN'
+import shtfilterzhTW from '@univerjs/sheets-filter/lib/es/locale/zh-TW'
+
+import shthyperlinkenUS from '@univerjs/sheets-hyper-link/lib/es/locale/en-US'
+import shthyperlinkfaIR from '@univerjs/sheets-hyper-link/lib/es/locale/fa-IR'
+import shthyperlinkfrFR from '@univerjs/sheets-hyper-link/lib/es/locale/fr-FR'
+import shthyperlinkruRU from '@univerjs/sheets-hyper-link/lib/es/locale/ru-RU'
+import shthyperlinkviVN from '@univerjs/sheets-hyper-link/lib/es/locale/vi-VN'
+import shthyperlinkzhCN from '@univerjs/sheets-hyper-link/lib/es/locale/zh-CN'
+import shthyperlinkzhTW from '@univerjs/sheets-hyper-link/lib/es/locale/zh-TW'
+
+import shttableenUS from '@univerjs/sheets-table/lib/es/locale/en-US'
+import shttablefaIR from '@univerjs/sheets-table/lib/es/locale/fa-IR'
+import shttablefrFR from '@univerjs/sheets-table/lib/es/locale/fr-FR'
+import shttableruRU from '@univerjs/sheets-table/lib/es/locale/ru-RU'
+import shttableviVN from '@univerjs/sheets-table/lib/es/locale/vi-VN'
+import shttablezhCN from '@univerjs/sheets-table/lib/es/locale/zh-CN'
+import shttablezhTW from '@univerjs/sheets-table/lib/es/locale/zh-TW'
+
 import sheetsformulauienUS from '@univerjs/sheets-formula-ui/lib/es/locale/en-US'
 import sheetsformulauifaIR from '@univerjs/sheets-formula-ui/lib/es/locale/fa-IR'
 import sheetsformulauifrFR from '@univerjs/sheets-formula-ui/lib/es/locale/fr-FR'
@@ -237,7 +272,6 @@ export const enUS = Tools.deepMerge(
   sheetsdatavalidationuienUS,
   sheetsdrawinguienUS,
   sheetsfilteruienUS,
-  sheetsfindreplaceenUS,
   sheetsformulaenUS,
   sheetsformulauienUS,
   sheetshyperlinkuienUS,
@@ -248,6 +282,12 @@ export const enUS = Tools.deepMerge(
   sheetszeneditorenUS,
   threadcommentuienUS,
   uienUS,
+  // v0.25.0: 新增 locale 合并
+  datavalidationenUS,
+  shtdatavalidationenUS,
+  shtfilterenUS,
+  shthyperlinkenUS,
+  shttableenUS,
   embedLinkenUS,
   importExportenUS,
   outgoingLinkenUS,
@@ -268,7 +308,6 @@ export const frFR = Tools.deepMerge(
   sheetsdatavalidationuifrFR,
   sheetsdrawinguifrFR,
   sheetsfilteruifrFR,
-  sheetsfindreplacefrFR,
   sheetsformulafrFR,
   sheetsformulauifrFR,
   sheetshyperlinkuifrFR,
@@ -279,6 +318,12 @@ export const frFR = Tools.deepMerge(
   sheetszeneditorfrFR,
   threadcommentuifrFR,
   uifrFR,
+  // v0.25.0: 新增 locale 合并
+  datavalidationfrFR,
+  shtdatavalidationfrFR,
+  shtfilterfrFR,
+  shthyperlinkfrFR,
+  shttablefrFR,
   embedLinkfrFR,
   importExportfrFR,
   outgoingLinkfrFR,
@@ -299,7 +344,6 @@ export const ruRU = Tools.deepMerge(
   sheetsdatavalidationuiruRU,
   sheetsdrawinguiruRU,
   sheetsfilteruiruRU,
-  sheetsfindreplaceruRU,
   sheetsformularuRU,
   sheetsformulauiruRU,
   sheetshyperlinkuiruRU,
@@ -310,6 +354,12 @@ export const ruRU = Tools.deepMerge(
   sheetszeneditorruRU,
   threadcommentuiruRU,
   uiruRU,
+  // v0.25.0: 新增 locale 合并
+  datavalidationruRU,
+  shtdatavalidationruRU,
+  shtfilterruRU,
+  shthyperlinkruRU,
+  shttableruRU,
   embedLinkruRU,
   importExportruRU,
   outgoingLinkruRU,
@@ -330,7 +380,6 @@ export const zhCN = Tools.deepMerge(
   sheetsdatavalidationuizhCN,
   sheetsdrawinguizhCN,
   sheetsfilteruizhCN,
-  sheetsfindreplacezhCN,
   sheetsformulazhCN,
   sheetsformulauizhCN,
   sheetshyperlinkuizhCN,
@@ -341,6 +390,12 @@ export const zhCN = Tools.deepMerge(
   sheetszeneditorzhCN,
   threadcommentuizhCN,
   uizhCN,
+  // v0.25.0: 新增 locale 合并
+  datavalidationzhCN,
+  shtdatavalidationzhCN,
+  shtfilterzhCN,
+  shthyperlinkzhCN,
+  shttablezhCN,
   embedLinkzhCN,
   importExportzhCN,
   outgoingLinkzhCN,
@@ -361,7 +416,6 @@ export const zhTW = Tools.deepMerge(
   sheetsdatavalidationuizhTW,
   sheetsdrawinguizhTW,
   sheetsfilteruizhTW,
-  sheetsfindreplacezhTW,
   sheetsformulazhTW,
   sheetsformulauizhTW,
   sheetshyperlinkuizhTW,
@@ -372,6 +426,12 @@ export const zhTW = Tools.deepMerge(
   sheetszeneditorzhTW,
   threadcommentuizhTW,
   uizhTW,
+  // v0.25.0: 新增 locale 合并
+  datavalidationzhTW,
+  shtdatavalidationzhTW,
+  shtfilterzhTW,
+  shthyperlinkzhTW,
+  shttablezhTW,
   embedLinkzhTW,
   importExportzhTW,
   outgoingLinkzhTW,
@@ -392,7 +452,6 @@ export const viVN = Tools.deepMerge(
   sheetsdatavalidationuiviVN,
   sheetsdrawinguiviVN,
   sheetsfilteruiviVN,
-  sheetsfindreplaceviVN,
   sheetsformulaviVN,
   sheetsformulauiviVN,
   sheetshyperlinkuiviVN,
@@ -403,6 +462,12 @@ export const viVN = Tools.deepMerge(
   sheetszeneditorviVN,
   threadcommentuiviVN,
   uiviVN,
+  // v0.25.0: 新增 locale 合并
+  datavalidationviVN,
+  shtdatavalidationviVN,
+  shtfilterviVN,
+  shthyperlinkviVN,
+  shttableviVN,
   embedLinkviVN,
   importExportviVN,
   outgoingLinkviVN,
@@ -423,7 +488,6 @@ export const faIR = Tools.deepMerge(
   sheetsdatavalidationuifaIR,
   sheetsdrawinguifaIR,
   sheetsfilteruifaIR,
-  sheetsfindreplacefaIR,
   sheetsformulafaIR,
   sheetsformulauifaIR,
   sheetshyperlinkuifaIR,
@@ -434,6 +498,12 @@ export const faIR = Tools.deepMerge(
   sheetszeneditorfaIR,
   threadcommentuifaIR,
   uifaIR,
+  // v0.25.0: 新增 locale 合并
+  datavalidationfaIR,
+  shtdatavalidationfaIR,
+  shtfilterfaIR,
+  shthyperlinkfaIR,
+  shttablefaIR,
   embedLinkfaIR,
   importExportfaIR,
   outgoingLinkfaIR,
