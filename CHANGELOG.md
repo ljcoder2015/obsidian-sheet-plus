@@ -1,5 +1,12 @@
 
 
+## [2.12.2](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.1...2.12.2) (2026-07-06)
+
+
+### Features
+
+* update univer to version 0.25.0 ([48747c4](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/48747c45b69355835e6be8dd3e24c100f2410de1))
+
 ## [2.12.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.0...2.12.1) (2026-06-29)
 
 
