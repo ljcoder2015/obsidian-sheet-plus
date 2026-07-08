@@ -372,7 +372,7 @@ function parseEmbedLinkSyntax(input: string): ParsedSyntax {
 
   // 正则表达式，支持所有 Unicode 字符（包括特殊字符、中文、俄文、泰文等）
   // eslint-disable-next-line regexp/no-super-linear-backtracking
-  const fileRegex = /^(.+?)(?:#(.+?))?(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w\-]+)\})?$/
+  const fileRegex = /^(.+?)(?:#(.+?))?(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w-]+)\})?$/
 
   const fileMatch = fileNameAndRest.match(fileRegex)
 

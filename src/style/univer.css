@@ -15,6 +15,10 @@
 	--sheet-checked-before: #4b89ff;
 }
 
+.lj-excel-pro-content {
+  padding: 0;
+}
+
 .authorization-code-container {
 	text-align: center;
 	font-size: 20px;

@@ -10,7 +10,7 @@ interface UniverContextProps {
 const UniverContext = createContext<UniverContextProps | null>(null)
 
 export function UniverProvider({ children }: React.PropsWithChildren<object>) {
-  const [univerApi, setUniverApi] = useState<any | null>(null)
+  const [univerApi, setUniverApi] = useState<FUniver | null>(null)
 
   // 清理逻辑：组件卸载或 univerApi 更新时 dispose 旧实例
   useEffect(() => {

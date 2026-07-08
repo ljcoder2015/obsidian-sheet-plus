@@ -18,7 +18,9 @@ export class ExcelProSettingTab extends PluginSettingTab {
 
     containerEl.empty()
 
-    containerEl.createEl('h1', { text: t('BASE_COLOR') })
+    new Setting(containerEl)
+      .setName(t('BASE_COLOR'))
+      .setHeading()
 
     new Setting(containerEl)
       .setName(t('BASE_COLOR'))

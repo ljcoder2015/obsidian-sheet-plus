@@ -139,11 +139,11 @@ export class ExcelProView extends TextFileView {
    */
   private clearTimers() {
     if (this.refreshTimer) {
-      clearTimeout(this.refreshTimer)
+      window.clearTimeout(this.refreshTimer)
       this.refreshTimer = null
     }
     if (this.asyncSaveTimer) {
-      clearTimeout(this.asyncSaveTimer)
+      window.clearTimeout(this.asyncSaveTimer)
       this.asyncSaveTimer = null
     }
   }
@@ -247,7 +247,7 @@ export class ExcelProView extends TextFileView {
     catch (e) {
       console.error({
         where: 'SheetPlus.save',
-        fn: this.save,
+        fn: () => this.save(),
         error: e,
       })
       throw e
@@ -289,7 +289,7 @@ export class ExcelProView extends TextFileView {
       return
     }
 
-    this.contentEl.style.padding = '0'
+    this.contentEl.addClass('lj-excel-pro-content')
 
     // 如果已有 root，先卸载
     if (this.root) {
