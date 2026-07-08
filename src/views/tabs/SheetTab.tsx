@@ -81,64 +81,6 @@ class VaultImageMultiPickerModal extends Modal {
         contentEl.empty();
         contentEl.addClass('vault-image-picker-modal');
 
-        contentEl.createEl('style', { text: `
-            .vault-image-picker-modal {
-                padding: 8px 0;
-            }
-            .vault-image-picker-modal h3 {
-                margin: 0 0 12px 0;
-                padding: 0 20px;
-                font-size: 16px;
-            }
-            .vault-image-picker-list {
-                max-height: 360px;
-                overflow-y: auto;
-                margin: 0 0 16px 0;
-                padding: 0 20px;
-            }
-            .vault-image-picker-item {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                padding: 6px 8px;
-                border-radius: 4px;
-                cursor: pointer;
-                transition: background-color 0.15s;
-            }
-            .vault-image-picker-item:hover {
-                background-color: var(--background-modifier-hover);
-            }
-            .vault-image-picker-item input[type="checkbox"] {
-                flex-shrink: 0;
-                margin: 0;
-                width: 16px;
-                height: 16px;
-                cursor: pointer;
-            }
-            .vault-image-picker-item label {
-                flex: 1;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                font-size: 13px;
-                cursor: pointer;
-                color: var(--text-normal);
-            }
-            .vault-image-picker-buttons {
-                display: flex;
-                justify-content: flex-end;
-                gap: 8px;
-                padding: 12px 20px 8px;
-                border-top: 1px solid var(--background-modifier-border);
-            }
-            .vault-image-picker-buttons button {
-                padding: 6px 16px;
-                font-size: 13px;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-        ` });
-
         contentEl.createEl('h3', { text: t('IMAGE_PICKER_TITLE') });
 
         const imageFiles = this.app.vault.getFiles()

@@ -701,7 +701,15 @@ export class Tools {
 }
 
 export function fragWithHTML(html: string) {
-  return createFragment(frag => (frag.createDiv().innerHTML = html))
+  return createFragment(frag => {
+    const div = frag.createDiv()
+    // 使用 DOMParser 安全解析 HTML，避免直接设置 innerHTML
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(html, 'text/html')
+    while (doc.body.firstChild) {
+      div.appendChild(doc.body.firstChild)
+    }
+  })
 }
 
 export function getTheme(el: HTMLElement): 'dark' | 'light' {

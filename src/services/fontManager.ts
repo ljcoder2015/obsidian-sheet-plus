@@ -8,7 +8,8 @@ export interface FontInfo {
 
 export class FontManager {
   app: App
-  loadedFonts = new Map<string, HTMLStyleElement>()
+  // 使用 CSSStyleSheet API 代替 document.createElement('style')，避免创建 DOM 元素
+  loadedFonts = new Map<string, CSSStyleSheet>()
 
   constructor(app: App) {
     this.app = app
@@ -28,7 +29,7 @@ export class FontManager {
   }
 
   /**
-   * 动态加载字体
+   * 动态加载字体（使用 adoptedStyleSheets，不创建 DOM style 元素）
    */
   loadFont(fontName: string, vaultPath: string) {
     const url = this.app.vault.adapter.getResourcePath(vaultPath)
@@ -38,23 +39,23 @@ export class FontManager {
 
     const format = this.getFontFormat(vaultPath)
 
-    const style = document.createElement('style')
-    style.textContent = `
+    const sheet = new CSSStyleSheet()
+    sheet.replaceSync(`
 @font-face {
   font-family: "${fontName}";
   src: url("${url}") format("${format}");
   font-weight: normal;
   font-style: normal;
-}`
-    document.head.appendChild(style)
+}`)
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet]
 
-    this.loadedFonts.set(fontName, style)
+    this.loadedFonts.set(fontName, sheet)
   }
 
   unloadFont(fontName: string) {
-    const el = this.loadedFonts.get(fontName)
-    if (el) {
-      el.remove()
+    const sheet = this.loadedFonts.get(fontName)
+    if (sheet) {
+      document.adoptedStyleSheets = document.adoptedStyleSheets.filter(s => s !== sheet)
       this.loadedFonts.delete(fontName)
     }
   }

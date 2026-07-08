@@ -78,7 +78,12 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
 
       const htmlContainer = createEl('div', { cls: 'lj-html-table-container' })
       const sanitizedHtml = processedHtml.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
-      htmlContainer.innerHTML = sanitizedHtml
+      // 使用 DOMParser 安全解析 HTML，避免直接设置 innerHTML
+      const parser = new DOMParser()
+      const doc = parser.parseFromString(sanitizedHtml, 'text/html')
+      while (doc.body.firstChild) {
+        htmlContainer.appendChild(doc.body.firstChild)
+      }
 
       const table = htmlContainer.querySelector('table')
       if (table) {
