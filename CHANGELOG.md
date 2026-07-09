@@ -1,5 +1,13 @@
 
 
+## [2.12.4](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.3...2.12.4) (2026-07-09)
+
+
+### Bug Fixes
+
+* fix risks ([d99719e](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/d99719e3fbf6cda83f8a73a1b3187d9e3cf79bd4))
+* Resolve code scanning problems ([0eb45e0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/0eb45e01620870b82f7944fe02077517015f1c8f))
+
 ## [2.12.3](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.1...2.12.3) (2026-07-06)
 
 
