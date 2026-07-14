@@ -48,23 +48,46 @@ export function createUniverEl(
     },
   })
 
-  // 等待元素真正挂载到 DOM 后再初始化
+  let isCanvasMode = false
+  let canvasParent: Element | null = null
+
+  // 等待元素挂载后检测环境并初始化（仅一次）
   const mountObserver = new MutationObserver(async () => {
     if (document.getElementById(id)) {
       log('[createUniverEl]', 'Univer container mounted')
       mountObserver.disconnect()
+
+      // 追踪 .workspace-leaf 祖先：虚拟滚动时它不变，文件关闭时才移除
+      canvasParent = univerEl.closest('.canvas-wrapper')
+      isCanvasMode = !!canvasParent
+      log('[createUniverEl]', 'Canvas mode:', isCanvasMode, 'leaf:', canvasParent)
+
       await initUniver(univerEl, id, data, plugin, showFooter)
     }
   })
 
   mountObserver.observe(document.body, { childList: true, subtree: true })
 
-  // 监听元素从 DOM 移除时销毁 Univer 实例
+  // 监听元素从 DOM 移除
   const unmountObserver = new MutationObserver(() => {
     if (!document.getElementById(id)) {
-      log('[createUniverEl]', 'Univer container removed from DOM, disposing')
-      unmountObserver.disconnect()
-      disposeEmbedUniver(id)
+      if (isCanvasMode) {
+        // canvas 祖先还在 DOM → 仅虚拟滚动，保持实例存活
+        // canvas 祖先也不在 DOM → 文件已关闭，销毁实例
+        if (canvasParent && !document.contains(canvasParent)) {
+          log('[createUniverEl]', 'Canvas closed, disposing')
+          unmountObserver.disconnect()
+          disposeEmbedUniver(id)
+        }
+        else {
+          log('[createUniverEl]', 'Canvas scrolled out, keeping alive')
+        }
+      }
+      else {
+        log('[createUniverEl]', 'Univer container removed from DOM, disposing')
+        unmountObserver.disconnect()
+        disposeEmbedUniver(id)
+      }
     }
   })
 

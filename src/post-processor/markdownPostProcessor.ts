@@ -2,6 +2,7 @@ import type { MarkdownPostProcessorContext, MetadataCache, Vault } from 'obsidia
 import { TFile } from 'obsidian'
 
 import { createEchartsEl, log } from '@ljcoder/smart-sheet'
+import type { IWorkbookData } from '@univerjs/core'
 import type ExcelProPlugin from '../main'
 
 import { VIEW_TYPE_EXCEL_PRO } from '../common/constants'
@@ -26,6 +27,51 @@ export function initializeMarkdownPostProcessor(p: ExcelProPlugin) {
       }
     }),
   )
+}
+
+/**
+ * 计算自适应高度
+ * - 嵌入 Canvas 时使用父元素高度
+ * - 否则根据数据中所有可见行的行高累加计算
+ */
+function computeAdaptiveHeight(data: IWorkbookData | null, parentEl: HTMLElement): number {
+  // 嵌入 Canvas 中时使用父元素高度
+  const canvasContent = parentEl.closest('.canvas-node-content')
+  log('[computeAdaptiveHeight]', 'canvasContent:', canvasContent)
+  if (canvasContent) {
+    const canvasHeight = (canvasContent as HTMLElement).clientHeight || 500
+    log('[computeAdaptiveHeight]', 'Canvas mode, parent height:', canvasHeight)
+    return canvasHeight
+  }
+
+  if (!data) {
+    log('[computeAdaptiveHeight]', 'no data, fallback 300')
+    return 300
+  }
+
+  const sheetId = Object.keys(data.sheets)[0]
+  if (!sheetId) {
+    log('[computeAdaptiveHeight]', 'no sheetId, fallback 300')
+    return 300
+  }
+
+  const sheet = data.sheets[sheetId]
+  const defaultRowHeight = sheet.defaultRowHeight || 25
+
+  // 列标题高度 + 所有可见行的高度
+  let totalHeight = sheet.columnHeader?.height || 20
+  let visibleRowCount = 0
+  for (let i = 0; i < (sheet.rowCount || 0); i++) {
+    const rowData = sheet.rowData?.[i]
+    if (rowData?.hd === 1) {
+      continue // 跳过隐藏行
+    }
+    visibleRowCount++
+    totalHeight += rowData?.h || defaultRowHeight
+  }
+
+  log('[computeAdaptiveHeight]', 'calculated height:', totalHeight, 'rows:', sheet.rowCount, 'visible:', visibleRowCount, 'defaultRowHeight:', defaultRowHeight)
+  return totalHeight || 300
 }
 
 async function reRenderEmbeddedContent(file: TFile) {
@@ -63,12 +109,14 @@ async function reRenderEmbeddedContent(file: TFile) {
     else if (displayType === 'univer') {
       if (parsesRange) {
         const rangeData = getRangeData(excelData, sheetName, range)
-        const univerEl = createUniverEl(rangeData, undefined, plugin.settings.embedLinkShowFooter === 'true', plugin)
+        const height = computeAdaptiveHeight(rangeData, el as HTMLElement)
+        const univerEl = createUniverEl(rangeData, height, plugin.settings.embedLinkShowFooter === 'true', plugin)
         el.appendChild(univerEl)
       }
       else {
         const sheetData = getSheetData(excelData, sheetName)
-        const univerEl = createUniverEl(sheetData, undefined, plugin.settings.embedLinkShowFooter === 'true', plugin)
+        const height = computeAdaptiveHeight(sheetData, el as HTMLElement)
+        const univerEl = createUniverEl(sheetData, height, plugin.settings.embedLinkShowFooter === 'true', plugin)
         el.appendChild(univerEl)
       }
     }
@@ -174,7 +222,7 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
     const data = await vault.read(file)
     const src = internalEmbedDiv.getAttribute('src') ?? file.path.slice(0, -(file.extension.length + 1))
     const alt = internalEmbedDiv.getAttribute('alt') ?? ''
-    const sheetDiv = await createEmbedLinkDiv(src, alt, file, data)
+    const sheetDiv = await createEmbedLinkDiv(src, alt, file, data, internalEmbedDiv)
     internalEmbedDiv.appendChild(sheetDiv)
 
     if (markdownEmbed) {
@@ -198,7 +246,7 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
   const src = internalEmbedDiv.getAttribute('src') ?? file.path.slice(0, -(file.extension.length + 1))
   const alt = internalEmbedDiv.getAttribute('alt') ?? ''
 
-  const sheetDiv = await createEmbedLinkDiv(src, alt, file, data)
+  const sheetDiv = await createEmbedLinkDiv(src, alt, file, data, internalEmbedDiv)
   internalEmbedDiv.appendChild(sheetDiv)
 
   if (markdownEmbed) {
@@ -249,7 +297,7 @@ async function processInternalEmbed(internalEmbedEl: Element, file: TFile, data:
   internalEmbedEl.removeClass('inline-embed')
 
   const alt = internalEmbedEl.getAttribute('alt') ?? ''
-  const div = await createEmbedLinkDiv(src, alt, file, data)
+  const div = await createEmbedLinkDiv(src, alt, file, data, internalEmbedEl as HTMLElement)
   return div
 }
 
@@ -261,7 +309,7 @@ async function processInternalEmbed(internalEmbedEl: Element, file: TFile, data:
  * @param data 文件转换后的 json 字符串
  * @returns HTMLDivElement
  */
-async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string): Promise<HTMLDivElement> {
+async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string, parentEl?: HTMLElement): Promise<HTMLDivElement> {
   const parseResult = parseEmbedLinkSyntax(`${src}|${alt}`)
   log('[createEmbedLinkDiv]', src, alt, file.path)
 
@@ -326,12 +374,14 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
     contentWrapper.setAttr('data-display-type', 'univer')
     if (parseResult.startCell && parseResult.endCell) {
       const rangeData = getRangeData(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
-      const univerEl = createUniverEl(rangeData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true', plugin)
+      const height = parseResult.height ?? (parentEl ? computeAdaptiveHeight(rangeData, parentEl) : undefined)
+      const univerEl = createUniverEl(rangeData, height, plugin.settings.embedLinkShowFooter === 'true', plugin)
       contentWrapper.appendChild(univerEl)
     }
     else {
       const sheetData = getSheetData(excelData, parseResult.sheetName)
-      const univerEl = createUniverEl(sheetData, parseResult.height, plugin.settings.embedLinkShowFooter === 'true', plugin)
+      const height = parseResult.height ?? (parentEl ? computeAdaptiveHeight(sheetData, parentEl) : undefined)
+      const univerEl = createUniverEl(sheetData, height, plugin.settings.embedLinkShowFooter === 'true', plugin)
       contentWrapper.appendChild(univerEl)
     }
     embedLinkDiv.appendChild(contentWrapper)
