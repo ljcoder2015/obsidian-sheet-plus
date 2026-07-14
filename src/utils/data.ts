@@ -64,7 +64,7 @@ export function getRangeData(
   sheet: string,
   range: string,
 ): IWorkbookData | null {
-  if (data == null)
+  if (data == null || !data.sheets)
     return data
 
   const currentSheet = Object.values(data.sheets).find((item) => {
@@ -120,7 +120,7 @@ export function getSheetData(
   data: IWorkbookData | null,
   sheetName: string,
 ): IWorkbookData | null {
-  if (data == null)
+  if (data == null || !data.sheets)
     return data
 
   const sheet = Object.values(data.sheets).find(s => s.name === sheetName)

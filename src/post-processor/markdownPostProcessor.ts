@@ -44,8 +44,8 @@ function computeAdaptiveHeight(data: IWorkbookData | null, parentEl: HTMLElement
     return canvasHeight
   }
 
-  if (!data) {
-    log('[computeAdaptiveHeight]', 'no data, fallback 300')
+  if (!data || !data.sheets) {
+    log('[computeAdaptiveHeight]', 'no data or sheets, fallback 300')
     return 300
   }
 
