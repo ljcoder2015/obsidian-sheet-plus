@@ -54,7 +54,7 @@ export function createUniverEl(
 
   // 等待元素挂载后检测环境并初始化（仅一次）
   const mountObserver = new MutationObserver(async () => {
-    if (document.getElementById(id)) {
+    if (activeDocument.getElementById(id)) {
       log('[createUniverEl]', 'Univer container mounted')
       mountObserver.disconnect()
 
@@ -83,15 +83,15 @@ export function createUniverEl(
     }
   })
 
-  mountObserver.observe(document.body, { childList: true, subtree: true })
+  mountObserver.observe(activeDocument.body, { childList: true, subtree: true })
 
   // 监听元素从 DOM 移除
   const unmountObserver = new MutationObserver(() => {
-    if (!document.getElementById(id)) {
+    if (!activeDocument.getElementById(id)) {
       if (isCanvasMode) {
         // canvas 祖先还在 DOM → 仅虚拟滚动，保持实例存活
         // canvas 祖先也不在 DOM → 文件已关闭，销毁实例
-        if (canvasParent && !document.contains(canvasParent)) {
+        if (canvasParent && !activeDocument.contains(canvasParent)) {
           log('[createUniverEl]', 'Canvas closed, disposing')
           unmountObserver.disconnect()
           canvasResizeObserver?.disconnect()
@@ -110,7 +110,7 @@ export function createUniverEl(
     }
   })
 
-  unmountObserver.observe(document.body, { childList: true, subtree: true })
+  unmountObserver.observe(activeDocument.body, { childList: true, subtree: true })
 
   return univerEl
 }

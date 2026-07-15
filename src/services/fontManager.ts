@@ -47,7 +47,7 @@ export class FontManager {
   font-weight: normal;
   font-style: normal;
 }`)
-    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet]
+    activeDocument.adoptedStyleSheets = [...activeDocument.adoptedStyleSheets, sheet]
 
     this.loadedFonts.set(fontName, sheet)
   }
@@ -55,7 +55,7 @@ export class FontManager {
   unloadFont(fontName: string) {
     const sheet = this.loadedFonts.get(fontName)
     if (sheet) {
-      document.adoptedStyleSheets = document.adoptedStyleSheets.filter(s => s !== sheet)
+      activeDocument.adoptedStyleSheets = activeDocument.adoptedStyleSheets.filter(s => s !== sheet)
       this.loadedFonts.delete(fontName)
     }
   }

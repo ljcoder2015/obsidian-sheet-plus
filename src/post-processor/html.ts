@@ -22,7 +22,7 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
       style: `display: none;`,
     },
   })
-  document.body.append(univerEl)
+  activeDocument.body.append(univerEl)
 
   try {
     const options = {

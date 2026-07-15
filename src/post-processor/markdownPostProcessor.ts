@@ -79,7 +79,7 @@ async function reRenderEmbeddedContent(file: TFile) {
     `.lj-table-box[data-file-path="${file.path}"]`,
     `.lj-embed-content[data-file-path="${file.path}"]`,
   ].join(',')
-  const elements = document.querySelectorAll(selector)
+  const elements = activeDocument.querySelectorAll(selector)
   if (elements.length === 0) {
     return
   }

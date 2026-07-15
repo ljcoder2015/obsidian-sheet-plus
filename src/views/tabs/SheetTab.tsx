@@ -165,7 +165,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
     }
     let darkMode = plugin.settings.darkModal === 'dark'
     // 检查是否在 Excalidraw 中
-    const isExalidraw = document.querySelector('.excalidraw__embeddable-container') !== null
+    const isExalidraw = activeDocument.querySelector('.excalidraw__embeddable-container') !== null
     if (isExalidraw) {
       const theme = getTheme(containerRef.current)
       darkMode = theme === 'dark'

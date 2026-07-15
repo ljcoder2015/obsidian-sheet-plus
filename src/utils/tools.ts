@@ -385,11 +385,11 @@ export class Tools {
   static isMobile(): boolean {
     let clientWidth = 0
     let clientHeight = 0
-    if (document.body.clientWidth) {
-      clientWidth = document.body.clientWidth
+    if (activeDocument.body.clientWidth) {
+      clientWidth = activeDocument.body.clientWidth
     }
-    if (document.body.clientHeight) {
-      clientHeight = document.body.clientHeight
+    if (activeDocument.body.clientHeight) {
+      clientHeight = activeDocument.body.clientHeight
     }
     return this.isAndroid() || this.isIPhone() || this.isTablet() || (clientWidth < 350 && clientHeight < 500)
   }
@@ -670,7 +670,7 @@ export function getTheme(el: HTMLElement): 'dark' | 'light' {
     return 'light'
 
   // fallback if no themed ancestor
-  if (document.body.classList.contains('theme-dark'))
+  if (activeDocument.body.classList.contains('theme-dark'))
     return 'dark'
   return 'light'
 }
