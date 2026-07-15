@@ -1,5 +1,14 @@
 
 
+## [2.12.5](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.5-alpha...2.12.5) (2026-07-15)
+
+
+### Bug Fixes
+
+* Adapt for Obsidian Modal Windows by Replacing Global document with activeDocument ([f03fac5](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/f03fac548a852ec3c150f04620b82acf19089114))
+* Promise returned in function argument where a void return was expected ([04d77e7](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/04d77e73af1ce883c9f826794f50e136263b1215))
+* Refine Empty Data Validation and Add Canvas Height Auto-Adaptation Logic ([ac45b9c](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/ac45b9c40f11e03353102605fe72615724c4c6ca))
+
 ## [2.12.5-alpha](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.4...2.12.5-alpha) (2026-07-14)
 
 ## [2.12.4](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.3...2.12.4) (2026-07-09)
