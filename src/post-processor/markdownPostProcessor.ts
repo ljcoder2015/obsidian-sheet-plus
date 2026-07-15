@@ -263,26 +263,20 @@ async function processReadingMode(embeddedItems: NodeListOf<Element> | [HTMLElem
   // Embedded files will be displayed in an .internal-embed container
 
   // Iterating all the containers in the file to check which one is an univer drawing
-  // This is a for loop instead of embeddedItems.forEach() because processInternalEmbed at the end
-  // is awaited, otherwise univer images would not display in the univer plugin
-  embeddedItems.forEach(async (maybeUniver, _) => {
-    // check to see if the file in the src attribute exists
+  for (const maybeUniver of embeddedItems) {
     const fname = maybeUniver.getAttribute('src')?.split('#')[0]
     if (!fname)
-      return true
+      continue
 
     const file = metadataCache.getFirstLinkpathDest(fname, ctx.sourcePath)
-    // console.log('forEach', file, ctx.sourcePath)
 
-    // if the embeddedFile exits and it is an univer file
-    // then lets replace the .internal-embed with the generated PNG or SVG image
     if (file && file instanceof TFile && plugin.isExcelFile(file)) {
       const parent = maybeUniver.parentElement
       const data = await vault.read(file)
       const sheetDiv = await processInternalEmbed(maybeUniver, file, data)
       parent?.replaceChild(sheetDiv, maybeUniver)
     }
-  })
+  }
 }
 
 async function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: string): Promise<HTMLDivElement> {

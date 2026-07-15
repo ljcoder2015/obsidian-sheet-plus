@@ -53,34 +53,36 @@ export function createUniverEl(
   let canvasResizeObserver: ResizeObserver | null = null
 
   // 等待元素挂载后检测环境并初始化（仅一次）
-  const mountObserver = new MutationObserver(async () => {
-    if (activeDocument.getElementById(id)) {
-      log('[createUniverEl]', 'Univer container mounted')
-      mountObserver.disconnect()
+  const mountObserver = new MutationObserver(() => {
+    void (async () => {
+      if (activeDocument.getElementById(id)) {
+        log('[createUniverEl]', 'Univer container mounted')
+        mountObserver.disconnect()
 
-      // 追踪 .canvas-wrapper 祖先：虚拟滚动时它不变，文件关闭时才移除
-      canvasParent = univerEl.closest('.canvas-wrapper')
-      isCanvasMode = !!canvasParent
-      log('[createUniverEl]', 'Canvas mode:', isCanvasMode, 'leaf:', canvasParent)
+        // 追踪 .canvas-wrapper 祖先：虚拟滚动时它不变，文件关闭时才移除
+        canvasParent = univerEl.closest('.canvas-wrapper')
+        isCanvasMode = !!canvasParent
+        log('[createUniverEl]', 'Canvas mode:', isCanvasMode, 'leaf:', canvasParent)
 
-      // 监听包含当前 univerEl 的 .canvas-node 高度变化，同步更新 Univer 高度
-      if (isCanvasMode && canvasParent) {
-        const canvasNode = univerEl.closest('.canvas-node')
-        if (canvasNode) {
-          canvasResizeObserver = new ResizeObserver((entries) => {
-            for (const entry of entries) {
-              const newHeight = entry.contentRect.height
-              if (newHeight > 0 && univerEl.style.height !== `${newHeight}px`) {
-                univerEl.style.height = `${newHeight}px`
+        // 监听包含当前 univerEl 的 .canvas-node 高度变化，同步更新 Univer 高度
+        if (isCanvasMode && canvasParent) {
+          const canvasNode = univerEl.closest('.canvas-node')
+          if (canvasNode) {
+            canvasResizeObserver = new ResizeObserver((entries) => {
+              for (const entry of entries) {
+                const newHeight = entry.contentRect.height
+                if (newHeight > 0 && univerEl.style.height !== `${newHeight}px`) {
+                  univerEl.style.height = `${newHeight}px`
+                }
               }
-            }
-          })
-          canvasResizeObserver.observe(canvasNode)
+            })
+            canvasResizeObserver.observe(canvasNode)
+          }
         }
-      }
 
-      await initUniver(univerEl, id, data, plugin, showFooter)
-    }
+        await initUniver(univerEl, id, data, plugin, showFooter)
+      }
+    })()
   })
 
   mountObserver.observe(activeDocument.body, { childList: true, subtree: true })
