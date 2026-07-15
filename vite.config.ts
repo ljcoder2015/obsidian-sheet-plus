@@ -10,6 +10,26 @@ import pkg from './package.json'
 dotenv.config()
 let buildDir = process.env.DIST_DIR ?? 'dist'
 
+// 清理产物中的动态 script 创建（来自 setimmediate/immediate 的 IE6-8 polyfill）
+function securePlugin() {
+  return {
+    name: 'secure-plugin',
+    renderChunk(code: string) {
+      // 将 "onreadystatechange"in e.createElement("script") 条件改为 false，走安全的 setTimeout 回退
+      code = code.replace(
+        /"onreadystatechange"in \w+\.createElement\("script"\)/g,
+        '!1',
+      )
+      // 兜底：将剩余的 .createElement("script") 替换为无害的 .createElement("div")
+      code = code.replace(
+        /\.createElement\("script"\)/g,
+        '.createElement("div")',
+      )
+      return code
+    },
+  }
+}
+
 function generate(isDev?: boolean) {
   if (!isDev)
     buildDir = 'dist'
@@ -81,6 +101,7 @@ export default defineConfig((_) => {
     plugins: [
       generate(dev),
       univerPlugin(),
+      securePlugin(),
     ],
     resolve: {
       alias: {
