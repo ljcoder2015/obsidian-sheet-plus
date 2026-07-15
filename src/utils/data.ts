@@ -1,4 +1,4 @@
-import type { IWorkbookData } from '@univerjs/core'
+import type { IWorkbookData, IWorksheetData } from '@univerjs/core'
 import type { FRange } from '@univerjs/sheets/facade'
 import type { TFile } from 'obsidian'
 import { OUTGOING_LINKS_KEY, type ParsedHeader, type ParsedMarkdown } from '../services/type'
@@ -106,10 +106,10 @@ export function getRangeData(
     }
   }
 
-  const sheets: { [key: string]: any } = {}
+  const sheets: Record<string, unknown> = {}
   const sheetId = currentSheet.id || ''
   sheets[sheetId] = currentSheet
-  data.sheets = sheets
+  data.sheets = sheets as Record<string, Partial<IWorksheetData>>
 
   data.sheetOrder = [sheetId]
 
@@ -322,7 +322,7 @@ export function deepClone<T>(value: T, weakMap = new WeakMap()): T {
   if (weakMap.has(value))
     return weakMap.get(value)
 
-  let result: any
+  let result: unknown
 
   // Date
   if (value instanceof Date) {
@@ -334,27 +334,30 @@ export function deepClone<T>(value: T, weakMap = new WeakMap()): T {
   }
   // Map
   else if (value instanceof Map) {
-    result = new Map()
-    weakMap.set(value, result)
+    const map = new Map<unknown, unknown>()
+    weakMap.set(value, map)
     value.forEach((v, k) => {
-      result.set(deepClone(k, weakMap), deepClone(v, weakMap))
+      map.set(deepClone(k, weakMap), deepClone(v, weakMap))
     })
+    result = map
   }
   // Set
   else if (value instanceof Set) {
-    result = new Set()
-    weakMap.set(value, result)
+    const set = new Set<unknown>()
+    weakMap.set(value, set)
     value.forEach((v) => {
-      result.add(deepClone(v, weakMap))
+      set.add(deepClone(v, weakMap))
     })
+    result = set
   }
   // Array
   else if (Array.isArray(value)) {
-    result = []
-    weakMap.set(value, result)
+    const arr: unknown[] = []
+    weakMap.set(value, arr)
     value.forEach((item, i) => {
-      result[i] = deepClone(item, weakMap)
+      arr[i] = deepClone(item, weakMap)
     })
+    result = arr
   }
   // 普通对象
   else {
@@ -363,9 +366,9 @@ export function deepClone<T>(value: T, weakMap = new WeakMap()): T {
 
     Reflect.ownKeys(value).forEach((key) => {
       // @ts-ignore
-      result[key] = deepClone((value as any)[key], weakMap)
+      result[key] = deepClone((value as Record<string, unknown>)[key], weakMap)
     })
   }
 
-  return result
+  return result as T
 }

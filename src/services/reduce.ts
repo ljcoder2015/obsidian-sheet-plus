@@ -8,7 +8,7 @@ export interface SheetStoreState {
   sheet?: IWorkbookData
 
   // 其他视图
-  views?: Record<string, any>
+  views?: Record<string, unknown>
 
   // Tabs UI 状态（不是业务数据）
   tabs: MultiSheet
@@ -29,11 +29,11 @@ export const OUTGOING_LINKS_UPDATE_ACTION = 'OUTGOING_LINKS_UPDATE'
 
 export type SheetStoreAction =
   | { type: 'SHEET_UPDATE', payload: IWorkbookData }
-  | { type: 'VIEW_ADD', key: string, payload: any }
+  | { type: 'VIEW_ADD', key: string, payload: import('./type').TabItem }
   | { type: 'VIEW_REMOVE', key: string }
-  | { type: 'VIEW_UPDATE', key: string, payload: any }
-  | { type: 'VIEW_CONFIG_ADD', key: string, payload: any }
-  | { type: 'VIEW_CONFIG_UPDATE', key: string, payload: any }
+  | { type: 'VIEW_UPDATE', key: string, payload: unknown }
+  | { type: 'VIEW_CONFIG_ADD', key: string, payload: unknown }
+  | { type: 'VIEW_CONFIG_UPDATE', key: string, payload: unknown }
   | { type: 'VIEW_CONFIG_REMOVE', key: string }
   | { type: 'TAB_DEFAULT_ACTIVE', key: string }
   | { type: 'TAB_RENAME', key: string, payload: string }

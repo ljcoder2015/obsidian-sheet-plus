@@ -138,62 +138,62 @@ export class Tools {
     return instance.constructor.name
   }
 
-  static deepMerge(target: any, ...sources: any[]): any {
-    sources.forEach(item => item && deepItem(item))
+  static deepMerge<T extends Record<string, unknown>>(target: T, ...sources: Partial<T>[]): T {
+    sources.forEach(item => item && deepItem(item as Record<string, unknown>))
 
-    function deepArray(array: any[], to: any[]) {
+    function deepArray(array: unknown[], to: unknown[]) {
       array.forEach((value, key) => {
         if (Tools.isArray(value)) {
-          const origin = to[key] ?? []
+          const origin = (to[key] as unknown[] | undefined) ?? []
           to[key] = origin
-          deepArray(value, origin)
+          deepArray(value as unknown[], origin)
           return
         }
         if (Tools.isObject(value)) {
-          const origin = to[key] ?? {}
+          const origin = (to[key] as Record<string, unknown> | undefined) ?? {}
           to[key] = origin
-          deepObject(value, origin)
+          deepObject(value as Record<string, unknown>, origin)
           return
         }
         to[key] = value
       })
     }
 
-    function deepObject(object: any, to: any) {
+    function deepObject(object: Record<string, unknown>, to: Record<string, unknown>) {
       Object.keys(object).forEach((key) => {
         const value = object[key]
         if (Tools.isObject(value)) {
-          const origin = to[key] ?? {}
+          const origin = (to[key] as Record<string, unknown> | undefined) ?? {}
           to[key] = origin
-          deepObject(value, origin)
+          deepObject(value as Record<string, unknown>, origin)
           return
         }
         if (Tools.isArray(value)) {
-          const origin = to[key] ?? []
+          const origin = (to[key] as unknown[] | undefined) ?? []
           to[key] = origin
-          deepArray(value, origin)
+          deepArray(value as unknown[], origin)
           return
         }
         to[key] = value
       })
     }
 
-    function deepItem(item: any) {
+    function deepItem(item: Record<string, unknown>) {
       Object.keys(item).forEach((key) => {
         const value = item[key]
         if (Tools.isArray(value)) {
-          const origin = target[key] ?? []
-          target[key] = origin
-          deepArray(value, origin)
+          const origin = (target[key] as unknown[] | undefined) ?? []
+          ;(target as Record<string, unknown>)[key] = origin
+          deepArray(value as unknown[], origin)
           return
         }
         if (Tools.isObject(value)) {
-          const origin = target[key] ?? {}
-          target[key] = origin
-          deepObject(value, origin)
+          const origin = (target[key] as Record<string, unknown> | undefined) ?? {}
+          ;(target as Record<string, unknown>)[key] = origin
+          deepObject(value as Record<string, unknown>, origin)
           return
         }
-        target[key] = value
+        ;(target as Record<string, unknown>)[key] = value
       })
     }
 
@@ -204,29 +204,29 @@ export class Tools {
     return Number(Number(value).toFixed(digit))
   }
 
-  static diffValue(one: any, tow: any) {
-    function diffValue(oneValue: any, towValue: any) {
+  static diffValue(one: unknown, tow: unknown) {
+    function diffValue(oneValue: unknown, towValue: unknown) {
       const oneType = Tools.getValueType(oneValue)
       const towType = Tools.getValueType(towValue)
       if (oneType !== towType) {
         return false
       }
       if (Tools.isArray(oneValue)) {
-        return diffArrays(oneValue, towValue)
+        return diffArrays(oneValue, towValue as unknown[])
       }
       if (Tools.isObject(oneValue)) {
-        return diffObject(oneValue as object, towValue)
+        return diffObject(oneValue as Record<string, unknown>, towValue as Record<string, unknown>)
       }
       if (Tools.isDate(oneValue)) {
-        return oneValue.getTime() === towValue.getTime()
+        return (oneValue as Date).getTime() === (towValue as Date).getTime()
       }
       if (Tools.isRegExp(oneValue)) {
-        return (oneValue as unknown as string).toString() === towValue.toString()
+        return (oneValue as unknown as RegExp).toString() === (towValue as unknown as RegExp).toString()
       }
       return oneValue === towValue
     }
 
-    function diffArrays(oneArray: any[], towArray: any[]) {
+    function diffArrays(oneArray: unknown[], towArray: unknown[]) {
       if (oneArray.length !== towArray.length) {
         return false
       }
@@ -274,7 +274,7 @@ export class Tools {
       return new Date(value) as T
     }
     if (this.isArray(value)) {
-      const clone: any[] = []
+      const clone: unknown[] = []
       value.forEach((item, index) => {
         clone[index] = Tools.deepClone(item)
       })
@@ -313,7 +313,7 @@ export class Tools {
     }
   }
 
-  static getValueType(value: any): string {
+  static getValueType(value: unknown): string {
     return Object.prototype.toString.apply(value)
   }
 
@@ -321,7 +321,7 @@ export class Tools {
     return value !== undefined && value !== null
   }
 
-  static isBlank(value: any): boolean {
+  static isBlank(value: unknown): boolean {
     if (!this.isDefine(value)) {
       return true
     }
@@ -331,52 +331,52 @@ export class Tools {
     return false
   }
 
-  static isBoolean(value?: any): value is boolean {
+  static isBoolean(value?: unknown): value is boolean {
     return this.getValueType(value) === '[object Boolean]'
   }
 
-  static isPlainObject(value: any): value is object {
+  static isPlainObject(value: unknown): value is object {
     if (!this.isDefine(value)) {
       return false
     }
     return Object.getPrototypeOf(value) === Object.getPrototypeOf({})
   }
 
-  static isFunction(value?: any): value is boolean {
+  static isFunction(value?: unknown): value is boolean {
     return this.getValueType(value) === '[object Function]'
   }
 
-  static isDate(value?: Date): value is Date {
+  static isDate(value?: unknown): value is Date {
     return this.getValueType(value) === '[object Date]'
   }
 
-  static isRegExp(value?: any): value is RegExp {
+  static isRegExp(value?: unknown): value is RegExp {
     return this.getValueType(value) === '[object RegExp]'
   }
 
-  static isArray<T>(value?: any): value is T[] {
+  static isArray<T>(value?: unknown): value is T[] {
     return this.getValueType(value) === '[object Array]'
   }
 
-  static isString(value?: any): value is string {
+  static isString(value?: unknown): value is string {
     return this.getValueType(value) === '[object String]'
   }
 
-  static isNumber(value?: any): value is number {
+  static isNumber(value?: unknown): value is number {
     return this.getValueType(value) === '[object Number]'
   }
 
-  static isStringNumber(value?: any): boolean {
-    return !Number.isNaN(Number.parseFloat(value)) && Number.isFinite(value)
+  static isStringNumber(value?: unknown): boolean {
+    return !Number.isNaN(Number.parseFloat(value as string)) && Number.isFinite(value)
   }
 
-  static isObject<T>(value?: any): value is T {
+  static isObject<T>(value?: unknown): value is T {
     return this.getValueType(value) === '[object Object]'
   }
 
-  static isEmptyObject(value?: any): boolean {
+  static isEmptyObject(value?: unknown): boolean {
     // eslint-disable-next-line no-unreachable-loop
-    for (const _key in value) {
+    for (const _key in value as Record<string, unknown>) {
       return false
     }
     return true
@@ -413,7 +413,7 @@ export class Tools {
     return /iPhone/i.test(navigator.userAgent)
   }
 
-  static hasLength(target: IArguments | any[] | string, length?: number): boolean {
+  static hasLength(target: IArguments | unknown[] | string, length?: number): boolean {
     if (Tools.isDefine(target)) {
       if (Tools.isDefine(length)) {
         return target.length === length
@@ -428,7 +428,7 @@ export class Tools {
   }
 
   // Used by camelCase as callback to replace()
-  static fCamelCase(_all: any, letter: string) {
+  static fCamelCase(_all: unknown, letter: string) {
     return letter.toUpperCase()
   }
 
@@ -452,7 +452,7 @@ export class Tools {
           delete value[key]
         }
         else {
-          Tools.removeNull(item)
+          Tools.removeNull(item as IKeyValue)
         }
       })
     }
@@ -466,7 +466,7 @@ export class Tools {
    * @param value value to be set
    * @returns
    */
-  static fillTwoDimensionalArray(rows: number, columns: number, value: any): any[][] {
+  static fillTwoDimensionalArray<T>(rows: number, columns: number, value: T): T[][] {
     // eslint-disable-next-line unicorn/no-new-array
     return new Array(rows).fill(value).map(item => new Array(columns).fill(value))
   }
@@ -602,9 +602,10 @@ export class Tools {
   static arrayToObject(array: IKeyValue[][]) {
     const obj: IKeyValue = {}
     array.forEach((row, i) => {
-      obj[i] = {}
+      const rowObj: Record<string, unknown> = {}
+      obj[i] = rowObj
       row.forEach((column, j) => {
-        obj[i][j] = column
+        ;(rowObj as Record<string, unknown>)[j] = column
       })
     })
     return obj

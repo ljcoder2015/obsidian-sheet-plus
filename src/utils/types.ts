@@ -23,7 +23,7 @@ export type Nullable<T> = T | null | undefined | void
  * @deprecated As it has
  */
 export interface IKeyValue {
-  [key: string]: any
+  [key: string]: unknown
 }
 
 /**

@@ -23,7 +23,7 @@ export function initializeMarkdownPostProcessor(p: ExcelProPlugin) {
   p.registerEvent(
     vault.on('modify', (file) => {
       if (file instanceof TFile && plugin.isExcelFile(file)) {
-        reRenderEmbeddedContent(file)
+        void reRenderEmbeddedContent(file)
       }
     }),
   )
@@ -336,7 +336,7 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
           eState: { subpath },
           state: { type: VIEW_TYPE_EXCEL_PRO },
         }).then(() => {
-          plugin.setExcelView(leaf)
+          return plugin.setExcelView(leaf)
         })
       }
       else {

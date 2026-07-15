@@ -32,7 +32,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.darkModal)
           .onChange(async (value) => {
             this.plugin.settings.darkModal = value
-            this.plugin.saveSettings()
+            await this.plugin.saveSettings()
           }),
       )
 
@@ -50,7 +50,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.isBigSheet)
           .onChange(async (value) => {
             this.plugin.settings.isBigSheet = value
-            this.plugin.saveSettings()
+            await this.plugin.saveSettings()
           }),
       )
 
@@ -66,7 +66,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.fileLocationMode)
           .onChange(async (value) => {
             this.plugin.settings.fileLocationMode = value
-            this.plugin.saveSettings()
+            await this.plugin.saveSettings()
             // 刷新设置页以显示/隐藏子文件夹和指定文件夹输入框
             this.display()
           }),
@@ -82,7 +82,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
             .setValue(this.plugin.settings.fileSubFolder)
             .onChange(async (value) => {
               this.plugin.settings.fileSubFolder = value
-              this.plugin.saveSettings()
+              await this.plugin.saveSettings()
             }),
         )
     }
@@ -97,7 +97,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
             .setValue(this.plugin.settings.folder)
             .onChange(async (value) => {
               this.plugin.settings.folder = value
-              this.plugin.saveSettings()
+              await this.plugin.saveSettings()
             }),
         )
     }
@@ -111,7 +111,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.excelFilenamePrefix)
           .onChange(async (value) => {
             this.plugin.settings.excelFilenamePrefix = value
-            this.plugin.saveSettings()
+            await this.plugin.saveSettings()
           }),
       )
 
@@ -124,7 +124,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.excelFilenameDateTime)
           .onChange(async (value) => {
             this.plugin.settings.excelFilenameDateTime = value
-            this.plugin.saveSettings()
+            await this.plugin.saveSettings()
           }),
       )
 
@@ -141,7 +141,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.sheetHeight)
           .onChange(async (value) => {
             this.plugin.settings.sheetHeight = value
-            this.plugin.saveSettings()
+            await this.plugin.saveSettings()
           }),
       )
 
@@ -155,7 +155,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.showSheetButton)
           .onChange(async (value) => {
             this.plugin.settings.showSheetButton = value
-            this.plugin.saveSettings()
+            await this.plugin.saveSettings()
           }),
       )
 
@@ -169,7 +169,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.embedLinkShowFooter)
           .onChange(async (value) => {
             this.plugin.settings.embedLinkShowFooter = value
-            this.plugin.saveSettings()
+            await this.plugin.saveSettings()
           }),
       )
 
@@ -183,7 +183,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.embedLinkOpenMode || 'split-right')
           .onChange(async (value) => {
             this.plugin.settings.embedLinkOpenMode = value
-            this.plugin.saveSettings()
+            await this.plugin.saveSettings()
           }),
       )
 
@@ -226,7 +226,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.numberFormatLocal)
           .onChange(async (value) => {
             this.plugin.settings.numberFormatLocal = value
-            this.plugin.saveSettings()
+            await this.plugin.saveSettings()
           }),
       )
 
@@ -240,7 +240,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.mobileRenderMode)
           .onChange(async (value) => {
             this.plugin.settings.mobileRenderMode = value
-            this.plugin.saveSettings()
+            await this.plugin.saveSettings()
           }),
       )
 
@@ -252,7 +252,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.authorizationCode)
           .onChange(async (value) => {
             this.plugin.settings.authorizationCode = value
-            this.plugin.saveSettings()
+            await this.plugin.saveSettings()
           }),
       )
       .addButton((button) => {

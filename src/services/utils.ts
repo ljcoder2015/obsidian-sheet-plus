@@ -1,4 +1,5 @@
 import { t } from '../lang/helpers'
+import type { IWorkbookData } from '@univerjs/core'
 import type { SheetStoreState } from './reduce'
 import type { MultiSheet, ParsedHeader, ParsedMarkdown } from './type'
 import { OUTGOING_LINKS_KEY, SHEET_KEY, TABS_KEY, TabType } from './type'
@@ -69,7 +70,7 @@ export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
 
 export function toStoreState(md: string, filePath?: string): SheetStoreState | undefined {
   const { header, blocks } = parseMarkdown(md, filePath)
-  const views: Record<string, any> = {}
+  const views: Record<string, unknown> = {}
   blocks?.forEach((v, k) => {
     if (k !== SHEET_KEY && k !== TABS_KEY) {
       views[k] = v
@@ -92,7 +93,7 @@ export function toStoreState(md: string, filePath?: string): SheetStoreState | u
   }
   return {
     header,
-    sheet,
+    sheet: sheet as IWorkbookData | undefined,
     views,
     tabs,
     outgoingLinks: blocks?.get(OUTGOING_LINKS_KEY) as string[],
@@ -204,12 +205,12 @@ export function updateSheetOutgoingLinks(state: SheetStoreState, newLink: string
           continue
         }
 
-        cell.p.body.customRanges.forEach((range: any) => {
-          if (range.rangeType === 100 && range.properties?.url === `[[${oldLink}]]`) {
-            range.properties.url = `[[${newLink}]]`
+        cell.p.body.customRanges.forEach((range: Record<string, unknown>) => {
+          if (range.rangeType === 100 && (range.properties as Record<string, unknown>)?.url === `[[${oldLink}]]`) {
+            (range.properties as Record<string, string>).url = `[[${newLink}]]`
             cell.p.body.dataStream = cell.p.body.dataStream?.replace(oldLink, newLink)
-            cell.p.body.textRuns?.forEach((textRun: any) => {
-              textRun.ed = newLink.length
+            cell.p.body.textRuns?.forEach((textRun: Record<string, unknown>) => {
+              (textRun as Record<string, number>).ed = newLink.length
             })
           }
         })

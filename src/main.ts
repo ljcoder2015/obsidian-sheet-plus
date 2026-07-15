@@ -68,7 +68,7 @@ export default class ExcelProPlugin extends Plugin {
     this.addRibbonIcon('sheet', t('CREATE_EXCEL'), () => {
       const activeFile = this.app.workspace.getActiveFile()
       const folderPath = activeFile ? activeFile.parent.path : undefined
-      this.createAndOpenExcel(
+      void this.createAndOpenExcel(
         getExcelFilename(this.settings),
         folderPath,
         this.getBlackData(),
@@ -87,13 +87,13 @@ export default class ExcelProPlugin extends Plugin {
 
     this.registerCommands()
 
-    this.loadFonts()
+    void this.loadFonts()
 
     this.registerEvent(
       this.app.workspace.on('css-change', () => {
         const isDark = this.app.isDarkMode()
         this.settings.darkModal = isDark ? 'dark' : 'light'
-        this.saveSettings()
+        void this.saveSettings()
         this.app.workspace.getLeavesOfType(VIEW_TYPE_EXCEL_PRO).forEach((leaf) => {
           const view = leaf.view as ExcelProView
           view.refresh()
@@ -158,7 +158,7 @@ export default class ExcelProPlugin extends Plugin {
           && leaf.view.file
           && this.isExcelFile(leaf.view.file)
         ) {
-          this.setExcelView(leaf)
+          void this.setExcelView(leaf)
         }
       }
     })
@@ -242,7 +242,7 @@ export default class ExcelProPlugin extends Plugin {
                 file.path.substr(0, file.path.lastIndexOf(file.name)),
               )
             }
-            this.createAndOpenExcel(getExcelFilename(this.settings), filepath)
+            void this.createAndOpenExcel(getExcelFilename(this.settings), filepath)
           })
       })
     }
@@ -257,7 +257,7 @@ export default class ExcelProPlugin extends Plugin {
       callback: () => {
         const activeFile = this.app.workspace.getActiveFile()
         const folderPath = activeFile ? activeFile.parent.path : undefined
-        this.createAndOpenExcel(
+        void this.createAndOpenExcel(
           getExcelFilename(this.settings),
           folderPath,
           this.getBlackData(),
@@ -310,6 +310,7 @@ export default class ExcelProPlugin extends Plugin {
         },
 
         setViewState(next) {
+          // eslint-disable-next-line ts/no-explicit-any
           return function (state: ViewState, ...rest: any[]) {
             // console.log("setViewState state ===", state)
             if (
@@ -334,11 +335,11 @@ export default class ExcelProPlugin extends Plugin {
                   type: VIEW_TYPE_EXCEL_PRO,
                 }
 
-                return next.apply(this, [newState, ...rest])
+                return (next as (...args: unknown[]) => unknown).apply(this, [newState, ...rest])
               }
             }
 
-            return next.apply(this, [state, ...rest])
+            return (next as (...args: unknown[]) => unknown).apply(this, [state, ...rest])
           }
         },
       }),
@@ -424,7 +425,7 @@ export default class ExcelProPlugin extends Plugin {
       )
       .then(() => {
         if (leaf)
-          this.setExcelView(leaf)
+          return this.setExcelView(leaf)
       })
   }
 

@@ -155,7 +155,7 @@ export class ExcelProView extends TextFileView {
     else {
       this.plugin.settings.mobileRenderMode = 'mobile'
     }
-    this.plugin.saveSettings()
+    void this.plugin.saveSettings()
 
     this.refresh()
   }
@@ -315,7 +315,7 @@ export class ExcelProView extends TextFileView {
     return this.lastChangeState ? toMarkdown(this.lastChangeState) ?? BLANK_CONTENT : this.data
   }
 
-  setEphemeralState(state: any): void {
+  setEphemeralState(state: Record<string, unknown>): void {
     if (state.subpath) {
       const path = state.subpath as string
       this.subPath = path

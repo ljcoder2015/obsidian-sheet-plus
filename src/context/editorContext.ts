@@ -5,7 +5,7 @@ import type { ExcelProView } from '../views/ExcelProView'
 interface EditorContextProps {
   app: App
   editor: ExcelProView
-  saveData: (data: any, key: string) => void
+  saveData: (data: unknown, key: string) => void
 }
 
 export const EditorContext = createContext<EditorContextProps>(null)

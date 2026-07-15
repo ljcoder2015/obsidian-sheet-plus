@@ -10,7 +10,7 @@ export class AppErrorBoundary extends React.Component<
     return { hasError: true }
   }
 
-  componentDidCatch(error: any) {
+  componentDidCatch(error: Error) {
     console.error('[ContainerView Error]', error)
   }
 

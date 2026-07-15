@@ -290,7 +290,7 @@ export const ContainerView = function ContainerView() {
         payload: {
           key: id,
           type: key as TabType,
-          label: t(`TAB_TYPE_${key.toUpperCase()}` as any),
+          label: t(`TAB_TYPE_${key.toUpperCase()}`),
         },
       })
       if (key === TabType.KANBAN) {
@@ -340,14 +340,14 @@ export const ContainerView = function ContainerView() {
   }
 
   // 自定义 TabBar 渲染函数
-  const renderTabBar = (props: any, DefaultTabBar: React.ComponentType) => {
+  const renderTabBar = (props: Record<string, unknown>, DefaultTabBar: React.ComponentType) => {
     return (
       <DefaultTabBar
         {...props}
         // 添加自定义的 tabBar 样式类名
         className="lj-tab-bar"
       >
-        { (node) => {
+        { (node: Record<string, unknown>) => {
           return (
             <div className="lj-tab-bar-item">
               <Dropdown

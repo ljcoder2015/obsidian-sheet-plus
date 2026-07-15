@@ -11,7 +11,7 @@ export interface ParsedHeader {
 
 export interface ParsedMarkdown {
   header?: ParsedHeader
-  blocks?: Map<string, any>
+  blocks?: Map<string, unknown>
 }
 
 export type StoreEventSource =
@@ -23,7 +23,7 @@ export type StoreEventSource =
 
 export type StoreEvent =
   | { type: 'workbook:update', workbook: IWorkbookData, source: StoreEventSource }
-  | { type: 'kanban:update', row: number, col: number, value: any, source: StoreEventSource }
+  | { type: 'kanban:update', row: number, col: number, value: unknown, source: StoreEventSource }
   | { type: 'link:add', link: string, source: StoreEventSource }
   | { type: 'hydrate', source: StoreEventSource }
   | { type: 'tabs:update', tabs: MultiSheet, source: StoreEventSource }
