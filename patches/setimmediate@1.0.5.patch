@@ -1,0 +1,38 @@
+diff --git a/setImmediate.js b/setImmediate.js
+index 3c1b06e6ecd7b98d9dbb20ba416fdfbb8919f5ba..1737d7a4712e7d44ca66f58e4a1e2aa3f826eb61 100644
+--- a/setImmediate.js
++++ b/setImmediate.js
+@@ -133,22 +133,6 @@
+         };
+     }
+ 
+-    function installReadyStateChangeImplementation() {
+-        var html = doc.documentElement;
+-        registerImmediate = function(handle) {
+-            // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+-            // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+-            var script = doc.createElement("script");
+-            script.onreadystatechange = function () {
+-                runIfPresent(handle);
+-                script.onreadystatechange = null;
+-                html.removeChild(script);
+-                script = null;
+-            };
+-            html.appendChild(script);
+-        };
+-    }
+-
+     function installSetTimeoutImplementation() {
+         registerImmediate = function(handle) {
+             setTimeout(runIfPresent, 0, handle);
+@@ -172,10 +156,6 @@
+         // For web workers, where supported
+         installMessageChannelImplementation();
+ 
+-    } else if (doc && "onreadystatechange" in doc.createElement("script")) {
+-        // For IE 6–8
+-        installReadyStateChangeImplementation();
+-
+     } else {
+         // For older browsers
+         installSetTimeoutImplementation();

@@ -1,0 +1,26 @@
+diff --git a/dist/localforage.js b/dist/localforage.js
+index ebb3c1453d6372e1f335ef0f6f05b5f38c01018e..8e65ca40371ea44bfa63b91fd9dd0174b81ac211 100644
+--- a/dist/localforage.js
++++ b/dist/localforage.js
+@@ -28,21 +28,6 @@
+     scheduleDrain = function () {
+       channel.port2.postMessage(0);
+     };
+-  } else if ('document' in global && 'onreadystatechange' in global.document.createElement('script')) {
+-    scheduleDrain = function () {
+-
+-      // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+-      // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+-      var scriptEl = global.document.createElement('script');
+-      scriptEl.onreadystatechange = function () {
+-        nextTick();
+-
+-        scriptEl.onreadystatechange = null;
+-        scriptEl.parentNode.removeChild(scriptEl);
+-        scriptEl = null;
+-      };
+-      global.document.documentElement.appendChild(scriptEl);
+-    };
+   } else {
+     scheduleDrain = function () {
+       setTimeout(nextTick, 0);

@@ -1,0 +1,26 @@
+diff --git a/dist/lie.js b/dist/lie.js
+index ee5ca5528c640fc3dae7cc8e3358b8bbe65fc7c0..dc98762ab7adb8f83af5c4e70211fb82c042be4a 100644
+--- a/dist/lie.js
++++ b/dist/lie.js
+@@ -22,21 +22,6 @@ var scheduleDrain;
+     scheduleDrain = function () {
+       channel.port2.postMessage(0);
+     };
+-  } else if ('document' in global && 'onreadystatechange' in global.document.createElement('script')) {
+-    scheduleDrain = function () {
+-
+-      // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+-      // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+-      var scriptEl = global.document.createElement('script');
+-      scriptEl.onreadystatechange = function () {
+-        nextTick();
+-
+-        scriptEl.onreadystatechange = null;
+-        scriptEl.parentNode.removeChild(scriptEl);
+-        scriptEl = null;
+-      };
+-      global.document.documentElement.appendChild(scriptEl);
+-    };
+   } else {
+     scheduleDrain = function () {
+       setTimeout(nextTick, 0);

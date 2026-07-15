@@ -98,9 +98,15 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild"
-    ]
+    ],
+    "patchedDependencies": {
+      "setimmediate@1.0.5": "patches/setimmediate@1.0.5.patch",
+      "lie@3.3.0": "patches/lie@3.3.0.patch",
+      "immediate@3.0.6": "patches/immediate@3.0.6.patch",
+      "localforage@1.10.0": "patches/localforage@1.10.0.patch"
+    }
   },
   "simple-git-hooks": {
-    "pre-commit": "eslint --fix --cache && git add -u"
+    "pre-commit": "npx eslint --fix --cache && git add -u"
   }
 }
