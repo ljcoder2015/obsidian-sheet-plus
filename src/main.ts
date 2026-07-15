@@ -297,7 +297,7 @@ export default class ExcelProPlugin extends Plugin {
       )
     }
 
-    const self = this
+    const { _loaded, app: pluginApp } = this
     // Monkey patch WorkspaceLeaf to open Excel with ExcelProView by default
     this.register(
       around(WorkspaceLeaf.prototype, {
@@ -314,14 +314,14 @@ export default class ExcelProPlugin extends Plugin {
           return function (state: ViewState, ...rest: any[]) {
             // console.log("setViewState state ===", state)
             if (
-              self._loaded
+              _loaded
               // If we have a markdown file
               && state.type === 'markdown'
               && state.state?.file
             ) {
               const filepath: string = state.state.file as string
               // Then check for the excalidraw frontMatterKey
-              const cache = self.app.metadataCache.getCache(filepath)
+              const cache = pluginApp.metadataCache.getCache(filepath)
 
               // console.log("setViewState cache cccc", cache)
               if (

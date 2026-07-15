@@ -19,7 +19,7 @@ export function RenameModal(props: RenameModalProps) {
     if (props.visible) {
       setName(props.name)
       // 等 modal 渲染完再聚焦 & 选中
-      setTimeout(() => {
+      window.setTimeout(() => {
         inputRef.current?.focus()
         inputRef.current?.select()
       }, 0)

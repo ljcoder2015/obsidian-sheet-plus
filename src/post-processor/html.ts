@@ -65,7 +65,7 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
       return containerEl
     }
 
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    await new Promise(resolve => window.setTimeout(resolve, 1000))
 
     const htmlString = fRange.generateHTML()
     log('[renderToHtml]', 'htmlString', htmlString)

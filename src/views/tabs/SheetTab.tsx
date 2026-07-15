@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import type { INumfmtLocaleTag, Univer } from '@univerjs/core'
+import type { INumfmtLocaleTag } from '@univerjs/core'
 import { CommandType, LifecycleStages } from '@univerjs/core'
 import type { IAddOutgoingLinkCommandParams, ICancelOutgoingLinkCommandParams } from '@ljcoder/sheets-outgoing-link'
 import { AddOutgoingLinkCommand, CancelOutgoingLinkCommand, OutgoingLinkCustomRangeType, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
@@ -12,7 +12,7 @@ import { ReplaceSnapshotCommand } from '@univerjs/docs-ui'
 import { ExportFinishCommand, ExportStartCommand, ImportFinishCommand, ImportStartCommand } from '@ljcoder/import-export'
 import { SaveCommand } from '@ljcoder/save'
 import { InsertLocalCellImageOperation, InsertLocalFloatImageOperation } from '@ljcoder/local-image'
-import { Modal, Platform, Setting, type TFile } from 'obsidian'
+import { Modal, Platform, type TFile } from 'obsidian'
 import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
@@ -101,7 +101,7 @@ class VaultImageMultiPickerModal extends Modal {
                 this._checkboxes.set(file.path, checkbox.checked);
             });
 
-            const label = itemEl.createEl('label', { text: file.path, attr: { for: checkbox.id } });
+            itemEl.createEl('label', { text: file.path, attr: { for: checkbox.id } });
             itemEl.addEventListener('click', (e) => {
                 if (e.target === checkbox) return;
                 checkbox.checked = !checkbox.checked;
@@ -152,7 +152,6 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
   const { editor, app } = useEditorContext()
   const { plugin } = editor
   const containerRef = useRef<HTMLDivElement>(null)
-  const [univer, setUniver] = useState<Univer>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [spinTip, setSpinTip] = useState<string>(t('LOADING'))
 
@@ -174,12 +173,11 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
     const mobileRenderMode = plugin.settings.mobileRenderMode
     const { univerAPI, univer } = createUniver(plugin.availableFonts, options, containerRef.current, mobileRenderMode, darkMode)
     setUniverApi(univerAPI)
-    setUniver(univer)
 
     return () => {
       log('[SheetTab]', 'sheetTab 卸载')
       // 使用 setTimeout 避免与 React 渲染周期冲突
-      setTimeout(() => {
+      window.setTimeout(() => {
         if (univerAPI) {
           log('[SheetTab]', 'disposeUniverAPI', univerAPI)
           univerAPI.dispose()

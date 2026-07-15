@@ -197,19 +197,8 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
     // We are processing the markdown preview of an actual univer file
     // the univer file in markdown preview mode
     const isFrontmatterDiv = Boolean(el.querySelector('.frontmatter'))
-    let dataHeading = ''
     if (ctx.frontmatter) {
       el.empty()
-    }
-    else {
-      let warningEl = el.querySelector('div>*[data-heading^=\'Unable to find ')
-      if (!warningEl) {
-        // changed in Obsidian 1.8.9
-        warningEl = el.querySelector('div > *[data-heading]')
-      }
-      if (warningEl) {
-        dataHeading = warningEl.getAttr('data-heading')
-      }
     }
 
     if (!isFrontmatterDiv) {
@@ -415,7 +404,7 @@ function parseEmbedLinkSyntax(input: string): ParsedSyntax {
   log('[parseEmbedLinkSyntax]', fileNameAndRest)
 
   // 正则表达式，支持所有 Unicode 字符（包括特殊字符、中文、俄文、泰文等）
-  // eslint-disable-next-line regexp/no-super-linear-backtracking
+  // eslint-disable-next-line regexp/no-super-linear-backtracking -- regex parses well-formed file references, not arbitrary input
   const fileRegex = /^(.+?)(?:#(.+?))?(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w-]+)\})?$/
 
   const fileMatch = fileNameAndRest.match(fileRegex)

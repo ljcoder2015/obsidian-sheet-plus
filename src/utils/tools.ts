@@ -84,56 +84,6 @@ export class Tools {
     return value
   }
 
-  static getBrowserType(): string {
-    const userAgent = navigator.userAgent
-    const isOpera = userAgent.includes('Opera')
-    const isIE = userAgent.includes('compatible') && userAgent.includes('MSIE') && !isOpera
-    const isIE11 = userAgent.includes('Trident') && userAgent.includes('rv:11.0')
-    const isEdge = userAgent.includes('Edge')
-    const isFF = userAgent.includes('Firefox')
-    const isSafari = userAgent.includes('Safari') && !userAgent.includes('Chrome')
-    const isChrome = userAgent.includes('Chrome') && userAgent.includes('Safari')
-    if (isIE) {
-      // eslint-disable-next-line prefer-regex-literals, regexp/no-unused-capturing-group
-      const reIE = new RegExp('MSIE (\\d+\\.\\d+);')
-      reIE.test(userAgent)
-      // eslint-disable-next-line regexp/no-legacy-features
-      const fIEVersion = Number.parseFloat(RegExp.$1)
-      if (fIEVersion === 7) {
-        return 'IE7'
-      }
-      if (fIEVersion === 8) {
-        return 'IE8'
-      }
-      if (fIEVersion === 9) {
-        return 'IE9'
-      }
-      if (fIEVersion === 10) {
-        return 'IE10'
-      }
-      return '0'
-    }
-    if (isFF) {
-      return 'FF'
-    }
-    if (isOpera) {
-      return 'Opera'
-    }
-    if (isSafari) {
-      return 'Safari'
-    }
-    if (isChrome) {
-      return 'Chrome'
-    }
-    if (isEdge) {
-      return 'Edge'
-    }
-    if (isIE11) {
-      return 'IE11'
-    }
-    return 'Unknown browser'
-  }
-
   static getClassName(instance: object): string {
     return instance.constructor.name
   }
@@ -375,7 +325,7 @@ export class Tools {
   }
 
   static isEmptyObject(value?: unknown): boolean {
-    // eslint-disable-next-line no-unreachable-loop
+    // eslint-disable-next-line no-unreachable-loop -- for...in exits immediately to check if object has keys
     for (const _key in value as Record<string, unknown>) {
       return false
     }
@@ -397,11 +347,6 @@ export class Tools {
   static isTablet(): boolean {
     // eslint-disable-next-line regexp/no-dupe-disjunctions
     return /ipad|android|android 3.0|xoom|sch-i800|playbook|tablet|kindle/i.test(navigator.userAgent.toLowerCase())
-  }
-
-  static isWeChat(): boolean {
-    const userAgent = navigator.userAgent.toLowerCase()
-    return String(userAgent.match(/MicroMessenger/i)) === 'micromessenger' ? !0 : !1
   }
 
   static isAndroid(): boolean {
@@ -436,7 +381,7 @@ export class Tools {
   // Support: IE <=9 - 11, Edge 12 - 15
   // Microsoft forgot to hump their vendor prefix (#9572)
   static camelCase(str: string) {
-    return str.replace(rmsPrefix, 'ms-').replace(rDashAlpha, this.fCamelCase)
+    return str.replace(rmsPrefix, 'ms-').replace(rDashAlpha, (_all, letter) => Tools.fCamelCase(_all, letter))
   }
 
   /**
@@ -467,7 +412,7 @@ export class Tools {
    * @returns
    */
   static fillTwoDimensionalArray<T>(rows: number, columns: number, value: T): T[][] {
-    // eslint-disable-next-line unicorn/no-new-array
+    // eslint-disable-next-line unicorn/no-new-array -- Array constructor with fill is the idiomatic way for 2D arrays
     return new Array(rows).fill(value).map(item => new Array(columns).fill(value))
   }
 

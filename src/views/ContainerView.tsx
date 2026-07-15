@@ -51,7 +51,7 @@ export const ContainerView = function ContainerView() {
   const [renameModalVisible, setRenameModalVisible] = useState(false) // 重命名
   const [renameModalName, setRenameModalName] = useState('') // 重命名的名称
   const [showMCP, setShowMCP] = useState(false)
-  const [mcpRunning, setMcpRunning] = useState(false)
+  const [, setMcpRunning] = useState(false)
   const { styles } = useStyle()
 
   const tabs = state.tabs.tabs || []

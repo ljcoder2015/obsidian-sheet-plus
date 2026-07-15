@@ -43,8 +43,8 @@ export class ExcelProView extends TextFileView {
   }
 
   // 定时器引用，用于清理
-  private refreshTimer: ReturnType<typeof setTimeout> | null = null
-  private asyncSaveTimer: ReturnType<typeof setTimeout> | null = null
+  private refreshTimer: number | null = null
+  private asyncSaveTimer: number | null = null
 
   constructor(leaf: WorkspaceLeaf, plugin: ExcelProPlugin) {
     super(leaf)
@@ -165,7 +165,7 @@ export class ExcelProView extends TextFileView {
     this.clearTimers()
 
     // 将 unmount 和 renderContent 包装在 setTimeout 中，确保在当前渲染周期完成后执行
-    this.refreshTimer = setTimeout(() => {
+    this.refreshTimer = window.setTimeout(() => {
       if (this.semaphores.viewunload) {
         return
       }
@@ -324,5 +324,5 @@ export class ExcelProView extends TextFileView {
 }
 
 function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise(resolve => window.setTimeout(resolve, ms))
 }
