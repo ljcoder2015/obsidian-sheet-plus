@@ -1,5 +1,7 @@
 
 
+## [2.12.8](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.7...2.12.8) (2026-07-21)
+
 ## [2.12.7](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.6...2.12.7) (2026-07-15)
 
 ## [2.12.6](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.5...2.12.6) (2026-07-15)
