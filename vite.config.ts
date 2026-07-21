@@ -1,4 +1,4 @@
-import { copyFile, rename, writeFile } from 'node:fs/promises'
+import { copyFile, rename, symlink, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import process from 'node:process'
 import { defineConfig } from 'vite'
@@ -90,6 +90,23 @@ function generate(isDev?: boolean) {
       catch (error) {
         console.error('Error copying main.js:', error)
       }
+      // exceljs CJS 模块的 require 需要相对路径解析，通过符号链接映射到实际文件
+      const exceljsLibDir = resolve(cwd, '../../packages/exceljs/lib')
+      const subDirs = ['doc', 'xlsx', 'csv', 'utils', 'stream']
+      for (const dir of subDirs) {
+        const linkPath = join(parentDir, dir)
+        const targetPath = join(exceljsLibDir, dir)
+        try {
+          await symlink(targetPath, linkPath, 'dir')
+          // eslint-disable-next-line no-console
+          console.log(`Linked: ${dir} -> ${targetPath}`)
+        }
+        catch (error: any) {
+          if (error.code !== 'EEXIST') {
+            console.error(`Error symlinking ${dir}:`, error.message)
+          }
+        }
+      }
     },
   }
 }
@@ -147,6 +164,14 @@ export default defineConfig((_) => {
           'obsidian',
           'electron',
           'http',
+          'buffer',
+          'crypto',
+          'events',
+          'fs',
+          'stream',
+          'string_decoder',
+          'timers',
+          'util',
           '@codemirror/autocomplete',
           '@codemirror/collab',
           '@codemirror/commands',

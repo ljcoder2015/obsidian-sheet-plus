@@ -15,7 +15,6 @@
  */
 
 import { LocaleType } from '@univerjs/core'
-import type { IKeyValue } from './types'
 
 const rmsPrefix = /^-ms-/
 const rDashAlpha = /-([a-z])/g
@@ -190,7 +189,7 @@ export class Tools {
       return true
     }
 
-    function diffObject(oneObject: IKeyValue, towObject: IKeyValue) {
+    function diffObject(oneObject: Record<string, unknown>, towObject: Record<string, unknown>) {
       const oneKeys = Object.keys(oneObject)
       const towKeys = Object.keys(towObject)
       if (oneKeys.length !== towKeys.length) {
@@ -231,9 +230,9 @@ export class Tools {
       return clone as T
     }
     if (Tools.isObject(value)) {
-      const clone: IKeyValue = {}
-      Object.keys(value as IKeyValue).forEach((key) => {
-        const item = (value as IKeyValue)[key]
+      const clone: Record<string, unknown> = {}
+      Object.keys(value as Record<string, unknown>).forEach((key) => {
+        const item = (value as Record<string, unknown>)[key]
         clone[key] = Tools.deepClone(item)
       })
       Object.setPrototypeOf(clone, Object.getPrototypeOf(value))
@@ -389,7 +388,7 @@ export class Tools {
    * @param obj
    * @returns
    */
-  static removeNull(value: IKeyValue): object {
+  static removeNull(value: Record<string, unknown>): object {
     if (Tools.isObject(value)) {
       Object.keys(value).forEach((key) => {
         const item = value[key]
@@ -397,7 +396,7 @@ export class Tools {
           delete value[key]
         }
         else {
-          Tools.removeNull(item as IKeyValue)
+          Tools.removeNull(item as Record<string, unknown>)
         }
       })
     }
@@ -517,8 +516,8 @@ export class Tools {
    * @param extendJson
    * @returns
    */
-  static commonExtend<T>(originJson: IKeyValue, extendJson: IKeyValue): T {
-    const resultJsonObject: IKeyValue = {}
+  static commonExtend<T>(originJson: Record<string, unknown>, extendJson: Record<string, unknown>): T {
+    const resultJsonObject: Record<string, unknown> = {}
 
     for (const attr in originJson) {
       resultJsonObject[attr] = originJson[attr]
@@ -535,7 +534,7 @@ export class Tools {
     return resultJsonObject as unknown as T
   }
 
-  static commonExtend1<T>(originJson: IKeyValue, extendJson: IKeyValue): T {
+  static commonExtend1<T>(originJson: Record<string, unknown>, extendJson: Record<string, unknown>): T {
     for (const attr in originJson) {
       if (extendJson[attr] == null) {
         extendJson[attr] = originJson[attr]
@@ -544,8 +543,8 @@ export class Tools {
     return extendJson as unknown as T
   }
 
-  static arrayToObject(array: IKeyValue[][]) {
-    const obj: IKeyValue = {}
+  static arrayToObject(array: Record<string, unknown>[][]) {
+    const obj: Record<string, unknown> = {}
     array.forEach((row, i) => {
       const rowObj: Record<string, unknown> = {}
       obj[i] = rowObj

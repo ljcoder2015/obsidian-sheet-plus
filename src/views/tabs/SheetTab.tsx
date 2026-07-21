@@ -349,6 +349,11 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
         if (res.id === ImportFinishCommand.id) {
           setLoading(false)
           setSpinTip(t('LOADING'))
+          // 导入完成后同步新工作簿数据到 store，触发保存
+          const activeWorkbook = univerApi.getActiveWorkbook()
+          if (activeWorkbook) {
+            dispatch({ type: SHEET_UPDATE_ACTION, payload: activeWorkbook.save() })
+          }
         }
 
         if (res.id === ExportStartCommand.id) {
