@@ -1,5 +1,12 @@
 
 
+## [2.12.11](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.10...2.12.11) (2026-07-22)
+
+
+### Bug Fixes
+
+* monkey-patch CanvasColorService.getRenderColor to handle illegal color errors in dark mode ([176185a](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/176185a17fe8e1bd89d39db59660ee3d2becd9d4)), closes [#000000](https://gitee.com/ljcoder2015/obsidian-sheet-plus/issues/000000)
+
 ## [2.12.10](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.8...2.12.10) (2026-07-22)
 
 
