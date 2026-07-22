@@ -6,7 +6,7 @@ import { defaultTheme } from '@univerjs/themes'
 import { UniverDocsPlugin } from '@univerjs/docs'
 import { UniverDocsUIPlugin } from '@univerjs/docs-ui'
 
-import { UniverRenderEnginePlugin } from '@univerjs/engine-render'
+import { ICanvasColorService, UniverRenderEnginePlugin } from '@univerjs/engine-render'
 import { UniverSheetsPlugin } from '@univerjs/sheets'
 
 import { UniverFormulaEnginePlugin } from '@univerjs/engine-formula'
@@ -127,6 +127,30 @@ export function createUniver(
   }
   else {
     registerDesktopPlugin(univer, option, container)
+  }
+
+  // Monkey-patch CanvasColorService.getRenderColor：暗黑模式下某些颜色值（如数字格式产生的 "0"）无法被识别，
+  // 会抛出 "illegal color" 异常导致渲染崩溃。此处捕获异常并返回安全默认色。
+  if (darkMode) {
+    try {
+      const canvasColorService = injector.get(ICanvasColorService)
+      const originalGetRenderColor = canvasColorService.getRenderColor.bind(canvasColorService)
+      canvasColorService.getRenderColor = (color: string) => {
+        try {
+          return originalGetRenderColor(color)
+        }
+        catch (e: any) {
+          if (e?.message?.includes('illegal color')) {
+            log('[CanvasColorService] patched illegal color:', color)
+            return '#000000'
+          }
+          throw e
+        }
+      }
+    }
+    catch (e) {
+      log('[CanvasColorService] failed to patch:', e)
+    }
   }
 
   const univerAPI = FUniver.newAPI(univer)
