@@ -11,10 +11,18 @@ dotenv.config()
 let buildDir = process.env.DIST_DIR ?? 'dist'
 
 // 清理产物中的动态 script 创建（来自 setimmediate/immediate 的 IE6-8 polyfill）
+// 同时剥离 RSC "use client" 指令
 function securePlugin() {
   return {
     name: 'secure-plugin',
+    transform(code: string, id: string) {
+      if (id.includes('node_modules') && /^["']use client["']/.test(code)) {
+        return code.replace(/^["']use client["'];\s*/g, '')
+      }
+    },
     renderChunk(code: string) {
+      // 剥离残留的 "use client" 指令
+      code = code.replace(/^["']use client["'];\s*/gm, '')
       // 将 "onreadystatechange"in e.createElement("script") 条件改为 false，走安全的 setTimeout 回退
       code = code.replace(
         /"onreadystatechange"in \w+\.createElement\("script"\)/g,
@@ -154,6 +162,12 @@ export default defineConfig((_) => {
       sourcemap: dev ? 'inline' : false,
       target: 'ESNext',
       rollupOptions: {
+        onwarn(warning, warn) {
+          if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
+            return
+          }
+          warn(warning)
+        },
         output: {
           globals: {
             obsidian: 'obsidian',

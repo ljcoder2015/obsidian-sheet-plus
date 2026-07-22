@@ -1,5 +1,12 @@
 
 
+## [2.12.10](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.8...2.12.10) (2026-07-22)
+
+
+### Bug Fixes
+
+* remove inline eslint-disable comments not allowed by @antfu/eslint-config ([0203621](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/0203621dbcd97b6bc51c369e61afb1de30846583))
+
 ## [2.12.8](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.7...2.12.8) (2026-07-21)
 
 ## [2.12.7](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.6...2.12.7) (2026-07-15)
