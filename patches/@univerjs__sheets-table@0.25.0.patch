@@ -1,0 +1,28 @@
+diff --git a/lib/cjs/index.js b/lib/cjs/index.js
+index 6cc3bc8178ab268fa2cf7d9cab387fa326b96faa..6390048910fe34c139a062e1b80a167f56e2a3c0 100644
+--- a/lib/cjs/index.js
++++ b/lib/cjs/index.js
+@@ -1961,7 +1961,8 @@ let TableManager = class TableManager extends _univerjs_core.Disposable {
+ 					subUnitId,
+ 					range: table.range,
+ 					tableName: table.name,
+-					tableId: table.id
++					tableId: table.id,
++					tableStyleId: table.options === null || table.options === void 0 ? void 0 : table.options.tableStyleId
+ 				});
+ 			});
+ 		});
+diff --git a/lib/es/index.js b/lib/es/index.js
+index 5aaa797f9294d6e97216a7319f774046f7d7e77f..6f138c41df456f9f39a72afc805d0f958bd1ca3f 100644
+--- a/lib/es/index.js
++++ b/lib/es/index.js
+@@ -1960,7 +1960,8 @@ let TableManager = class TableManager extends Disposable {
+ 					subUnitId,
+ 					range: table.range,
+ 					tableName: table.name,
+-					tableId: table.id
++					tableId: table.id,
++					tableStyleId: table.options === null || table.options === void 0 ? void 0 : table.options.tableStyleId
+ 				});
+ 			});
+ 		});

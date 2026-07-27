@@ -102,7 +102,8 @@
     ],
     "patchedDependencies": {
       "immediate@3.0.6": "patches/immediate@3.0.6.patch",
-      "localforage@1.10.0": "patches/localforage@1.10.0.patch"
+      "localforage@1.10.0": "patches/localforage@1.10.0.patch",
+      "@univerjs/sheets-table@0.25.0": "patches/@univerjs__sheets-table@0.25.0.patch"
     }
   },
   "simple-git-hooks": {
