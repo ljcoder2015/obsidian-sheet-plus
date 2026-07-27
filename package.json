@@ -79,8 +79,7 @@
     "@univerjs/ui": "catalog:",
     "antd": "catalog:",
     "antd-style": "3.7.1",
-    "monkey-around": "3.0.0",
-    "process": "0.11.10"
+    "monkey-around": "3.0.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "2.27.3",
@@ -100,8 +99,6 @@
       "esbuild"
     ],
     "patchedDependencies": {
-      "setimmediate@1.0.5": "patches/setimmediate@1.0.5.patch",
-      "lie@3.3.0": "patches/lie@3.3.0.patch",
       "immediate@3.0.6": "patches/immediate@3.0.6.patch",
       "localforage@1.10.0": "patches/localforage@1.10.0.patch"
     }

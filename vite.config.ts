@@ -1,4 +1,4 @@
-import { copyFile, rename, symlink, writeFile } from 'node:fs/promises'
+import { copyFile, rename, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import process from 'node:process'
 import { defineConfig } from 'vite'
@@ -11,24 +11,14 @@ dotenv.config()
 let buildDir = process.env.DIST_DIR ?? 'dist'
 
 // 清理产物中的动态 script 创建（来自 setimmediate/immediate 的 IE6-8 polyfill）
-// 同时剥离 RSC "use client" 指令
 function securePlugin() {
   return {
     name: 'secure-plugin',
-    transform(code: string, id: string) {
-      if (id.includes('node_modules') && /^["']use client["']/.test(code)) {
-        return code.replace(/^["']use client["'];\s*/g, '')
-      }
-    },
     renderChunk(code: string) {
-      // 剥离残留的 "use client" 指令
-      code = code.replace(/^["']use client["'];\s*/gm, '')
-      // 将 "onreadystatechange"in e.createElement("script") 条件改为 false，走安全的 setTimeout 回退
       code = code.replace(
         /"onreadystatechange"in \w+\.createElement\("script"\)/g,
         '!1',
       )
-      // 兜底：将剩余的 .createElement("script") 替换为无害的 .createElement("div")
       code = code.replace(
         /\.createElement\("script"\)/g,
         '.createElement("div")',
@@ -98,23 +88,6 @@ function generate(isDev?: boolean) {
       catch (error) {
         console.error('Error copying main.js:', error)
       }
-      // exceljs CJS 模块的 require 需要相对路径解析，通过符号链接映射到实际文件
-      const exceljsLibDir = resolve(cwd, '../../packages/exceljs/lib')
-      const subDirs = ['doc', 'xlsx', 'csv', 'utils', 'stream']
-      for (const dir of subDirs) {
-        const linkPath = join(parentDir, dir)
-        const targetPath = join(exceljsLibDir, dir)
-        try {
-          await symlink(targetPath, linkPath, 'dir')
-          // eslint-disable-next-line no-console
-          console.log(`Linked: ${dir} -> ${targetPath}`)
-        }
-        catch (error: any) {
-          if (error.code !== 'EEXIST') {
-            console.error(`Error symlinking ${dir}:`, error.message)
-          }
-        }
-      }
     },
   }
 }
@@ -178,14 +151,9 @@ export default defineConfig((_) => {
           'obsidian',
           'electron',
           'http',
-          'buffer',
           'crypto',
-          'events',
           'fs',
-          'stream',
-          'string_decoder',
-          'timers',
-          'util',
+          'process',
           '@codemirror/autocomplete',
           '@codemirror/collab',
           '@codemirror/commands',
