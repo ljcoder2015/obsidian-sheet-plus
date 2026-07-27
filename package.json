@@ -84,6 +84,8 @@
   "devDependencies": {
     "@antfu/eslint-config": "2.27.3",
     "@release-it/conventional-changelog": "8.0.2",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
     "@univerjs/vite-plugin": "catalog:",
     "eslint": "8.57.1",
     "obsidian": "catalog:",

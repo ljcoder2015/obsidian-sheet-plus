@@ -310,8 +310,7 @@ export default class ExcelProPlugin extends Plugin {
         },
 
         setViewState(next) {
-          // eslint-disable-next-line ts/no-explicit-any
-          return function (state: ViewState, ...rest: any[]) {
+          return function (state: ViewState, ...rest: unknown[]) {
             // console.log("setViewState state ===", state)
             if (
               _loaded

@@ -139,8 +139,8 @@ export function createUniver(
         try {
           return originalGetRenderColor(color)
         }
-        catch (e: any) {
-          if (e?.message?.includes('illegal color')) {
+        catch (e: unknown) {
+          if (e instanceof Error && e.message.includes('illegal color')) {
             log('[CanvasColorService] patched illegal color:', color)
             return '#000000'
           }

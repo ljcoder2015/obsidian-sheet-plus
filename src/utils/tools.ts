@@ -15,6 +15,7 @@
  */
 
 import { LocaleType } from '@univerjs/core'
+import { Platform } from 'obsidian'
 
 const rmsPrefix = /^-ms-/
 const rDashAlpha = /-([a-z])/g
@@ -88,14 +89,14 @@ export class Tools {
   }
 
   static deepMerge<T extends Record<string, unknown>>(target: T, ...sources: Partial<T>[]): T {
-    sources.forEach(item => item && deepItem(item as Record<string, unknown>))
+    sources.forEach(item => item && deepItem(item))
 
     function deepArray(array: unknown[], to: unknown[]) {
       array.forEach((value, key) => {
         if (Tools.isArray(value)) {
           const origin = (to[key] as unknown[] | undefined) ?? []
           to[key] = origin
-          deepArray(value as unknown[], origin)
+          deepArray(value, origin)
           return
         }
         if (Tools.isObject(value)) {
@@ -120,7 +121,7 @@ export class Tools {
         if (Tools.isArray(value)) {
           const origin = (to[key] as unknown[] | undefined) ?? []
           to[key] = origin
-          deepArray(value as unknown[], origin)
+          deepArray(value, origin)
           return
         }
         to[key] = value
@@ -133,7 +134,7 @@ export class Tools {
         if (Tools.isArray(value)) {
           const origin = (target[key] as unknown[] | undefined) ?? []
           ;(target as Record<string, unknown>)[key] = origin
-          deepArray(value as unknown[], origin)
+          deepArray(value, origin)
           return
         }
         if (Tools.isObject(value)) {
@@ -170,7 +171,7 @@ export class Tools {
         return (oneValue as Date).getTime() === (towValue as Date).getTime()
       }
       if (Tools.isRegExp(oneValue)) {
-        return (oneValue as unknown as RegExp).toString() === (towValue as unknown as RegExp).toString()
+        return (oneValue as RegExp).toString() === (towValue as RegExp).toString()
       }
       return oneValue === towValue
     }
@@ -344,17 +345,15 @@ export class Tools {
   }
 
   static isTablet(): boolean {
-    // eslint-disable-next-line regexp/no-dupe-disjunctions
-    return /ipad|android|android 3.0|xoom|sch-i800|playbook|tablet|kindle/i.test(navigator.userAgent.toLowerCase())
+    return Platform.isTablet
   }
 
   static isAndroid(): boolean {
-    const userAgent = navigator.userAgent
-    return userAgent.includes('Android') || userAgent.includes('Linux')
+    return Platform.isAndroidApp
   }
 
   static isIPhone(): boolean {
-    return /iPhone/i.test(navigator.userAgent)
+    return Platform.isIosApp && !Platform.isTablet
   }
 
   static hasLength(target: IArguments | unknown[] | string, length?: number): boolean {
@@ -549,7 +548,7 @@ export class Tools {
       const rowObj: Record<string, unknown> = {}
       obj[i] = rowObj
       row.forEach((column, j) => {
-        ;(rowObj as Record<string, unknown>)[j] = column
+        rowObj[j] = column
       })
     })
     return obj
