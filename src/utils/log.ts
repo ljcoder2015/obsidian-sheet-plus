@@ -2,7 +2,6 @@ export function log(...args: unknown[]): void {
   if (import.meta.env.MODE !== 'development') {
     return
   }
-  // eslint-disable-next-line no-console
   _log(console.log, ...args)
 }
 
