@@ -1,5 +1,14 @@
 
 
+## [2.12.13](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.12...2.12.13) (2026-07-28)
+
+
+### Bug Fixes
+
+* add patch for @univerjs/sheets-table to persist table theme after reload ([e67b89b](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/e67b89b8d5923460d802b6d7971e876c0c350aa8)), closes [#143](https://gitee.com/ljcoder2015/obsidian-sheet-plus/issues/143)
+* replace console.log in log function with no-op to comply with no-console rule ([51c106b](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/51c106be507d1b52a67edb5cf2eb1d39fc957b80))
+* resolve ESLint and TypeScript warnings, adopt Obsidian best practices ([dbaa2b8](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/dbaa2b8251d5e29fe12ae636b42091de0781bb0b))
+
 ## [2.12.12](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.11...2.12.12) (2026-07-27)
 
 ## [2.12.11](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.10...2.12.11) (2026-07-22)
