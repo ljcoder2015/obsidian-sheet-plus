@@ -7,15 +7,20 @@ import { randomString } from '../utils/uuid'
  * 获取指定 sheet 中指定 cells 的数据转换成 HTML
  * @param data markdown 文件原始data
  * @param sheet sheet 名称
- * @param cells 选中的cells 格式为: sri-sci:eri-eci 例如 6-6:7-8
- * @returns
+ * @param range 选中的cells 格式为: sri-sci:eri-eci 例如 6-6:7-8
+ * @param height 可选，指定容器固定高度（px）；不传时高度由内容自然撑开
+ * @returns 渲染好的 HTML 容器元素
  */
-export async function renderToHtml(data: IWorkbookData, sheet: string, range: string): Promise<HTMLElement> {
-  log('[renderToHtml]', data, sheet, range)
+export async function renderToHtml(data: IWorkbookData, sheet: string, range: string, height?: number): Promise<HTMLElement> {
+  log('[renderToHtml]', data, sheet, range, height)
   const id = `univer-embed-${randomString(6)}`
   const containerEl = createDiv({
     cls: 'lj-html-iframe',
   })
+  // 指定高度时固定容器高度（复用 CSS 已有 overflow: auto，内容超出时纵向滚动）
+  if (height !== undefined) {
+    containerEl.style.height = `${height}px`
+  }
   const univerEl = createDiv({
     attr: {
       id,

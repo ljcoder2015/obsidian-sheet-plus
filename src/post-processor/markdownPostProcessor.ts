@@ -101,6 +101,25 @@ function resolveEmbedHeight(
   return parentEl ? computeAdaptiveHeight(data, parentEl) : undefined
 }
 
+/**
+ * 解析 HTML 嵌入的渲染高度
+ * 优先级：嵌入语法显式高度 > 自定义模式有效高度 > 不限制（内容自然高度）
+ * HTML 为静态内容，auto 模式即内容自然高度，无需行高累加计算
+ */
+function resolveHtmlEmbedHeight(plugin: ExcelProPlugin, explicitHeight?: number): number | undefined {
+  // 嵌入语法显式指定高度时优先（含 0）
+  if (explicitHeight !== undefined)
+    return explicitHeight
+  // 自定义模式：使用用户指定的默认高度（无效值时回退内容自然高度）
+  if (plugin.settings.sheetHeightMode === 'custom') {
+    const height = Number.parseInt(plugin.settings.sheetHeight, 10)
+    if (Number.isFinite(height) && height > 0)
+      return height
+  }
+  // auto：不设高度，由内容撑开
+  return undefined
+}
+
 async function reRenderEmbeddedContent(file: TFile) {
   const selector = [
     `.lj-table-box[data-file-path="${file.path}"]`,
@@ -130,7 +149,7 @@ async function reRenderEmbeddedContent(file: TFile) {
 
     if (displayType === 'html') {
       const validRange = parsesRange && !range.includes('undefined') ? range : ''
-      const tableEl = await renderToHtml(excelData, sheetName, validRange)
+      const tableEl = await renderToHtml(excelData, sheetName, validRange, resolveHtmlEmbedHeight(plugin))
       el.appendChild(tableEl)
     }
     else if (displayType === 'univer') {
@@ -366,7 +385,7 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
     const rangeStr = parseResult.startCell && parseResult.endCell
       ? `${parseResult.startCell}:${parseResult.endCell}`
       : ''
-    const tableEl = await renderToHtml(excelData, parseResult.sheetName || '', rangeStr)
+    const tableEl = await renderToHtml(excelData, parseResult.sheetName || '', rangeStr, resolveHtmlEmbedHeight(plugin, parseResult.height))
     const tableBox = createDiv({ cls: 'lj-table-box' })
     tableBox.setAttr('data-file-path', file.path)
     tableBox.setAttr('data-sheet-name', parseResult.sheetName || '')
