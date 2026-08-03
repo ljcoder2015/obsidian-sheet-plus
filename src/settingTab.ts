@@ -133,17 +133,36 @@ export class ExcelProSettingTab extends PluginSettingTab {
       .setHeading()
 
     new Setting(containerEl)
-      .setName(t('SHEET_HEIGHT'))
-      .setDesc(t('SHEET_HEIGHT_DESC'))
-      .addText(text =>
-        text
-          .setPlaceholder('300')
-          .setValue(this.plugin.settings.sheetHeight)
+      .setName(t('SHEET_HEIGHT_MODE'))
+      .setDesc(t('SHEET_HEIGHT_MODE_DESC'))
+      .addDropdown(dropdown =>
+        dropdown
+          .addOption('auto', t('SHEET_HEIGHT_MODE_AUTO'))
+          .addOption('custom', t('SHEET_HEIGHT_MODE_CUSTOM'))
+          .setValue(this.plugin.settings.sheetHeightMode)
           .onChange(async (value) => {
-            this.plugin.settings.sheetHeight = value
+            this.plugin.settings.sheetHeightMode = value
             await this.plugin.saveSettings()
+            // 刷新设置页以显示/隐藏自定义高度输入框
+            this.display()
           }),
       )
+
+    // 自定义模式时显示高度输入框
+    if (this.plugin.settings.sheetHeightMode === 'custom') {
+      new Setting(containerEl)
+        .setName(t('SHEET_HEIGHT'))
+        .setDesc(t('SHEET_HEIGHT_DESC'))
+        .addText(text =>
+          text
+            .setPlaceholder('300')
+            .setValue(this.plugin.settings.sheetHeight)
+            .onChange(async (value) => {
+              this.plugin.settings.sheetHeight = value
+              await this.plugin.saveSettings()
+            }),
+        )
+    }
 
     new Setting(containerEl)
       .setName(t('SHOW_SHEET_BUTTON'))
