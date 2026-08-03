@@ -74,6 +74,33 @@ function computeAdaptiveHeight(data: IWorkbookData | null, parentEl: HTMLElement
   return totalHeight || 300
 }
 
+/**
+ * 解析嵌入表格的渲染高度
+ * 优先级：嵌入语法显式高度 > 自定义模式的有效高度 > 自适应计算
+ * @param plugin 插件实例（读取 sheetHeightMode / sheetHeight 设置）
+ * @param data 表格数据（用于自适应计算）
+ * @param parentEl 父元素（用于 canvas 模式的自适应计算）
+ * @param explicitHeight 嵌入语法显式指定的高度（可选）
+ */
+function resolveEmbedHeight(
+  plugin: ExcelProPlugin,
+  data: IWorkbookData | null,
+  parentEl: HTMLElement,
+  explicitHeight?: number,
+): number | undefined {
+  // 嵌入语法显式指定高度时优先（用 !== undefined 判断以兼容显式 0，保持与现状 ?? 语义一致）
+  if (explicitHeight !== undefined)
+    return explicitHeight
+  // 自定义模式：使用用户指定的默认高度（无效值时回退自适应）
+  if (plugin.settings.sheetHeightMode === 'custom') {
+    const height = Number.parseInt(plugin.settings.sheetHeight, 10)
+    if (Number.isFinite(height) && height > 0)
+      return height
+  }
+  // 自适应模式（含自定义值无效时的回退）
+  return parentEl ? computeAdaptiveHeight(data, parentEl) : undefined
+}
+
 async function reRenderEmbeddedContent(file: TFile) {
   const selector = [
     `.lj-table-box[data-file-path="${file.path}"]`,
@@ -109,13 +136,13 @@ async function reRenderEmbeddedContent(file: TFile) {
     else if (displayType === 'univer') {
       if (parsesRange) {
         const rangeData = getRangeData(excelData, sheetName, range)
-        const height = computeAdaptiveHeight(rangeData, el as HTMLElement)
+        const height = resolveEmbedHeight(plugin, rangeData, el as HTMLElement)
         const univerEl = createUniverEl(rangeData, height, plugin.settings.embedLinkShowFooter === 'true', plugin)
         el.appendChild(univerEl)
       }
       else {
         const sheetData = getSheetData(excelData, sheetName)
-        const height = computeAdaptiveHeight(sheetData, el as HTMLElement)
+        const height = resolveEmbedHeight(plugin, sheetData, el as HTMLElement)
         const univerEl = createUniverEl(sheetData, height, plugin.settings.embedLinkShowFooter === 'true', plugin)
         el.appendChild(univerEl)
       }
@@ -357,13 +384,13 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
     contentWrapper.setAttr('data-display-type', 'univer')
     if (parseResult.startCell && parseResult.endCell) {
       const rangeData = getRangeData(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
-      const height = parseResult.height ?? (parentEl ? computeAdaptiveHeight(rangeData, parentEl) : undefined)
+      const height = resolveEmbedHeight(plugin, rangeData, parentEl, parseResult.height)
       const univerEl = createUniverEl(rangeData, height, plugin.settings.embedLinkShowFooter === 'true', plugin)
       contentWrapper.appendChild(univerEl)
     }
     else {
       const sheetData = getSheetData(excelData, parseResult.sheetName)
-      const height = parseResult.height ?? (parentEl ? computeAdaptiveHeight(sheetData, parentEl) : undefined)
+      const height = resolveEmbedHeight(plugin, sheetData, parentEl, parseResult.height)
       const univerEl = createUniverEl(sheetData, height, plugin.settings.embedLinkShowFooter === 'true', plugin)
       contentWrapper.appendChild(univerEl)
     }
