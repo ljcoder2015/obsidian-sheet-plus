@@ -85,7 +85,7 @@ function computeAdaptiveHeight(data: IWorkbookData | null, parentEl: HTMLElement
 function resolveEmbedHeight(
   plugin: ExcelProPlugin,
   data: IWorkbookData | null,
-  parentEl: HTMLElement,
+  parentEl?: HTMLElement,
   explicitHeight?: number,
 ): number | undefined {
   // 嵌入语法显式指定高度时优先（用 !== undefined 判断以兼容显式 0，保持与现状 ?? 语义一致）
