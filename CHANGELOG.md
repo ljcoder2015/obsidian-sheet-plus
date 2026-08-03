@@ -1,5 +1,22 @@
 
 
+## [2.12.14](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.13...2.12.14) (2026-08-03)
+
+
+### Bug Fixes
+
+* make parentEl optional in resolveEmbedHeight to satisfy strict TS ([f9a4892](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/f9a4892718847accc215aee10bf31dedf13bcae7))
+* settings controls missing on Obsidian 1.13+ ([6b73be6](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/6b73be642ce0d62e33f6c6c64b89fc9d0b0de573))
+
+
+### Features
+
+* add adaptive/custom dropdown to sheet height setting ([c70a26a](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/c70a26af953e52c41dd0162d016a0d4c3ca26d72))
+* add i18n keys for sheet height mode ([49ce8fb](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/49ce8fbc6ed7101b56d9eed4f69da5b08aa4030e))
+* add sheetHeightMode setting for adaptive/custom embed height ([51d6465](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/51d64657495cda06054cc43cba9936a300801df9))
+* apply sheet height mode to html embeds ([657e739](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/657e7399bbefde56720f42ff5ba3bc7f871bffdb))
+* apply sheetHeightMode when rendering embedded sheets ([b2cf349](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/b2cf34912878a815e27bffb9f1ba6d3d2b4e06f5))
+
 ## [2.12.13](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.12...2.12.13) (2026-07-28)
 
 
