@@ -1,5 +1,7 @@
 
 
+## [2.12.15](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.14...2.12.15) (2026-08-17)
+
 ## [2.12.14](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.13...2.12.14) (2026-08-03)
 
 
