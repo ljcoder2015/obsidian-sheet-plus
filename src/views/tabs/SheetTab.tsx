@@ -368,55 +368,55 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
           setSpinTip(t('EXPORTED'))
         }
 
-        if (res.id === InsertLocalFloatImageOperation.id) {
-          if (!app) return;
-          pickVaultImages(app).then(async (files) => {
-            if (files.length === 0) return;
-            const sheet = univerApi?.getActiveWorkbook()?.getActiveSheet();
-            if (!sheet) return;
-            const activeRange = sheet.getActiveRange();
-            if (!activeRange) return;
-            let row = activeRange.getRow();
-            const col = activeRange.getColumn();
+        // if (res.id === InsertLocalFloatImageOperation.id) {
+        //   if (!app) return;
+        //   pickVaultImages(app).then(async (files) => {
+        //     if (files.length === 0) return;
+        //     const sheet = univerApi?.getActiveWorkbook()?.getActiveSheet();
+        //     if (!sheet) return;
+        //     const activeRange = sheet.getActiveRange();
+        //     if (!activeRange) return;
+        //     let row = activeRange.getRow();
+        //     const col = activeRange.getColumn();
 
-            for (const file of files) {
-              const dataUrl = await blobToDataUrl(file);
-              const naturalSize = await getImageSize(dataUrl);
-              const scaled = scaleToFit(naturalSize.width, naturalSize.height, 400, 300);
-              const image = await sheet.newOverGridImage()
-                .setSource(dataUrl, univerApi.Enum.ImageSourceType.BASE64)
-                .setColumn(col)
-                .setRow(row)
-                .setWidth(scaled.width)
-                .setHeight(scaled.height)
-                .buildAsync();
-              sheet.insertImages([image]);
-              row++;
-            }
-          }).catch((err) => {
-            console.error('[SheetTab] InsertLocalFloatImageOperation error:', err);
-          });
-        }
+        //     for (const file of files) {
+        //       const dataUrl = await blobToDataUrl(file);
+        //       const naturalSize = await getImageSize(dataUrl);
+        //       const scaled = scaleToFit(naturalSize.width, naturalSize.height, 400, 300);
+        //       const image = await sheet.newOverGridImage()
+        //         .setSource(dataUrl, univerApi.Enum.ImageSourceType.BASE64)
+        //         .setColumn(col)
+        //         .setRow(row)
+        //         .setWidth(scaled.width)
+        //         .setHeight(scaled.height)
+        //         .buildAsync();
+        //       sheet.insertImages([image]);
+        //       row++;
+        //     }
+        //   }).catch((err) => {
+        //     console.error('[SheetTab] InsertLocalFloatImageOperation error:', err);
+        //   });
+        // }
 
-        if (res.id === InsertLocalCellImageOperation.id) {
-          if (!app) return;
-          pickVaultImages(app).then(async (files) => {
-            if (files.length === 0) return;
-            const sheet = univerApi?.getActiveWorkbook()?.getActiveSheet();
-            if (!sheet) return;
-            const activeRange = sheet.getActiveRange();
-            if (!activeRange) return;
-            let row = activeRange.getRow();
-            const col = activeRange.getColumn();
-            for (const file of files) {
-              const range = sheet.getRange(row, col);
-              await range.insertCellImageAsync(file);
-              row++;
-            }
-          }).catch((err) => {
-            console.error('[SheetTab] InsertLocalCellImageOperation error:', err);
-          });
-        }
+        // if (res.id === InsertLocalCellImageOperation.id) {
+        //   if (!app) return;
+        //   pickVaultImages(app).then(async (files) => {
+        //     if (files.length === 0) return;
+        //     const sheet = univerApi?.getActiveWorkbook()?.getActiveSheet();
+        //     if (!sheet) return;
+        //     const activeRange = sheet.getActiveRange();
+        //     if (!activeRange) return;
+        //     let row = activeRange.getRow();
+        //     const col = activeRange.getColumn();
+        //     for (const file of files) {
+        //       const range = sheet.getRange(row, col);
+        //       await range.insertCellImageAsync(file);
+        //       row++;
+        //     }
+        //   }).catch((err) => {
+        //     console.error('[SheetTab] InsertLocalCellImageOperation error:', err);
+        //   });
+        // }
 
         // 仅同步本地 mutation
         if (res.type !== CommandType.MUTATION || res.options?.fromCollab || res.options?.onlyLocal || res.id === 'doc.mutation.rich-text-editing') {
