@@ -471,3 +471,57 @@ button.univer-button-default {
   border-radius: 4px;
   cursor: pointer;
 }
+
+/* Local Image Picker Modal（univer-local-image 包 ImagePickerModal） */
+.local-image-picker__filter {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+}
+
+.local-image-picker__list {
+  max-height: 360px;
+  overflow-y: auto;
+  margin: 0;
+}
+
+.local-image-picker__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.local-image-picker__item:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+.local-image-picker__thumb {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 3px;
+  background-color: var(--background-modifier-border);
+}
+
+.local-image-picker__path {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--text-normal);
+}
+
+.local-image-picker__empty {
+  padding: 16px 8px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}

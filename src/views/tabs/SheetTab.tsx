@@ -1,18 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import type { INumfmtLocaleTag } from '@univerjs/core'
 import { CommandType, LifecycleStages } from '@univerjs/core'
-import type { IAddOutgoingLinkCommandParams, ICancelOutgoingLinkCommandParams } from '@ljcoder/sheets-outgoing-link'
-import { AddOutgoingLinkCommand, CancelOutgoingLinkCommand, OutgoingLinkCustomRangeType, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType } from '@ljcoder/sheets-outgoing-link'
+import { AddOutgoingLinkCommand, AddRichOutgoingLinkCommand, CancelOutgoingLinkCommand, CancelRichOutgoingLinkCommand, OutgoingLinkCustomRangeType, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType, UpdateOutgoingLinkCommand, UpdateRichOutgoingLinkCommand } from '@ljcoder/sheets-outgoing-link'
 import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
 import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import { Spin } from 'antd'
-import type { IReplaceSnapshotCommandParams } from '@univerjs/docs-ui'
 import { ReplaceSnapshotCommand } from '@univerjs/docs-ui'
 import { ExportFinishCommand, ExportStartCommand, ImportFinishCommand, ImportStartCommand } from '@ljcoder/import-export'
 import { SaveCommand } from '@ljcoder/save'
 import { InsertLocalCellImageOperation, InsertLocalFloatImageOperation } from '@ljcoder/local-image'
-import { Modal, Platform, type TFile } from 'obsidian'
+import { Modal, Platform, TFile } from 'obsidian'
 import { createUniver } from '../univer/setup-univer'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
@@ -26,6 +24,18 @@ import { OUTGOING_LINKS_UPDATE_ACTION, SHEET_UPDATE_ACTION } from '../../service
 import type { FontInfo } from '../../services/fontManager'
 
 const IMAGE_EXTENSIONS = new Set(['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'bmp', 'ico']);
+
+// 会改变单元格外链的命令：执行后需从最新 workbook 重建 outgoingLinks，
+// 覆盖添加/编辑/删除/禅编辑器/快照替换等所有路径
+const OUTGOING_LINK_COMMAND_IDS = new Set([
+  AddOutgoingLinkCommand.id,
+  UpdateOutgoingLinkCommand.id,
+  CancelOutgoingLinkCommand.id,
+  AddRichOutgoingLinkCommand.id,
+  UpdateRichOutgoingLinkCommand.id,
+  CancelRichOutgoingLinkCommand.id,
+  ReplaceSnapshotCommand.id,
+])
 
 function getMimeType(ext: string): string {
     const mimeMap: Record<string, string> = {
@@ -154,6 +164,9 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [spinTip, setSpinTip] = useState<string>(t('LOADING'))
+  // 保存最新的 store state，供事件回调读取，避免闭包捕获陈旧 state
+  const stateRef = useRef(state);
+  stateRef.current = state;
 
   useEffect(() => {
     log('[SheetTab]', 'sheetTab 挂载')
@@ -191,20 +204,77 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
     }
   }, [])
 
-  const normalizeWikiLink = (link: string) => {
-  // 去掉 [[ 和 ]]
+  // 把单元格外链 url（[[完整路径]]）统一转成 Obsidian linktext 形式（[[最短唯一名]]），
+  // 与「添加外链」时的 fileToLinktext 保持一致，保证编辑/删除能精确匹配 outgoingLinks 条目
+  const urlToLinktext = (link: string): string => {
+    // 去掉 [[ 和 ]]
     const inner = link.replace(/^\[\[|\]\]$/g, '')
-    // 取最后一个路径片段
-    const fileName = inner.split('/').pop() ?? inner
-    // 去掉 .md
-    const withoutExt = fileName.replace(/\.md$/i, '')
-    return `[[${withoutExt}]]`
+    if (!inner) {
+      return ''
+    }
+    const file = app?.vault.getAbstractFileByPath(inner)
+    if (file instanceof TFile && editor.file) {
+      const linktext = app?.metadataCache.fileToLinktext(file, editor.file.path, true)
+      if (linktext) {
+        return `[[${linktext}]]`
+      }
+    }
+    // 目标文件不存在时（如 [[未命名]]），去掉 .md 后缀兜底
+    return `[[${inner.replace(/\.md$/i, '')}]]`
+  }
+
+  // 从当前 workbook 数据收集全部外链（rangeType === 100 的富文本 customRange），
+  // 规范化后与 state 对比，有差异则整体替换，保证 ### outgoingLinks 与表格实际一致
+  const syncOutgoingLinksFromWorkbook = () => {
+    const workbook = univerApi?.getActiveWorkbook()
+    if (!workbook) {
+      return
+    }
+    const data = workbook.save()
+    const links: string[] = []
+    const sheets = data?.sheets
+    if (!sheets) {
+      return
+    }
+    for (const sheetId of Object.keys(sheets)) {
+      const cellData = sheets[sheetId]?.cellData
+      if (!cellData) {
+        continue
+      }
+      for (const rowKey of Object.keys(cellData)) {
+        const row = cellData[Number(rowKey)]
+        if (!row) {
+          continue
+        }
+        for (const colKey of Object.keys(row)) {
+          const customRanges = row[Number(colKey)]?.p?.body?.customRanges
+          if (!customRanges) {
+            continue
+          }
+          for (const range of customRanges) {
+            if (range.rangeType === OutgoingLinkCustomRangeType) {
+              const url = range.properties?.url as string | undefined
+              if (!url) {
+                continue
+              }
+              const normalized = urlToLinktext(url)
+              if (normalized && !links.includes(normalized)) {
+                links.push(normalized)
+              }
+            }
+          }
+        }
+      }
+    }
+    const current = stateRef.current.outgoingLinks || []
+    if (links.length !== current.length || links.some((link, i) => link !== current[i])) {
+      dispatch({ type: OUTGOING_LINKS_UPDATE_ACTION, payload: links })
+    }
   }
 
   useEffect(() => {
     let lifeCycleDisposable: { dispose: () => void } | null = null
     let commandExecutedDisposable: { dispose: () => void } | null = null
-    let beforeCommandDisposable: { dispose: () => void } | null = null
     if (univerApi) {
       const locale = Tools.convertNumberFormatLocalToLocaleType(plugin.settings.numberFormatLocal)
       if (state.sheet) {
@@ -238,68 +308,6 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
         }
       })
 
-      beforeCommandDisposable = univerApi.addEvent(univerApi.Event.BeforeCommandExecute, (res) => {
-        if (res.id == CancelOutgoingLinkCommand.id) {
-          const params = res.params as ICancelOutgoingLinkCommandParams
-          const { row, column, unitId, subUnitId } = params
-          log('[SheetTab]', 'BeforeCommandExecute CancelOutgoingLinkCommand', params)
-          const worksheet = univerApi.getWorkbook(unitId)?.getSheetBySheetId(subUnitId)?.getSheet()
-          if (!worksheet) {
-            return
-          }
-
-          const cellData = worksheet.getCell(row, column)
-          if (!cellData) {
-            return
-          }
-
-          const doc = worksheet.getCellDocumentModelWithFormula(cellData, row, column)
-          if (!doc?.documentModel) {
-            return
-          }
-          const snapshot = doc.documentModel!.getSnapshot()
-          const customRanges = snapshot.body?.customRanges
-          if (!customRanges) {
-            return
-          }
-
-          customRanges.forEach((range) => {
-            if (range.rangeType === OutgoingLinkCustomRangeType) {
-              const url = range.properties?.url
-              if (url) {
-                const normalizedUrl = normalizeWikiLink(url)
-                const outgoingLinks = state.outgoingLinks || []
-                outgoingLinks.remove(normalizedUrl)
-                dispatch({ type: OUTGOING_LINKS_UPDATE_ACTION, payload: outgoingLinks })
-              }
-            }
-          })
-
-          log('[SheetTab]', 'BeforeCommandExecute CancelOutgoingLinkCommand snapshot', snapshot)
-        }
-        if (res.id == ReplaceSnapshotCommand.id) {
-          const params = res.params as IReplaceSnapshotCommandParams
-          log('[SheetTab]', 'BeforeCommandExecute ReplaceSnapshotCommand', params)
-          const { snapshot } = params
-          const customRanges = snapshot.body?.customRanges
-          if (!customRanges) {
-            return
-          }
-
-          customRanges.forEach((range) => {
-            if (range.rangeType === OutgoingLinkCustomRangeType) {
-              const url = range.properties?.url
-              if (url) {
-                const normalizedUrl = normalizeWikiLink(url)
-                const outgoingLinks = state.outgoingLinks || []
-                outgoingLinks.remove(normalizedUrl)
-                dispatch({ type: OUTGOING_LINKS_UPDATE_ACTION, payload: outgoingLinks })
-              }
-            }
-          })
-        }
-      })
-
       commandExecutedDisposable = univerApi.addEvent(univerApi.Event.CommandExecuted, (res) => {
         if (res.id === SaveCommand.id) {
           log('[SheetTab]', 'SaveCommandExecuted')
@@ -318,19 +326,10 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
           univerApi?.executeCommand(SearchResultOutgoingLinkCommand.id, { links })
         }
 
-        if (res.id == AddOutgoingLinkCommand.id) {
-          const params = res.params as IAddOutgoingLinkCommandParams
-          const sourcePath = editor.file.path
-          const targetPath = params.link.payload.slice(2, -2)
-          const targetFile = app?.vault.getAbstractFileByPath(targetPath)
-          const path = app?.metadataCache.fileToLinktext(targetFile, sourcePath, true)
-          log('[SheetTab]', 'AddOutgoingLinkCommand', res.params, path)
-          if (path) {
-            const link = `[[${path}]]`
-            const outgoingLinks = state.outgoingLinks || []
-            outgoingLinks.push(link)
-            dispatch({ type: OUTGOING_LINKS_UPDATE_ACTION, payload: outgoingLinks })
-          }
+        // 外链相关命令执行后：从最新 workbook 重建 outgoingLinks，
+        // 覆盖添加/编辑/删除/禅编辑器/快照替换等所有路径，避免分步同步的竞态与遗漏
+        if (OUTGOING_LINK_COMMAND_IDS.has(res.id)) {
+          syncOutgoingLinksFromWorkbook()
         }
 
         if (res.id === NavigationOutgoingLinkOperation.id) {
@@ -434,8 +433,6 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
       log('[SheetTab]', 'univerAPi卸载监听', lifeCycleDisposable, commandExecutedDisposable)
       lifeCycleDisposable?.dispose()
       commandExecutedDisposable?.dispose()
-      beforeCommandDisposable?.dispose()
-      beforeCommandDisposable = null
       lifeCycleDisposable = null
       commandExecutedDisposable = null
     }

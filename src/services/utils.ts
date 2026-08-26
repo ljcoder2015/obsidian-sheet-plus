@@ -111,7 +111,8 @@ export function toMarkdown(state: SheetStoreState): string | null {
       }
     }
   }
-  if (state.outgoingLinks) {
+  // 空数组不写入，避免序列化成 ```outgoingLinks\n[] 代码块
+  if (Array.isArray(state.outgoingLinks) && state.outgoingLinks.length > 0) {
     blocks.set(OUTGOING_LINKS_KEY, state.outgoingLinks)
   }
   return stringifyMarkdown({
@@ -154,6 +155,10 @@ export function stringifyMarkdown({ header, blocks, compact = true }: { header?:
         outgoingLinksStr = `### ${OUTGOING_LINKS_KEY}\n${content.join('\n')}\n\n`
       }
       else {
+        // 防御：outgoingLinks 为空数组时不输出，避免生成 ```outgoingLinks\n[] 代码块
+        if (type === OUTGOING_LINKS_KEY && Array.isArray(content) && content.length === 0) {
+          continue
+        }
         let body: string
         if (typeof content === 'string') {
           body = content
