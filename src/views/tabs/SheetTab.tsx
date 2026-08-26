@@ -5,6 +5,8 @@ import { AddOutgoingLinkCommand, AddRichOutgoingLinkCommand, CancelOutgoingLinkC
 import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
 import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
+import { SetRangeValuesCommand } from '@univerjs/sheets'
+import { SHEET_DRAWING_PLUGIN, InsertSheetDrawingCommand, RemoveSheetDrawingCommand } from '@univerjs/sheets-drawing'
 import { Spin } from 'antd'
 import { ReplaceSnapshotCommand } from '@univerjs/docs-ui'
 import { ExportFinishCommand, ExportStartCommand, ImportFinishCommand, ImportStartCommand } from '@ljcoder/import-export'
@@ -20,7 +22,7 @@ import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
 import { useSheetStore } from '../../context/SheetStoreProvider'
-import { OUTGOING_LINKS_UPDATE_ACTION, SHEET_UPDATE_ACTION } from '../../services/reduce'
+import { IMAGES_UPDATE_ACTION, OUTGOING_LINKS_UPDATE_ACTION, SHEET_UPDATE_ACTION } from '../../services/reduce'
 import type { FontInfo } from '../../services/fontManager'
 
 const IMAGE_EXTENSIONS = new Set(['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'bmp', 'ico']);
@@ -34,6 +36,15 @@ const OUTGOING_LINK_COMMAND_IDS = new Set([
   AddRichOutgoingLinkCommand.id,
   UpdateRichOutgoingLinkCommand.id,
   CancelRichOutgoingLinkCommand.id,
+  ReplaceSnapshotCommand.id,
+])
+
+// 会改变表格图片的命令：执行后需从最新 workbook 重建 ### images，
+// 覆盖插入/删除浮动图、单元格内嵌图（走 SetRangeValues）与快照替换等路径
+const IMAGE_COMMAND_IDS = new Set([
+  InsertSheetDrawingCommand.id,
+  RemoveSheetDrawingCommand.id,
+  SetRangeValuesCommand.id,
   ReplaceSnapshotCommand.id,
 ])
 
@@ -272,6 +283,95 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
     }
   }
 
+  // 从当前 workbook 数据收集全部图片引用（浮动图 + 单元格内嵌图），
+  // 规范化后与 state 对比，有差异则整体替换，保证 ### images 与表格实际一致
+  const syncImagesFromWorkbook = () => {
+    const workbook = univerApi?.getActiveWorkbook()
+    if (!workbook) {
+      return
+    }
+    const data = workbook.save()
+    const images: string[] = []
+
+    // 递归收集浮动图 drawing.source：快照 resources 中 SHEET_DRAWING_PLUGIN 的 data
+    // 是 JSON 字符串，兼容 IDrawingMap 的 { [unitId]: { [subUnitId]: { data, order } } }
+    // 与旧版 { [subUnitId]: { data, order } } 两级深度
+    const collectDrawingSources = (node: unknown): void => {
+      if (!node || typeof node !== 'object') {
+        return
+      }
+      const obj = node as Record<string, unknown>
+      // IDrawingMapItem 特征：data 是对象且 order 是数组
+      if (obj.data && typeof obj.data === 'object' && Array.isArray(obj.order)) {
+        for (const drawing of Object.values(obj.data as Record<string, unknown>)) {
+          const source = (drawing as Record<string, unknown>)?.source as string | undefined
+          if (!source) {
+            continue
+          }
+          const normalized = urlToLinktext(source)
+          if (normalized && !images.includes(normalized)) {
+            images.push(normalized)
+          }
+        }
+        return
+      }
+      for (const value of Object.values(obj)) {
+        collectDrawingSources(value)
+      }
+    }
+
+    // 1. 浮动图：resources 中 SHEET_DRAWING_PLUGIN 条目（运行时由 sheetDrawingService 实时序列化）
+    for (const resource of data?.resources ?? []) {
+      if (resource.name !== SHEET_DRAWING_PLUGIN || typeof resource.data !== 'string') {
+        continue
+      }
+      try {
+        collectDrawingSources(JSON.parse(resource.data))
+      }
+      catch {
+        // 解析失败忽略，保持区块不变
+      }
+    }
+
+    // 2. 单元格内嵌图：cellData.p.drawings 中的 drawing.source
+    const sheets = data?.sheets
+    if (sheets) {
+      for (const sheetId of Object.keys(sheets)) {
+        const cellData = sheets[sheetId]?.cellData as Record<string, any> | undefined
+        if (!cellData) {
+          continue
+        }
+        for (const rowKey of Object.keys(cellData)) {
+          const row = cellData[rowKey] as Record<string, any> | undefined
+          if (!row) {
+            continue
+          }
+          for (const colKey of Object.keys(row)) {
+            const drawings = row[colKey]?.p?.drawings as Record<string, { source?: unknown }> | undefined
+            if (!drawings) {
+              continue
+            }
+            for (const drawing of Object.values(drawings)) {
+              const source = drawing.source as string | undefined
+              if (!source) {
+                continue
+              }
+              const normalized = urlToLinktext(source)
+              if (normalized && !images.includes(normalized)) {
+                images.push(normalized)
+              }
+            }
+          }
+        }
+      }
+    }
+
+    const current = stateRef.current.images || []
+    if (images.length !== current.length || images.some((img, i) => img !== current[i])) {
+      dispatch({ type: IMAGES_UPDATE_ACTION, payload: images })
+    }
+  }
+
   useEffect(() => {
     let lifeCycleDisposable: { dispose: () => void } | null = null
     let commandExecutedDisposable: { dispose: () => void } | null = null
@@ -330,6 +430,12 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
         // 覆盖添加/编辑/删除/禅编辑器/快照替换等所有路径，避免分步同步的竞态与遗漏
         if (OUTGOING_LINK_COMMAND_IDS.has(res.id)) {
           syncOutgoingLinksFromWorkbook()
+        }
+
+        // 图片相关命令执行后：从最新 workbook 重建 ### images，
+        // 覆盖插入/删除浮动图、单元格内嵌图与快照替换等所有路径
+        if (IMAGE_COMMAND_IDS.has(res.id)) {
+          syncImagesFromWorkbook()
         }
 
         if (res.id === NavigationOutgoingLinkOperation.id) {

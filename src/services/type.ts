@@ -1,6 +1,7 @@
 import type { IWorkbookData } from '@univerjs/core'
 
 export const OUTGOING_LINKS_KEY = 'outgoingLinks'
+export const IMAGES_KEY = 'images'
 export const TABS_KEY = 'multiSheet'
 export const SHEET_KEY = 'sheet'
 

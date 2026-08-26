@@ -14,6 +14,9 @@ export interface SheetStoreState {
   tabs: MultiSheet
 
   outgoingLinks: string[]
+
+  // 图片引用列表（### images 区块），每项为 [[链接名]]
+  images: string[]
 }
 
 export const SHEET_UPDATE_ACTION = 'SHEET_UPDATE'
@@ -26,6 +29,7 @@ export const VIEW_UPDATE_ACTION = 'VIEW_UPDATE'
 export const TAB_DEFAULT_ACTION = 'TAB_DEFAULT_ACTIVE'
 export const TAB_RENAME_ACTION = 'TAB_RENAME'
 export const OUTGOING_LINKS_UPDATE_ACTION = 'OUTGOING_LINKS_UPDATE'
+export const IMAGES_UPDATE_ACTION = 'IMAGES_UPDATE'
 
 export type SheetStoreAction =
   | { type: 'SHEET_UPDATE', payload: IWorkbookData }
@@ -38,6 +42,7 @@ export type SheetStoreAction =
   | { type: 'TAB_DEFAULT_ACTIVE', key: string }
   | { type: 'TAB_RENAME', key: string, payload: string }
   | { type: 'OUTGOING_LINKS_UPDATE', payload: string[] }
+  | { type: 'IMAGES_UPDATE', payload: string[] }
 
 export function sheetStoreReducer(
   state: SheetStoreState,
@@ -104,6 +109,9 @@ export function sheetStoreReducer(
 
     case 'OUTGOING_LINKS_UPDATE':
       return { ...state, outgoingLinks: action.payload }
+
+    case 'IMAGES_UPDATE':
+      return { ...state, images: action.payload }
 
     case 'TAB_DEFAULT_ACTIVE': {
       return {

@@ -44,7 +44,7 @@ import {
 } from './post-processor/markdownPostProcessor'
 import type { FontInfo } from './services/fontManager'
 import { FontManager } from './services/fontManager'
-import { toMarkdown, toStoreState, updateOutgoingLink, updateSheetOutgoingLinks } from './services/utils'
+import { toMarkdown, toStoreState, updateImages, updateOutgoingLink, updateSheetImages, updateSheetOutgoingLinks } from './services/utils'
 
 export default class ExcelProPlugin extends Plugin {
   public settings: ExcelProSettings
@@ -201,6 +201,11 @@ export default class ExcelProPlugin extends Plugin {
     dataService = updateSheetOutgoingLinks(dataService, newFile.path, oldPath)
     const oldLinkText = this.oldPathToWikiLink(oldPath)
     dataService = updateOutgoingLink(dataService, newFile.path, oldLinkText)
+    // 图片引用：source 存 [[linktext]]（相对当前表格文件），重命名后按新最短名同步快照与区块
+    const oldImageLink = this.getOldLinktext(oldPath)
+    const newImageLink = this.getNewLinktext(newFile, file)
+    dataService = updateSheetImages(dataService, newImageLink, oldImageLink)
+    dataService = updateImages(dataService, newImageLink, oldImageLink)
     log('[main]', 'updateLinksInFile after', dataService, oldLinkText)
 
     const updated = toMarkdown(dataService)
@@ -217,6 +222,22 @@ export default class ExcelProPlugin extends Plugin {
     // 去掉 .md 扩展名
     const withoutExt = fileName.replace(/\.md$/i, '')
     return `[[${withoutExt}]]`
+  }
+
+  /** 重命名前的图片 linktext：旧路径的文件名（含扩展名，Obsidian 对图片链接保留扩展名） */
+  private getOldLinktext(oldPath: string): string {
+    return oldPath.split('/').pop() ?? oldPath
+  }
+
+  /** 计算重命名后相对当前表格文件的新 linktext（metadataCache.fileToLinktext 最短唯一名） */
+  private getNewLinktext(newFile: TAbstractFile, sourceFile: TFile): string {
+    if (newFile instanceof TFile) {
+      const linktext = this.app.metadataCache.fileToLinktext(newFile, sourceFile.path, true)
+      if (linktext) {
+        return linktext
+      }
+    }
+    return newFile.name
   }
 
   async loadSettings() {

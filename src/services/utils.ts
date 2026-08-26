@@ -1,8 +1,11 @@
-import { t } from '../lang/helpers'
 import type { IWorkbookData } from '@univerjs/core'
+import { t } from '../lang/helpers'
 import type { SheetStoreState } from './reduce'
 import type { MultiSheet, ParsedHeader, ParsedMarkdown } from './type'
-import { OUTGOING_LINKS_KEY, SHEET_KEY, TABS_KEY, TabType } from './type'
+import { IMAGES_KEY, OUTGOING_LINKS_KEY, SHEET_KEY, TABS_KEY, TabType } from './type'
+
+/** 浮动图在快照 resources 中的插件名（@univerjs/sheets-drawing 的 SHEET_DRAWING_PLUGIN 常量） */
+const SHEET_DRAWING_PLUGIN = 'SHEET_DRAWING_PLUGIN'
 
 export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
   // --- header ---
@@ -65,6 +68,18 @@ export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
     blocks.set(OUTGOING_LINKS_KEY, links)
   }
 
+  // --- images ---
+  const imagesRegex = /###\s*images\s*\n([\s\S]*?)(?:\n%%|\n###|$)/
+  const imagesMatch = restMd.match(imagesRegex)
+
+  if (imagesMatch) {
+    const images = imagesMatch[1]
+      .split(/\r?\n/)
+      .map(l => l.trim())
+      .filter(Boolean)
+    blocks.set(IMAGES_KEY, images)
+  }
+
   return { header, blocks }
 }
 
@@ -97,6 +112,7 @@ export function toStoreState(md: string, filePath?: string): SheetStoreState | u
     views,
     tabs,
     outgoingLinks: blocks?.get(OUTGOING_LINKS_KEY) as string[],
+    images: blocks?.get(IMAGES_KEY) as string[],
   }
 }
 
@@ -114,6 +130,10 @@ export function toMarkdown(state: SheetStoreState): string | null {
   // 空数组不写入，避免序列化成 ```outgoingLinks\n[] 代码块
   if (Array.isArray(state.outgoingLinks) && state.outgoingLinks.length > 0) {
     blocks.set(OUTGOING_LINKS_KEY, state.outgoingLinks)
+  }
+  // 图片引用区块：同样空数组不写入
+  if (Array.isArray(state.images) && state.images.length > 0) {
+    blocks.set(IMAGES_KEY, state.images)
   }
   return stringifyMarkdown({
     header: state.header,
@@ -147,6 +167,7 @@ export function stringifyMarkdown({ header, blocks, compact = true }: { header?:
   // --- blocks ---
   let blocksStr = ''
   let outgoingLinksStr = ''
+  let imagesStr = ''
 
   if (blocks && blocks.size > 0) {
     for (const [type, content] of blocks) {
@@ -154,9 +175,12 @@ export function stringifyMarkdown({ header, blocks, compact = true }: { header?:
         // 单独保存，最后输出
         outgoingLinksStr = `### ${OUTGOING_LINKS_KEY}\n${content.join('\n')}\n\n`
       }
+      else if (type === IMAGES_KEY && Array.isArray(content) && content.length > 0) {
+        imagesStr = `### ${IMAGES_KEY}\n${content.join('\n')}\n\n`
+      }
       else {
-        // 防御：outgoingLinks 为空数组时不输出，避免生成 ```outgoingLinks\n[] 代码块
-        if (type === OUTGOING_LINKS_KEY && Array.isArray(content) && content.length === 0) {
+        // 防御：outgoingLinks / images 为空数组时不输出，避免生成空数组代码块
+        if ((type === OUTGOING_LINKS_KEY || type === IMAGES_KEY) && Array.isArray(content) && content.length === 0) {
           continue
         }
         let body: string
@@ -178,7 +202,7 @@ export function stringifyMarkdown({ header, blocks, compact = true }: { header?:
     }
   }
 
-  return `${headerStr}${blocksStr}${outgoingLinksStr}`.trimEnd()
+  return `${headerStr}${blocksStr}${outgoingLinksStr}${imagesStr}`.trimEnd()
 }
 
 // 更新工作表中的 outgoingLinks
@@ -198,23 +222,25 @@ export function updateSheetOutgoingLinks(state: SheetStoreState, newLink: string
       continue
     }
 
-    for (const rowKey of Object.keys(sheet.cellData)) {
-      const row = sheet.cellData[rowKey]
+    // cellData 为稀疏矩阵（行号/列号为 key），统一按 Record<string, any> 宽松访问
+    const cellData = sheet.cellData as Record<string, any>
+    for (const rowKey of Object.keys(cellData)) {
+      const row = cellData[rowKey] as Record<string, any> | undefined
       if (!row) {
         continue
       }
 
       for (const colKey of Object.keys(row)) {
-        const cell = row[colKey]
+        const cell = row[colKey] as any
         if (!cell?.p?.body?.customRanges) {
           continue
         }
 
-        cell.p.body.customRanges.forEach((range: Record<string, unknown>) => {
+        cell.p.body.customRanges.forEach((range: Record<string, any>) => {
           if (range.rangeType === 100 && (range.properties as Record<string, unknown>)?.url === `[[${oldLink}]]`) {
             (range.properties as Record<string, string>).url = `[[${newLink}]]`
             cell.p.body.dataStream = cell.p.body.dataStream?.replace(oldLink, newLink)
-            cell.p.body.textRuns?.forEach((textRun: Record<string, unknown>) => {
+            cell.p.body.textRuns?.forEach((textRun: Record<string, any>) => {
               (textRun as Record<string, number>).ed = newLink.length
             })
           }
@@ -240,5 +266,118 @@ export function updateOutgoingLink(state: SheetStoreState, newLink: string, oldL
   return {
     ...state,
     outgoingLinks: newLinks,
+  }
+}
+
+/**
+ * 判断 source 是否指向 oldLink 对应的文件。
+ * 兼容三种存储形式：[[linktext]]（可带目录/扩展名）、[[basename]]、旧版裸 vault 路径。
+ */
+function imageSourceMatches(source: unknown, oldLink: string): boolean {
+  if (typeof source !== 'string' || !source) {
+    return false
+  }
+  // 旧版数据：source 直接是完整 vault 路径
+  if (source === oldLink) {
+    return true
+  }
+  // 新版数据：[[linktext]]（linktext 相对当前表格文件，可能带目录）
+  if (source === `[[${oldLink}]]`) {
+    return true
+  }
+  const oldName = oldLink.split('/').pop() ?? oldLink
+  if (source === `[[${oldName}]]`) {
+    return true
+  }
+  const withoutExt = oldName.replace(/\.[^.]+$/, '')
+  if (withoutExt && source === `[[${withoutExt}]]`) {
+    return true
+  }
+  return false
+}
+
+/**
+ * 更新快照中的图片 source（文件名重命名时调用）：
+ * 1. 浮动图：resources 里 SHEET_DRAWING_PLUGIN 条目（data 为 JSON 字符串，运行时由
+ *    sheetDrawingService 实时序列化，随 workbook.save() 一起返回）；
+ * 2. 单元格内嵌图：cellData.p.drawings 中的 drawing.source。
+ * 新值统一写为 [[newLink]]（相对当前表格文件的 linktext）。
+ */
+export function updateSheetImages(state: SheetStoreState, newLink: string, oldLink: string): SheetStoreState {
+  const workbook = state.sheet
+  if (!workbook) {
+    return state
+  }
+
+  // 1. 浮动图
+  if (Array.isArray(workbook.resources)) {
+    for (const resource of workbook.resources) {
+      if (!resource || resource.name !== SHEET_DRAWING_PLUGIN || typeof resource.data !== 'string') {
+        continue
+      }
+      try {
+        // 结构：{ [subUnitId]: { data: Record<drawingId, ISheetDrawing>, order: string[] } }
+        const map = JSON.parse(resource.data) as Record<string, { data?: Record<string, Record<string, unknown>> }>
+        let changed = false
+        for (const subUnitMap of Object.values(map)) {
+          const drawings = subUnitMap?.data
+          if (!drawings) {
+            continue
+          }
+          for (const drawing of Object.values(drawings)) {
+            if (imageSourceMatches(drawing.source, oldLink)) {
+              drawing.source = `[[${newLink}]]`
+              changed = true
+            }
+          }
+        }
+        if (changed) {
+          resource.data = JSON.stringify(map)
+        }
+      }
+      catch {
+        // 解析失败保持原样，避免损坏文件
+      }
+    }
+  }
+
+  // 2. 单元格内嵌图
+  if (workbook.sheets) {
+    for (const sheetId of Object.keys(workbook.sheets)) {
+      const sheet = workbook.sheets[sheetId]
+      if (!sheet?.cellData) {
+        continue
+      }
+      const cellData = sheet.cellData as Record<string, any>
+      for (const rowKey of Object.keys(cellData)) {
+        const row = cellData[rowKey] as Record<string, any> | undefined
+        if (!row) {
+          continue
+        }
+        for (const colKey of Object.keys(row)) {
+          const drawings = row[colKey]?.p?.drawings as Record<string, { source?: unknown }> | undefined
+          if (!drawings) {
+            continue
+          }
+          for (const drawing of Object.values(drawings)) {
+            if (imageSourceMatches(drawing.source, oldLink)) {
+              drawing.source = `[[${newLink}]]`
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return state
+}
+
+// 更新 markdown ### images 区块中的 [[xxx]]
+export function updateImages(state: SheetStoreState, newLink: string, oldLink: string): SheetStoreState {
+  const images = state.images ?? []
+  const newImages = images.map(link => (imageSourceMatches(link, oldLink) ? `[[${newLink}]]` : link))
+  return {
+    ...state,
+    images: newImages,
   }
 }
