@@ -1,5 +1,17 @@
 
 
+# [2.13.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.15...2.13.0) (2026-08-27)
+
+
+### Bug Fixes
+
+* **outgoing-links:** rebuild links from workbook after edit ([d2d01b4](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/d2d01b4e6962a57f883c90265016c411081ea93e))
+
+
+### Features
+
+* **images:** store image refs in ### images block and sync renames ([5e799a9](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/5e799a981a261b1b20bf568fda5167e01901cc80))
+
 ## [2.12.15](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.14...2.12.15) (2026-08-17)
 
 ## [2.12.14](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.13...2.12.14) (2026-08-03)
