@@ -492,9 +492,14 @@ button.univer-button-default {
   align-items: center;
   gap: 8px;
   padding: 4px 8px;
+  margin-bottom: 4px;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.15s;
+}
+
+.local-image-picker__item:last-child {
+  margin-bottom: 0;
 }
 
 .local-image-picker__item:hover {
@@ -524,4 +529,13 @@ button.univer-button-default {
   text-align: center;
   font-size: 13px;
   color: var(--text-muted);
+}
+
+/* 多选确认区：与图片列表隔开，按钮靠右 */
+.local-image-picker__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--background-modifier-border);
 }
