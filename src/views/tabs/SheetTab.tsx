@@ -6,6 +6,7 @@ import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-out
 import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-ui'
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import { SetRangeValuesCommand } from '@univerjs/sheets'
+import { IRenderManagerService } from '@univerjs/engine-render'
 import { SHEET_DRAWING_PLUGIN, InsertSheetDrawingCommand, RemoveSheetDrawingCommand } from '@univerjs/sheets-drawing'
 import { Spin } from 'antd'
 import { ReplaceSnapshotCommand } from '@univerjs/docs-ui'
@@ -14,6 +15,7 @@ import { SaveCommand } from '@ljcoder/save'
 import { InsertLocalCellImageOperation, InsertLocalFloatImageOperation } from '@ljcoder/local-image'
 import { Modal, Platform, TFile } from 'obsidian'
 import { createUniver } from '../univer/setup-univer'
+import { observeRenderVisibility } from '../univer/render-visibility'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
 import { deepClone, rangeToNumber } from '../../utils/data'
@@ -173,6 +175,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
   const { editor, app } = useEditorContext()
   const { plugin } = editor
   const containerRef = useRef<HTMLDivElement>(null)
+  const univerRef = useRef<ReturnType<typeof createUniver>['univer'] | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [spinTip, setSpinTip] = useState<string>(t('LOADING'))
   // 保存最新的 store state，供事件回调读取，避免闭包捕获陈旧 state
@@ -196,6 +199,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
 
     const mobileRenderMode = plugin.settings.mobileRenderMode
     const { univerAPI, univer } = createUniver(plugin.availableFonts, options, containerRef.current, mobileRenderMode, darkMode)
+    univerRef.current = univer
     setUniverApi(univerAPI)
 
     return () => {
@@ -210,6 +214,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
           log('[SheetTab]', 'disposeUniver', univer)
           univer.dispose()
         }
+        univerRef.current = null
         containerRef.current = null
       }, 0)
     }
@@ -375,6 +380,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
   useEffect(() => {
     let lifeCycleDisposable: { dispose: () => void } | null = null
     let commandExecutedDisposable: { dispose: () => void } | null = null
+    let stopObservingVisibility: (() => void) | null = null
     if (univerApi) {
       const locale = Tools.convertNumberFormatLocalToLocaleType(plugin.settings.numberFormatLocal)
       if (state.sheet) {
@@ -393,6 +399,16 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
 
       lifeCycleDisposable = univerApi.addEvent(univerApi.Event.LifeCycleChanged, (res) => {
         if (res.stage === LifecycleStages.Rendered) {
+          // Obsidian keeps background tabs mounted, so Univer must pause its render loop explicitly.
+          if (!stopObservingVisibility && containerRef.current && univerRef.current) {
+            const workbookId = univerApi.getActiveWorkbook()?.getId()
+            const render = workbookId
+              ? univerRef.current.__getInjector().get(IRenderManagerService).getRenderUnitById(workbookId)
+              : null
+            if (render) {
+              stopObservingVisibility = observeRenderVisibility(render, containerRef.current)
+            }
+          }
           setLoading(false)
           switchTab()
         }
@@ -539,8 +555,10 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
       log('[SheetTab]', 'univerAPi卸载监听', lifeCycleDisposable, commandExecutedDisposable)
       lifeCycleDisposable?.dispose()
       commandExecutedDisposable?.dispose()
+      stopObservingVisibility?.()
       lifeCycleDisposable = null
       commandExecutedDisposable = null
+      stopObservingVisibility = null
     }
   }, [univerApi])
 
