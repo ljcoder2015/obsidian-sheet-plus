@@ -18,7 +18,7 @@ export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
     const props: Record<string, string> = {}
 
     for (const line of headerMatch[1].split(/\r?\n/)) {
-      const m = line.match(/^([^:]+):\s*(.*)$/)
+      const m = line.match(/^([^:]+):(.*)$/)
       if (m)
         props[m[1].trim()] = m[2].trim()
     }
@@ -34,9 +34,9 @@ export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
   // --- code blocks ---
   const blockRegex = /```([^\n]*)\n([\s\S]*?)```/g
   let isFirstBlock = true
-  let match: RegExpExecArray | null
+  let match = blockRegex.exec(restMd)
 
-  while ((match = blockRegex.exec(restMd)) !== null) {
+  while (match !== null) {
     const blockType = match[1].trim() || (isFirstBlock ? 'sheet' : 'default')
     isFirstBlock = false
 
@@ -54,10 +54,11 @@ export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
       // 保留原始内容，避免丢失
       blocks.set(blockType, jsonText)
     }
+    match = blockRegex.exec(restMd)
   }
 
   // --- outgoingLinks ---
-  const outgoingRegex = /###\s*outgoingLinks\s*\n([\s\S]*?)(?:\n%%|\n###|$)/
+  const outgoingRegex = /###[ \t]*outgoingLinks[ \t]*\r?\n([\s\S]*?)(?:\n%%|\n###|$)/
   const outgoingMatch = restMd.match(outgoingRegex)
 
   if (outgoingMatch) {
@@ -69,7 +70,7 @@ export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
   }
 
   // --- images ---
-  const imagesRegex = /###\s*images\s*\n([\s\S]*?)(?:\n%%|\n###|$)/
+  const imagesRegex = /###[ \t]*images[ \t]*\r?\n([\s\S]*?)(?:\n%%|\n###|$)/
   const imagesMatch = restMd.match(imagesRegex)
 
   if (imagesMatch) {
@@ -231,7 +232,8 @@ export function updateSheetOutgoingLinks(state: SheetStoreState, newLink: string
       }
 
       for (const colKey of Object.keys(row)) {
-        const cell = row[colKey] as any
+        // row 已是 Record<string, any>，索引结果即 any，无需再断言
+        const cell = row[colKey]
         if (!cell?.p?.body?.customRanges) {
           continue
         }
