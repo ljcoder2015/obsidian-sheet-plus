@@ -1,5 +1,17 @@
 
 
+## [2.13.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.13.0...2.13.1) (2026-09-01)
+
+
+### Bug Fixes
+
+* **types:** replace explicit any with precise Univer cell types ([7837a78](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/7837a78ff4796dfba0c92344eca34c748a5fda29))
+
+
+### Features
+
+* **settings:** declarative settings API and review fixes ([8a43a68](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/8a43a68066ef4780693e8e0c49f931dfe9f65827))
+
 # [2.13.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.12.15...2.13.0) (2026-08-27)
 
 
