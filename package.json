@@ -22,6 +22,7 @@
     "release": "release-it",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "test:render-visibility": "node --test tests/render-visibility.test.js",
     "patch-local": "node scripts/patch-local.js"
   },
   "dependencies": {
