@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import type { INumfmtLocaleTag } from '@univerjs/core'
+import type { ICellData, INumfmtLocaleTag } from '@univerjs/core'
 import { CommandType, LifecycleStages } from '@univerjs/core'
 import { AddOutgoingLinkCommand, AddRichOutgoingLinkCommand, CancelOutgoingLinkCommand, CancelRichOutgoingLinkCommand, OutgoingLinkCustomRangeType, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType, UpdateOutgoingLinkCommand, UpdateRichOutgoingLinkCommand } from '@ljcoder/sheets-outgoing-link'
 import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
@@ -7,13 +7,12 @@ import { NavigationOutgoingLinkOperation } from '@ljcoder/sheets-outgoing-link-u
 import { ScrollToRangeOperation } from '@univerjs/sheets-ui'
 import { SetRangeValuesCommand } from '@univerjs/sheets'
 import { IRenderManagerService } from '@univerjs/engine-render'
-import { SHEET_DRAWING_PLUGIN, InsertSheetDrawingCommand, RemoveSheetDrawingCommand } from '@univerjs/sheets-drawing'
+import { InsertSheetDrawingCommand, RemoveSheetDrawingCommand, SHEET_DRAWING_PLUGIN } from '@univerjs/sheets-drawing'
 import { Spin } from 'antd'
 import { ReplaceSnapshotCommand } from '@univerjs/docs-ui'
 import { ExportFinishCommand, ExportStartCommand, ImportFinishCommand, ImportStartCommand } from '@ljcoder/import-export'
 import { SaveCommand } from '@ljcoder/save'
-import { InsertLocalCellImageOperation, InsertLocalFloatImageOperation } from '@ljcoder/local-image'
-import { Modal, Platform, TFile } from 'obsidian'
+import { Platform, TFile } from 'obsidian'
 import { createUniver } from '../univer/setup-univer'
 import { observeRenderVisibility } from '../univer/render-visibility'
 import { useEditorContext } from '../../context/editorContext'
@@ -26,8 +25,6 @@ import { useUniver } from '../../context/UniverContext'
 import { useSheetStore } from '../../context/SheetStoreProvider'
 import { IMAGES_UPDATE_ACTION, OUTGOING_LINKS_UPDATE_ACTION, SHEET_UPDATE_ACTION } from '../../services/reduce'
 import type { FontInfo } from '../../services/fontManager'
-
-const IMAGE_EXTENSIONS = new Set(['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'bmp', 'ico']);
 
 // 会改变单元格外链的命令：执行后需从最新 workbook 重建 outgoingLinks，
 // 覆盖添加/编辑/删除/禅编辑器/快照替换等所有路径
@@ -50,125 +47,6 @@ const IMAGE_COMMAND_IDS = new Set([
   ReplaceSnapshotCommand.id,
 ])
 
-function getMimeType(ext: string): string {
-    const mimeMap: Record<string, string> = {
-        png: 'image/png',
-        jpg: 'image/jpeg',
-        jpeg: 'image/jpeg',
-        gif: 'image/gif',
-        svg: 'image/svg+xml',
-        webp: 'image/webp',
-        bmp: 'image/bmp',
-        ico: 'image/x-icon',
-    };
-    return mimeMap[ext.toLowerCase()] || 'image/png';
-}
-
-function blobToDataUrl(blob: Blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-    });
-}
-
-function getImageSize(dataUrl: string): Promise<{ width: number; height: number }> {
-    return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
-        img.onerror = () => resolve({ width: 400, height: 300 });
-        img.src = dataUrl;
-    });
-}
-
-function scaleToFit(w: number, h: number, maxW: number, maxH: number): { width: number; height: number } {
-    const scale = Math.min(maxW / w, maxH / h, 1);
-    return { width: Math.round(w * scale), height: Math.round(h * scale) };
-}
-
-class VaultImageMultiPickerModal extends Modal {
-    private _resolve: ((value: TFile[]) => void) | null = null;
-    private _checkboxes: Map<string, boolean> = new Map();
-
-    open(): Promise<TFile[]> {
-        return new Promise((resolve) => {
-            this._resolve = resolve;
-            this._checkboxes.clear();
-            super.open();
-        });
-    }
-
-    onOpen(): void {
-        const { contentEl } = this;
-        contentEl.empty();
-        contentEl.addClass('vault-image-picker-modal');
-
-        contentEl.createEl('h3', { text: t('IMAGE_PICKER_TITLE') });
-
-        const imageFiles = this.app.vault.getFiles()
-            .filter(f => IMAGE_EXTENSIONS.has(f.extension.toLowerCase()));
-
-        if (imageFiles.length === 0) {
-            contentEl.createEl('p', { text: t('IMAGE_PICKER_EMPTY'), cls: 'vault-image-picker-empty' });
-            return;
-        }
-
-        const listEl = contentEl.createDiv({ cls: 'vault-image-picker-list' });
-
-        for (const file of imageFiles) {
-            const itemEl = listEl.createDiv({ cls: 'vault-image-picker-item' });
-            const checkbox = itemEl.createEl('input', { type: 'checkbox', id: `img-${file.path.replace(/[^a-zA-Z0-9]/g, '-')}` });
-            this._checkboxes.set(file.path, false);
-            checkbox.addEventListener('change', () => {
-                this._checkboxes.set(file.path, checkbox.checked);
-            });
-
-            itemEl.createEl('label', { text: file.path, attr: { for: checkbox.id } });
-            itemEl.addEventListener('click', (e) => {
-                if (e.target === checkbox) return;
-                checkbox.checked = !checkbox.checked;
-                this._checkboxes.set(file.path, checkbox.checked);
-            });
-        }
-
-        const buttonEl = contentEl.createDiv({ cls: 'vault-image-picker-buttons' });
-        const cancelBtn = buttonEl.createEl('button', { text: t('IMAGE_PICKER_CANCEL') });
-        const confirmBtn = buttonEl.createEl('button', { text: t('IMAGE_PICKER_CONFIRM'), cls: 'mod-cta' });
-
-        confirmBtn.addEventListener('click', () => {
-            const selected = imageFiles.filter(f => this._checkboxes.get(f.path));
-            this.close();
-            this._resolve?.(selected);
-        });
-
-        cancelBtn.addEventListener('click', () => {
-            this.close();
-            this._resolve?.([]);
-        });
-    }
-
-    onClose(): void {
-        const { contentEl } = this;
-        contentEl.empty();
-    }
-}
-
-async function pickVaultImages(app: App): Promise<File[]> {
-    const modal = new VaultImageMultiPickerModal(app);
-    const vaultFiles = await modal.open();
-    if (vaultFiles.length === 0) return [];
-
-    const result: File[] = [];
-    for (const vaultFile of vaultFiles) {
-        const arrayBuffer = await app.vault.readBinary(vaultFile);
-        const mimeType = getMimeType(vaultFile.extension);
-        const file = new File([arrayBuffer], vaultFile.name, { type: mimeType });
-        result.push(file);
-    }
-    return result;
-}
-
 export function SheetTab({ switchTab }: { switchTab: () => void }) {
   const { state, dispatch } = useSheetStore()
   const { univerApi, setUniverApi } = useUniver()
@@ -179,8 +57,8 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
   const [loading, setLoading] = useState<boolean>(true)
   const [spinTip, setSpinTip] = useState<string>(t('LOADING'))
   // 保存最新的 store state，供事件回调读取，避免闭包捕获陈旧 state
-  const stateRef = useRef(state);
-  stateRef.current = state;
+  const stateRef = useRef(state)
+  stateRef.current = state
 
   useEffect(() => {
     log('[SheetTab]', 'sheetTab 挂载')
@@ -342,12 +220,12 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
     const sheets = data?.sheets
     if (sheets) {
       for (const sheetId of Object.keys(sheets)) {
-        const cellData = sheets[sheetId]?.cellData as Record<string, any> | undefined
+        const cellData = sheets[sheetId]?.cellData as Record<string, Record<string, ICellData> | undefined>
         if (!cellData) {
           continue
         }
         for (const rowKey of Object.keys(cellData)) {
-          const row = cellData[rowKey] as Record<string, any> | undefined
+          const row = cellData[rowKey]
           if (!row) {
             continue
           }
@@ -488,56 +366,6 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
           setLoading(false)
           setSpinTip(t('EXPORTED'))
         }
-
-        // if (res.id === InsertLocalFloatImageOperation.id) {
-        //   if (!app) return;
-        //   pickVaultImages(app).then(async (files) => {
-        //     if (files.length === 0) return;
-        //     const sheet = univerApi?.getActiveWorkbook()?.getActiveSheet();
-        //     if (!sheet) return;
-        //     const activeRange = sheet.getActiveRange();
-        //     if (!activeRange) return;
-        //     let row = activeRange.getRow();
-        //     const col = activeRange.getColumn();
-
-        //     for (const file of files) {
-        //       const dataUrl = await blobToDataUrl(file);
-        //       const naturalSize = await getImageSize(dataUrl);
-        //       const scaled = scaleToFit(naturalSize.width, naturalSize.height, 400, 300);
-        //       const image = await sheet.newOverGridImage()
-        //         .setSource(dataUrl, univerApi.Enum.ImageSourceType.BASE64)
-        //         .setColumn(col)
-        //         .setRow(row)
-        //         .setWidth(scaled.width)
-        //         .setHeight(scaled.height)
-        //         .buildAsync();
-        //       sheet.insertImages([image]);
-        //       row++;
-        //     }
-        //   }).catch((err) => {
-        //     console.error('[SheetTab] InsertLocalFloatImageOperation error:', err);
-        //   });
-        // }
-
-        // if (res.id === InsertLocalCellImageOperation.id) {
-        //   if (!app) return;
-        //   pickVaultImages(app).then(async (files) => {
-        //     if (files.length === 0) return;
-        //     const sheet = univerApi?.getActiveWorkbook()?.getActiveSheet();
-        //     if (!sheet) return;
-        //     const activeRange = sheet.getActiveRange();
-        //     if (!activeRange) return;
-        //     let row = activeRange.getRow();
-        //     const col = activeRange.getColumn();
-        //     for (const file of files) {
-        //       const range = sheet.getRange(row, col);
-        //       await range.insertCellImageAsync(file);
-        //       row++;
-        //     }
-        //   }).catch((err) => {
-        //     console.error('[SheetTab] InsertLocalCellImageOperation error:', err);
-        //   });
-        // }
 
         // 仅同步本地 mutation
         if (res.type !== CommandType.MUTATION || res.options?.fromCollab || res.options?.onlyLocal || res.id === 'doc.mutation.rich-text-editing') {

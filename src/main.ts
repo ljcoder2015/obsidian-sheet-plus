@@ -47,7 +47,8 @@ import { FontManager } from './services/fontManager'
 import { toMarkdown, toStoreState, updateImages, updateOutgoingLink, updateSheetImages, updateSheetOutgoingLinks } from './services/utils'
 
 export default class ExcelProPlugin extends Plugin {
-  public settings: ExcelProSettings
+  // 1.13.0+ Plugin 基类新增 settings?: unknown，此处为有意覆盖（在 loadSettings 中赋值），用 declare 消除 TS2612/TS2564
+  public declare settings: ExcelProSettings
   public fontManager: FontManager
   public availableFonts: FontInfo[] = []
   private _loaded = false

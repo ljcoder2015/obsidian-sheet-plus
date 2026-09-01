@@ -1,4 +1,4 @@
-import type { App } from 'obsidian'
+import type { App, SettingDefinitionItem } from 'obsidian'
 import { Notice, PluginSettingTab, Setting } from 'obsidian'
 import { update } from '@ljcoder/authorization'
 import { t } from './lang/helpers'
@@ -11,6 +11,218 @@ export class ExcelProSettingTab extends PluginSettingTab {
   constructor(app: App, plugin: ExcelProPlugin) {
     super(app, plugin)
     this.plugin = plugin
+  }
+
+  // Obsidian 1.13.0+ 声明式设置定义：与 display() 保持同步，启用设置全局搜索。
+  // control 定义自动读写 this.plugin.settings[key] 并调用 saveData()。
+  getSettingDefinitions(): SettingDefinitionItem[] {
+    return [
+      {
+        type: 'group',
+        heading: t('BASE_COLOR'),
+        items: [
+          {
+            name: t('BASE_COLOR'),
+            desc: t('BASE_COLOR_DESC'),
+            control: { type: 'dropdown', key: 'darkModal', options: { light: 'Light', dark: 'Dark' } },
+          },
+        ],
+      },
+      {
+        type: 'group',
+        heading: t('FILE_SETTING'),
+        items: [
+          {
+            name: t('BIG_SHEET'),
+            desc: fragWithHTML(t('BIG_SHEET_DESC')),
+            control: { type: 'dropdown', key: 'isBigSheet', options: { true: 'True', false: 'False' } },
+          },
+          {
+            name: t('FILE_LOCATION_MODE'),
+            desc: t('FILE_LOCATION_MODE_DESC'),
+            control: {
+              type: 'dropdown',
+              key: 'fileLocationMode',
+              options: {
+                'root': t('FILE_LOCATION_MODE_ROOT'),
+                'current': t('FILE_LOCATION_MODE_CURRENT'),
+                'current-sub': t('FILE_LOCATION_MODE_CURRENT_SUB'),
+                'specified': t('FILE_LOCATION_MODE_SPECIFIED'),
+              },
+            },
+          },
+          {
+            name: t('FILE_SUB_FOLDER'),
+            desc: t('FILE_SUB_FOLDER_DESC'),
+            visible: () => this.plugin.settings.fileLocationMode === 'current-sub',
+            control: { type: 'text', key: 'fileSubFolder', placeholder: 'sheets' },
+          },
+          {
+            name: t('FOLDER'),
+            desc: t('FOLDER_DESC'),
+            visible: () => this.plugin.settings.fileLocationMode === 'specified',
+            control: { type: 'text', key: 'folder', placeholder: '/' },
+          },
+          {
+            name: t('FILENAME_PREFIX'),
+            desc: t('FILENAME_PREFIX_DESC'),
+            control: { type: 'text', key: 'excelFilenamePrefix', placeholder: 'Excel' },
+          },
+          {
+            name: t('FILENAME_DATE_TIME'),
+            desc: t('FILENAME_DATE_TIME_DESC'),
+            control: { type: 'text', key: 'excelFilenameDateTime', placeholder: 'YYYY-MM-DD HH.mm.ss' },
+          },
+        ],
+      },
+      {
+        type: 'group',
+        heading: t('EMBED_LINK_SETTING'),
+        items: [
+          {
+            name: t('SHEET_HEIGHT_MODE'),
+            desc: t('SHEET_HEIGHT_MODE_DESC'),
+            control: {
+              type: 'dropdown',
+              key: 'sheetHeightMode',
+              options: { auto: t('SHEET_HEIGHT_MODE_AUTO'), custom: t('SHEET_HEIGHT_MODE_CUSTOM') },
+            },
+          },
+          {
+            name: t('SHEET_HEIGHT'),
+            desc: t('SHEET_HEIGHT_DESC'),
+            visible: () => this.plugin.settings.sheetHeightMode === 'custom',
+            control: { type: 'text', key: 'sheetHeight', placeholder: '300' },
+          },
+          {
+            name: t('SHOW_SHEET_BUTTON'),
+            desc: t('SHOW_SHEET_BUTTON_DESC'),
+            control: { type: 'dropdown', key: 'showSheetButton', options: { true: 'True', false: 'False' } },
+          },
+          {
+            name: t('SHOW_SHEET_FOOTER'),
+            desc: t('SHOW_SHEET_FOOTER_DESC'),
+            control: { type: 'dropdown', key: 'embedLinkShowFooter', options: { true: 'True', false: 'False' } },
+          },
+          {
+            name: t('EMBED_LINK_OPEN_MODE'),
+            desc: t('EMBED_LINK_OPEN_MODE_DESC'),
+            control: {
+              type: 'dropdown',
+              key: 'embedLinkOpenMode',
+              defaultValue: 'split-right',
+              options: { 'split-right': t('OPEN_MODE_SPLIT_RIGHT'), 'current-tab': t('OPEN_MODE_CURRENT_TAB') },
+            },
+          },
+        ],
+      },
+      {
+        type: 'group',
+        heading: t('UNIVER_SETTING'),
+        items: [
+          {
+            name: t('NUMBER_FORMAT_LOCALE'),
+            desc: t('NUMBER_FORMAT_LOCALE_DESC'),
+            control: {
+              type: 'dropdown',
+              key: 'numberFormatLocal',
+              options: {
+                'zh-CN': '简体中文（中国）',
+                'zh-TW': '繁體中文（台灣）',
+                'cs': 'Čeština (Česko)',
+                'da': 'Dansk (Danmark)',
+                'nl': 'Nederlands (Nederland)',
+                'en': 'English (United States)',
+                'fi': 'Suomi (Suomi)',
+                'fr': 'Français (France)',
+                'de': 'Deutsch (Deutschland)',
+                'el': 'Ελληνικά (Ελλάδα)',
+                'hu': 'Magyar (Magyarország)',
+                'is': 'Íslenska (Ísland)',
+                'id': 'Bahasa Indonesia (Indonesia)',
+                'it': 'Italiano (Italia)',
+                'ja': '日本語（日本）',
+                'ko': '한국어 (대한민국)',
+                'nb': 'Norsk bokmål (Norge)',
+                'pl': 'Polski (Polska)',
+                'pt': 'Português (Portugal)',
+                'ru': 'Русский (Россия)',
+                'sk': 'Slovenčina (Slovensko)',
+                'es': 'Español (España)',
+                'sv': 'Svenska (Sverige)',
+                'th': 'ไทย (ประเทศไทย)',
+                'tr': 'Türkçe (Türkiye)',
+                'vi': 'Tiếng Việt (Việt Nam)',
+              },
+            },
+          },
+          {
+            name: t('MOBILE_RENDER_MODE'),
+            desc: t('MOBILE_RENDER_MODE_DESC'),
+            control: { type: 'dropdown', key: 'mobileRenderMode', options: { mobile: 'Mobile', desktop: 'Desktop' } },
+          },
+          {
+            name: t('AUTHORIZATION_CODE'),
+            desc: t('AUTHORIZATION_CODE_DESC'),
+            // render 回调不自动保存，需手动写回并持久化
+            render: (setting) => {
+              setting
+                .addTextArea(text =>
+                  text
+                    .setValue(this.plugin.settings.authorizationCode)
+                    .onChange(async (value) => {
+                      this.plugin.settings.authorizationCode = value
+                      await this.plugin.saveSettings()
+                    }),
+                )
+                .addButton((button) => {
+                  button
+                    .setButtonText(t('AUTHORIZATION_CODE_SUBMIT'))
+                    .onClick(() => {
+                      if (this.plugin.settings.authorizationCode && this.plugin.settings.authorizationCode.length > 0) {
+                        update(this.plugin.settings.authorizationCode, (res) => {
+                          if (res.code === 0)
+                            new Notice(t('AUTHORIZATION_CODE_SUCCESS'))
+                          else
+                            new Notice(t('AUTHORIZATION_CODE_FAILED'))
+                        })
+                      }
+                      else {
+                        new Notice(t('AUTHORIZATION_CODE_FAILED'))
+                      }
+                    })
+                })
+            },
+          },
+          {
+            name: t('FONT_FOLDER'),
+            desc: t('FONT_FOLDER_DESC'),
+            // 保留 display() 的 trim 行为，因此用 render 手动写回
+            render: (setting) => {
+              setting.addText(text =>
+                text
+                  .setPlaceholder('fonts')
+                  .setValue(this.plugin.settings.fontFolder)
+                  .onChange(async (value) => {
+                    this.plugin.settings.fontFolder = value.trim()
+                    await this.plugin.saveSettings()
+                  }),
+              )
+            },
+          },
+        ],
+      },
+      {
+        // 页脚：授权链接（与原 display() 底部内容一致）
+        name: '',
+        render: (setting) => {
+          setting.settingEl.empty()
+          setting.settingEl.createEl('hr')
+          const linksEl = setting.settingEl.createDiv('authorization-code-container')
+          linksEl.createEl('a', { href: 'https://docs.ljcoder.com/price/activate/en.html', text: t('AUTHORIZATION_CODE_GET') })
+        },
+      },
+    ]
   }
 
   display() {

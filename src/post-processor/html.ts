@@ -49,7 +49,7 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
 
     if (!fSheet) {
       log('[renderToHtml]', 'Sheet not found:', sheetName)
-      const emptyContainer = createEl('div', {
+      const emptyContainer = createDiv({
         cls: 'lj-html-error',
         text: `Sheet "${sheet}" not found`,
       })
@@ -62,7 +62,7 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
 
     if (!fRange) {
       log('[renderToHtml]', 'Invalid range:', rangeStr)
-      const emptyContainer = createEl('div', {
+      const emptyContainer = createDiv({
         cls: 'lj-html-error',
         text: `Invalid range: ${range}`,
       })
@@ -81,7 +81,7 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
       processedHtml = processedHtml.replace(/<google-sheets-html-origin>|<\/google-sheets-html-origin>/g, '')
       processedHtml = processedHtml.replace(/width:\s*0px/g, 'width:100%')
 
-      const htmlContainer = createEl('div', { cls: 'lj-html-table-container' })
+      const htmlContainer = createDiv({ cls: 'lj-html-table-container' })
       const sanitizedHtml = processedHtml.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
       // 使用 DOMParser 安全解析 HTML，避免直接设置 innerHTML
       const parser = new DOMParser()
@@ -102,7 +102,7 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
       containerEl.appendChild(htmlContainer)
     }
     else {
-      const emptyContainer = createEl('div', {
+      const emptyContainer = createDiv({
         cls: 'lj-html-empty',
         text: 'No data available',
       })
@@ -111,7 +111,7 @@ export async function renderToHtml(data: IWorkbookData, sheet: string, range: st
   }
   catch (error) {
     log('[renderToHtml]', 'Error generating HTML:', error)
-    const errorContainer = createEl('div', {
+    const errorContainer = createDiv({
       cls: 'lj-html-error',
       text: `Error: ${error}`,
     })

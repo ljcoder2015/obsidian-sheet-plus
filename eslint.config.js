@@ -11,5 +11,7 @@ export default antfu({
     'ts/no-this-alias': 'warn',
     'eqeqeq': 'warn',
     'unused-imports/no-unused-vars': 'warn',
+    // Obsidian 插件规范：日志用 console.debug 而非 console.log
+    'no-console': ['error', { allow: ['warn', 'error', 'debug'] }],
   },
 })
