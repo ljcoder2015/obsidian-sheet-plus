@@ -1,4 +1,4 @@
-import type { IWorkbookData } from '@univerjs/core'
+import type { ICellData, IWorkbookData } from '@univerjs/core'
 import { t } from '../lang/helpers'
 import type { SheetStoreState } from './reduce'
 import type { MultiSheet, ParsedHeader, ParsedMarkdown } from './type'
@@ -223,29 +223,32 @@ export function updateSheetOutgoingLinks(state: SheetStoreState, newLink: string
       continue
     }
 
-    // cellData 为稀疏矩阵（行号/列号为 key），统一按 Record<string, any> 宽松访问
-    const cellData = sheet.cellData as Record<string, any>
+    // cellData 为稀疏矩阵（行号/列号为 key），行/列均按字符串 key 宽松访问
+    const cellData = sheet.cellData as Record<string, Record<string, ICellData> | undefined>
     for (const rowKey of Object.keys(cellData)) {
-      const row = cellData[rowKey] as Record<string, any> | undefined
+      const row = cellData[rowKey]
       if (!row) {
         continue
       }
 
       for (const colKey of Object.keys(row)) {
-        // row 已是 Record<string, any>，索引结果即 any，无需再断言
         const cell = row[colKey]
-        if (!cell?.p?.body?.customRanges) {
+        const body = cell.p?.body
+        const customRanges = body?.customRanges
+        if (!body || !customRanges) {
           continue
         }
-
-        cell.p.body.customRanges.forEach((range: Record<string, any>) => {
-          if (range.rangeType === 100 && (range.properties as Record<string, unknown>)?.url === `[[${oldLink}]]`) {
-            (range.properties as Record<string, string>).url = `[[${newLink}]]`
-            cell.p.body.dataStream = cell.p.body.dataStream?.replace(oldLink, newLink)
-            cell.p.body.textRuns?.forEach((textRun: Record<string, any>) => {
-              (textRun as Record<string, number>).ed = newLink.length
-            })
+        // 提前取出闭包引用，避免回调内重复窄化；properties 为超链接属性（如 { url }）
+        customRanges.forEach((range) => {
+          const props = range.properties
+          if (range.rangeType !== 100 || !props || props.url !== `[[${oldLink}]]`) {
+            return
           }
+          props.url = `[[${newLink}]]`
+          body.dataStream = body.dataStream.replace(oldLink, newLink)
+          body.textRuns?.forEach((textRun) => {
+            textRun.ed = newLink.length
+          })
         })
       }
     }
@@ -350,9 +353,9 @@ export function updateSheetImages(state: SheetStoreState, newLink: string, oldLi
       if (!sheet?.cellData) {
         continue
       }
-      const cellData = sheet.cellData as Record<string, any>
+      const cellData = sheet.cellData as Record<string, Record<string, ICellData> | undefined>
       for (const rowKey of Object.keys(cellData)) {
-        const row = cellData[rowKey] as Record<string, any> | undefined
+        const row = cellData[rowKey]
         if (!row) {
           continue
         }

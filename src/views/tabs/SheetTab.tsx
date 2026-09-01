@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import type { INumfmtLocaleTag } from '@univerjs/core'
+import type { ICellData, INumfmtLocaleTag } from '@univerjs/core'
 import { CommandType, LifecycleStages } from '@univerjs/core'
 import { AddOutgoingLinkCommand, AddRichOutgoingLinkCommand, CancelOutgoingLinkCommand, CancelRichOutgoingLinkCommand, OutgoingLinkCustomRangeType, SearchOutgoingLinkCommand, SearchResultOutgoingLinkCommand, SheetOutgoingLinkType, UpdateOutgoingLinkCommand, UpdateRichOutgoingLinkCommand } from '@ljcoder/sheets-outgoing-link'
 import type { INavigationOutgoingLinkOperationParams } from '@ljcoder/sheets-outgoing-link-ui'
@@ -215,12 +215,12 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
     const sheets = data?.sheets
     if (sheets) {
       for (const sheetId of Object.keys(sheets)) {
-        const cellData = sheets[sheetId]?.cellData as Record<string, any> | undefined
+        const cellData = sheets[sheetId]?.cellData as Record<string, Record<string, ICellData> | undefined>
         if (!cellData) {
           continue
         }
         for (const rowKey of Object.keys(cellData)) {
-          const row = cellData[rowKey] as Record<string, any> | undefined
+          const row = cellData[rowKey]
           if (!row) {
             continue
           }
