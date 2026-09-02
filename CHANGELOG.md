@@ -1,5 +1,12 @@
 
 
+## [2.13.2](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.13.1...2.13.2) (2026-09-02)
+
+
+### Bug Fixes
+
+* pause rendering for hidden sheet views ([a566cff](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/a566cff8e6e0e8ce429bec547ac5f245a3a6bc44))
+
 ## [2.13.1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.13.0...2.13.1) (2026-09-01)
 
 
