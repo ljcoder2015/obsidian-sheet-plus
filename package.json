@@ -23,6 +23,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test:render-visibility": "node --test tests/render-visibility.test.js",
+    "patch-built-render-idle": "node scripts/patch-built-render-idle.mjs",
     "patch-local": "node scripts/patch-local.js"
   },
   "dependencies": {

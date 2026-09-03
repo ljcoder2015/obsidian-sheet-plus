@@ -6,4 +6,5 @@ interface RenderVisibilityController {
 export function observeRenderVisibility(
   render: RenderVisibilityController,
   container: Element,
+  idleMs?: number,
 ): () => void
