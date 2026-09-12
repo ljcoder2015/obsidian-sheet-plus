@@ -4,9 +4,11 @@
 
 Sheet Plus was built to handle **real spreadsheet use cases inside Obsidian**
 
-Supports automated table processing via REST API. Enable the REST API, add MCP Server config in Claude, and you're ready to go.
+Run the DeepSeek Harness web UI inside Obsidian's WebView to automate spreadsheet data processing through the Sheet Plus REST API.
 
-![mcp](/images/mcp.gif)
+It also works with other AI agent tools such as OpenCode and Claudian. For usage details, see the [tutorial documentation](https://docs.ljcoder.com/guide/rest-api/deep-seek-harness.html).
+
+![dsh](/images/dsh.gif)
 
 Create interactive dashboards to visualize data
 
@@ -28,7 +30,7 @@ Create interactive dashboards to visualize data
 
 ## Advanced Features (License Required)
 
-- [REST API](https://docs.ljcoder.com/guide/rest-api/quick-start.html): Provides RESTful API endpoints, supporting automated processing through external AI clients like Claude Desktop.
+- [Agent Integrations](https://docs.ljcoder.com/guide/rest-api/quick-start.html): Automate spreadsheet data processing with AI agents such as DeepSeek Harness, OpenCode, Claudian, and more.
 - [Import & Export](https://docs.ljcoder.com/guide/features/import-export.html): Supports importing and exporting `xlsx` format files.
 - [Embed Chart Link](https://docs.ljcoder.com/guide/features/embed-chart-link.html): Embed a chart link in your notes, directly rendering spreadsheet data as charts
 - [Dashboard](https://docs.ljcoder.com/guide/Advanced%20Features/Dashboard/Introduction.html): Create interactive dashboards to visualize data.
