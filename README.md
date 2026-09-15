@@ -6,7 +6,7 @@ Sheet Plus was built to handle **real spreadsheet use cases inside Obsidian**
 
 Run the DeepSeek Harness web UI inside Obsidian's WebView to automate spreadsheet data processing through the Sheet Plus REST API.
 
-It also works with other AI agent tools such as OpenCode and Claudian. For usage details, see the [tutorial documentation](https://docs.ljcoder.com/guide/rest-api/deep-seek-harness.html).
+It also works with other AI agent tools such as Claude, OpenCode, Claudian, and more. For usage details, see the [tutorial documentation](https://docs.ljcoder.com/guide/rest-api/deep-seek-harness.html).
 
 ![dsh](/images/dsh.gif)
 
