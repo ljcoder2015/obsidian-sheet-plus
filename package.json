@@ -22,7 +22,7 @@
     "release": "release-it",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test:render-visibility": "node --test tests/render-visibility.test.js",
+    "test:render-visibility": "vitest run tests/render-visibility.test.js",
     "patch-local": "node scripts/patch-local.js"
   },
   "dependencies": {
@@ -94,7 +94,8 @@
     "release-it": "17.10.0",
     "rxjs": "catalog:",
     "simple-git-hooks": "2.11.1",
-    "vite": "catalog:"
+    "vite": "catalog:",
+    "vitest": "catalog:"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
