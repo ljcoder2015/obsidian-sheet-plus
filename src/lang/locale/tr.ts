@@ -1,3 +1,3 @@
 // Türkçe
 
-export default {};
+export default {}

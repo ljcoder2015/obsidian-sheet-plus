@@ -18,13 +18,12 @@ import { observeRenderVisibility } from '../univer/render-visibility'
 import { useEditorContext } from '../../context/editorContext'
 import { randomString } from '../../utils/uuid'
 import { deepClone, rangeToNumber } from '../../utils/data'
-import { Tools, getTheme } from '../../utils/tools'
+import { Tools, applyWorkbookDefaultFont, getTheme } from '../../utils/tools'
 import { t } from '../../lang/helpers'
 import { log } from '../../utils/log'
 import { useUniver } from '../../context/UniverContext'
 import { useSheetStore } from '../../context/SheetStoreProvider'
 import { IMAGES_UPDATE_ACTION, OUTGOING_LINKS_UPDATE_ACTION, SHEET_UPDATE_ACTION } from '../../services/reduce'
-import type { FontInfo } from '../../services/fontManager'
 
 // 会改变单元格外链的命令：执行后需从最新 workbook 重建 outgoingLinks，
 // 覆盖添加/编辑/删除/禅编辑器/快照替换等所有路径
@@ -76,7 +75,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
     }
 
     const mobileRenderMode = plugin.settings.mobileRenderMode
-    const { univerAPI, univer } = createUniver(plugin.availableFonts, options, containerRef.current, mobileRenderMode, darkMode)
+    const { univerAPI, univer } = createUniver(plugin.availableFonts, options, containerRef.current, mobileRenderMode, darkMode, false, plugin.settings.rtlDirection)
     univerRef.current = univer
     setUniverApi(univerAPI)
 
@@ -267,8 +266,11 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
         univerApi.createWorkbook(newSheet)
       }
       else {
-        univerApi.createWorkbook({ id: randomString(6), name: editor.file.path, locale })
+        const newWorkbook = { id: randomString(6), name: editor.file.path, locale }
+        univerApi.createWorkbook(newWorkbook)
       }
+      // 创建后立即应用默认字体：Univer 只消费 worksheet 级 defaultStyle，需对已创建的 worksheet 设置
+      applyWorkbookDefaultFont(univerRef.current, plugin.settings.defaultFontFamily)
       log('[SheetTab]', 'createWorkbook', state)
 
       // set number format local
@@ -291,14 +293,8 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
           switchTab()
         }
         if (res.stage === LifecycleStages.Steady) {
-          if (Platform.isMobileApp && plugin.settings.mobileRenderMode !== 'mobile') {
-            const fonts = plugin.availableFonts.map((font: FontInfo) => ({
-              value: font.name,
-              label: font.name,
-              isCustom: true,
-            }))
-            univerApi.addFonts(fonts)
-          }
+          // 自定义字体已通过 UniverUIPlugin 的 customFontFamily 配置注入（1.0.3 官方路径），
+          // 此处不再调用 addFonts（其内部 addFont 遇重复值会抛错中断整批）
         }
       })
 

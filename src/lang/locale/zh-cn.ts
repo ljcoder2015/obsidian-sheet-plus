@@ -74,6 +74,13 @@ export default {
   MOBILE_RENDER_MODE: '渲染模式',
   MOBILE_RENDER_MODE_DESC: '渲染模式, 选择 mobile 渲染成手机端样式, desktop 渲染成客户端样式',
 
+  RTL_DIRECTION: '布局方向',
+  RTL_DIRECTION_DESC: '设置界面布局方向。RTL 仅作用于界面层，重新打开表格后生效',
+
+  DEFAULT_FONT_FAMILY: '默认字体',
+  DEFAULT_FONT_FAMILY_DESC: '单元格内容的默认字体，重新打开表格后生效；工作簿已单独设置默认字体时不覆盖',
+  DEFAULT_FONT_FAMILY_NONE: '默认',
+
   AUTHORIZATION_CODE: '授权码',
   AUTHORIZATION_CODE_GET: '获取授权码',
   AUTHORIZATION_CODE_DESC: '输入授权码，激活高级功能',

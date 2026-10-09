@@ -42,7 +42,6 @@ import { UniverMobileUIPlugin, UniverUIPlugin } from '@univerjs/ui'
 
 import { AddRangeProtectionFromToolbarCommand, ChangeSheetProtectionFromSheetBarCommand, UniverSheetsMobileUIPlugin, UniverSheetsUIPlugin, ViewSheetPermissionFromContextMenuCommand, ViewSheetPermissionFromSheetBarCommand } from '@univerjs/sheets-ui'
 
-import { UniverSheetsZenEditorPlugin } from '@univerjs/sheets-zen-editor'
 import { UniverSheetsHyperLinkPlugin } from '@univerjs/sheets-hyper-link'
 
 import { UniverSheetsConditionalFormattingMobileUIPlugin, UniverSheetsConditionalFormattingUIPlugin } from '@univerjs/sheets-conditional-formatting-ui'
@@ -87,7 +86,7 @@ import { log } from '@ljcoder/smart-sheet/src/utils/log'
 import { SavePlugin } from '@ljcoder/save'
 import { UniverLocalImagePlugin } from '@ljcoder/local-image'
 import { enUS, faIR, frFR, getLanguage, ruRU, viVN, zhCN, zhTW } from '../../lang/locale'
-import type { FontInfo } from '../../services/fontManager'
+import { type FontInfo, buildFontConfigs } from '../../services/fontManager'
 import { LJAuthzService } from './mockUserService'
 import { mockUser } from './customMentionDataService'
 
@@ -98,6 +97,7 @@ export function createUniver(
   mobileRenderMode: string,
   darkMode: boolean,
   isEmbed: boolean = false,
+  direction: string = 'ltr',
 ) {
   const univer = new Univer({
     theme: defaultTheme,
@@ -113,6 +113,8 @@ export function createUniver(
       [LocaleType.VI_VN]: viVN,
       [LocaleType.FA_IR]: faIR,
     },
+    // 布局方向：仅 UI 层生效，渲染层不支持；非法值回退 LTR
+    direction: direction === 'rtl' ? 'rtl' : 'ltr',
     override: isEmbed ? [] : [[IAuthzIoService, { useClass: LJAuthzService }]],
   })
 
@@ -122,11 +124,14 @@ export function createUniver(
 
   log('[createUniver]', 'mobileRenderMode', mobileRenderMode)
   const mobileRender = mobileRenderMode === 'mobile'
+  // 字体列表走官方 customFontFamily 配置：FontService 首次实例化时与内置列表合并，
+  // 避免 addFonts 内部 addFont 遇重复值抛错中断
+  const fontConfigs = buildFontConfigs(availableFonts)
   if (mobileRender && !Platform.isDesktopApp) {
-    registerMobilePlugin(univer, option, container)
+    registerMobilePlugin(univer, option, container, fontConfigs)
   }
   else {
-    registerDesktopPlugin(univer, option, container)
+    registerDesktopPlugin(univer, option, container, fontConfigs)
   }
 
   // Monkey-patch CanvasColorService.getRenderColor：暗黑模式下某些颜色值（如数字格式产生的 "0"）无法被识别，
@@ -155,20 +160,10 @@ export function createUniver(
 
   const univerAPI = FUniver.newAPI(univer)
 
-  if (Platform.isDesktopApp && !mobileRender) {
-    // 手机端需要在渲染完成后注册字体
-    const fonts = availableFonts.map((font: FontInfo) => ({
-      value: font.name,
-      label: font.name,
-      isCustom: true,
-    }))
-    univerAPI.addFonts(fonts)
-  }
-
   return { univerAPI, univer }
 }
 
-function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, container: string | HTMLElement) {
+function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, container: string | HTMLElement, fontConfigs: Array<{ value: string, label: string }>) {
   univer.registerPlugin(UniverDocsPlugin)
   univer.registerPlugin(UniverRenderEnginePlugin)
 
@@ -179,7 +174,7 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, containe
     toolbar: option.toolbar,
     contextMenu: option.contextMenu,
     ribbonType: 'collapsed', // toolbar 样式
-    customFontFamily: option.customFontFamily,
+    customFontFamily: fontConfigs, // 自定义字体列表（FontService 构造时与内置列表合并）
   })
 
   univer.registerPlugin(UniverDocsUIPlugin)
@@ -260,9 +255,6 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, containe
   univer.registerPlugin(UniverSheetsConditionalFormattingPlugin)
   univer.registerPlugin(UniverSheetsConditionalFormattingUIPlugin)
 
-  // 禅编辑器
-  univer.registerPlugin(UniverSheetsZenEditorPlugin)
-
   // 十字高亮
   univer.registerPlugin(UniverSheetsCrosshairHighlightPlugin)
 
@@ -294,7 +286,7 @@ function registerDesktopPlugin(univer: Univer, option: IUniverUIConfig, containe
   univer.registerPlugin(SavePlugin)
 }
 
-function registerMobilePlugin(univer: Univer, option: IUniverUIConfig, container: string | HTMLElement) {
+function registerMobilePlugin(univer: Univer, option: IUniverUIConfig, container: string | HTMLElement, fontConfigs: Array<{ value: string, label: string }>) {
   // core plugins
   univer.registerPlugin(UniverDocsPlugin)
   univer.registerPlugin(UniverRenderEnginePlugin)
@@ -304,6 +296,7 @@ function registerMobilePlugin(univer: Univer, option: IUniverUIConfig, container
     header: option.header,
     footer: option.footer,
     toolbar: option.toolbar,
+    customFontFamily: fontConfigs, // 自定义字体列表（FontService 构造时与内置列表合并）
   })
 
   univer.registerPlugin(UniverDocsUIPlugin)

@@ -1,5 +1,7 @@
 import { moment } from 'obsidian'
-import { LocaleType, Tools } from '@univerjs/core'
+import { LocaleType } from '@univerjs/core'
+// Univer 1.0.3 的 Tools 已移除 deepMerge，改用项目内实现
+import { Tools } from '../utils/tools'
 
 import SheetsTableUIenUS from '@univerjs/sheets-table-ui/lib/es/locale/en-US'
 import SheetsTableUIfaIR from '@univerjs/sheets-table-ui/lib/es/locale/fa-IR'
@@ -210,13 +212,6 @@ import sheetsuiruRU from '@univerjs/sheets-ui/lib/es/locale/ru-RU'
 import sheetsuiviVN from '@univerjs/sheets-ui/lib/es/locale/vi-VN'
 import sheetsuizhCN from '@univerjs/sheets-ui/lib/es/locale/zh-CN'
 import sheetsuizhTW from '@univerjs/sheets-ui/lib/es/locale/zh-TW'
-import sheetszeneditorenUS from '@univerjs/sheets-zen-editor/lib/es/locale/en-US'
-import sheetszeneditorfaIR from '@univerjs/sheets-zen-editor/lib/es/locale/fa-IR'
-import sheetszeneditorfrFR from '@univerjs/sheets-zen-editor/lib/es/locale/fr-FR'
-import sheetszeneditorruRU from '@univerjs/sheets-zen-editor/lib/es/locale/ru-RU'
-import sheetszeneditorviVN from '@univerjs/sheets-zen-editor/lib/es/locale/vi-VN'
-import sheetszeneditorzhCN from '@univerjs/sheets-zen-editor/lib/es/locale/zh-CN'
-import sheetszeneditorzhTW from '@univerjs/sheets-zen-editor/lib/es/locale/zh-TW'
 import sheetsenUS from '@univerjs/sheets/lib/es/locale/en-US'
 import sheetsfaIR from '@univerjs/sheets/lib/es/locale/fa-IR'
 import sheetsfrFR from '@univerjs/sheets/lib/es/locale/fr-FR'
@@ -279,7 +274,6 @@ export const enUS = Tools.deepMerge(
   sheetssortuienUS,
   sheetsthreadcommentuienUS,
   sheetsuienUS,
-  sheetszeneditorenUS,
   threadcommentuienUS,
   uienUS,
   // v0.25.0: 新增 locale 合并
@@ -315,7 +309,6 @@ export const frFR = Tools.deepMerge(
   sheetssortuifrFR,
   sheetsthreadcommentuifrFR,
   sheetsuifrFR,
-  sheetszeneditorfrFR,
   threadcommentuifrFR,
   uifrFR,
   // v0.25.0: 新增 locale 合并
@@ -351,7 +344,6 @@ export const ruRU = Tools.deepMerge(
   sheetssortuiruRU,
   sheetsthreadcommentuiruRU,
   sheetsuiruRU,
-  sheetszeneditorruRU,
   threadcommentuiruRU,
   uiruRU,
   // v0.25.0: 新增 locale 合并
@@ -387,7 +379,6 @@ export const zhCN = Tools.deepMerge(
   sheetssortuizhCN,
   sheetsthreadcommentuizhCN,
   sheetsuizhCN,
-  sheetszeneditorzhCN,
   threadcommentuizhCN,
   uizhCN,
   // v0.25.0: 新增 locale 合并
@@ -423,7 +414,6 @@ export const zhTW = Tools.deepMerge(
   sheetssortuizhTW,
   sheetsthreadcommentuizhTW,
   sheetsuizhTW,
-  sheetszeneditorzhTW,
   threadcommentuizhTW,
   uizhTW,
   // v0.25.0: 新增 locale 合并
@@ -459,7 +449,6 @@ export const viVN = Tools.deepMerge(
   sheetssortuiviVN,
   sheetsthreadcommentuiviVN,
   sheetsuiviVN,
-  sheetszeneditorviVN,
   threadcommentuiviVN,
   uiviVN,
   // v0.25.0: 新增 locale 合并
@@ -495,7 +484,6 @@ export const faIR = Tools.deepMerge(
   sheetssortuifaIR,
   sheetsthreadcommentuifaIR,
   sheetsuifaIR,
-  sheetszeneditorfaIR,
   threadcommentuifaIR,
   uifaIR,
   // v0.25.0: 新增 locale 合并

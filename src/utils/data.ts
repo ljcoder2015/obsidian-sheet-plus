@@ -270,7 +270,8 @@ export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
   const blocks = new Map<string, unknown>()
 
   // --- code blocks ---
-  const blockRegex = /```([^\n]*)\n([\s\S]*?)```/g
+  // 闭合围栏 ``` 必须独占行首：正文中出现的 ```（如单元格内输入的 ```）不应提前闭合代码块
+  const blockRegex = /```([^\n]*)\n([\s\S]*?)\n[ \t]*```(?=\n|$)/g
   let isFirstBlock = true
   let match: RegExpExecArray | null
 

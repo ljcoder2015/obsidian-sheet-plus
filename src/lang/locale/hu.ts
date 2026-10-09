@@ -1,3 +1,3 @@
 // Magyar
 
-export default {};
+export default {}

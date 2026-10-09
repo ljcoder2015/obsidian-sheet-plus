@@ -1,8 +1,13 @@
 import type { App, SettingDefinitionItem } from 'obsidian'
 import { Notice, PluginSettingTab, Setting } from 'obsidian'
 import { update } from '@ljcoder/authorization'
+import { ConfigService } from '@univerjs/core'
+import { FontService, UI_PLUGIN_CONFIG_KEY } from '@univerjs/ui'
 import { t } from './lang/helpers'
 import type ExcelProPlugin from './main'
+import { VIEW_TYPE_EXCEL_PRO } from './common/constants'
+import type { ExcelProView } from './views/ExcelProView'
+import { buildFontConfigs } from './services/fontManager'
 import { fragWithHTML } from './utils/tools'
 
 export class ExcelProSettingTab extends PluginSettingTab {
@@ -11,6 +16,46 @@ export class ExcelProSettingTab extends PluginSettingTab {
   constructor(app: App, plugin: ExcelProPlugin) {
     super(app, plugin)
     this.plugin = plugin
+  }
+
+  // 默认字体下拉选项：与表格字体下拉同源——独立实例化 FontService，
+  // 复用其「Univer 内置列表 + customFontFamily」合并逻辑，保证两处列表完全一致
+  private getDefaultFontOptions(): Record<string, string> {
+    const configService = new ConfigService()
+    configService.setConfig(UI_PLUGIN_CONFIG_KEY, { customFontFamily: buildFontConfigs(this.plugin.availableFonts) })
+    const fontService = new FontService(configService)
+    try {
+      const options: Record<string, string> = { '': t('DEFAULT_FONT_FAMILY_NONE') }
+      for (const font of fontService.getFonts()) {
+        options[font.value] = font.value
+      }
+      return options
+    }
+    finally {
+      // 独立实例用完即弃：resetToDefaults + complete 订阅流，避免 Subject 泄漏
+      fontService.dispose()
+    }
+  }
+
+  // 字体目录输入防抖定时器：避免逐字符输入反复触发字体重扫与表格刷新
+  private fontFolderDebounce?: number
+
+  /**
+   * 字体目录变更处理：保存设置后防抖重扫字体并刷新已打开的表格，
+   * 使自定义字体无需重载插件即可出现在工具栏字体下拉中
+   */
+  private handleFontFolderChange(value: string) {
+    this.plugin.settings.fontFolder = value.trim()
+    void this.plugin.saveSettings()
+    window.clearTimeout(this.fontFolderDebounce)
+    this.fontFolderDebounce = window.setTimeout(() => {
+      void this.plugin.loadFonts().then(() => {
+        this.plugin.app.workspace.getLeavesOfType(VIEW_TYPE_EXCEL_PRO).forEach((leaf) => {
+          const view = leaf.view as ExcelProView
+          view.refresh()
+        })
+      })
+    }, 600)
   }
 
   // Obsidian 1.13.0+ 声明式设置定义：与 display() 保持同步，启用设置全局搜索。
@@ -162,6 +207,36 @@ export class ExcelProSettingTab extends PluginSettingTab {
             control: { type: 'dropdown', key: 'mobileRenderMode', options: { mobile: 'Mobile', desktop: 'Desktop' } },
           },
           {
+            name: t('RTL_DIRECTION'),
+            desc: t('RTL_DIRECTION_DESC'),
+            control: { type: 'dropdown', key: 'rtlDirection', options: { ltr: 'LTR', rtl: 'RTL' } },
+          },
+          {
+            name: t('FONT_FOLDER'),
+            desc: t('FONT_FOLDER_DESC'),
+            // 保留 display() 的 trim 行为，因此用 render 手动写回
+            render: (setting) => {
+              setting.addText(text =>
+                text
+                  .setPlaceholder('fonts')
+                  .setValue(this.plugin.settings.fontFolder)
+                  .onChange(value => this.handleFontFolderChange(value)),
+              )
+            },
+          },
+          {
+            name: t('DEFAULT_FONT_FAMILY'),
+            desc: t('DEFAULT_FONT_FAMILY_DESC'),
+            control: { type: 'dropdown', key: 'defaultFontFamily', options: this.getDefaultFontOptions() },
+          },
+        ],
+      },
+      {
+        type: 'group',
+        // 授权码独立分组：与购买链接放在一起
+        heading: t('AUTHORIZATION_CODE'),
+        items: [
+          {
             name: t('AUTHORIZATION_CODE'),
             desc: t('AUTHORIZATION_CODE_DESC'),
             // render 回调不自动保存，需手动写回并持久化
@@ -195,32 +270,16 @@ export class ExcelProSettingTab extends PluginSettingTab {
             },
           },
           {
-            name: t('FONT_FOLDER'),
-            desc: t('FONT_FOLDER_DESC'),
-            // 保留 display() 的 trim 行为，因此用 render 手动写回
+            // 购买链接（与原页脚内容一致）
+            name: '',
             render: (setting) => {
-              setting.addText(text =>
-                text
-                  .setPlaceholder('fonts')
-                  .setValue(this.plugin.settings.fontFolder)
-                  .onChange(async (value) => {
-                    this.plugin.settings.fontFolder = value.trim()
-                    await this.plugin.saveSettings()
-                  }),
-              )
+              setting.settingEl.empty()
+              setting.settingEl.createEl('hr')
+              const linksEl = setting.settingEl.createDiv('authorization-code-container')
+              linksEl.createEl('a', { href: 'https://docs.ljcoder.com/price/activate/en.html', text: t('AUTHORIZATION_CODE_GET') })
             },
           },
         ],
-      },
-      {
-        // 页脚：授权链接（与原 display() 底部内容一致）
-        name: '',
-        render: (setting) => {
-          setting.settingEl.empty()
-          setting.settingEl.createEl('hr')
-          const linksEl = setting.settingEl.createDiv('authorization-code-container')
-          linksEl.createEl('a', { href: 'https://docs.ljcoder.com/price/activate/en.html', text: t('AUTHORIZATION_CODE_GET') })
-        },
       },
     ]
   }
@@ -476,6 +535,53 @@ export class ExcelProSettingTab extends PluginSettingTab {
       )
 
     new Setting(containerEl)
+      .setName(t('RTL_DIRECTION'))
+      .setDesc(t('RTL_DIRECTION_DESC'))
+      .addDropdown(dropdown =>
+        dropdown
+          .addOption('ltr', 'LTR')
+          .addOption('rtl', 'RTL')
+          .setValue(this.plugin.settings.rtlDirection)
+          .onChange(async (value) => {
+            this.plugin.settings.rtlDirection = value
+            await this.plugin.saveSettings()
+          }),
+      )
+
+    // 字体目录
+    new Setting(containerEl)
+      .setName(t('FONT_FOLDER'))
+      .setDesc(t('FONT_FOLDER_DESC'))
+      .addText(text =>
+        text
+          .setPlaceholder('fonts')
+          .setValue(this.plugin.settings.fontFolder)
+          .onChange(value => this.handleFontFolderChange(value)),
+      )
+
+    // 默认字体
+    new Setting(containerEl)
+      .setName(t('DEFAULT_FONT_FAMILY'))
+      .setDesc(t('DEFAULT_FONT_FAMILY_DESC'))
+      .addDropdown((dropdown) => {
+        const options = this.getDefaultFontOptions()
+        for (const [value, label] of Object.entries(options)) {
+          dropdown.addOption(value, label)
+        }
+        dropdown
+          .setValue(this.plugin.settings.defaultFontFamily)
+          .onChange(async (value) => {
+            this.plugin.settings.defaultFontFamily = value
+            await this.plugin.saveSettings()
+          })
+      })
+
+    // 授权码独立区块：与购买链接放在一起
+    new Setting(containerEl)
+      .setName(t('AUTHORIZATION_CODE'))
+      .setHeading()
+
+    new Setting(containerEl)
       .setName(t('AUTHORIZATION_CODE'))
       .setDesc(t('AUTHORIZATION_CODE_DESC'))
       .addTextArea(text =>
@@ -505,20 +611,6 @@ export class ExcelProSettingTab extends PluginSettingTab {
             }
           })
       })
-
-    // 字体目录
-    new Setting(containerEl)
-      .setName(t('FONT_FOLDER'))
-      .setDesc(t('FONT_FOLDER_DESC'))
-      .addText(text =>
-        text
-          .setPlaceholder('fonts')
-          .setValue(this.plugin.settings.fontFolder)
-          .onChange(async (value) => {
-            this.plugin.settings.fontFolder = value.trim()
-            await this.plugin.saveSettings()
-          }),
-      )
 
     containerEl.createEl('hr')
 

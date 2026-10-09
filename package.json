@@ -73,7 +73,6 @@
     "@univerjs/sheets-thread-comment": "catalog:",
     "@univerjs/sheets-thread-comment-ui": "catalog:",
     "@univerjs/sheets-ui": "catalog:",
-    "@univerjs/sheets-zen-editor": "catalog:",
     "@univerjs/themes": "catalog:",
     "@univerjs/thread-comment": "catalog:",
     "@univerjs/thread-comment-ui": "catalog:",
@@ -102,9 +101,7 @@
       "esbuild"
     ],
     "patchedDependencies": {
-      "immediate@3.0.6": "patches/immediate@3.0.6.patch",
-      "localforage@1.10.0": "patches/localforage@1.10.0.patch",
-      "@univerjs/sheets-table@0.25.0": "patches/@univerjs__sheets-table@0.25.0.patch"
+      "immediate@3.0.6": "patches/immediate@3.0.6.patch"
     }
   },
   "simple-git-hooks": {

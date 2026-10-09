@@ -32,7 +32,8 @@ export function parseMarkdown(md: string, filePath?: string): ParsedMarkdown {
   const blocks = new Map<string, unknown>()
 
   // --- code blocks ---
-  const blockRegex = /```([^\n]*)\n([\s\S]*?)```/g
+  // 闭合围栏 ``` 必须独占行首：正文中出现的 ```（如单元格内输入的 ```）不应提前闭合代码块
+  const blockRegex = /```([^\n]*)\n([\s\S]*?)\n[ \t]*```(?=\n|$)/g
   let isFirstBlock = true
   let match = blockRegex.exec(restMd)
 
@@ -144,6 +145,16 @@ export function toMarkdown(state: SheetStoreState): string | null {
 }
 
 /**
+ * 转义代码块正文中的反引号。
+ * 反引号不是 JSON 特殊字符，会原样出现在序列化文本里，从而提前闭合 ``` 代码块，
+ * 导致解析时正则截断、JSON.parse 失败；用等效的 \u0060 转义序列替代后，
+ * JSON.parse 会自动还原为反引号，保证读写往返一致。
+ */
+function escapeBackticks(body: string): string {
+  return body.replace(/`/g, () => '\\u0060')
+}
+
+/**
  * 将 header + blocks 生成文件存储的字符串
  */
 export function stringifyMarkdown({ header, blocks, compact = true }: { header?: ParsedHeader, blocks?: Map<string, unknown>, compact?: boolean }): string | null {
@@ -197,8 +208,8 @@ export function stringifyMarkdown({ header, blocks, compact = true }: { header?:
             body = String(content)
           }
         }
-        // 用 String.raw 包装，避免 Obsidian 转义
-        blocksStr += `\`\`\`${type}\n${String.raw`${body}`}\n\`\`\`\n\n`
+        // 转义反引号，避免正文中的 ``` 提前闭合代码块（见 escapeBackticks）
+        blocksStr += `\`\`\`${type}\n${escapeBackticks(body)}\n\`\`\`\n\n`
       }
     }
   }

@@ -51,6 +51,8 @@ const localeMap: { [k: string]: Partial<typeof en> } = {
   tr,
   'zh-cn': zhCN,
   'zh-tw': zhTW,
+  // 香港繁体：Univer 官方 zh-HK 亦基于 zh-TW，设置界面直接复用繁体文案
+  'zh-hk': zhTW,
 }
 
 const locale = localeMap[moment.locale()]

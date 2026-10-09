@@ -71,6 +71,13 @@ export default {
   MOBILE_RENDER_MODE: 'Render Mode',
   MOBILE_RENDER_MODE_DESC: 'Render mode: select mobile to render in mobile style, and desktop to render in desktop client style.',
 
+  RTL_DIRECTION: 'Layout direction',
+  RTL_DIRECTION_DESC: 'Set the layout direction. RTL applies to the UI layer only; reopen the sheet to take effect.',
+
+  DEFAULT_FONT_FAMILY: 'Default font',
+  DEFAULT_FONT_FAMILY_DESC: 'Default font for cell content. It is applied to workbooks without their own default font; reopen the sheet to take effect.',
+  DEFAULT_FONT_FAMILY_NONE: 'Default',
+
   NUMBER_FORMAT_LOCALE: 'Number format locale settings',
   NUMBER_FORMAT_LOCALE_DESC: 'Set the locale for number formatting',
 

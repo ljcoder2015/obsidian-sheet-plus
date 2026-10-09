@@ -17,7 +17,8 @@ export interface ExcelProSettings {
   darkModal: string
   isBigSheet: string
   fontFolder: string
-  selectedFontName: string
+  rtlDirection: string // 'ltr' 从左到右 | 'rtl' 从右到左
+  defaultFontFamily: string
 }
 
 export const DEFAULT_SETTINGS: ExcelProSettings = {
@@ -39,5 +40,6 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   darkModal: 'light',
   isBigSheet: 'false',
   fontFolder: '',
-  selectedFontName: '',
+  rtlDirection: 'ltr',
+  defaultFontFamily: '',
 }

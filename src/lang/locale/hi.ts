@@ -1,3 +1,3 @@
 // हिन्दी
 
-export default {};
+export default {}

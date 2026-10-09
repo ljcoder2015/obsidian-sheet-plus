@@ -106,6 +106,8 @@ export default class ExcelProPlugin extends Plugin {
   }
 
   onunload() {
+    // 清理已 adopt 的字体 sheet：插件禁用/重载后不遗留旧 @font-face 在 document 上累积
+    this.fontManager?.unloadAllFonts()
     // 解决 Redi 重复注入报错
     // @ts-expect-error
     // window.global.REDI_CONTEXT_LOCK = false
@@ -113,8 +115,15 @@ export default class ExcelProPlugin extends Plugin {
     // window.global.REDI_GLOBAL_LOCK = false
   }
 
-  private async loadFonts() {
-    this.fontManager = new FontManager(this.app)
+  // 供设置页在字体目录变更后重新扫描字体
+  async loadFonts() {
+    // 复用实例：重建会丢弃 loadedFonts 缓存，旧 sheet 将永久遗留在 document 上累积
+    if (!this.fontManager) {
+      this.fontManager = new FontManager(this.app)
+    }
+    else {
+      this.fontManager.unloadAllFonts()
+    }
     // 未配置字体文件夹则跳过
     if (!this.settings.fontFolder) {
       this.availableFonts = []

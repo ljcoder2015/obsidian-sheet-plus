@@ -1,3 +1,3 @@
 // Español
 
-export default {};
+export default {}

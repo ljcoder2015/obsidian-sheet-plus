@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { LocaleType } from '@univerjs/core'
+import type { Univer, Workbook } from '@univerjs/core'
+import { IUniverInstanceService, LocaleType, UniverInstanceType } from '@univerjs/core'
 import { Platform } from 'obsidian'
 
 const rmsPrefix = /^-ms-/
@@ -617,4 +618,25 @@ export function getTheme(el: HTMLElement): 'dark' | 'light' {
   if (activeDocument.body.classList.contains('theme-dark'))
     return 'dark'
   return 'light'
+}
+
+/**
+ * 把设置的默认字体应用到工作簿所有 worksheet 的默认样式（defaultStyle.ff）。
+ * 必须在 createWorkbook 之后调用：Univer 只消费 worksheet 级 defaultStyle
+ * （getDefaultCellStyleInternal 读取的是 worksheet 快照），workbook 级字段无运行时消费点。
+ * 仅当 worksheet 未显式指定默认字体时生效，避免覆盖工作簿自身保存的字体设置。
+ */
+export function applyWorkbookDefaultFont(univer: Univer | null | undefined, fontFamily: string): void {
+  if (!fontFamily || !univer)
+    return
+  const workbook = univer.__getInjector().get(IUniverInstanceService).getCurrentUnitOfType<Workbook>(UniverInstanceType.UNIVER_SHEET)
+  if (!workbook)
+    return
+  for (const worksheet of workbook.getSheets()) {
+    const style = worksheet.getDefaultCellStyle()
+    // defaultStyle 也可能是指向命名样式的字符串 id，此时不做处理
+    if (typeof style === 'string' || style?.ff)
+      continue
+    worksheet.setDefaultCellStyle({ ...style, ff: fontFamily })
+  }
 }

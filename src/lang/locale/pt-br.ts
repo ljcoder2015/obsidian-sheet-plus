@@ -1,4 +1,4 @@
 // Português do Brasil
 // Brazilian Portuguese
 
-export default {};
+export default {}

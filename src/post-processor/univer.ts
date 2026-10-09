@@ -3,6 +3,7 @@ import type { Univer } from '@univerjs/core'
 import { log, warn } from '@ljcoder/smart-sheet/src/utils/log'
 import type { FUniver } from '@univerjs/core/facade'
 import { randomString } from '../utils/uuid'
+import { applyWorkbookDefaultFont } from '../utils/tools'
 import { createUniver } from '../views/univer/setup-univer'
 import type ExcelProPlugin from '../main'
 
@@ -133,7 +134,7 @@ async function initUniver(el: HTMLDivElement, id: string, data: IWorkbookData | 
     footer: showFooter,
   }
   const darkMode = plugin.settings.darkModal === 'dark'
-  const { univerAPI, univer } = createUniver(plugin.availableFonts, options, id, plugin.settings.mobileRenderMode, darkMode, true)
+  const { univerAPI, univer } = createUniver(plugin.availableFonts, options, id, plugin.settings.mobileRenderMode, darkMode, true, plugin.settings.rtlDirection)
 
   embedUniverMap.set(id, { univerAPI, univer })
 
@@ -145,6 +146,8 @@ async function initUniver(el: HTMLDivElement, id: string, data: IWorkbookData | 
   else {
     univerAPI.createWorkbook({})
   }
+  // 创建后立即应用默认字体：Univer 只消费 worksheet 级 defaultStyle，需对已创建的 worksheet 设置
+  applyWorkbookDefaultFont(univer, plugin.settings.defaultFontFamily)
 
   const activeWorkbook = univerAPI.getActiveWorkbook()
 
