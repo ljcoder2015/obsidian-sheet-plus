@@ -97,14 +97,6 @@
     "vite": "catalog:",
     "vitest": "catalog:"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ],
-    "patchedDependencies": {
-      "immediate@3.0.6": "patches/immediate@3.0.6.patch"
-    }
-  },
   "simple-git-hooks": {
     "pre-commit": "npx eslint --fix --cache && git add -u"
   }
