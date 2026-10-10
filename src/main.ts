@@ -51,13 +51,15 @@ export default class ExcelProPlugin extends Plugin {
   public declare settings: ExcelProSettings
   public fontManager: FontManager
   public availableFonts: FontInfo[] = []
+  private settingTab: ExcelProSettingTab
   private _loaded = false
 
   async onload() {
     // 加载设置
     await this.loadSettings()
 
-    this.addSettingTab(new ExcelProSettingTab(this.app, this))
+    this.settingTab = new ExcelProSettingTab(this.app, this)
+    this.addSettingTab(this.settingTab)
 
     this.registerView(
       VIEW_TYPE_EXCEL_PRO,
@@ -88,7 +90,11 @@ export default class ExcelProPlugin extends Plugin {
 
     this.registerCommands()
 
-    void this.loadFonts()
+    void this.loadFonts().then(() => {
+      // 字体是异步加载的，晚于 addSettingTab 触发的设置定义缓存；
+      // 需重算定义，否则设置页「默认字体」下拉缺少自定义字体
+      this.settingTab.update()
+    })
 
     this.registerEvent(
       this.app.workspace.on('css-change', () => {

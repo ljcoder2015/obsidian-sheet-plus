@@ -50,6 +50,8 @@ export class ExcelProSettingTab extends PluginSettingTab {
     window.clearTimeout(this.fontFolderDebounce)
     this.fontFolderDebounce = window.setTimeout(() => {
       void this.plugin.loadFonts().then(() => {
+        // 自定义字体列表已变化，重算设置定义以刷新「默认字体」下拉的可选字体
+        this.update()
         this.plugin.app.workspace.getLeavesOfType(VIEW_TYPE_EXCEL_PRO).forEach((leaf) => {
           const view = leaf.view as ExcelProView
           view.refresh()
