@@ -1,5 +1,17 @@
 
 
+# [3.0.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.13.2...3.0.0) (2026-10-10)
+
+
+### Bug Fixes
+
+* **settings:** include custom fonts in default font dropdown ([d3baa14](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/d3baa14e5a8bff9b3d064691989dfd950cd1b368))
+
+
+### Features
+
+* adapt to Univer 1.0.3 with worksheet-level default font and locale updates ([174f3a7](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/174f3a7912aa2e65194a58b2e28f97ca65c6eaa8))
+
 ## [2.13.2](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.13.1...2.13.2) (2026-09-02)
 
 
