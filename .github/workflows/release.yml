@@ -1,0 +1,172 @@
+name: Release
+
+# Cutting a release finishes with the plugin bundle -- main.js, manifest.json and
+# styles.css -- attached to the GitHub Release. Obsidian installs the plugin from
+# those three assets, so a release without them is unusable.
+#
+# There are two ways to get there:
+#
+#   workflow_dispatch -- the release is cut here. release-it bumps the version,
+#     rebuilds through its `after:bump` hook, commits, tags, pushes and creates
+#     the GitHub Release; the final step then uploads the bundle.
+#
+#   release: published -- release-it already ran somewhere else (your machine,
+#     usually) and created the release. This job checks the tag out again,
+#     rebuilds it and attaches the bundle to the release that already exists.
+#
+# A release created by the first path is deliberately not carried over into the
+# second: events raised by a workflow's own GITHUB_TOKEN never start another
+# run. That is why the first job uploads the assets itself rather than leaning
+# on the second one.
+
+on:
+  workflow_dispatch:
+    inputs:
+      increment:
+        description: Version increment passed to release-it
+        type: choice
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
+          - premajor
+          - preminor
+          - prepatch
+          - prerelease
+      dry_run:
+        description: Rehearse only -- no commit, no tag, no release
+        type: boolean
+        default: false
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Cut a release with release-it
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Only release from master
+        run: |
+          if [ "$GITHUB_REF_NAME" != "master" ]; then
+            echo "::error::Releases are cut from master, but this run is on $GITHUB_REF_NAME."
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # release-it needs the tags to work out the changelog, and it pushes
+          # the release commit back.
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.5
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      # No lockfile is committed here on purpose: this package is normally
+      # installed by the obsidian-smart-sheet workspace, and a second lockfile
+      # would only drift away from it.
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Configure the git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: release-it
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          args="${{ inputs.increment }}"
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            args="--dry-run $args"
+          fi
+          pnpm run release -- --ci $args
+
+      - name: Read back the released tag
+        id: released
+        if: ${{ !inputs.dry_run }}
+        run: echo "tag=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      # release-it's `after:bump` hook already builds, so this is a guard rather
+      # than the normal path: it keeps the workflow honest if that hook ever
+      # stops building.
+      - name: Make sure the bundle exists
+        if: ${{ !inputs.dry_run }}
+        run: |
+          if [ ! -f dist/main.js ]; then
+            echo "dist/main.js is missing after release-it -- building it here."
+            pnpm build
+          fi
+
+      - name: Upload main.js, manifest.json and styles.css
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.released.outputs.tag }}
+        run: |
+          gh release upload "$TAG" \
+            dist/main.js dist/manifest.json dist/styles.css \
+            --clobber
+
+  attach-assets:
+    name: Attach the bundle to an existing release
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name }}
+    steps:
+      - name: Checkout the released tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.5
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Check the built manifest matches the tag
+        run: |
+          version="$(node -p "require('./dist/manifest.json').version")"
+          if [ "$version" != "$TAG" ]; then
+            echo "::error::Release $TAG would ship a manifest.json declaring $version."
+            exit 1
+          fi
+          echo "manifest.json declares $version, matching $TAG."
+
+      - name: Upload main.js, manifest.json and styles.css
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "$TAG" \
+            dist/main.js dist/manifest.json dist/styles.css \
+            --clobber
