@@ -51,8 +51,26 @@ function generate(isDev?: boolean) {
         isDesktopOnly: false,
       }, null, 2)}
 `)
-      await copyFile(resolve(buildDir, 'manifest.json'), join(parentDir, 'manifest.json'))
-      await copyFile(resolve(buildDir, 'manifest.json'), join(process.cwd(), 'manifest.json'))
+      // 这两句写的是构建目录以外的位置，不属于产物本身，失败时不应该让整个 build 挂掉：
+      // 尤其 copy 到 parentDir 那句，一旦父目录不可写（例如在 /tmp 之类的布局下），
+      // 抛出会中断 writeBundle，后面的 style.css → styles.css 重命名就不会再执行。
+      // 两句分别兜底，避免一句失败把另一句（写回本仓库根目录的那份）也带着跳过。
+      try {
+        await copyFile(resolve(buildDir, 'manifest.json'), join(parentDir, 'manifest.json'))
+        // eslint-disable-next-line no-console
+        console.log('Copied manifest.json to parent directory')
+      }
+      catch (error) {
+        console.error('Error copying manifest.json to parent directory:', error)
+      }
+      try {
+        await copyFile(resolve(buildDir, 'manifest.json'), join(process.cwd(), 'manifest.json'))
+        // eslint-disable-next-line no-console
+        console.log('Copied manifest.json to working directory')
+      }
+      catch (error) {
+        console.error('Error copying manifest.json to working directory:', error)
+      }
       // 检查style.css文件是否存在
       const styleCssPath = resolve(buildDir, 'style.css')
       const stylesCssPath = resolve(buildDir, 'styles.css')
