@@ -2,12 +2,10 @@ import { copyFile, rename, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import process from 'node:process'
 import { defineConfig } from 'vite'
-import dotenv from 'dotenv'
 import { univerPlugin } from '@univerjs/vite-plugin'
 
 import pkg from './package.json'
 
-dotenv.config()
 let buildDir = process.env.DIST_DIR ?? 'dist'
 
 // 清理产物中的动态 script 创建（来自 setimmediate/immediate 的 IE6-8 polyfill）
