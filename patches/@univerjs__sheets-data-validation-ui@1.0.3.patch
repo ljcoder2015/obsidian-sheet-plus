@@ -1,0 +1,29 @@
+diff --git a/lib/es/index.js b/lib/es/index.js
+index 2fe050e..d54cfb4 100644
+--- a/lib/es/index.js
++++ b/lib/es/index.js
+@@ -1308,7 +1308,23 @@ let DataValidationCopyPasteController = class DataValidationCopyPasteController
+ 		const targetVirtualRange = targetVirtualization.ranges[0];
+ 		const repeatRange = getRepeatRange(sourceVirtualRange, targetVirtualRange, true);
+ 		const clearTargetRanges = targetVirtualization.mapRange(targetVirtualRange);
+-		const getTargetRanges = (sourceRanges) => repeatRange.flatMap(({ startRange }) => sourceRanges.flatMap((sourceRange) => targetVirtualization.mapRange(Rectangle.getPositionRange(sourceRange, startRange))));
++		/**
++		* `sourceRange` is already an absolute range inside the source domain (it comes from
++		* `projectRange` in `_collect`), while `startRange` is the anchor of the current
++		* repeat. The two must be combined with a plain translation.
++		* `Rectangle.getPositionRange` must NOT be used here: it expects a *relative* range
++		* and computes `end = end + start + origin`, double-counting the origin row/column.
++		* That pushed the mapped range past the end of the target domain, `mapRange` then
++		* emitted a range whose column was `undefined`, and `Rectangle.mergeRanges` threw
++		* `Cannot read properties of undefined (reading 'sort')` while grouping it.
++		*/
++		const translateSourceRange = (sourceRange, startRange) => ({
++			startRow: sourceRange.startRow + startRange.startRow,
++			endRow: sourceRange.endRow + startRange.startRow,
++			startColumn: sourceRange.startColumn + startRange.startColumn,
++			endColumn: sourceRange.endColumn + startRange.startColumn
++		});
++		const getTargetRanges = (sourceRanges) => repeatRange.flatMap(({ startRange }) => sourceRanges.flatMap((sourceRange) => targetVirtualization.mapRange(translateSourceRange(sourceRange, startRange))));
+ 		if (pastedUnitId !== copyUnitId || pastedSubUnitId !== copySubUnitId) {
+ 			const ruleMatrix = this._sheetDataValidationModel.getRuleObjectMatrix(pastedUnitId, pastedSubUnitId).clone();
+ 			const additionRules = /* @__PURE__ */ new Map();

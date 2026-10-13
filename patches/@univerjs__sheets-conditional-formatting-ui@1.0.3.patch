@@ -1,0 +1,21 @@
+diff --git a/lib/es/index.js b/lib/es/index.js
+index 12e5abd..4f9a7de 100644
+--- a/lib/es/index.js
++++ b/lib/es/index.js
+@@ -1352,7 +1352,15 @@ let ConditionalFormattingCopyPasteController = class ConditionalFormattingCopyPa
+ 				add: [],
+ 				remove: []
+ 			});
+-			effectedConditionalFormattingRuleRanges.get(effectKey).add.push(...repeatRange.flatMap((item) => sourceRanges.flatMap((sourceRange) => targetVirtualization.mapRange(Rectangle.getPositionRange(sourceRange, item.startRange)))));
++			// Same defect as in the data-validation paste controller: `sourceRange` is absolute
++			// inside the source domain, so it must be translated instead of being handed to
++			// `Rectangle.getPositionRange`, which double-counts the range start.
++			effectedConditionalFormattingRuleRanges.get(effectKey).add.push(...repeatRange.flatMap((item) => sourceRanges.flatMap((sourceRange) => targetVirtualization.mapRange({
++				startRow: sourceRange.startRow + item.startRange.startRow,
++				endRow: sourceRange.endRow + item.startRange.startRow,
++				startColumn: sourceRange.startColumn + item.startRange.startColumn,
++				endColumn: sourceRange.endColumn + item.startRange.startColumn
++			}))));
+ 		});
+ 		const redos = [];
+ 		const undos = [];

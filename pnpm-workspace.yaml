@@ -1,0 +1,9 @@
+patchedDependencies:
+  immediate@3.0.6: patches/immediate@3.0.6.patch
+  lie@3.3.0: patches/lie@3.3.0.patch
+  '@univerjs/sheets-ui@1.0.3': patches/@univerjs__sheets-ui@1.0.3.patch
+  '@univerjs/sheets-data-validation-ui@1.0.3': patches/@univerjs__sheets-data-validation-ui@1.0.3.patch
+  '@univerjs/sheets-conditional-formatting-ui@1.0.3': patches/@univerjs__sheets-conditional-formatting-ui@1.0.3.patch
+
+onlyBuiltDependencies:
+  - esbuild
