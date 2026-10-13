@@ -41,7 +41,7 @@ function generate(isDev?: boolean) {
         id: pkg.name,
         name: 'Sheet Plus',
         version: pkg.version,
-        minAppVersion: '1.5.11',
+        minAppVersion: '1.13.0',
         description: pkg.description,
         author: pkg.author,
         authorUrl: 'https://github.com/ljcoder2015',
