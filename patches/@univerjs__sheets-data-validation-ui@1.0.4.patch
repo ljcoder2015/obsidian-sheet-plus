@@ -1,5 +1,5 @@
 diff --git a/lib/es/index.js b/lib/es/index.js
-index 2fe050e..d54cfb4 100644
+index 135aad3..504f639 100644
 --- a/lib/es/index.js
 +++ b/lib/es/index.js
 @@ -1308,7 +1308,23 @@ let DataValidationCopyPasteController = class DataValidationCopyPasteController

@@ -1,5 +1,5 @@
 diff --git a/lib/es/index.js b/lib/es/index.js
-index 12e5abd..4f9a7de 100644
+index 42f3dfc..c9502a0 100644
 --- a/lib/es/index.js
 +++ b/lib/es/index.js
 @@ -1352,7 +1352,15 @@ let ConditionalFormattingCopyPasteController = class ConditionalFormattingCopyPa

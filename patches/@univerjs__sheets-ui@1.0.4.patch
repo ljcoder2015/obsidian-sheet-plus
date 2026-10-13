@@ -1,0 +1,18 @@
+diff --git a/lib/es/index.js b/lib/es/index.js
+index 5ae414a..96df74b 100644
+--- a/lib/es/index.js
++++ b/lib/es/index.js
+@@ -94,7 +94,12 @@ function whenEditorDidNotInputFormulaActivated(contextService) {
+ //#region src/controllers/utils/range-tools.ts
+ function groupConsecutive(values, start, end) {
+ 	const groups = [];
+-	for (let index = start; index <= end; index++) {
++	// `start` and `end` are indexes into `values`, but a caller may ask for a range
++	// that reaches past the end of the domain. Reading `values[index]` out of bounds
++	// yields `undefined`, which used to produce a bogus group with an `undefined`
++	// start/end; such ranges later made `Rectangle.mergeRanges` throw while it grouped
++	// them by `startColumn`.
++	for (let index = Math.max(0, start); index <= Math.min(end, values.length - 1); index++) {
+ 		const value = values[index];
+ 		const previous = groups[groups.length - 1];
+ 		if (previous && value === previous.end + 1) previous.end = value;
