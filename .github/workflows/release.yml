@@ -18,6 +18,24 @@ name: Release
 # second: events raised by a workflow's own GITHUB_TOKEN never start another
 # run. That is why the first job uploads the assets itself rather than leaning
 # on the second one.
+#
+# Two traps are worked around below. Both of them end the same way -- no new
+# version is cut and the assets of the release that is already published get
+# overwritten instead:
+#
+#   `pnpm run release -- --ci patch` hands release-it the argv
+#     ["--", "--ci", "patch"]: pnpm forwards the `--` itself, yargs stops
+#     parsing options at it, so `--ci` ends up as a positional argument and
+#     `increment` becomes the literal string "--ci". release-it then finds no
+#     usable increment at all, prints "No new version to release" and exits 0
+#     without touching anything. Hence `pnpm exec release-it ...` below, which
+#     passes its arguments through untouched.
+#
+#   A release-it run that does nothing still exits 0, and says so only on
+#     stdout. So the version is captured before the run and checked afterwards,
+#     together with the tag it is supposed to have created. Without that check
+#     the upload step reads the unchanged version back out of package.json and
+#     clobbers the release that is already published under that tag.
 
 on:
   workflow_dispatch:
@@ -89,6 +107,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      - name: Remember the version we are releasing from
+        id: before
+        if: ${{ !inputs.dry_run }}
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      # `pnpm exec`, not `pnpm run release -- ...`: the latter hands release-it
+      # an argv that starts with `--`, which yargs reads as "end of options" and
+      # turns the increment into the literal string "--ci". See the note at the
+      # top of this file.
       - name: release-it
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -97,12 +124,30 @@ jobs:
           if [ "${{ inputs.dry_run }}" = "true" ]; then
             args="--dry-run $args"
           fi
-          pnpm run release -- --ci $args
+          pnpm exec release-it --ci $args
 
-      - name: Read back the released tag
+      # release-it exits 0 when it concludes there is nothing to release, and it
+      # only says so on stdout. Fail loudly here rather than letting the upload
+      # step push this build over the release still published under the old tag.
+      - name: Check that a new release was actually cut
         id: released
         if: ${{ !inputs.dry_run }}
-        run: echo "tag=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ "$version" = "${{ steps.before.outputs.version }}" ]; then
+            echo "::error::release-it left the version at $version -- nothing was released."
+            exit 1
+          fi
+          if ! git rev-parse -q --verify "refs/tags/$version" >/dev/null; then
+            echo "::error::release-it did not create the tag $version."
+            exit 1
+          fi
+          if [ "$(git rev-parse "$version^{commit}")" != "$(git rev-parse HEAD)" ]; then
+            echo "::error::tag $version does not point at HEAD."
+            exit 1
+          fi
+          echo "Released ${{ steps.before.outputs.version }} -> $version."
+          echo "tag=$version" >> "$GITHUB_OUTPUT"
 
       # release-it's `after:bump` hook already builds, so this is a guard rather
       # than the normal path: it keeps the workflow honest if that hook ever
@@ -114,6 +159,18 @@ jobs:
             echo "dist/main.js is missing after release-it -- building it here."
             pnpm build
           fi
+
+      - name: Check the built manifest matches the tag
+        if: ${{ !inputs.dry_run }}
+        env:
+          TAG: ${{ steps.released.outputs.tag }}
+        run: |
+          version="$(node -p "require('./dist/manifest.json').version")"
+          if [ "$version" != "$TAG" ]; then
+            echo "::error::Release $TAG would ship a manifest.json declaring $version."
+            exit 1
+          fi
+          echo "manifest.json declares $version, matching $TAG."
 
       - name: Upload main.js, manifest.json and styles.css
         if: ${{ !inputs.dry_run }}
