@@ -4,6 +4,12 @@ patchedDependencies:
   '@univerjs/sheets-ui@1.0.4': patches/@univerjs__sheets-ui@1.0.4.patch
   '@univerjs/sheets-data-validation-ui@1.0.4': patches/@univerjs__sheets-data-validation-ui@1.0.4.patch
   '@univerjs/sheets-conditional-formatting-ui@1.0.4': patches/@univerjs__sheets-conditional-formatting-ui@1.0.4.patch
+  # release-it 17.x/18.x 把 octokit 的 log 传成 null，而 @octokit/core 的
+  # createLogger(logger = {}) 只在 undefined 时兜底，于是 new Octokit() 当场抛
+  # "Cannot read properties of null (reading 'debug')"。CI 里的表现是
+  # "GitHub create release" 步骤失败，而版本已经 bump/commit/tag/push 过了 ——
+  # 留下一代 tag 已推、release 却没建的半发布状态。上游在 19.x 才改成 {}。
+  release-it@17.10.0: patches/release-it@17.10.0.patch
 
 onlyBuiltDependencies:
   - esbuild

@@ -1,0 +1,18 @@
+diff --git a/lib/plugin/github/GitHub.js b/lib/plugin/github/GitHub.js
+index 70d2a83..7c1ab45 100644
+--- a/lib/plugin/github/GitHub.js
++++ b/lib/plugin/github/GitHub.js
+@@ -178,7 +178,12 @@ class GitHub extends Release {
+       baseUrl,
+       auth: `token ${this.token}`,
+       userAgent: `release-it/${pkg.version}`,
+-      log: this.config.isDebug ? console : null,
++      // @octokit/core only falls back to its default logger when the option
++      // is `undefined`; `null` is handed straight to `createLogger()`, which
++      // throws "Cannot read properties of null (reading 'debug')" while the
++      // client is being constructed -- before a single request is made. That
++      // is why the GitHub release step died in CI on its first API call.
++      log: this.config.isDebug ? console : {},
+       request: {
+         timeout
+       }

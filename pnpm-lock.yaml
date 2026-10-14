@@ -20,6 +20,9 @@ patchedDependencies:
   lie@3.3.0:
     hash: e0bdfb80b529fa7ce54289a23091974afa42b8221f66dea06db073293440ca51
     path: patches/lie@3.3.0.patch
+  release-it@17.10.0:
+    hash: 34897c21c7df8c108a0929522e5168afcb1746765448b4fdce9a5a78f15d846c
+    path: patches/release-it@17.10.0.patch
 
 importers:
 
@@ -193,7 +196,7 @@ importers:
         version: 2.27.3(@typescript-eslint/utils@8.71.2(eslint@8.57.1)(typescript@6.0.3))(@vue/compiler-sfc@3.5.44)(eslint@8.57.1)(typescript@6.0.3)(vitest@2.1.8(@types/node@26.6.5))
       '@release-it/conventional-changelog':
         specifier: 8.0.2
-        version: 8.0.2(release-it@17.10.0(typescript@6.0.3))
+        version: 8.0.2(release-it@17.10.0(patch_hash=34897c21c7df8c108a0929522e5168afcb1746765448b4fdce9a5a78f15d846c)(typescript@6.0.3))
       '@types/react':
         specifier: 18.3.12
         version: 18.3.12
@@ -217,7 +220,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       release-it:
         specifier: 17.10.0
-        version: 17.10.0(typescript@6.0.3)
+        version: 17.10.0(patch_hash=34897c21c7df8c108a0929522e5168afcb1746765448b4fdce9a5a78f15d846c)(typescript@6.0.3)
       rxjs:
         specifier: 7.8.2
         version: 7.8.2
@@ -6933,13 +6936,13 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@release-it/conventional-changelog@8.0.2(release-it@17.10.0(typescript@6.0.3))':
+  '@release-it/conventional-changelog@8.0.2(release-it@17.10.0(patch_hash=34897c21c7df8c108a0929522e5168afcb1746765448b4fdce9a5a78f15d846c)(typescript@6.0.3))':
     dependencies:
       concat-stream: 2.0.0
       conventional-changelog: 5.1.0
       conventional-recommended-bump: 9.0.0
       git-semver-tags: 8.0.1
-      release-it: 17.10.0(typescript@6.0.3)
+      release-it: 17.10.0(patch_hash=34897c21c7df8c108a0929522e5168afcb1746765448b4fdce9a5a78f15d846c)(typescript@6.0.3)
       semver: 7.8.5
     transitivePeerDependencies:
       - conventional-commits-filter
@@ -10550,7 +10553,7 @@ snapshots:
     dependencies:
       jsesc: 0.5.0
 
-  release-it@17.10.0(typescript@6.0.3):
+  release-it@17.10.0(patch_hash=34897c21c7df8c108a0929522e5168afcb1746765448b4fdce9a5a78f15d846c)(typescript@6.0.3):
     dependencies:
       '@iarna/toml': 2.2.5
       '@octokit/rest': 20.1.1
