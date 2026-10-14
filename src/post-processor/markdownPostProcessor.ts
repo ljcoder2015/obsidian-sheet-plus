@@ -3,11 +3,20 @@ import { TFile } from 'obsidian'
 
 import { createEchartsEl, log } from '@ljcoder/smart-sheet'
 import type { IWorkbookData } from '@univerjs/core'
+import { getCurrencySymbolByLocale } from '@univerjs/sheets-numfmt'
 import type ExcelProPlugin from '../main'
 
 import { VIEW_TYPE_EXCEL_PRO } from '../common/constants'
+import { t } from '../lang/helpers'
 import { getExcelData, getRangeData, getSheetData } from '../utils/data'
+import { Tools } from '../utils/tools'
 
+import type { FormulaEmbed } from './embed-syntax'
+import { parseEmbedLink } from './embed-syntax'
+import { beginRender } from './embed-refresh'
+import { evaluateEmbedFormula } from './formula'
+import { attachFormatMenu } from './formula-menu'
+import { renderFormulaView, startRun, toFormulaView } from './formula-render'
 import { renderToHtml } from './html'
 import { createUniverEl } from './univer'
 
@@ -120,10 +129,40 @@ function resolveHtmlEmbedHeight(plugin: ExcelProPlugin, explicitHeight?: number)
   return undefined
 }
 
+interface FormulaEmbedOptions {
+  formula: string
+  sheetName?: string
+  format?: string
+}
+
+/** Evaluates a formula embed and renders the result into `el`, unless a newer run started. */
+async function fillFormulaEmbed(el: HTMLElement, data: IWorkbookData, options: FormulaEmbedOptions) {
+  const isLatest = startRun(el)
+  const result = await evaluateEmbedFormula(data, options.sheetName, options.formula)
+  if (isLatest())
+    renderFormulaView(el, toFormulaView(result, options.format), t)
+}
+
+/** An inline span: `…` at first, then the value, a table or #ERROR. */
+function createFormulaEmbedEl(parsed: FormulaEmbed, src: string, alt: string, file: TFile, data: IWorkbookData): HTMLElement {
+  const el = createSpan({ cls: 'lj-formula-embed', text: '…' })
+  el.setAttr('data-file-path', file.path)
+  el.setAttr('data-sheet-name', parsed.sheetName ?? '')
+  el.setAttr('data-formula', parsed.formula)
+  el.setAttr('data-format', parsed.format ?? '')
+  // the link text as written, to find it again in the note
+  el.setAttr('data-embed-src', src)
+  el.setAttr('data-embed-alt', alt)
+  attachFormatMenu(el, plugin.app, getCurrencySymbolByLocale(Tools.convertNumberFormatLocalToLocaleType(plugin.settings.numberFormatLocal)))
+  void fillFormulaEmbed(el, data, parsed)
+  return el
+}
+
 async function reRenderEmbeddedContent(file: TFile) {
   const selector = [
     `.lj-table-box[data-file-path="${file.path}"]`,
     `.lj-embed-content[data-file-path="${file.path}"]`,
+    `.lj-formula-embed[data-file-path="${file.path}"]`,
   ].join(',')
   const elements = activeDocument.querySelectorAll(selector)
   if (elements.length === 0) {
@@ -133,12 +172,24 @@ async function reRenderEmbeddedContent(file: TFile) {
   log('[reRenderEmbeddedContent]', file.path, elements)
 
   const data = await vault.read(file)
-  const excelData = getExcelData(data, file)
-  if (!excelData) {
-    return
-  }
 
   for (const el of elements) {
+    // each embed gets its own copy: getRangeData, getSheetData and createWorkbook all modify
+    // the data they are given, which would corrupt every embed after the first
+    const excelData = getExcelData(data, file)
+    if (!excelData) {
+      return
+    }
+
+    if (el.classList.contains('lj-formula-embed')) {
+      void fillFormulaEmbed(el as HTMLElement, excelData, {
+        formula: el.getAttribute('data-formula') || '',
+        sheetName: el.getAttribute('data-sheet-name') || undefined,
+        format: el.getAttribute('data-format') || undefined,
+      })
+      continue
+    }
+
     const sheetName = el.getAttribute('data-sheet-name') || ''
     const range = el.getAttribute('data-range') || ''
     const displayType = el.getAttribute('data-display-type') || 'univer'
@@ -270,18 +321,49 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
 
   el.empty()
 
-  if (internalEmbedDiv.hasAttribute('ready'))
+  watchEmbedLink(internalEmbedDiv, file, markdownEmbed)
+  await renderLivePreviewEmbed(internalEmbedDiv, file, markdownEmbed)
+}
+
+const LINK_EDIT_DEBOUNCE_MS = 300
+const watchedEmbeds = new WeakSet<HTMLElement>()
+
+/**
+ * Live Preview keeps the embed element when its link text is edited and only updates its
+ * src and alt attributes, so watch them and re-render once typing pauses.
+ */
+function watchEmbedLink(internalEmbedDiv: HTMLElement, file: TFile, markdownEmbed: boolean) {
+  if (watchedEmbeds.has(internalEmbedDiv))
     return
+  watchedEmbeds.add(internalEmbedDiv)
 
-  internalEmbedDiv.setAttribute('ready', '')
+  const linkedFile = internalEmbedDiv.getAttribute('src')?.split('#')[0]
+  let timer: number | undefined
+  new MutationObserver(() => {
+    window.clearTimeout(timer)
+    timer = window.setTimeout(() => {
+      // a link to another file gets a new embed element from Obsidian
+      if (internalEmbedDiv.getAttribute('src')?.split('#')[0] === linkedFile)
+        void renderLivePreviewEmbed(internalEmbedDiv, file, markdownEmbed)
+    }, LINK_EDIT_DEBOUNCE_MS)
+  }).observe(internalEmbedDiv, { attributes: true, attributeFilter: ['src', 'alt'] })
+}
 
-  internalEmbedDiv.empty()
-
-  const data = await vault.read(file)
+/** Renders the embed for its current link text; does nothing if that link is already shown. */
+async function renderLivePreviewEmbed(internalEmbedDiv: HTMLElement, file: TFile, markdownEmbed: boolean) {
   const src = internalEmbedDiv.getAttribute('src') ?? file.path.slice(0, -(file.extension.length + 1))
   const alt = internalEmbedDiv.getAttribute('alt') ?? ''
+  const isCurrent = beginRender(internalEmbedDiv, `${src}|${alt}`)
+  if (!isCurrent)
+    return
 
+  const data = await vault.read(file)
   const sheetDiv = await createEmbedLinkDiv(src, alt, file, data, internalEmbedDiv)
+  // a newer edit started its own render while this one was loading
+  if (!isCurrent())
+    return
+
+  internalEmbedDiv.empty()
   internalEmbedDiv.appendChild(sheetDiv)
 
   if (markdownEmbed) {
@@ -314,7 +396,7 @@ async function processReadingMode(embeddedItems: NodeListOf<Element> | [HTMLElem
   }
 }
 
-async function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: string): Promise<HTMLDivElement> {
+async function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: string): Promise<HTMLElement> {
   log('[processInternalEmbed]', internalEmbedEl, file)
   const src = internalEmbedEl.getAttribute('src')
 
@@ -338,14 +420,17 @@ async function processInternalEmbed(internalEmbedEl: Element, file: TFile, data:
  * @param data 文件转换后的 json 字符串
  * @returns HTMLDivElement
  */
-async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string, parentEl?: HTMLElement): Promise<HTMLDivElement> {
-  const parseResult = parseEmbedLinkSyntax(`${src}|${alt}`)
+async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string, parentEl?: HTMLElement): Promise<HTMLElement> {
+  const parseResult = parseEmbedLink(src, alt)
   log('[createEmbedLinkDiv]', src, alt, file.path)
 
   const excelData = getExcelData(data, file)
   if (!excelData) {
     return createDiv('No Data')
   }
+
+  if (parseResult.kind === 'formula')
+    return createFormulaEmbedEl(parseResult, src, alt, file, excelData)
 
   const embedLinkDiv = createDiv()
 
@@ -398,17 +483,17 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
   else if (parseResult.displayType === undefined) {
     const contentWrapper = createDiv({ cls: 'lj-embed-content' })
     contentWrapper.setAttr('data-file-path', file.path)
-    contentWrapper.setAttr('data-sheet-name', parseResult.sheetName)
+    contentWrapper.setAttr('data-sheet-name', parseResult.sheetName ?? '')
     contentWrapper.setAttr('data-range', `${parseResult.startCell}:${parseResult.endCell}`)
     contentWrapper.setAttr('data-display-type', 'univer')
     if (parseResult.startCell && parseResult.endCell) {
-      const rangeData = getRangeData(excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`)
+      const rangeData = getRangeData(excelData, parseResult.sheetName ?? '', `${parseResult.startCell}:${parseResult.endCell}`)
       const height = resolveEmbedHeight(plugin, rangeData, parentEl, parseResult.height)
       const univerEl = createUniverEl(rangeData, height, plugin.settings.embedLinkShowFooter === 'true', plugin)
       contentWrapper.appendChild(univerEl)
     }
     else {
-      const sheetData = getSheetData(excelData, parseResult.sheetName)
+      const sheetData = getSheetData(excelData, parseResult.sheetName ?? '')
       const height = resolveEmbedHeight(plugin, sheetData, parentEl, parseResult.height)
       const univerEl = createUniverEl(sheetData, height, plugin.settings.embedLinkShowFooter === 'true', plugin)
       contentWrapper.appendChild(univerEl)
@@ -419,10 +504,10 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
   else if (parseResult.displayType?.contains('chart')) {
     const contentWrapper = createDiv({ cls: 'lj-embed-content' })
     contentWrapper.setAttr('data-file-path', file.path)
-    contentWrapper.setAttr('data-sheet-name', parseResult.sheetName)
+    contentWrapper.setAttr('data-sheet-name', parseResult.sheetName ?? '')
     contentWrapper.setAttr('data-range', `${parseResult.startCell}:${parseResult.endCell}`)
     contentWrapper.setAttr('data-display-type', parseResult.displayType)
-    const chartsEl = createEchartsEl(plugin.settings.darkModal === 'dark', excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`, parseResult.displayType, parseResult.height)
+    const chartsEl = createEchartsEl(plugin.settings.darkModal === 'dark', excelData, parseResult.sheetName ?? '', `${parseResult.startCell}:${parseResult.endCell}`, parseResult.displayType, parseResult.height)
     contentWrapper.appendChild(chartsEl)
     embedLinkDiv.appendChild(contentWrapper)
     return embedLinkDiv
@@ -430,54 +515,4 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
   else {
     return embedLinkDiv
   }
-}
-
-interface ParsedSyntax {
-  filePath?: string
-  fileName: string
-  sheetName: string
-  startCell?: string // Optional start cell
-  endCell?: string // Optional end cell
-  height?: number // Optional height
-  displayType?: string // Optional display type
-}
-
-function parseEmbedLinkSyntax(input: string): ParsedSyntax {
-  // 首先分离路径和文件名及其后的语法部分
-  const pathParts = input.split('/')
-  const filePath = pathParts.slice(0, -1).join('/')
-  const fileNameAndRest = pathParts[pathParts.length - 1]
-  log('[parseEmbedLinkSyntax]', fileNameAndRest)
-
-  // 正则表达式，支持所有 Unicode 字符（包括特殊字符、中文、俄文、泰文等）
-  // eslint-disable-next-line regexp/no-super-linear-backtracking -- regex parses well-formed file references, not arbitrary input
-  const fileRegex = /^(.+?)(?:#(.+?))?(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w-]+)\})?$/
-
-  const fileMatch = fileNameAndRest.match(fileRegex)
-
-  if (!fileMatch) {
-    throw new Error('Invalid syntax. Ensure the input matches the expected format.')
-  }
-
-  // displayType
-  // undefined 渲染 univer
-  // html 渲染 HTML
-  // chart-xx
-  // chart-bar
-  // chart-bar-racing
-  // chart-line
-  // chart-area
-  // chart-pie
-  // chart-ring-pie
-  const result = {
-    filePath,
-    fileName: fileMatch[1],
-    sheetName: fileMatch[2],
-    startCell: fileMatch[3] || undefined, // Optional start cell
-    endCell: fileMatch[4] || undefined, // Optional end cell
-    height: fileMatch[5] ? Number.parseInt(fileMatch[5], 10) : undefined, // Optional height
-    displayType: fileMatch[6] || undefined, // Optional display type
-  }
-  // console.log(result)
-  return result
 }

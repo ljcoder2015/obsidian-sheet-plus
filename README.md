@@ -25,6 +25,7 @@ Create interactive dashboards to visualize data
 - [Image](https://docs.ljcoder.com/guide/features/image.html): Insert images into spreadsheets.
 - [Custom Font](https://docs.ljcoder.com/guide/features/custom-font.html): Customize spreadsheet fonts.
 - [Number Format](https://docs.ljcoder.com/guide/features/number-format-locale.html): Customize number formats, supporting different regional decimal displays.
+- Formula Embed: Show a formula's result in your notes, e.g. `![[Budget#Sheet1|=SUM(F9:F20)]]`. A single value renders inline; a multi-cell result such as `={1,2;3,4}` renders as a small table, and a formula that fails shows `#ERROR` with the reason on hover. Add `{fmt:$#,##0.00}` after the formula to format numbers, or, in Live Preview, right-click the value to pick a format.
 
 ***
 

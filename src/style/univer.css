@@ -539,3 +539,30 @@ button.univer-button-default {
   padding-top: 8px;
   border-top: 1px solid var(--background-modifier-border);
 }
+
+/* Formula embeds: ![[file#Sheet|=SUM(A1:A3)]] */
+.lj-formula-error {
+  color: var(--text-error);
+  cursor: help;
+}
+
+.lj-formula-table {
+  display: block;
+}
+
+.lj-formula-table table {
+  margin: 0;
+}
+
+/* Right-click format menu: the value formatted each way, on the right */
+.menu-item-title:has(> .lj-format-preview) {
+  display: flex;
+  flex-grow: 1;
+  gap: 1.5em;
+}
+
+.lj-format-preview {
+  margin-left: auto;
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+}
