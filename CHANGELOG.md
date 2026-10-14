@@ -1,5 +1,15 @@
 
 
+## [3.0.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/3.0.0...3.0.1) (2026-10-14)
+
+
+### Bug Fixes
+
+* **build:** keep the out-of-tree manifest copies from failing the build ([24013b2](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/24013b22f9b82d6fa5e945cc4fcec4aadf9883b5))
+* **build:** make this package install and build outside the monorepo ([a0fe31a](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/a0fe31acd24954812ffb42cf74f8053e7a8f909b))
+* **font:** stop freezing the default font on first open ([365381d](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/365381d823e04e4d8ab77c1cb811171068ec84d7))
+* **manifest:** require Obsidian 1.13.0 instead of 1.5.11 ([cdd6d9f](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/cdd6d9fed32a2cb7802b689cd376795e1f1a6cda))
+
 # [3.0.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/2.13.2...3.0.0) (2026-10-10)
 
 
