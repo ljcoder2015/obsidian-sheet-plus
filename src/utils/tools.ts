@@ -624,7 +624,12 @@ export function getTheme(el: HTMLElement): 'dark' | 'light' {
  * 把设置的默认字体应用到工作簿所有 worksheet 的默认样式（defaultStyle.ff）。
  * 必须在 createWorkbook 之后调用：Univer 只消费 worksheet 级 defaultStyle
  * （getDefaultCellStyleInternal 读取的是 worksheet 快照），workbook 级字段无运行时消费点。
- * 仅当 worksheet 未显式指定默认字体时生效，避免覆盖工作簿自身保存的字体设置。
+ *
+ * 每次打开都按当前设置重写，而不是「只写没设置过的」：快照里的 ff 只可能来自本函数上一次
+ * 的写入 —— Univer 自己从不设置工作簿级默认字体（`sheet.mutation.set-worksheet-default-style`
+ * 全仓没有任何地方分发），xlsx 导入也不碰这个字段。一旦在这里跳过「已有 ff」的 worksheet，
+ * 设置就被第一次打开时的取值永久冻结：改设置后旧文档会一直停在旧字体上。
+ * 单元格自身的字体（cell.s）优先级高于 defaultStyle，不受这里影响。
  */
 export function applyWorkbookDefaultFont(univer: Univer | null | undefined, fontFamily: string): void {
   if (!fontFamily || !univer)
@@ -635,7 +640,7 @@ export function applyWorkbookDefaultFont(univer: Univer | null | undefined, font
   for (const worksheet of workbook.getSheets()) {
     const style = worksheet.getDefaultCellStyle()
     // defaultStyle 也可能是指向命名样式的字符串 id，此时不做处理
-    if (typeof style === 'string' || style?.ff)
+    if (typeof style === 'string' || style?.ff === fontFamily)
       continue
     worksheet.setDefaultCellStyle({ ...style, ff: fontFamily })
   }

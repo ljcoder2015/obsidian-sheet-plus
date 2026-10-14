@@ -78,7 +78,7 @@ export default {
   RTL_DIRECTION_DESC: '设置界面布局方向。RTL 仅作用于界面层，重新打开表格后生效',
 
   DEFAULT_FONT_FAMILY: '默认字体',
-  DEFAULT_FONT_FAMILY_DESC: '单元格内容的默认字体，重新打开表格后生效；工作簿已单独设置默认字体时不覆盖',
+  DEFAULT_FONT_FAMILY_DESC: '单元格内容的默认字体，重新打开表格后生效；已单独设置字体的单元格不受影响',
   DEFAULT_FONT_FAMILY_NONE: '默认',
 
   AUTHORIZATION_CODE: '授权码',

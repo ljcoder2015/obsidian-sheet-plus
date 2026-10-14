@@ -75,7 +75,7 @@ export default {
   RTL_DIRECTION_DESC: 'Set the layout direction. RTL applies to the UI layer only; reopen the sheet to take effect.',
 
   DEFAULT_FONT_FAMILY: 'Default font',
-  DEFAULT_FONT_FAMILY_DESC: 'Default font for cell content. It is applied to workbooks without their own default font; reopen the sheet to take effect.',
+  DEFAULT_FONT_FAMILY_DESC: 'Default font for cell content. Reopen the sheet to apply it to sheets that are already open; cells with their own font are unaffected.',
   DEFAULT_FONT_FAMILY_NONE: 'Default',
 
   NUMBER_FORMAT_LOCALE: 'Number format locale settings',
