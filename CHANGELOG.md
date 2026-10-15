@@ -1,5 +1,13 @@
 
 
+## [3.0.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/3.0.2...3.0.3) (2026-10-15)
+
+
+### Bug Fixes
+
+* **deps:** declare the pnpm version the review scanner should install with ([d7e83bd](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/d7e83bd7a0c4fd804069c4dc3d470ad9a517740c))
+* **settings:** remove the display() override the review scanner flags ([3a0a3e7](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/3a0a3e7343341d20b8b2a7d9312b9f2e21b5148c))
+
 ## [3.0.2](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/3.0.1...3.0.2) (2026-10-14)
 
 ## [3.0.1](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/3.0.0...3.0.1) (2026-10-14)
