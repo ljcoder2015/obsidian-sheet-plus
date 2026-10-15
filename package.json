@@ -13,8 +13,9 @@
   ],
   "engines": {
     "node": ">=20 || <=22",
-    "pnpm": ">=8"
+    "pnpm": ">=9"
   },
+  "packageManager": "pnpm@10.6.5",
   "scripts": {
     "prepare": "simple-git-hooks",
     "dev": "vite build --mode development",
