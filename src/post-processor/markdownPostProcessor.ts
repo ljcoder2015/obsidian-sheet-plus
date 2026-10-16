@@ -8,6 +8,8 @@ import type ExcelProPlugin from '../main'
 import { VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { getExcelData, getRangeData, getSheetData } from '../utils/data'
 
+import { cellText } from './cell-value'
+import { parseEmbedLinkSyntax } from './embed-syntax'
 import { renderToHtml } from './html'
 import { createUniverEl } from './univer'
 
@@ -124,6 +126,7 @@ async function reRenderEmbeddedContent(file: TFile) {
   const selector = [
     `.lj-table-box[data-file-path="${file.path}"]`,
     `.lj-embed-content[data-file-path="${file.path}"]`,
+    `.lj-cell-embed[data-file-path="${file.path}"]`,
   ].join(',')
   const elements = activeDocument.querySelectorAll(selector)
   if (elements.length === 0) {
@@ -139,6 +142,10 @@ async function reRenderEmbeddedContent(file: TFile) {
   }
 
   for (const el of elements) {
+    if (el.hasClass('lj-cell-embed')) {
+      el.setText(cellText(excelData, el.getAttribute('data-sheet-name') || undefined, el.getAttribute('data-cell') || '') ?? '#REF!')
+      continue
+    }
     const sheetName = el.getAttribute('data-sheet-name') || ''
     const range = el.getAttribute('data-range') || ''
     const displayType = el.getAttribute('data-display-type') || 'univer'
@@ -314,7 +321,7 @@ async function processReadingMode(embeddedItems: NodeListOf<Element> | [HTMLElem
   }
 }
 
-async function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: string): Promise<HTMLDivElement> {
+async function processInternalEmbed(internalEmbedEl: Element, file: TFile, data: string): Promise<HTMLElement> {
   log('[processInternalEmbed]', internalEmbedEl, file)
   const src = internalEmbedEl.getAttribute('src')
 
@@ -336,15 +343,29 @@ async function processInternalEmbed(internalEmbedEl: Element, file: TFile, data:
  * @param alt 参数配置 例如: A1:C7<100>{html}
  * @param file 文件信息
  * @param data 文件转换后的 json 字符串
- * @returns HTMLDivElement
+ * @returns HTMLElement
  */
-async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string, parentEl?: HTMLElement): Promise<HTMLDivElement> {
+async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: string, parentEl?: HTMLElement): Promise<HTMLElement> {
   const parseResult = parseEmbedLinkSyntax(`${src}|${alt}`)
   log('[createEmbedLinkDiv]', src, alt, file.path)
 
   const excelData = getExcelData(data, file)
   if (!excelData) {
     return createDiv('No Data')
+  }
+
+  // 单个单元格：内联显示其已保存的值（公式为最近一次计算结果），使用单元格自身的数字格式
+  if (parseResult.startCell && !parseResult.endCell) {
+    if (!parseResult.displayType) {
+      const cellEl = createSpan({ cls: 'lj-cell-embed' })
+      cellEl.setAttr('data-file-path', file.path)
+      cellEl.setAttr('data-sheet-name', parseResult.sheetName || '')
+      cellEl.setAttr('data-cell', parseResult.startCell)
+      cellEl.setText(cellText(excelData, parseResult.sheetName, parseResult.startCell) ?? '#REF!')
+      return cellEl
+    }
+    // 指定了显示方式时，按 F21:F21 区域处理
+    parseResult.endCell = parseResult.startCell
   }
 
   const embedLinkDiv = createDiv()
@@ -430,54 +451,4 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
   else {
     return embedLinkDiv
   }
-}
-
-interface ParsedSyntax {
-  filePath?: string
-  fileName: string
-  sheetName: string
-  startCell?: string // Optional start cell
-  endCell?: string // Optional end cell
-  height?: number // Optional height
-  displayType?: string // Optional display type
-}
-
-function parseEmbedLinkSyntax(input: string): ParsedSyntax {
-  // 首先分离路径和文件名及其后的语法部分
-  const pathParts = input.split('/')
-  const filePath = pathParts.slice(0, -1).join('/')
-  const fileNameAndRest = pathParts[pathParts.length - 1]
-  log('[parseEmbedLinkSyntax]', fileNameAndRest)
-
-  // 正则表达式，支持所有 Unicode 字符（包括特殊字符、中文、俄文、泰文等）
-  // eslint-disable-next-line regexp/no-super-linear-backtracking -- regex parses well-formed file references, not arbitrary input
-  const fileRegex = /^(.+?)(?:#(.+?))?(?:\|([A-Z]\d+):([A-Z]\d+))?(?:<(\d+)>)?(?:\{([\w-]+)\})?$/
-
-  const fileMatch = fileNameAndRest.match(fileRegex)
-
-  if (!fileMatch) {
-    throw new Error('Invalid syntax. Ensure the input matches the expected format.')
-  }
-
-  // displayType
-  // undefined 渲染 univer
-  // html 渲染 HTML
-  // chart-xx
-  // chart-bar
-  // chart-bar-racing
-  // chart-line
-  // chart-area
-  // chart-pie
-  // chart-ring-pie
-  const result = {
-    filePath,
-    fileName: fileMatch[1],
-    sheetName: fileMatch[2],
-    startCell: fileMatch[3] || undefined, // Optional start cell
-    endCell: fileMatch[4] || undefined, // Optional end cell
-    height: fileMatch[5] ? Number.parseInt(fileMatch[5], 10) : undefined, // Optional height
-    displayType: fileMatch[6] || undefined, // Optional display type
-  }
-  // console.log(result)
-  return result
 }
