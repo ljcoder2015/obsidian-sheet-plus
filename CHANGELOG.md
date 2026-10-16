@@ -1,5 +1,12 @@
 
 
+## [3.0.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/3.0.3...3.0.4) (2026-10-16)
+
+
+### Bug Fixes
+
+* **build:** drop the output filename literal the review scanner reads as self-update ([a9e7c6e](https://github.com/ljcoder2015/obsidian-sheet-plus/commit/a9e7c6eac7445baa89baaf6f983a9c48fa26e58f))
+
 ## [3.0.3](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/3.0.2...3.0.3) (2026-10-15)
 
 
