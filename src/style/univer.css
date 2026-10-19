@@ -46,6 +46,17 @@
 	border: 1px solid rgb(var(--bg-color));
 }
 
+/* 单格嵌入：值随上下文内联显示，不独占一行 */
+.lj-cell-embed {
+  display: inline;
+}
+
+/* Live Preview 下 Obsidian 会把非图片嵌入的容器渲染成块级，
+   单格嵌入需要把容器收回内联，否则整行会被占满 */
+.internal-embed:not(.image-embed).lj-inline-embed {
+  display: inline;
+}
+
 .sheet-container {
   position: relative;
   width: 100%;

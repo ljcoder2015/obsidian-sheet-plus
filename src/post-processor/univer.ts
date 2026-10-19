@@ -2,6 +2,7 @@ import type { INumfmtLocaleTag, IWorkbookData } from '@univerjs/core'
 import type { Univer } from '@univerjs/core'
 import { log, warn } from '@ljcoder/smart-sheet/src/utils/log'
 import type { FUniver } from '@univerjs/core/facade'
+import type { FWorksheet } from '@univerjs/sheets/facade'
 import { randomString } from '../utils/uuid'
 import { applyWorkbookDefaultFont } from '../utils/tools'
 import { createUniver } from '../views/univer/setup-univer'
@@ -164,9 +165,78 @@ async function initUniver(el: HTMLDivElement, id: string, data: IWorkbookData | 
       // set read only
       const permission = fWorkbook.getWorkbookPermission()
       permission.setReadOnly()
-      permission.setPermissionDialogVisible(false)
+      // 无权限弹窗开关挂在 FUniver（@univerjs/sheets-ui facade）上，不在 workbook permission 对象上
+      univerAPI.setPermissionDialogVisible(false)
     }
   })
 
   return univerAPI
+}
+
+/**
+ * 用临时（隐藏的）Univer 实例真实计算公式单元格的显示值。
+ * 公式在 workbook 创建时被强制计算（CalculationMode.FORCED），取到显示值后立即销毁实例。
+ * 仅在单格嵌入遇到「公式无缓存结果」时调用。
+ */
+export async function computeCellText(
+  data: IWorkbookData | null,
+  sheetName: string | undefined,
+  cellRef: string,
+): Promise<string | undefined> {
+  const id = `univer-calc-${randomString(6)}`
+  const hostEl = createDiv({ attr: { id, style: 'display: none;' } })
+  activeDocument.body.append(hostEl)
+
+  let univerAPI: FUniver | undefined
+  let univer: Univer | undefined
+  try {
+    const options = { header: false, contextMenu: false, footer: false }
+    const created = createUniver([], options, id, 'desktop', false, true)
+    univerAPI = created.univerAPI
+    univer = created.univer
+
+    const fWorkbook = univerAPI.createWorkbook(data ?? {})
+    const fSheet = sheetName ? fWorkbook.getSheetByName(sheetName) : fWorkbook.getActiveSheet()
+    if (!fSheet)
+      return undefined
+
+    return await readDisplayValue(fSheet, cellRef)
+  }
+  catch (e) {
+    warn('[computeCellText]', 'Error computing cell value:', e)
+    return undefined
+  }
+  finally {
+    try {
+      const unitId = univerAPI?.getActiveWorkbook()?.getId()
+      if (unitId)
+        univerAPI?.disposeUnit(unitId)
+      univerAPI?.dispose()
+      univer?.dispose()
+    }
+    catch (e) {
+      warn('[computeCellText]', 'Error disposing temp univer:', e)
+    }
+    hostEl.remove()
+  }
+}
+
+/**
+ * 轮询读取单元格显示值：公式引擎算完前读到的是空值，需要等待结果就绪。
+ * 超过 timeoutMs 仍未算完时返回 undefined，避免无限等待。
+ */
+async function readDisplayValue(fSheet: FWorksheet, cellRef: string, timeoutMs = 3000): Promise<string | undefined> {
+  const deadline = Date.now() + timeoutMs
+  while (Date.now() < deadline) {
+    try {
+      const display = fSheet.getRange(cellRef).getDisplayValue()
+      if (display !== undefined && display !== null && display !== '')
+        return String(display)
+    }
+    catch {
+      // 引擎尚未就绪时读取会抛异常，忽略后继续轮询
+    }
+    await new Promise(resolve => window.setTimeout(resolve, 50))
+  }
+  return undefined
 }

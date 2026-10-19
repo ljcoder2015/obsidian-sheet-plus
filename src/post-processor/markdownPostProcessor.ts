@@ -8,10 +8,10 @@ import type ExcelProPlugin from '../main'
 import { VIEW_TYPE_EXCEL_PRO } from '../common/constants'
 import { getExcelData, getRangeData, getSheetData } from '../utils/data'
 
-import { cellText } from './cell-value'
+import { cellNeedsCalculation, cellText } from './cell-value'
 import { parseEmbedLinkSyntax } from './embed-syntax'
 import { renderToHtml } from './html'
-import { createUniverEl } from './univer'
+import { computeCellText, createUniverEl } from './univer'
 
 let plugin: ExcelProPlugin
 let vault: Vault
@@ -143,7 +143,7 @@ async function reRenderEmbeddedContent(file: TFile) {
 
   for (const el of elements) {
     if (el.hasClass('lj-cell-embed')) {
-      el.setText(cellText(excelData, el.getAttribute('data-sheet-name') || undefined, el.getAttribute('data-cell') || '') ?? '#REF!')
+      fillCellEmbed(el, excelData, el.getAttribute('data-sheet-name') || undefined, el.getAttribute('data-cell') || '')
       continue
     }
     const sheetName = el.getAttribute('data-sheet-name') || ''
@@ -289,6 +289,9 @@ async function tmpObsidianWYSIWYG(el: HTMLElement, ctx: MarkdownPostProcessorCon
   const alt = internalEmbedDiv.getAttribute('alt') ?? ''
 
   const sheetDiv = await createEmbedLinkDiv(src, alt, file, data, internalEmbedDiv)
+  // 单格嵌入只是内联片段，Live Preview 的块级容器会让它独占一行，需把容器收回内联
+  if (sheetDiv.hasClass('lj-cell-embed') && internalEmbedDiv.hasClass('internal-embed'))
+    internalEmbedDiv.addClass('lj-inline-embed')
   internalEmbedDiv.appendChild(sheetDiv)
 
   if (markdownEmbed) {
@@ -338,6 +341,20 @@ async function processInternalEmbed(internalEmbedEl: Element, file: TFile, data:
 }
 
 /**
+ * 填充单格嵌入文本：优先用快照里的静态值；公式结果未被缓存时，
+ * 异步启动临时 Univer 实例真实计算，算完再回填，避免内容一直空白。
+ */
+function fillCellEmbed(el: Element, excelData: IWorkbookData, sheetName: string | undefined, cellRef: string): void {
+  el.setText(cellText(excelData, sheetName, cellRef) ?? '#REF!')
+  if (cellNeedsCalculation(excelData, sheetName, cellRef)) {
+    void computeCellText(excelData, sheetName, cellRef).then((text) => {
+      if (text !== undefined)
+        el.setText(text)
+    })
+  }
+}
+
+/**
  * 解析 embed link，根据配置渲染成不同的元素
  * @param src 文件路径跟 sheetName， 例如: Excel 2024-06-05 16.27.15#Sheet1
  * @param alt 参数配置 例如: A1:C7<100>{html}
@@ -361,7 +378,7 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
       cellEl.setAttr('data-file-path', file.path)
       cellEl.setAttr('data-sheet-name', parseResult.sheetName || '')
       cellEl.setAttr('data-cell', parseResult.startCell)
-      cellEl.setText(cellText(excelData, parseResult.sheetName, parseResult.startCell) ?? '#REF!')
+      fillCellEmbed(cellEl, excelData, parseResult.sheetName, parseResult.startCell)
       return cellEl
     }
     // 指定了显示方式时，按 F21:F21 区域处理

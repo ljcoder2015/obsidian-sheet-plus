@@ -54,6 +54,59 @@ export function getExcelData(str: string, file: TFile): IWorkbookData | null {
   return null
 }
 
+/** 浮动图（图表/图片）资源在快照 resources 中的插件名，对应 @univerjs/sheets-drawing 的 SHEET_DRAWING_PLUGIN */
+const SHEET_DRAWING_PLUGIN = 'SHEET_DRAWING_PLUGIN'
+
+/** 浮动图在网格上的 from/to 单元格坐标 */
+interface DrawingCell {
+  row: number
+  column: number
+}
+
+/** 单个浮动图及其网格坐标 */
+interface DrawingEntry {
+  sheetTransform?: { from?: DrawingCell, to?: DrawingCell }
+}
+
+/**
+ * 裁剪浮动图资源（range 嵌入时调用）：
+ * 1. 只保留当前 sheet（子表 id 等于 sheetId）的图，其余 sheet 的图已无对应表格；
+ * 2. 丢弃与保留可视区域（startRow~endRow、startCol~endCol）无交集的图——
+ *    否则 Univer 按裁剪后的网格换算坐标时宽高会归零，抛 SHEET_DRAWING_PLACEMENT_EXTENT_INVALID。
+ */
+function pruneDrawings(resources: IWorkbookData['resources'], sheetId: string, range: RangeIndex): void {
+  if (!Array.isArray(resources))
+    return
+
+  for (const resource of resources) {
+    if (resource.name !== SHEET_DRAWING_PLUGIN || typeof resource.data !== 'string')
+      continue
+
+    try {
+      const unitMap = JSON.parse(resource.data) as Record<string, { data?: Record<string, DrawingEntry>, order?: string[] }>
+      const unit = unitMap[sheetId]
+      const kept: Record<string, DrawingEntry> = {}
+
+      for (const [drawingId, drawing] of Object.entries(unit?.data ?? {})) {
+        const { from, to } = drawing.sheetTransform ?? {}
+        if (!from || !to)
+          continue
+        // 行、列区间均与可视区域有交集，才能保证换算出的宽高为正
+        const rowsIntersect = to.row >= range.startRow && from.row <= range.endRow
+        const colsIntersect = to.column >= range.startCol && from.column <= range.endCol
+        if (rowsIntersect && colsIntersect)
+          kept[drawingId] = drawing
+      }
+
+      const order = (unit?.order ?? []).filter(drawingId => kept[drawingId])
+      resource.data = JSON.stringify({ [sheetId]: { data: kept, order } })
+    }
+    catch {
+      // 解析失败保持原样，避免损坏文件
+    }
+  }
+}
+
 /**
  * data 转换成只显示 range 部分
  * @param {JSON} data 源数据
@@ -112,6 +165,9 @@ export function getRangeData(
   data.sheets = sheets as Record<string, Partial<IWorksheetData>>
 
   data.sheetOrder = [sheetId]
+
+  // 同步裁剪浮动图，避免越界图在 Univer 中换算成零宽高而报错
+  pruneDrawings(data.resources, sheetId, rangeNumber)
 
   return data
 }

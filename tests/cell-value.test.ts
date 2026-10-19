@@ -1,6 +1,6 @@
 import type { IWorkbookData } from '@univerjs/core'
 import { describe, expect, it } from 'vitest'
-import { cellText } from '../src/post-processor/cell-value'
+import { cellNeedsCalculation, cellText } from '../src/post-processor/cell-value'
 
 const workbook = {
   id: 'wb',
@@ -25,6 +25,8 @@ const workbook = {
           6: { v: 0.25, t: 2, s: { n: { pattern: '0%' } } },
         },
         27: { 25: { v: 7, t: 2 } },
+        // 有公式但无缓存结果：单格嵌入需实时计算才能显示
+        7: { 7: { f: '=SUM(C2:C7)' } },
       },
     },
   },
@@ -73,5 +75,27 @@ describe('cellText', () => {
 
   it('returns undefined for a sheet that does not exist', () => {
     expect(cellText(workbook, 'Nope', 'A1')).toBeUndefined()
+  })
+})
+
+describe('cellNeedsCalculation', () => {
+  it('is true for a formula whose result was not cached', () => {
+    expect(cellNeedsCalculation(workbook, 'Sheet 1', 'H8')).toBe(true)
+  })
+
+  it('is false for a formula that already has a cached value', () => {
+    expect(cellNeedsCalculation(workbook, 'Sheet 1', 'B1')).toBe(false)
+  })
+
+  it('is false for a cell without a formula', () => {
+    expect(cellNeedsCalculation(workbook, 'Sheet 1', 'A1')).toBe(false)
+  })
+
+  it('is false for an empty cell', () => {
+    expect(cellNeedsCalculation(workbook, 'Sheet 1', 'H9')).toBe(false)
+  })
+
+  it('is false for a sheet that does not exist', () => {
+    expect(cellNeedsCalculation(workbook, 'Nope', 'A1')).toBe(false)
   })
 })

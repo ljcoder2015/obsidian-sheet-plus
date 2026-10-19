@@ -1,4 +1,4 @@
-import type { ICellData, IStyleData, IWorkbookData, Nullable } from '@univerjs/core'
+import type { ICellData, IStyleData, IWorkbookData, IWorksheetData, Nullable } from '@univerjs/core'
 import { numfmt } from '@univerjs/core'
 
 /** 0-based row and column for an A1-style reference such as `F21` or `AA3`. */
@@ -26,15 +26,22 @@ function formatNumber(value: number, pattern: string | undefined): string {
 }
 
 /**
+ * 按名称查找 sheet；未指定名称时取 sheetOrder 首个（或首个可用）sheet。
+ */
+function findSheet(data: IWorkbookData, sheetName: string | undefined): Partial<IWorksheetData> | undefined {
+  const sheets = Object.values(data.sheets ?? {})
+  return sheetName
+    ? sheets.find(s => s.name === sheetName)
+    : data.sheets?.[data.sheetOrder?.[0]] ?? sheets[0]
+}
+
+/**
  * The text a single cell shows in the sheet: its saved value (for a formula,
  * the last calculated result) in the cell's own number format.
  * Returns undefined when the sheet does not exist.
  */
 export function cellText(data: IWorkbookData, sheetName: string | undefined, cellRef: string): string | undefined {
-  const sheets = Object.values(data.sheets ?? {})
-  const sheet = sheetName
-    ? sheets.find(s => s.name === sheetName)
-    : data.sheets?.[data.sheetOrder?.[0]] ?? sheets[0]
+  const sheet = findSheet(data, sheetName)
   if (!sheet)
     return undefined
 
@@ -57,4 +64,23 @@ export function cellText(data: IWorkbookData, sheetName: string | undefined, cel
   if (typeof value === 'boolean')
     return value ? 'TRUE' : 'FALSE'
   return String(value)
+}
+
+/**
+ * 单元格是否「有公式但没有缓存结果」：
+ * 快照里公式的结果未被缓存时，静态取值会落空，需要启动 Univer 实时计算才能显示。
+ */
+export function cellNeedsCalculation(data: IWorkbookData, sheetName: string | undefined, cellRef: string): boolean {
+  const sheet = findSheet(data, sheetName)
+  if (!sheet)
+    return false
+
+  const pos = parseCellRef(cellRef)
+  if (!pos)
+    return false
+  const cell: ICellData | undefined | null = sheet.cellData?.[pos.row]?.[pos.col]
+  // 无公式（含空单元格）时静态值即为最终值，无需计算
+  if (!cell?.f)
+    return false
+  return cell.v === undefined || cell.v === null || cell.v === ''
 }
