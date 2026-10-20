@@ -1,8 +1,8 @@
 diff --git a/lib/es/index.js b/lib/es/index.js
-index 42f3dfc..c9502a0 100644
+index 5eb689b7fa18fd0d636369a324f118f0c3ddcefc..2031c1159a8ffa659dea39b61f05e281bc695fcf 100644
 --- a/lib/es/index.js
 +++ b/lib/es/index.js
-@@ -1352,7 +1352,15 @@ let ConditionalFormattingCopyPasteController = class ConditionalFormattingCopyPa
+@@ -1351,7 +1351,15 @@ let ConditionalFormattingCopyPasteController = class ConditionalFormattingCopyPa
  				add: [],
  				remove: []
  			});
@@ -11,10 +11,10 @@ index 42f3dfc..c9502a0 100644
 +			// inside the source domain, so it must be translated instead of being handed to
 +			// `Rectangle.getPositionRange`, which double-counts the range start.
 +			effectedConditionalFormattingRuleRanges.get(effectKey).add.push(...repeatRange.flatMap((item) => sourceRanges.flatMap((sourceRange) => targetVirtualization.mapRange({
-+				startRow: sourceRange.startRow + item.startRange.startRow,
-+				endRow: sourceRange.endRow + item.startRange.startRow,
-+				startColumn: sourceRange.startColumn + item.startRange.startColumn,
-+				endColumn: sourceRange.endColumn + item.startRange.startColumn
++			  startRow: sourceRange.startRow + item.startRange.startRow,
++			  endRow: sourceRange.endRow + item.startRange.startRow,
++			  startColumn: sourceRange.startColumn + item.startRange.startColumn,
++			  endColumn: sourceRange.endColumn + item.startRange.startColumn,
 +			}))));
  		});
  		const redos = [];

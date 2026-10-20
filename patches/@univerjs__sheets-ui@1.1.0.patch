@@ -1,5 +1,5 @@
 diff --git a/lib/es/index.js b/lib/es/index.js
-index 5ae414a..96df74b 100644
+index 03772e2c9f817d3228b736113967cd6cf67cff4d..e310aeec81cc197b3869c8b24fc33b3725efbf76 100644
 --- a/lib/es/index.js
 +++ b/lib/es/index.js
 @@ -94,7 +94,12 @@ function whenEditorDidNotInputFormulaActivated(contextService) {
