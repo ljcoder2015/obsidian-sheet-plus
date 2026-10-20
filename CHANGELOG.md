@@ -1,5 +1,19 @@
 
 
+# [3.1.0](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/3.0.4...3.1.0) (2026-10-20)
+
+
+### Bug Fixes
+
+* **build:** strip the self-update markers in generateBundle, not renderChunk ([977bccd](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/977bccd52f5295e17758de65bad23a6fbff44d00))
+* **deps:** refresh the standalone lockfile and patches for Univer 1.1.0 ([a74f516](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/a74f516264d3a92a864bda1af85d3911d4321be1))
+* **embed:** prune drawings that fall outside the cropped sheet range ([0d9d6c1](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/0d9d6c1a17e750d240965b3614d79b509c5fdee3))
+
+
+### Features
+
+* **embed:** compute uncached cell formulas live and inline single-cell embeds ([d6ff638](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/d6ff638a913a1a9aedb8c8055500b7cd90f99bbd))
+
 ## [3.0.4](https://github.com/ljcoder2015/obsidian-sheet-plus/compare/3.0.3...3.0.4) (2026-10-16)
 
 
