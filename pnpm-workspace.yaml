@@ -1,15 +1,34 @@
 patchedDependencies:
   immediate@3.0.6: patches/immediate@3.0.6.patch
   lie@3.3.0: patches/lie@3.3.0.patch
-  '@univerjs/sheets-ui@1.1.0': patches/@univerjs__sheets-ui@1.1.0.patch
-  '@univerjs/sheets-data-validation-ui@1.1.0': patches/@univerjs__sheets-data-validation-ui@1.1.0.patch
-  '@univerjs/sheets-conditional-formatting-ui@1.1.0': patches/@univerjs__sheets-conditional-formatting-ui@1.1.0.patch
-  # release-it 17.x/18.x 把 octokit 的 log 传成 null，而 @octokit/core 的
-  # createLogger(logger = {}) 只在 undefined 时兜底，于是 new Octokit() 当场抛
-  # "Cannot read properties of null (reading 'debug')"。CI 里的表现是
-  # "GitHub create release" 步骤失败，而版本已经 bump/commit/tag/push 过了 ——
-  # 留下一代 tag 已推、release 却没建的半发布状态。上游在 19.x 才改成 {}。
-  release-it@17.10.0: patches/release-it@17.10.0.patch
+  '@univerjs/sheets-ui@1.2.0': patches/@univerjs__sheets-ui@1.2.0.patch
+  '@univerjs/sheets-data-validation-ui@1.2.0': patches/@univerjs__sheets-data-validation-ui@1.2.0.patch
+  '@univerjs/sheets-conditional-formatting-ui@1.2.0': patches/@univerjs__sheets-conditional-formatting-ui@1.2.0.patch
+  # release-it 已升级到 19.x，上游修复了 octokit logger 传 null 的问题，
+  # 17.10.0 的补丁不再需要，对应的 patches/release-it@17.10.0.patch 一并删除。
 
 onlyBuiltDependencies:
   - esbuild
+
+# Obsidian 审核会用 `pnpm audit` 检查依赖漏洞，下面这些传递依赖无法通过提升
+# 直接依赖自然升级到修复版本，统一在这里锁定到已修复的最低版本：
+#  · echarts 6.1.0 修复 XSS（smart-sheet / charts / echarts-for-react 共用）
+#  · lodash 4.18.1 修复 prototype pollution 与 template 代码注入
+#  · moment 2.31.0 修复 locale 路径穿越（antd 的 picker 与 obsidian 都依赖）
+#  · uuid 11.1.1 修复 v3/v5/v6 的 buffer 越界检查（exceljs 使用 v4 API，CJS 入口仍在）
+#  · tmp 0.2.7 修复符号链接与路径穿越（exceljs 与 external-editor 兼容 tmpNameSync）
+#  · postcss-selector-parser 7.1.7 修复选择器解析的二次复杂度（eslint-plugin-vue 使用）
+#  · basic-ftp 6.2.3 修复 Client.list() 的 ReDoS（release-it 的代理链路）
+#  · @octokit/plugin-paginate-rest 11.6.0 修复 iterator ReDoS（release-it 的 GitHub 发布链路）
+#  · undici 6.29.1 修复 HTTP 解析与 WebSocket 的一系列咨询；release-it 19 精确锁定
+#    6.21.2，只能靠 overrides 抬高到 6.x 的最新修复版本
+overrides:
+  "@octokit/plugin-paginate-rest": 11.6.0
+  basic-ftp: 6.2.3
+  echarts: 6.1.0
+  lodash: 4.18.1
+  moment: 2.31.0
+  postcss-selector-parser: 7.1.7
+  tmp: 0.2.7
+  undici: 6.29.1
+  uuid: 11.1.1

@@ -222,12 +222,16 @@ export class ExcelProView extends TextFileView {
         const d = this.getViewData()
         const plugin = this.plugin
         const file = this.file
-        window.setTimeout(async () => {
-          if (!d) {
-            return
-          }
-          log('[ExcelProView]', '异步modify文件', file.path)
-          await plugin.app.vault.modify(file, d)
+        // setTimeout 的回调要求返回 void，用内部的异步 IIFE 承载 await，
+        // 外层保持同步返回，避免 Promise 被定时器丢弃（no-misused-promises）。
+        window.setTimeout(() => {
+          void (async () => {
+            if (!d) {
+              return
+            }
+            log('[ExcelProView]', '异步modify文件', file.path)
+            await plugin.app.vault.modify(file, d)
+          })()
         }, 200)
         this.semaphores.saving = false
         this.semaphores.unloadFileSaving = false

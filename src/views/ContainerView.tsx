@@ -258,15 +258,15 @@ export const ContainerView = function ContainerView() {
     items: [
       {
         label: t('TAB_TYPE_KANBAN'),
-        key: 'kanban',
+        key: TabType.KANBAN,
       },
       {
         label: t('TAB_TYPE_CALENDAR'),
-        key: 'calendar',
+        key: TabType.CALENDAR,
       },
       {
         label: t('TAB_TYPE_DASHBOARD'),
-        key: 'dashboard',
+        key: TabType.DASHBOARD,
       },
       // {
       //   label: t('TAB_TYPE_GROUP'),
@@ -282,14 +282,16 @@ export const ContainerView = function ContainerView() {
       // },
     ],
     onClick: (item) => {
-      const { key } = item
+      // 菜单项的 key 来自上面的 TabType 枚举，这里统一收敛为枚举类型，
+      // 避免 string 与 enum 直接比较（typescript-eslint 会判为不安全的枚举比较）。
+      const key = item.key as TabType
       const id = randomString(6)
       dispatch({
         type: VIEW_ADD_ACTION,
         key: id,
         payload: {
           key: id,
-          type: key as TabType,
+          type: key,
           label: t(`TAB_TYPE_${key.toUpperCase()}`),
         },
       })

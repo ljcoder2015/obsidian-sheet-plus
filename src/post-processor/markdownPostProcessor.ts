@@ -2,6 +2,7 @@ import type { MarkdownPostProcessorContext, MetadataCache, Vault } from 'obsidia
 import { TFile } from 'obsidian'
 
 import { createEchartsEl, log } from '@ljcoder/smart-sheet'
+import { BooleanNumber } from '@univerjs/core'
 import type { IWorkbookData } from '@univerjs/core'
 import type ExcelProPlugin from '../main'
 
@@ -65,7 +66,7 @@ function computeAdaptiveHeight(data: IWorkbookData | null, parentEl: HTMLElement
   let visibleRowCount = 0
   for (let i = 0; i < (sheet.rowCount || 0); i++) {
     const rowData = sheet.rowData?.[i]
-    if (rowData?.hd === 1) {
+    if (rowData?.hd === BooleanNumber.TRUE) {
       continue // 跳过隐藏行
     }
     visibleRowCount++

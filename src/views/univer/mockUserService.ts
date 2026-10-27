@@ -1,11 +1,11 @@
 import type { IAuthzIoService } from '@univerjs/core'
 import { IResourceManagerService, Inject, UserManagerService, generateRandomId } from '@univerjs/core'
 import { ObjectScope, UnitAction, UnitObject, UnitRole, UniverType } from '@univerjs/protocol'
-import type { IActionInfo, IAllowedRequest, IBatchAllowedResponse, ICollaborator, ICreateRequest, ICreateRequest_SelectRangeObject, IListPermPointRequest, IPermissionPoint, IPutCollaboratorsRequest, IUnitRoleKV, IUpdatePermPointRequest } from '@univerjs/protocol'
+import type { IActionInfo, IAllowedRequest, IBatchAllowedResponse, ICollaborator, ICreateRequest, ICreateRequestSelectRangeObject, IListPermPointRequest, IPermissionPoint, IPutCollaboratorsRequest, IUnitRoleKV, IUpdatePermPointRequest } from '@univerjs/protocol'
 import { mockUser } from './customMentionDataService'
 
 export class LJAuthzService implements IAuthzIoService {
-  private _permissionMap: Map<string, ICreateRequest_SelectRangeObject & { objectType: UnitObject }> = new Map([])
+  private _permissionMap: Map<string, ICreateRequestSelectRangeObject & { objectType: UnitObject }> = new Map([])
 
   constructor(
     @IResourceManagerService private _resourceManagerService: IResourceManagerService,
@@ -38,7 +38,7 @@ export class LJAuthzService implements IAuthzIoService {
           const v = this._permissionMap.get(k)
           r[k] = v!
           return r
-        }, {} as Record<string, ICreateRequest_SelectRangeObject & { objectType: UnitObject }>)
+        }, {} as Record<string, ICreateRequestSelectRangeObject & { objectType: UnitObject }>)
         return JSON.stringify(obj)
       },
       parseJson: (json: string) => {

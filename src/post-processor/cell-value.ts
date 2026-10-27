@@ -1,5 +1,5 @@
 import type { ICellData, IStyleData, IWorkbookData, IWorksheetData, Nullable } from '@univerjs/core'
-import { numfmt } from '@univerjs/core'
+import { CellValueType, numfmt } from '@univerjs/core'
 
 /** 0-based row and column for an A1-style reference such as `F21` or `AA3`. */
 function parseCellRef(ref: string): { row: number, col: number } | undefined {
@@ -57,7 +57,7 @@ export function cellText(data: IWorkbookData, sheetName: string | undefined, cel
 
   if (value === undefined || value === null || value === '')
     return cell.p?.body?.dataStream?.replace(/\r?\n$/, '').trim() ?? ''
-  if (cell.t === 3)
+  if (cell.t === CellValueType.BOOLEAN)
     return value === true || value === 1 || value === '1' || String(value).toUpperCase() === 'TRUE' ? 'TRUE' : 'FALSE'
   if (typeof value === 'number')
     return formatNumber(value, style?.n?.pattern)

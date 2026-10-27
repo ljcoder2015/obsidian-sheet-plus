@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import { copyFile, rename, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import process from 'node:process'
@@ -67,6 +68,30 @@ function securePlugin(): Plugin {
         if (item.type === 'chunk')
           item.code = sanitize(item.code)
       }
+    },
+  }
+}
+
+function modernEchartsReact(): Plugin {
+  // echarts-for-react 的 lib/ 与 esm/ 都是 tsc 以 --target ES5 编译的产物，
+  // 会把 __awaiter / __generator / __spreadArray 以及整张 tslib 辅助函数表打进插件。
+  // 包内自带 TS 源码，构建时改指向 src/core.tsx，让 esbuild 按 ESNext 重新编译，
+  // 产物里就不会再出现这些降级辅助函数。types 仍走原入口，类型检查不受影响。
+  const CORE_ENTRY = /^echarts-for-react\/(?:lib|esm)\/core$/
+
+  return {
+    name: 'modern-echarts-react',
+    enforce: 'pre',
+    async resolveId(source, importer, options) {
+      if (!importer || !CORE_ENTRY.test(source))
+        return null
+      // 先走 Vite 默认解析拿到 lib/esm 产物位置，再退回包根目录拼 src/core.tsx
+      const resolved = await this.resolve(source, importer, { ...options, skipSelf: true })
+      if (!resolved)
+        return null
+      const pkgRoot = dirname(dirname(resolved.id))
+      const sourceEntry = join(pkgRoot, 'src', 'core.tsx')
+      return existsSync(sourceEntry) ? sourceEntry : null
     },
   }
 }
@@ -160,6 +185,7 @@ export default defineConfig((_) => {
     plugins: [
       generate(dev),
       univerPlugin(),
+      modernEchartsReact(),
       securePlugin(),
     ],
     resolve: {
@@ -188,6 +214,9 @@ export default defineConfig((_) => {
         entry: './src/main.ts',
         name: 'main',
         fileName: () => MAIN_JS,
+        // Vite 6 起库模式默认用包名作为 CSS 产物名（sheet-plus.css），
+        // 这里显式指回 style.css，后面的重命名为 styles.css 的逻辑才继续有效。
+        cssFileName: 'style',
         formats: [
           'cjs',
         ],
