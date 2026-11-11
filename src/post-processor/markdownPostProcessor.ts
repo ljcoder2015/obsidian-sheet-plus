@@ -174,7 +174,7 @@ async function reRenderEmbeddedContent(file: TFile) {
         el.appendChild(univerEl)
       }
     }
-    else if (displayType.contains('chart')) {
+    else if (displayType.includes('chart')) {
       const chartsEl = createEchartsEl(plugin.settings.darkModal === 'dark', excelData, sheetName, range, displayType, undefined)
       el.appendChild(chartsEl)
     }
@@ -455,7 +455,7 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
     embedLinkDiv.appendChild(contentWrapper)
     return embedLinkDiv
   }
-  else if (parseResult.displayType?.contains('chart')) {
+  else if (parseResult.displayType?.includes('chart')) {
     const contentWrapper = createDiv({ cls: 'lj-embed-content' })
     contentWrapper.setAttr('data-file-path', file.path)
     contentWrapper.setAttr('data-sheet-name', parseResult.sheetName)
