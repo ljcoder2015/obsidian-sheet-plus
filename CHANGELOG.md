@@ -1,5 +1,7 @@
 # Changelog
 
+## [3.1.6](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/3.1.5...3.1.6) (2026-11-12)
+
 ## [3.1.5](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/3.1.4...3.1.5) (2026-11-12)
 
 ## [3.1.4](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/3.1.3...3.1.4) (2026-11-12)
