@@ -483,6 +483,40 @@ button.univer-button-default {
   cursor: pointer;
 }
 
+/* 单元格图片大图预览：Univer Gallery 默认不滚动，长图会超出视口被裁切。
+   预览容器保留滚动能力但隐藏滚动条，长图通过拖动查看（见 galleryImageDrag.ts）。 */
+[data-u-comp="gallery"] > .univer-relative {
+  box-sizing: border-box;
+  max-width: 100vw;
+  max-height: 100vh;
+  padding: 3.5rem 1.5rem;
+  overflow: auto;
+  /* 隐藏滚动条但保留滚动能力 */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* 从左上开始排布，内容超出时才能滚动到被裁切的一侧 */
+  align-items: flex-start;
+  justify-content: flex-start;
+  cursor: grab;
+}
+
+[data-u-comp="gallery"] > .univer-relative::-webkit-scrollbar {
+  display: none;
+}
+
+[data-u-comp="gallery"] > .univer-relative.is-dragging {
+  cursor: grabbing;
+}
+
+[data-u-comp="gallery"] > .univer-relative > img {
+  width: auto !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+  /* 图片小于可视区时居中，超出时自动退化为 0，不阻挡滚动 */
+  margin: auto;
+}
+
 /* Local Image Picker Modal（univer-local-image 包 ImagePickerModal） */
 .local-image-picker__filter {
   width: 100%;

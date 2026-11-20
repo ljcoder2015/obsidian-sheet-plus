@@ -45,6 +45,7 @@ import {
 import type { FontInfo } from './services/fontManager'
 import { FontManager } from './services/fontManager'
 import { toMarkdown, toStoreState, updateImages, updateOutgoingLink, updateSheetImages, updateSheetOutgoingLinks } from './services/utils'
+import { registerGalleryImageDrag } from './utils/galleryImageDrag'
 
 export default class ExcelProPlugin extends Plugin {
   // 1.13.0+ Plugin 基类新增 settings?: unknown，此处为有意覆盖（在 loadSettings 中赋值），用 declare 消除 TS2612/TS2564
@@ -162,6 +163,9 @@ export default class ExcelProPlugin extends Plugin {
         }
       }),
     )
+
+    // 单元格图片大图预览：长图无法完整显示，支持按住拖动平移，滚轮缩放保持 Univer 默认行为
+    registerGalleryImageDrag(this)
   }
 
   private switchToExcelAfterLoad() {
