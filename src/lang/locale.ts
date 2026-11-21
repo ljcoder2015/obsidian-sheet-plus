@@ -233,6 +233,7 @@ import uiruRU from '@univerjs/ui/lib/es/locale/ru-RU'
 import uiviVN from '@univerjs/ui/lib/es/locale/vi-VN'
 import uizhCN from '@univerjs/ui/lib/es/locale/zh-CN'
 import uizhTW from '@univerjs/ui/lib/es/locale/zh-TW'
+import jaJPPack from './univer-locale/ja-jp'
 
 export function getLanguage() {
   switch (moment.locale()) {
@@ -250,6 +251,8 @@ export function getLanguage() {
       return LocaleType.VI_VN
     case 'fa':
       return LocaleType.FA_IR
+    case 'ja':
+      return LocaleType.JA_JP
     default:
       return LocaleType.EN_US
   }
@@ -500,3 +503,6 @@ export const faIR = Tools.deepMerge(
   savefaIR,
   localImagefaIR,
 )
+
+// Japanese: English base (covers plugin-specific modules) overlaid with the Japanese pack
+export const jaJP = Tools.deepMerge({}, enUS, jaJPPack)
