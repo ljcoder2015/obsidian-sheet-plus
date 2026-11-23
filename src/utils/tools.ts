@@ -259,6 +259,8 @@ export class Tools {
         return LocaleType.VI_VN
       case 'fa':
         return LocaleType.FA_IR
+      case 'ja':
+        return LocaleType.JA_JP
       default:
         return LocaleType.EN_US
     }
