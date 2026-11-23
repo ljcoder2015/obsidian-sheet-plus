@@ -1,3 +1,17 @@
+# 本地开发时直接引用父仓库的 packages 源码（@ljcoder/import-export 等），
+# 避免修改 packages 后还需要发布新版本才能验证。
+packages:
+  - "../../packages/authorization"
+  - "../../packages/smart-sheet"
+  - "../../packages/univer-authorization"
+  - "../../packages/univer-charts"
+  - "../../packages/univer-embed-link-ui"
+  - "../../packages/univer-import-export"
+  - "../../packages/univer-local-image"
+  - "../../packages/univer-save-plugin"
+  - "../../packages/univer-sheets-outgoing-link"
+  - "../../packages/univer-sheets-outgoing-link-ui"
+
 patchedDependencies:
   immediate@3.0.6: patches/immediate@3.0.6.patch
   lie@3.3.0: patches/lie@3.3.0.patch
@@ -24,6 +38,8 @@ onlyBuiltDependencies:
 #  · undici 6.29.1 修复 HTTP 解析与 WebSocket 的一系列咨询；release-it 19 精确锁定
 #    6.21.2，只能靠 overrides 抬高到 6.x 的最新修复版本
 overrides:
+  # @ljcoder/* 已通过 package.json 的 workspace:* 直接引用父仓库 packages 源码，
+  # 不再需要 link overrides。
   "@octokit/plugin-paginate-rest": 11.6.0
   basic-ftp: 6.2.3
   echarts: 6.1.0
@@ -33,3 +49,70 @@ overrides:
   tmp: 0.2.7
   undici: 6.29.1
   uuid: 11.1.1
+
+# 与根工作区保持一致的 catalog；univer 版本与子库依赖对齐到 1.5.2。
+catalog:
+  "@univerjs/core": 1.5.2
+  "@univerjs/data-validation": 1.5.2
+  "@univerjs/design": 1.5.2
+  "@univerjs/docs": 1.5.2
+  "@univerjs/docs-drawing": 1.5.2
+  "@univerjs/docs-ui": 1.5.2
+  "@univerjs/drawing": 1.5.2
+  "@univerjs/drawing-ui": 1.5.2
+  "@univerjs/engine-formula": 1.5.2
+  "@univerjs/engine-render": 1.5.2
+  "@univerjs/find-replace": 1.5.2
+  "@univerjs/icons": 1.47.0
+  "@univerjs/protocol": 1.5.2
+  "@univerjs/sheets": 1.5.2
+  "@univerjs/sheets-conditional-formatting": 1.5.2
+  "@univerjs/sheets-conditional-formatting-ui": 1.5.2
+  "@univerjs/sheets-crosshair-highlight": 1.5.2
+  "@univerjs/sheets-data-validation": 1.5.2
+  "@univerjs/sheets-data-validation-ui": 1.5.2
+  "@univerjs/sheets-drawing": 1.5.2
+  "@univerjs/sheets-drawing-ui": 1.5.2
+  "@univerjs/sheets-filter": 1.5.2
+  "@univerjs/sheets-filter-ui": 1.5.2
+  "@univerjs/sheets-find-replace": 1.5.2
+  "@univerjs/sheets-formula": 1.5.2
+  "@univerjs/sheets-formula-ui": 1.5.2
+  "@univerjs/sheets-hyper-link": 1.5.2
+  "@univerjs/sheets-hyper-link-ui": 1.5.2
+  "@univerjs/sheets-note": 1.5.2
+  "@univerjs/sheets-note-ui": 1.5.2
+  "@univerjs/sheets-numfmt": 1.5.2
+  "@univerjs/sheets-numfmt-ui": 1.5.2
+  "@univerjs/sheets-sort": 1.5.2
+  "@univerjs/sheets-sort-ui": 1.5.2
+  "@univerjs/sheets-table": 1.5.2
+  "@univerjs/sheets-table-ui": 1.5.2
+  "@univerjs/sheets-thread-comment": 1.5.2
+  "@univerjs/sheets-thread-comment-ui": 1.5.2
+  "@univerjs/sheets-ui": 1.5.2
+  "@univerjs/themes": 1.5.2
+  "@univerjs/thread-comment": 1.5.2
+  "@univerjs/thread-comment-ui": 1.5.2
+  "@univerjs/ui": 1.5.2
+  "@univerjs/vite-plugin": 0.5.1
+  antd: 6.1.0
+  axios: 1.10.0
+  dotenv: 16.5.0
+  echarts: 6.1.0
+  eventemitter3: 5.0.1
+  js-yaml: 4.1.1
+  less: 4.2.0
+  obsidian: 1.13.1
+  postcss: 8.5.6
+  react: 18.3.1
+  react-dom: 18.3.1
+  rxjs: 7.8.2
+  tailwindcss: 3.4.16
+  tsx: 4.20.6
+  typescript: 5.9.3
+  vite: 5.4.11
+  vitest: 2.1.8
+  "@echarts-x/custom-stage": 1.1.1
+  "@echarts-x/custom-word-cloud": 1.0.1
+  react-grid-layout: 1.5.2
