@@ -27,6 +27,7 @@ export default {
   // ExcelSettingTab.ts
   BASE_COLOR: 'Basisfarbschema',
   BASE_COLOR_DESC: 'Standardfarbschema auswählen',
+  BASE_COLOR_AUTO: 'Obsidian folgen',
   FILE_SETTING: 'Datei',
   FOLDER: 'Ordner',
   FOLDER_DESC: 'Standardmäßig Dateien in diesem Ordner erstellen',

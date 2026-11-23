@@ -153,8 +153,7 @@ export const ContainerView = function ContainerView() {
     if (!plugin) {
       return
     }
-    const darkModal = plugin.settings.darkModal
-    if (darkModal === 'dark') {
+    if (plugin.isSheetDarkMode()) {
       setAlgorithm([theme.darkAlgorithm])
     }
     else {
@@ -386,7 +385,7 @@ export const ContainerView = function ContainerView() {
 
   return (
     <AppErrorBoundary>
-      <div className="lj-content-view" data-theme={plugin.settings.darkModal === 'dark' ? 'sheet-plus-dark' : ''}>
+      <div className="lj-content-view" data-theme={plugin.isSheetDarkMode() ? 'sheet-plus-dark' : ''}>
         <ConfigProvider
           theme={{
             algorithm,

@@ -99,9 +99,9 @@ export default class ExcelProPlugin extends Plugin {
 
     this.registerEvent(
       this.app.workspace.on('css-change', () => {
-        const isDark = this.app.isDarkMode()
-        this.settings.darkModal = isDark ? 'dark' : 'light'
-        void this.saveSettings()
+        // 不要在这里改写 settings.darkModal：css-change 在启动时也会触发，会覆盖用户的选择
+        if (this.settings.darkModal !== 'auto')
+          return
         this.app.workspace.getLeavesOfType(VIEW_TYPE_EXCEL_PRO).forEach((leaf) => {
           const view = leaf.view as ExcelProView
           view.refresh()
@@ -268,6 +268,15 @@ export default class ExcelProPlugin extends Plugin {
 
   async saveSettings() {
     await this.saveData(this.settings)
+  }
+
+  /**
+   * 解析表格实际使用的明暗模式：'auto' 跟随 Obsidian，否则使用用户的固定选择
+   */
+  isSheetDarkMode(): boolean {
+    if (this.settings.darkModal === 'auto')
+      return this.app.isDarkMode()
+    return this.settings.darkModal === 'dark'
   }
 
   private registerCommands() {

@@ -175,7 +175,7 @@ async function reRenderEmbeddedContent(file: TFile) {
       }
     }
     else if (displayType.includes('chart')) {
-      const chartsEl = createEchartsEl(plugin.settings.darkModal === 'dark', excelData, sheetName, range, displayType, undefined)
+      const chartsEl = createEchartsEl(plugin.isSheetDarkMode(), excelData, sheetName, range, displayType, undefined)
       el.appendChild(chartsEl)
     }
   }
@@ -461,7 +461,7 @@ async function createEmbedLinkDiv(src: string, alt: string, file: TFile, data: s
     contentWrapper.setAttr('data-sheet-name', parseResult.sheetName)
     contentWrapper.setAttr('data-range', `${parseResult.startCell}:${parseResult.endCell}`)
     contentWrapper.setAttr('data-display-type', parseResult.displayType)
-    const chartsEl = createEchartsEl(plugin.settings.darkModal === 'dark', excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`, parseResult.displayType, parseResult.height)
+    const chartsEl = createEchartsEl(plugin.isSheetDarkMode(), excelData, parseResult.sheetName, `${parseResult.startCell}:${parseResult.endCell}`, parseResult.displayType, parseResult.height)
     contentWrapper.appendChild(chartsEl)
     embedLinkDiv.appendChild(contentWrapper)
     return embedLinkDiv

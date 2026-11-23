@@ -27,6 +27,7 @@ export default {
   // ExcelSettingTab.ts
   BASE_COLOR: '基礎顏色',
   BASE_COLOR_DESC: '選擇預設基礎色',
+  BASE_COLOR_AUTO: '跟隨 Obsidian',
   FILE_SETTING: '檔案設定',
   FOLDER: '資料夾',
   FOLDER_DESC: '新檔案將放置在此資料夾下',

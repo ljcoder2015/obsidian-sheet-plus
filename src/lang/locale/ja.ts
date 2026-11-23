@@ -27,6 +27,7 @@ export default {
   // ExcelSettingTab.ts
   BASE_COLOR: 'ベースのカラースキーム',
   BASE_COLOR_DESC: 'デフォルトのカラースキームを選択します',
+  BASE_COLOR_AUTO: 'Obsidian に従う',
   FILE_SETTING: 'ファイル',
   FILE_LOCATION_MODE: 'ファイルの保存場所',
   FILE_LOCATION_MODE_DESC: '新しい Univer ファイルを作成する場所を選択します',

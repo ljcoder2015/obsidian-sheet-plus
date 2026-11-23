@@ -25,6 +25,9 @@ act.exe
 
 dist
 
+# local test build (copy into <vault>/.obsidian/plugins/)
+test-build
+
 *.copy.*
 
 .env
