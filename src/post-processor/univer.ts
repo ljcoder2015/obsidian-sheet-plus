@@ -134,7 +134,7 @@ async function initUniver(el: HTMLDivElement, id: string, data: IWorkbookData | 
     contextMenu: false,
     footer: showFooter,
   }
-  const darkMode = plugin.settings.darkModal === 'dark'
+  const darkMode = plugin.isSheetDarkMode()
   const { univerAPI, univer } = createUniver(plugin.availableFonts, options, id, plugin.settings.mobileRenderMode, darkMode, true, plugin.settings.rtlDirection)
 
   embedUniverMap.set(id, { univerAPI, univer })

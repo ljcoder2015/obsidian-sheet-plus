@@ -27,6 +27,7 @@ export default {
   // ExcelSettingTab.ts
   BASE_COLOR: 'Основная цветовая схема',
   BASE_COLOR_DESC: 'Выберите основную цветовую схему',
+  BASE_COLOR_AUTO: 'Как в Obsidian',
   FILE_SETTING: 'Настройка файла',
   FOLDER: 'Папка',
   // Create files in this folder by default

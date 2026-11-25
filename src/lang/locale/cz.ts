@@ -27,6 +27,7 @@ export default {
   // ExcelSettingTab.ts
   BASE_COLOR: 'Základní barevný režim',
   BASE_COLOR_DESC: 'Vyberte výchozí barevný režim',
+  BASE_COLOR_AUTO: 'Podle Obsidianu',
   FILE_SETTING: 'Soubor',
   FOLDER: 'Složka',
   FOLDER_DESC: 'Ve výchozím nastavení vytvářejte soubory v této složce',

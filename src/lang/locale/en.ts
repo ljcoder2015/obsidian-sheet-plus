@@ -26,6 +26,7 @@ export default {
   // ExcelSettingTab.ts
   BASE_COLOR: 'Base color scheme',
   BASE_COLOR_DESC: 'Choose default color scheme',
+  BASE_COLOR_AUTO: 'Follow Obsidian',
   FILE_SETTING: 'File',
   FILE_LOCATION_MODE: 'File location',
   FILE_LOCATION_MODE_DESC: 'Choose where new univer files are created',

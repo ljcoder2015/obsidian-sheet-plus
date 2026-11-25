@@ -206,7 +206,7 @@ export class ExcelProSettingTab extends PluginSettingTab {
           {
             name: t('BASE_COLOR'),
             desc: t('BASE_COLOR_DESC'),
-            control: { type: 'dropdown', key: 'darkModal', options: { light: 'Light', dark: 'Dark' } },
+            control: { type: 'dropdown', key: 'darkModal', options: { auto: t('BASE_COLOR_AUTO'), light: 'Light', dark: 'Dark' } },
           },
         ],
       },

@@ -26,6 +26,7 @@ export default {
   // ExcelSettingTab.ts
   BASE_COLOR: 'Osnovna shema boja',
   BASE_COLOR_DESC: 'Odaberite zadanu shemu boja',
+  BASE_COLOR_AUTO: 'Prati Obsidian',
   FILE_SETTING: 'Datoteka',
   FOLDER: 'Mapa',
   FOLDER_DESC: 'Zadano stvaranje datoteka u ovoj mapi',

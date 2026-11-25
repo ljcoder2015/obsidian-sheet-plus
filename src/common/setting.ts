@@ -37,7 +37,7 @@ export const DEFAULT_SETTINGS: ExcelProSettings = {
   embedLinkOpenMode: 'split-right',
   numberFormatLocal: 'en',
   mobileRenderMode: 'desktop',
-  darkModal: 'light',
+  darkModal: 'auto', // 'auto' 跟随 Obsidian | 'light' | 'dark'
   isBigSheet: 'false',
   fontFolder: '',
   rtlDirection: 'ltr',

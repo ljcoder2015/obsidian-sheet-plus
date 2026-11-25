@@ -27,6 +27,7 @@ export default {
   // ExcelSettingTab.ts
   BASE_COLOR: 'اللون الأساسي',
   BASE_COLOR_DESC: 'اختر اللون الأساسي الافتراضي',
+  BASE_COLOR_AUTO: 'اتباع Obsidian',
   FILE_SETTING: 'إعدادات الملف',
   FOLDER: 'المجلد',
   FOLDER_DESC: 'سيتم وضع الملف الجديد في هذا المجلد',

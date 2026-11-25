@@ -66,7 +66,7 @@ export function SheetTab({ switchTab }: { switchTab: () => void }) {
       header: true,
       footer: true,
     }
-    let darkMode = plugin.settings.darkModal === 'dark'
+    let darkMode = plugin.isSheetDarkMode()
     // 检查是否在 Excalidraw 中
     const isExalidraw = activeDocument.querySelector('.excalidraw__embeddable-container') !== null
     if (isExalidraw) {

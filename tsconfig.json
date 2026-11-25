@@ -9,7 +9,7 @@
     "moduleResolution": "bundler",
     "allowArbitraryExtensions": true,
     "strict": true,
-    "downlevelIteration": true,
+    "rootDir": "src",
     "outDir": "local",
 
     "allowSyntheticDefaultImports": true,
