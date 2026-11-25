@@ -10,6 +10,34 @@ import type { ExcelProView } from './views/ExcelProView'
 import { buildFontConfigs } from './services/fontManager'
 import { fragWithHTML } from './utils/tools'
 
+/** 同一台机器可能因重装或换 vault 留下多条 deviceId，展示时合并为一组 */
+interface DeviceGroup {
+  devices: LicenseDeviceInfo[]
+}
+
+/**
+ * 按“名称+型号”合并设备：服务端已按最后活跃时间倒序返回，组内第一条即最近使用记录。
+ * 拿不到名称的老数据无法判断是否同一台机器，保持按 deviceId 各自成组。
+ */
+function groupDevices(devices: LicenseDeviceInfo[]): DeviceGroup[] {
+  const groups = new Map<string, DeviceGroup>()
+
+  for (const device of devices) {
+    const name = device.deviceName?.trim()
+    const key = name ? `${name}|${device.deviceModel?.trim() ?? ''}` : device.deviceId
+    const group = groups.get(key)
+
+    if (group) {
+      group.devices.push(device)
+    }
+    else {
+      groups.set(key, { devices: [device] })
+    }
+  }
+
+  return [...groups.values()]
+}
+
 export class ExcelProSettingTab extends PluginSettingTab {
   plugin: ExcelProPlugin
 
@@ -94,8 +122,8 @@ export class ExcelProSettingTab extends PluginSettingTab {
     }
 
     const listContainer = container.createDiv()
-    for (const device of result.devices) {
-      this.renderDeviceRow(listContainer, container, code, device)
+    for (const group of groupDevices(result.devices)) {
+      this.renderDeviceRow(listContainer, container, code, group)
     }
   }
 
@@ -103,24 +131,37 @@ export class ExcelProSettingTab extends PluginSettingTab {
     parent: HTMLElement,
     container: HTMLElement,
     code: string,
-    device: LicenseDeviceInfo,
+    group: DeviceGroup,
   ): void {
+    const primary = group.devices[0]
+    const name = primary.deviceName?.trim()
+    const model = primary.deviceModel?.trim()
+    const isCurrent = group.devices.some(device => device.current)
+
     const row = parent.createDiv('smart-sheet-device-row')
     const meta = row.createDiv('smart-sheet-device-meta')
-    const idLine = meta.createDiv({ cls: 'smart-sheet-device-id', text: this.formatDeviceId(device.deviceId) })
+    // 有名称显示名称，其次型号，都没有时退回截断的设备 ID
+    const idLine = meta.createDiv({ cls: 'smart-sheet-device-id', text: name || model || this.formatDeviceId(primary.deviceId) })
 
-    if (device.current) {
+    if (isCurrent) {
       idLine.appendText(` (${t('AUTHORIZATION_DEVICE_CURRENT')})`)
     }
 
+    // 名称与型号同时存在时补一行型号，避免只看名称分不清设备类型
+    if (name && model) {
+      meta.createDiv({ text: model })
+    }
+
     meta.createDiv({
-      text: `${t('AUTHORIZATION_DEVICE_LAST_SEEN')}: ${new Date(device.lastSeenAt * 1000).toLocaleString()}`,
+      text: `${t('AUTHORIZATION_DEVICE_LAST_SEEN')}: ${new Date(primary.lastSeenAt * 1000).toLocaleString()}`,
     })
 
     const removeButton = row.createEl('button', { text: t('AUTHORIZATION_DEVICE_REMOVE') })
 
-    // 当前设备不允许移除，避免把自己踢下线
-    if (device.current) {
+    // 当前设备不允许移除；合并组里其余旧记录仍可清理，用于释放名额
+    const removable = group.devices.filter(device => !device.current)
+
+    if (removable.length === 0) {
       removeButton.disabled = true
       return
     }
@@ -131,16 +172,19 @@ export class ExcelProSettingTab extends PluginSettingTab {
       }
 
       removeButton.disabled = true
-      const removed = await removeLicenseDevice(code, device.deviceId)
 
-      if (removed.ok) {
-        new Notice(t('AUTHORIZATION_DEVICE_REMOVE_SUCCESS'))
-        void this.renderDeviceManager(container)
+      let failed = false
+      for (const device of removable) {
+        const removed = await removeLicenseDevice(code, device.deviceId)
+
+        if (!removed.ok) {
+          failed = true
+          break
+        }
       }
-      else {
-        removeButton.disabled = false
-        new Notice(t('AUTHORIZATION_DEVICE_REMOVE_FAILED'))
-      }
+
+      new Notice(t(failed ? 'AUTHORIZATION_DEVICE_REMOVE_FAILED' : 'AUTHORIZATION_DEVICE_REMOVE_SUCCESS'))
+      void this.renderDeviceManager(container)
     }
   }
 
