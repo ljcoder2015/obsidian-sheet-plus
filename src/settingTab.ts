@@ -265,6 +265,10 @@ export class ExcelProSettingTab extends PluginSettingTab {
                             void this.plugin.adoptIssuedLicenseCode(res.data)
                             new Notice(t('AUTHORIZATION_CODE_SUCCESS'))
                           }
+                          else if (res.code === 40300) {
+                            // 设备名额已满（每个激活码最多 6 台）
+                            new Notice(t('AUTHORIZATION_CODE_DEVICE_LIMIT'))
+                          }
                           else
                             new Notice(t('AUTHORIZATION_CODE_FAILED'))
                         })

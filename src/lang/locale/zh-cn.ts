@@ -87,6 +87,7 @@ export default {
   AUTHORIZATION_CODE_SUBMIT: '提交',
   AUTHORIZATION_CODE_SUCCESS: '激活成功',
   AUTHORIZATION_CODE_FAILED: '激活失败，请检查激活码是否正确',
+  AUTHORIZATION_CODE_DEVICE_LIMIT: '激活失败，该激活码最多支持 6 台设备，已达到上限',
 
   COMMAND_LINK_UNIVER: '生成 表格 嵌入链接',
   COMMAND_LINK_HTML: '生成 HTML 嵌入链接',

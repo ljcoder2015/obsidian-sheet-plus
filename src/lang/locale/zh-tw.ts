@@ -69,6 +69,7 @@ export default {
   AUTHORIZATION_CODE_SUBMIT: '提交',
   AUTHORIZATION_CODE_SUCCESS: '啟用成功',
   AUTHORIZATION_CODE_FAILED: '啟用失敗，請檢查授權碼是否正確',
+  AUTHORIZATION_CODE_DEVICE_LIMIT: '啟用失敗，該授權碼最多支援 6 台裝置，已達到上限',
 
   COMMAND_LINK_UNIVER: '產生 表格 內嵌連結',
   COMMAND_LINK_HTML: '產生 HTML 內嵌連結',

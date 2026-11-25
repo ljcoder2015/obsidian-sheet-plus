@@ -87,6 +87,7 @@ export default {
   AUTHORIZATION_CODE_SUBMIT: 'Submit',
   AUTHORIZATION_CODE_SUCCESS: 'Successful activation',
   AUTHORIZATION_CODE_FAILED: 'Activation failed. Please check whether the activation code is correct',
+  AUTHORIZATION_CODE_DEVICE_LIMIT: 'Activation failed. This code has reached the limit of 6 devices',
 
   COMMAND_LINK_UNIVER: 'Generate spreadsheet embed links',
   COMMAND_LINK_HTML: 'Generate HTML embed links',
