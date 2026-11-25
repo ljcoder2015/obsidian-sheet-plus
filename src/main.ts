@@ -44,6 +44,7 @@ import {
 } from './post-processor/markdownPostProcessor'
 import type { FontInfo } from './services/fontManager'
 import { FontManager } from './services/fontManager'
+import { setupAuthorizationStorage } from './services/authorizationStorage'
 import { toMarkdown, toStoreState, updateImages, updateOutgoingLink, updateSheetImages, updateSheetOutgoingLinks } from './services/utils'
 import { registerGalleryImageDrag } from './utils/galleryImageDrag'
 
@@ -56,6 +57,8 @@ export default class ExcelProPlugin extends Plugin {
   private _loaded = false
 
   async onload() {
+    // 授权存储须在加载设置前注入：loadSettings 会立即触发授权校验
+    setupAuthorizationStorage(this.app)
     // 加载设置
     await this.loadSettings()
 
