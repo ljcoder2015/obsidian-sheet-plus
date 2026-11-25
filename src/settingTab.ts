@@ -260,8 +260,11 @@ export class ExcelProSettingTab extends PluginSettingTab {
                     .onClick(() => {
                       if (this.plugin.settings.authorizationCode && this.plugin.settings.authorizationCode.length > 0) {
                         update(this.plugin.settings.authorizationCode, (res) => {
-                          if (res.code === 0)
+                          if (res.code === 0) {
+                            // 旧码可能被服务端换发为 v2 码，需同步写回设置
+                            void this.plugin.adoptIssuedLicenseCode(res.data)
                             new Notice(t('AUTHORIZATION_CODE_SUCCESS'))
+                          }
                           else
                             new Notice(t('AUTHORIZATION_CODE_FAILED'))
                         })

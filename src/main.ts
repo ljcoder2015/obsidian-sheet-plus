@@ -17,7 +17,7 @@ import {
 } from 'obsidian'
 
 import { around, dedupe } from 'monkey-around'
-import { update } from '@ljcoder/authorization'
+import { getIssuedLicenseCode, update } from '@ljcoder/authorization'
 import { log } from '@ljcoder/smart-sheet/src/utils/log'
 import { emitEvent } from '@ljcoder/smart-sheet'
 import {
@@ -266,7 +266,24 @@ export default class ExcelProPlugin extends Plugin {
   async loadSettings() {
     const settingData = await this.loadData()
     this.settings = Object.assign({}, DEFAULT_SETTINGS, settingData)
-    update(this.settings.authorizationCode, () => {})
+    update(this.settings.authorizationCode, (res) => {
+      void this.adoptIssuedLicenseCode(res.data)
+    })
+  }
+
+  /**
+   * 旧码被服务端换发为 v2 码后，把新码写回当前 vault 的设置，
+   * 避免后续每次启动都重复走在线换发请求。
+   */
+  async adoptIssuedLicenseCode(data: unknown) {
+    const issuedCode = getIssuedLicenseCode(data)
+
+    if (!issuedCode || issuedCode === this.settings.authorizationCode) {
+      return
+    }
+
+    this.settings.authorizationCode = issuedCode
+    await this.saveSettings()
   }
 
   async saveSettings() {
