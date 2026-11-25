@@ -1,5 +1,24 @@
 # Changelog
 
+## [3.1.7](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/3.1.6...3.1.7) (2026-11-25)
+
+
+### Bug Fixes
+
+* **image-preview:** scroll long images in gallery preview ([f29a5dd](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/f29a5ddcb9e9c1c05af3de13687bd114b855203f))
+
+
+### Features
+
+* **auth:** 设备数量达到上限时给出专门提示 ([3438b24](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/3438b242087f41f6920355f41a85194a23590829))
+* **auth:** 设置页支持查看并移除已激活设备 ([e88f740](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/e88f7404fa4e391993f31d9f1cc2b349829b6093))
+* **authorization:** 设备注册时间键纳入应用级存储 ([80a2593](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/80a2593ebead62c688af1603d827a0154e897fc2))
+* **auth:** persist device id and license in app-level storage ([853d31d](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/853d31d9d30b1397a647612b74599ee11bcd70fe))
+* **auth:** persist reissued license code into settings ([bdd316f](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/bdd316f773e5496c8380ab254ad5c514b3758f99))
+* **i18n:** enable Japanese locale for the Univer UI ([4ab99fb](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/4ab99fb4e763eda68ab2b3804cb56878d073e72c))
+* **i18n:** translate plugin UI strings into Japanese ([a21a5cc](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/a21a5cc2833dff7e0115f40d3c32e85106cac04a))
+* **setting:** 设备列表按名称型号展示并去重 ([0283b87](https://gitee.com/ljcoder2015/obsidian-sheet-plus/commits/0283b87e5be7b6c2620bde5161f1d133c0a70250))
+
 ## [3.1.6](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/3.1.5...3.1.6) (2026-11-12)
 
 ## [3.1.5](https://gitee.com/ljcoder2015/obsidian-sheet-plus/compare/3.1.4...3.1.5) (2026-11-12)
