@@ -1,6 +1,6 @@
 import type { App, SettingDefinitionItem } from 'obsidian'
 import { Notice, PluginSettingTab } from 'obsidian'
-import { update } from '@ljcoder/authorization'
+import { getLicenseDevices, removeLicenseDevice, update, type LicenseDeviceInfo } from '@ljcoder/authorization'
 import { ConfigService } from '@univerjs/core'
 import { FontService, UI_PLUGIN_CONFIG_KEY } from '@univerjs/ui'
 import { t } from './lang/helpers'
@@ -58,6 +58,95 @@ export class ExcelProSettingTab extends PluginSettingTab {
         })
       })
     }, 600)
+  }
+
+  /** 渲染已激活设备列表，每次打开设置页或点击刷新都重新拉取 */
+  private async renderDeviceManager(container: HTMLElement): Promise<void> {
+    const code = this.plugin.settings.authorizationCode?.trim()
+
+    container.empty()
+
+    const header = container.createDiv('smart-sheet-device-header')
+    header.createDiv({ cls: 'setting-item-name', text: t('AUTHORIZATION_DEVICE_TITLE') })
+    const refreshButton = header.createEl('button', { text: t('AUTHORIZATION_DEVICE_REFRESH') })
+    refreshButton.onclick = () => { void this.renderDeviceManager(container) }
+
+    container.createDiv({ cls: 'smart-sheet-device-hint', text: t('AUTHORIZATION_DEVICE_DESC') })
+
+    if (!code) {
+      container.createDiv({ cls: 'smart-sheet-device-hint', text: t('AUTHORIZATION_DEVICE_EMPTY') })
+      return
+    }
+
+    const listEl = container.createDiv({ cls: 'smart-sheet-device-hint', text: t('LOADING') })
+    const result = await getLicenseDevices(code)
+
+    listEl.remove()
+
+    if (!result.ok) {
+      container.createDiv({ cls: 'smart-sheet-device-hint', text: t('AUTHORIZATION_DEVICE_LOAD_FAILED') })
+      return
+    }
+
+    if (result.devices.length === 0) {
+      container.createDiv({ cls: 'smart-sheet-device-hint', text: t('AUTHORIZATION_DEVICE_EMPTY') })
+      return
+    }
+
+    const listContainer = container.createDiv()
+    for (const device of result.devices) {
+      this.renderDeviceRow(listContainer, container, code, device)
+    }
+  }
+
+  private renderDeviceRow(
+    parent: HTMLElement,
+    container: HTMLElement,
+    code: string,
+    device: LicenseDeviceInfo,
+  ): void {
+    const row = parent.createDiv('smart-sheet-device-row')
+    const meta = row.createDiv('smart-sheet-device-meta')
+    const idLine = meta.createDiv({ cls: 'smart-sheet-device-id', text: this.formatDeviceId(device.deviceId) })
+
+    if (device.current) {
+      idLine.appendText(` (${t('AUTHORIZATION_DEVICE_CURRENT')})`)
+    }
+
+    meta.createDiv({
+      text: `${t('AUTHORIZATION_DEVICE_LAST_SEEN')}: ${new Date(device.lastSeenAt * 1000).toLocaleString()}`,
+    })
+
+    const removeButton = row.createEl('button', { text: t('AUTHORIZATION_DEVICE_REMOVE') })
+
+    // 当前设备不允许移除，避免把自己踢下线
+    if (device.current) {
+      removeButton.disabled = true
+      return
+    }
+
+    removeButton.onclick = async () => {
+      if (!window.confirm(t('AUTHORIZATION_DEVICE_REMOVE_CONFIRM'))) {
+        return
+      }
+
+      removeButton.disabled = true
+      const removed = await removeLicenseDevice(code, device.deviceId)
+
+      if (removed.ok) {
+        new Notice(t('AUTHORIZATION_DEVICE_REMOVE_SUCCESS'))
+        void this.renderDeviceManager(container)
+      }
+      else {
+        removeButton.disabled = false
+        new Notice(t('AUTHORIZATION_DEVICE_REMOVE_FAILED'))
+      }
+    }
+  }
+
+  /** 设备 ID 较长，只展示首尾用于区分 */
+  private formatDeviceId(deviceId: string): string {
+    return deviceId.length <= 12 ? deviceId : `${deviceId.slice(0, 8)}…${deviceId.slice(-4)}`
   }
 
   // Obsidian 1.13.0+ 声明式设置定义：这是本设置页的**唯一**渲染来源，同时启用设置全局搜索。
@@ -278,6 +367,15 @@ export class ExcelProSettingTab extends PluginSettingTab {
                       }
                     })
                 })
+            },
+          },
+          {
+            // 已激活设备管理：持有激活码即可查看并清理旧设备，不依赖本地授权状态
+            name: '',
+            render: (setting) => {
+              setting.settingEl.empty()
+              const container = setting.settingEl.createDiv('smart-sheet-device-manager')
+              void this.renderDeviceManager(container)
             },
           },
           {

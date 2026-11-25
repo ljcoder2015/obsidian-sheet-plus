@@ -24,6 +24,45 @@
 	font-size: 20px;
 }
 
+/* 设置页的设备管理区块 */
+.smart-sheet-device-manager {
+	width: 100%;
+}
+
+.smart-sheet-device-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.smart-sheet-device-hint {
+	margin: 4px 0;
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+}
+
+.smart-sheet-device-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 8px 0;
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+.smart-sheet-device-meta {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	font-size: var(--font-ui-smaller);
+}
+
+.smart-sheet-device-id {
+	font-family: var(--font-monospace);
+	color: var(--text-normal);
+}
+
 .lj-table-box {
 	overflow-x: scroll;
 }
